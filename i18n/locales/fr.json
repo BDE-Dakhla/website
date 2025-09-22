@@ -1,0 +1,39 @@
+{
+  "common": {
+    "email": "E-mail",
+    "students": "Étudiants",
+    "subscribe": "S'abonner",
+    "syllabus": "Espace étudiant"
+  },
+
+  "footer": {
+    "fastLinks": "Liens rapides",
+    "newsletter": {
+      "title": "Soyez notifier où que vous soyez",
+      "description": "Restez notifier à la seconde prêt des activités universitaires et parascolaires, directement dans votre boîte mail.",
+      "invalidEmail": "L'email doit avoir un format valide"
+    },
+    "partners": "Partenaires",
+    "clubs": "Clubs",
+    "news": "Actualités",
+    "team": "Équipe",
+    "homepage": "Page d'accueil",
+    "privacy": "Confidentialité",
+    "tos": { "short": "CGU", "long": "Conditions générales d'utilisation" },
+    "copyright": {
+      "short": "Droits d'auteurs",
+      "long": "Tous droits sont réservés"
+    }
+  },
+
+  "home": {
+    "school-section": {
+      "title": "Découvrez notre précieuse école",
+      "description_1": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
+      "description_2": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
+      "watch_video": "Regarder la vidéo",
+      "visit_school_website": "Visiter le site de l'école",
+      "amphitheater": "Amphithéâtre"
+    }
+  }
+}

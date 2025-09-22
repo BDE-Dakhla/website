@@ -1,0 +1,18 @@
+{
+  "footer": {
+    "newsletter": {
+      "title": "Be notified wherever you are"
+    }
+  },
+
+  "home": {
+    "school-section": {
+      "title": "Discover our prestigious school",
+      "description_1": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
+      "description_2": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
+      "watch_video": "Watch video",
+      "visit_school_website": "Visit school's website",
+      "amphitheater": "Anfiteatro"
+    }
+  }
+}

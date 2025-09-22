@@ -1,0 +1,85 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
+
+  "css": {
+    "formatter": {
+      "enabled": true,
+      "indentStyle": "space",
+      "lineEnding": "lf",
+      "quoteStyle": "single"
+    }
+  },
+
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [{ "type": true }]
+          }
+        },
+        "useSortedAttributes": "on",
+        "useSortedProperties": "on"
+      }
+    }
+  },
+
+  "files": {
+    "ignoreUnknown": false
+  },
+
+  "formatter": {
+    "attributePosition": "auto",
+    "bracketSameLine": true,
+    "bracketSpacing": true,
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 80
+  },
+
+  "javascript": {
+    "formatter": {
+      "bracketSameLine": true,
+      "jsxQuoteStyle": "single",
+      "lineEnding": "lf",
+      "quoteStyle": "single",
+      "semicolons": "asNeeded",
+      "trailingCommas": "all"
+    }
+  },
+
+  "linter": {
+    "enabled": true,
+    "domains": {
+      "next": "recommended"
+    },
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "noUnusedImports": {
+          "fix": "safe",
+          "level": "warn",
+          "options": {}
+        }
+      },
+      "nursery": {
+        "useSortedClasses": {
+          "fix": "safe",
+          "level": "info",
+          "options": {}
+        }
+      }
+    }
+  },
+
+  "vcs": {
+    "clientKind": "git",
+    "enabled": false,
+    "useIgnoreFile": false
+  }
+}

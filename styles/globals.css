@@ -177,6 +177,7 @@
 
 .lucide {
   @apply size-5;
+  stroke-width: 1.5;
 }
 
 ::view-transition-old(root),

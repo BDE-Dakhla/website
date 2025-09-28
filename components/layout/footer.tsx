@@ -5,6 +5,7 @@ import confetti, { type Options } from 'canvas-confetti'
 import {
   CheckCircle,
   Facebook,
+  Github,
   Instagram,
   Linkedin,
   XCircle,
@@ -49,6 +50,11 @@ const socials = (locale: string) => [
   {
     name: 'Whatsapp',
     href: 'https://chat.whatsapp.com/DoqXbd8zX7p7rUxOsEGGf9',
+  },
+  {
+    name: 'Github',
+    href: 'https://github.com/BDE-Dakhla/website',
+    icon: Github,
   },
 ]
 

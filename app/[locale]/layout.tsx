@@ -16,7 +16,10 @@ export default async function Layout({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <StickyBanner className='gap-x-4 border-b' hideOnScroll>
+      <StickyBanner
+        className='gap-x-4 border-b'
+        disabledRoutes={['/connexion', '/syllabus']}
+        hideOnScroll>
         <div className='relative flex items-center justify-center rounded-full px-4 py-1.5 shadow-[inset_0_-8px_10px_#8fdfff1f] transition-shadow duration-500 ease-out hover:shadow-[inset_0_-5px_10px_#8fdfff3f]'>
           <span
             className={cn(
@@ -41,7 +44,7 @@ export default async function Layout({
         <span className='flex items-center text-sm'>
           Le Bureau Des Étudiants organisent le{' '}
           <span className='mx-1 flex items-center'>
-            <span className='reworked-underline'>25 Août 2025</span>
+            <span className='reworked-underline'>XX Août 2025</span>
             <Calendar className='!size-4 mb-0.5 ml-1.5' strokeWidth={1.5} />
           </span>
           pour la cérémonie d'ouverture de la nouvelle session universitaire

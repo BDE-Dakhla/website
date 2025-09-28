@@ -4,3 +4,4 @@
 /build
 .env*
 next-env.d.ts
+.source/

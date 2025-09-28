@@ -8,6 +8,7 @@ import {
   Menu,
   Newspaper,
   Phone,
+  School,
   University,
   Users,
 } from 'lucide-react'
@@ -70,30 +71,25 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
         url: '/news',
         description: "L'actualité wolla",
         icon: Newspaper,
+        items: [
+          {
+            title: 'Notre Campus',
+            url: '/campus',
+            description:
+              "Consultez tout ce qui s'est passé les années précédentes à notre campus.",
+            icon: School,
+          },
+        ],
       },
       {
         title: 'Clubs',
         url: '/clubs',
         description: 'Les clubs wolla',
         icon: University,
-        items: [
-          {
-            title: 'jaaaj',
-            url: '/',
-            description: 'oui',
-            icon: Users,
-          },
-          {
-            title: 'jaaaj2',
-            url: '/xd',
-            description: 'ouis',
-            icon: Users,
-          },
-        ],
       },
       {
         title: 'Nos partenaires',
-        url: '/parnters',
+        url: '/partners',
         description: 'dzdzdzdzd',
         icon: Handshake,
       },
@@ -116,13 +112,16 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
           </div>
         </div>
         <div className='flex gap-2'>
-          <Button size='sm' variant='outline'>
-            <Phone />
-            <Link href='/contact'>Nous contacter</Link>
+          <Button asChild size='sm' variant='outline'>
+            <Link className='flex items-center gap-x-2' href='/contact'>
+              <Phone />
+              Nous contacter
+            </Link>
           </Button>
           <Button size='sm'>
             <Link className='flex items-center gap-x-2' href='/syllabus'>
-              <GraduationCap /> {t('common.syllabus')}
+              <GraduationCap />
+              {t('common.syllabus')}
             </Link>
           </Button>
         </div>
@@ -171,12 +170,11 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
                 </div>
               </div>
               <div className='flex flex-col gap-3'>
-                {/* <Button asChild size='sm' variant='outline'>
-            <Link href={auth.login.url}>{auth.login.text}</Link>
-          </Button> */}
                 <Button asChild size='sm'>
-                  <GraduationCap />
-                  <Link href='/syllabus'>{t('common.syllabus')}</Link>
+                  <Link className='flex items-center gap-x-2' href='/syllabus'>
+                    <GraduationCap />
+                    {t('common.syllabus')}
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -197,10 +195,10 @@ const renderMenuItem = (item: MenuItem) => {
         </NavigationMenuTrigger>
         <NavigationMenuContent>
           <ul className='w-80 p-3'>
-            <NavigationMenuLink>
-              {item.items.map((subItem) => (
-                <li key={subItem.title}>
-                  <a
+            {item.items.map((subItem) => (
+              <li key={subItem.title}>
+                <NavigationMenuLink asChild>
+                  <Link
                     className='flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-muted hover:text-accent-foreground'
                     href={subItem.url}>
                     {subItem.icon && <subItem.icon />}
@@ -214,10 +212,10 @@ const renderMenuItem = (item: MenuItem) => {
                         </p>
                       )}
                     </span>
-                  </a>
-                </li>
-              ))}
-            </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuLink>
+              </li>
+            ))}
           </ul>
         </NavigationMenuContent>
       </NavigationMenuItem>
@@ -225,13 +223,16 @@ const renderMenuItem = (item: MenuItem) => {
   }
 
   return (
-    <Link
-      className='group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 font-medium text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-accent-foreground'
-      href={item.url}
-      key={item.title}>
-      {item.icon && <item.icon className='mr-2' />}
-      {item.title}
-    </Link>
+    <NavigationMenuItem key={item.title}>
+      <NavigationMenuLink asChild>
+        <Link
+          className='group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 font-medium text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-accent-foreground'
+          href={item.url}>
+          {item.icon && <item.icon className='mr-2' />}
+          {item.title}
+        </Link>
+      </NavigationMenuLink>
+    </NavigationMenuItem>
   )
 }
 
@@ -240,7 +241,7 @@ const renderMobileMenuItem = (item: MenuItem) => {
     return (
       <AccordionItem className='border-b-0' key={item.title} value={item.title}>
         <AccordionTrigger className='py-0 font-semibold hover:no-underline'>
-          *{item.icon && <item.icon />}
+          {item.icon && <item.icon />}
           {item.title}
         </AccordionTrigger>
         <AccordionContent className='mt-2'>

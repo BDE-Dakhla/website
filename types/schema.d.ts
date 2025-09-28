@@ -1,4 +1,23 @@
+import type { Database as AuthDb } from '@auth/kysely-adapter'
 import type { ColumnType } from 'kysely'
+
+interface AppDatabase {
+  Subscribers: Subscribers
+  SubscriptionTokens: SubscriptionTokens
+  Campaigns: Campaigns
+  CampaignRecipients: CampaignRecipients
+}
+
+interface UserExtra {
+  cdm: string
+  first_name: string
+  last_name: string
+  password: string
+}
+
+export type Database = Omit<AuthDb, 'User'> & {
+  User: AuthDb['User'] & UserExtra
+} & AppDatabase
 
 export type SubscriberStatus = 'pending' | 'active' | 'unsubscribed' | 'bounced'
 export type TokenType = 'confirm'
@@ -9,14 +28,9 @@ export type CampaignStatus =
   | 'sent'
   | 'paused'
   | 'failed'
-export type RecipientStatus =
-  | 'pending'
-  | 'sent'
-  | 'failed'
-  | 'bounced'
-  | 'skipped'
+type RecipientStatus = 'pending' | 'sent' | 'failed' | 'bounced' | 'skipped'
 
-export interface Subscribers {
+interface Subscribers {
   id: string
   email: string
   status: SubscriberStatus
@@ -25,7 +39,7 @@ export interface Subscribers {
   unsubscribed_at: Date | null
 }
 
-export interface SubscriptionTokens {
+interface SubscriptionTokens {
   token: string
   subscriber_id: string
   type: TokenType
@@ -33,7 +47,7 @@ export interface SubscriptionTokens {
   used_at: Date | null
 }
 
-export interface Campaigns {
+interface Campaigns {
   id: string
   subject: string
   from_name: string
@@ -46,7 +60,7 @@ export interface Campaigns {
   updated_at: ColumnType<Date, Date | undefined, never>
 }
 
-export interface CampaignRecipients {
+interface CampaignRecipients {
   id: string
   campaign_id: string
   subscriber_id: string
@@ -56,11 +70,4 @@ export interface CampaignRecipients {
   opened_at: Date | null
   click_count: number
   last_error: string | null
-}
-
-export interface DB {
-  subscribers: Subscribers
-  subscription_tokens: SubscriptionTokens
-  campaigns: Campaigns
-  campaign_recipients: CampaignRecipients
 }

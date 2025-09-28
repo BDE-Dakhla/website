@@ -2,6 +2,6 @@
 /.next/
 /out/
 /build
-.env*
+.env
 next-env.d.ts
 .source/

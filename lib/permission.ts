@@ -5,15 +5,12 @@ export const PERMISSIONS = {
 export type PermissionKey = keyof typeof PERMISSIONS
 export type PermissionMask = number
 
+// Easiest: numbers are always bit values
 export function permissionsToMask(
   perms: Array<PermissionKey | number>,
 ): number {
-  return perms.reduce((mask, p) => {
-    if (typeof p === 'number') {
-      // if you store bit positions (0,1,2...), shift them; if you store bit values, OR them directly
-      const isBitPosition = p <= 31 && (p & (p - 1)) !== 0 // crude heuristic
-      return mask | (isBitPosition ? 1 << p : p)
-    }
-    return mask | PERMISSIONS[p]
-  }, 0)
+  return perms.reduce(
+    (mask, p) => mask | (typeof p === 'number' ? p : PERMISSIONS[p]),
+    0,
+  )
 }

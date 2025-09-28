@@ -1,7 +1,7 @@
 import type { Database as AuthDb } from '@auth/kysely-adapter'
 import type { ColumnType } from 'kysely'
 
-enum Permission {
+export enum Permission {
   HAS_ACCESS_TO_DASHBOARD = 0,
   HAS_ACCESS_TO_SYLLABUS = 0,
 }

@@ -7,8 +7,7 @@ import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import Google from 'next-auth/providers/google'
 import { signInSchema } from './lib/auth'
-import { getDb } from './lib/db'
-import { permissionsToMask } from './lib/permission'
+import { getDb } from './lib/db/instance'
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   adapter: KyselyAdapter(getDb() as unknown as Kysely<AuthDb>),
@@ -44,6 +43,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       },
     }),
     Google({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
       authorization: {
         params: {
           prompt: 'consent',
@@ -57,23 +58,30 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     async jwt({ token, user }) {
       const db = getDb()
 
-      if (user.id) {
+      // On first sign-in
+      if (user?.id) {
         const row = await db
           .selectFrom('User')
-          .select(['id', 'permissions'])
+          .select(['permissions'])
           .where('id', '=', user.id)
           .executeTakeFirst()
-        const list = row?.permissions ?? []
 
-        token.permMask = permissionsToMask(list)
-      } else if (token.permMask == null && token.sub) {
+        // @ts-expect-error
+        token.permMask = row?.permissions ?? 0
+
+        return token
+      }
+
+      // Later requests: reuse if present, otherwise fetch once
+      if (token.permMask == null && token.sub) {
         const row = await db
           .selectFrom('User')
           .select(['permissions'])
           .where('id', '=', token.sub)
           .executeTakeFirst()
-        const list = row?.permissions ?? []
-        token.permMask = permissionsToMask(list)
+
+        // @ts-expect-error
+        token.permMask = row?.permissions ?? 0
       }
 
       return token
@@ -87,12 +95,12 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
     async signIn({ account, profile }) {
       if (account?.provider === 'google') {
-        return (
-          profile?.email_verified && profile.email?.endsWith('@edu.uiz.ac.ma')
+        return Boolean(
+          profile?.email_verified && profile.email?.endsWith('@edu.uiz.ac.ma'),
         )
       }
 
-      return true // Do different verification for other providers that don't have `email_verified`
+      return true // forbid non-ENCG students
     },
   },
 })

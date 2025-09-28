@@ -28,9 +28,14 @@ function requiredMaskForPath(basePath: string): number {
   return PERMISSIONS[key] ?? 0
 }
 
-function buildLoginRedirect(origin: string, locale: string, basePath: string) {
+function buildLoginRedirect(
+  origin: string,
+  locale: string,
+  basePath: string,
+  search: string,
+) {
   const url = new URL(`/${locale}/connexion`, origin)
-  url.searchParams.set('callbackUrl', `/${locale}${basePath}`)
+  url.searchParams.set('callbackUrl', `/${locale}${basePath}${search || ''}`)
   return url
 }
 
@@ -45,12 +50,12 @@ export default async function middleware(req: NextRequest) {
   const seg = firstSegment(basePath)
 
   if (AUTH_ONLY_SEGMENTS.has(seg)) {
-    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+    const token = await getToken({ req, secret: process.env.AUTH_NEXT_SECRET })
 
     // log-in required
     if (!token) {
       return NextResponse.redirect(
-        buildLoginRedirect(origin, finalLocale, basePath),
+        buildLoginRedirect(origin, finalLocale, basePath, req.nextUrl.search),
       )
     }
 
@@ -61,16 +66,15 @@ export default async function middleware(req: NextRequest) {
   const requiredMask = requiredMaskForPath(basePath)
   if (requiredMask === 0) return res // public route, no auth required
 
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+  const token = await getToken({ req, secret: process.env.AUTH_NEXT_SECRET })
 
   if (!token) {
     return NextResponse.redirect(
-      buildLoginRedirect(origin, finalLocale, basePath),
+      buildLoginRedirect(origin, finalLocale, basePath, req.nextUrl.search),
     )
   }
 
-  const userMask = token.permMask ?? 0
-  if ((userMask & requiredMask) === 0) {
+  if (((token.permMask ?? 0) & requiredMask) === 0) {
     return NextResponse.redirect(new URL(`/${finalLocale}/not-found`, origin))
   }
 

@@ -7,7 +7,7 @@
 
 ## ✨ Features
 
-- Campus news : FumaDocs with MDX support
+- Campus News : Events/News from Campus in one place powered by FumaDocs (with MDX support)
 
 ## 🧭 Roadmap
 

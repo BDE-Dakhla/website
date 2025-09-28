@@ -203,7 +203,7 @@
   }
 }
 
-    .custom-borders::before {
+.custom-borders::before {
   @apply pointer-events-none absolute inset-0 rounded-2xl border border-transparent content-[''];
 
   background: linear-gradient(-20deg, #ffffff50, transparent, #ffffff50) border-box;
@@ -216,10 +216,10 @@
 
 @keyframes marquee {
   0% {
-      transform: translateX(0);
+    transform: translateX(0);
   }
   100% {
-      transform: translateX(-100%);
+    transform: translateX(-100%);
   }
 }
 .animate-marquee {

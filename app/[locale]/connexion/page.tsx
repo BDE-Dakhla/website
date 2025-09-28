@@ -265,7 +265,7 @@ export default function SignInPage() {
                   <StaticButton
                     className='w-full py-5'
                     disabled={loading}
-                    onClick={async () => {
+                    onClick={async (): Promise<void> => {
                       setLoading(true)
                       try {
                         await signIn('google', { redirectTo: '/syllabus' })

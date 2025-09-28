@@ -20,8 +20,6 @@ export default function Page() {
     <main>
       <NavBar />
 
-      <Partners />
-
       {/* <section
         aria-label='school-statistics'
         className='container mx-auto my-10 flex flex-wrap items-center justify-center gap-x-20 px-6'>
@@ -36,6 +34,8 @@ export default function Page() {
       </section> */}
 
       <SchoolSection />
+
+      <Partners />
 
       <Footer />
     </main>

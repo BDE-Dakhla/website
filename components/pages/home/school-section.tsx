@@ -16,14 +16,18 @@ import { RainbowButton } from '@/components/ui/rainbow-button'
 import { LANGS } from '@/i18n/routing'
 
 const SkeletonOne = () => {
-  const t = useTranslations('home.school-section')
-
   return (
     <div>
-      <p className='font-bold text-4xl text-white'>{t('amphitheater')}</p>
+      <p className='font-bold text-4xl text-white'>
+        Amphithéâtre moderne, à la hauteur des ambitions
+      </p>
       <p className='my-4 max-w-lg font-normal text-base text-neutral-200'>
-        A serene and tranquil retreat, this house in the woods offers a peaceful
-        escape from the hustle and bustle of city life.
+        Gradins courbes de fauteuils bordeaux, large scène avec bureau et
+        projection, plafond et parois traités pour l&apos;acoustique: un espace
+        pensé pour cours magistraux, conférences et soutenances. Reconnue au
+        Maroc pour la qualité de sa formation en management, l&apos;ENCG Dakhla
+        y accueille experts et événements de réseau — un cadre qui reflète sa
+        notoriété et crée des opportunités.
       </p>
     </div>
   )
@@ -32,13 +36,15 @@ const SkeletonOne = () => {
 const SkeletonTwo = () => {
   return (
     <div>
-      <p className='font-bold text-4xl text-white'>Club des Sports Nautiques</p>
+      <p className='font-bold text-4xl text-white'>
+        Club Sports Nautiques, vie de campus en mouvement
+      </p>
       <p className='my-4 max-w-lg font-normal text-base text-neutral-200'>
-        Sur le campus de l&apos;ENCG Dakhla, un petit bâtiment en bois abrite le
-        Club des Sports Nautiques. Avec sa façade vitrée et son style simple
-        mais chaleureux, ce local témoigne de l&apos;importance accordée aux
-        activités sportives et maritimes dans cette école située au cœur
-        d&apos;une région côtière.
+        Pavillon en bois clair, grandes baies vitrées et enseigne bleue: un
+        espace associatif dédié aux activités nautiques et aux événements
+        étudiants. À l&apos;ENCG Dakhla, membre du réseau ENCG et reconnue pour
+        sa formation exigeante, ces lieux prolongent les cours par des projets,
+        des rencontres et des opportunités concrètes.
       </p>
     </div>
   )
@@ -46,13 +52,15 @@ const SkeletonTwo = () => {
 const SkeletonThree = () => {
   return (
     <div>
-      <p className='font-bold text-4xl text-white'>La Buvette</p>
+      <p className='font-bold text-4xl text-white'>
+        Buvette et patio, la pause qui relie
+      </p>
       <p className='my-4 max-w-lg font-normal text-base text-neutral-200'>
-        Au sein de l&apos;ENCG Dakhla, la buvette offre un espace convivial et
-        ombragé où les étudiants peuvent se détendre et partager un moment
-        autour d&apos;un rafraîchissement ou d&apos;un encas. Avec son architecture
-        moderne et ses espaces ouverts, ce lieu favorise les échanges et la vie
-        sociale sur le campus.
+        Patio ombragé, enseigne “Buvette”, murs ajourés et plantes succulentes:
+        un espace frais et convivial pour cafés et déjeuners. Reconnue pour sa
+        formation en management au sein du réseau ENCG, l&apos;ENCG Dakhla en
+        fait un lieu d&apos;échanges et de projets — là où le réseau se tisse au
+        quotidien.
       </p>
     </div>
   )
@@ -60,10 +68,15 @@ const SkeletonThree = () => {
 const SkeletonFour = () => {
   return (
     <div>
-      <p className='font-bold text-4xl text-white'>Rivers are serene</p>
+      <p className='font-bold text-4xl text-white'>
+        Une salle lumineuse, prête à apprendre
+      </p>
       <p className='my-4 max-w-lg font-normal text-base text-neutral-200'>
-        A house by the river is a place of peace and tranquility. It&apos;s the
-        perfect place to relax, unwind, and enjoy life.
+        Rangées en bois, tableau blanc et écran de projection, lumière filtrée
+        par de grands rideaux bleus: un cadre calme et fonctionnel pour cours,
+        cas pratiques et ateliers. Référence publique en commerce et gestion au
+        Maroc, l&apos;ENCG Dakhla y relie la théorie à des projets, des stages
+        et de vraies opportunités.
       </p>
     </div>
   )

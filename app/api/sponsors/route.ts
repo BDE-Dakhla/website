@@ -7,9 +7,9 @@ export async function GET() {
     .selectFrom('sponsors')
     .select(['id', 'name', 'logo_url', 'website_url', 'is_featured'])
     .where('approved', '=', true)
-    .orderBy('is_featured desc')
-    .orderBy('priority asc')
-    .orderBy('created_at desc')
+    .orderBy('is_featured', 'desc')
+    .orderBy('priority', 'asc')
+    .orderBy('created_at', 'desc')
     .execute()
 
   return NextResponse.json(sponsors, {

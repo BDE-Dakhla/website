@@ -14,7 +14,8 @@
     "start": "next start",
     "lint": "biome check .",
     "postinstall": "fumadocs-mdx",
-    "migrate": "bun run lib/db/migrate.ts"
+    "migrate": "bun run lib/db/migrate.ts",
+    "seed": "bun run lib/db/seed.ts"
   },
   "dependencies": {
     "@auth/kysely-adapter": "^1.10.0",

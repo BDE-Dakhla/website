@@ -17,7 +17,7 @@ export const StickyBanner = ({
   children,
   disabledRoutes = [],
   hideOnScroll = false,
-}: React.FC<React.PropsWithChildren<Partial<Props>>>) => {
+}: React.PropsWithChildren<Partial<Props>>) => {
   const [open, setOpen] = useState(true)
   const pathname = usePathname()
   const { scrollY } = useScroll()

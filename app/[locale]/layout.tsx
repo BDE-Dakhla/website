@@ -1,5 +1,6 @@
 import { Calendar, ChevronRight } from 'lucide-react'
 import { NextIntlClientProvider } from 'next-intl'
+import { CookieConsent } from '@/components/blocks/cookie-consent'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import { StickyBanner } from '@/components/ui/sticky-banner'
 import { cn } from '@/lib/utils'
@@ -50,6 +51,8 @@ export default async function Layout({
           pour la cérémonie d'ouverture de la nouvelle session universitaire
         </span>
       </StickyBanner>
+
+      <CookieConsent />
 
       {children}
     </NextIntlClientProvider>

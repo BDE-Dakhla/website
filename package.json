@@ -1,7 +1,6 @@
 {
   "name": "bde-dakhla",
   "license": "MIT",
-
   "author": {
     "email": "walid.korchi@edu.uiz.ac.ma",
     "name": "Walid Korchi"
@@ -42,6 +41,7 @@
     "fumadocs-mdx": "^12.0.0",
     "fumadocs-ui": "^15.7.13",
     "geist": "^1.5.1",
+    "js-cookie": "^3.0.5",
     "kysely": "^0.28.7",
     "lucide-react": "^0.544.0",
     "motion": "^12.23.16",
@@ -61,6 +61,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.4",
     "@tailwindcss/postcss": "^4",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/pg": "^8.15.5",
     "@types/react": "^19",

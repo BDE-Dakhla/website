@@ -199,7 +199,7 @@
 .reworked-underline {
   position: relative;
   &::before {
-    @apply absolute content-[''] -bottom-px right-0 left-0 h-px bg-current/40;
+    @apply absolute content-[''] -bottom-px right-0 left-0 h-[1.5px] bg-current/40;
   }
 }
 

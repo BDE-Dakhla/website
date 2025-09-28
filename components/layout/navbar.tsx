@@ -12,7 +12,6 @@ import {
   University,
   Users,
 } from 'lucide-react'
-import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import {
   Accordion,
@@ -37,6 +36,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { Link } from '@/i18n/routing'
+import { Logo } from './logo'
 
 interface MenuItem {
   title: string
@@ -101,7 +101,7 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
       <nav className='hidden justify-between lg:flex'>
         <div className='flex items-center gap-6'>
           <Link className='flex items-center gap-2' href='/'>
-            <Image alt='Logo' height={32} src='/icons/logo.svg' width={150} />
+            <Logo />
           </Link>
           <div className='flex items-center'>
             <NavigationMenu viewport={false}>
@@ -129,7 +129,7 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
 
       <div className='flex items-center justify-between lg:hidden'>
         <Link className='flex items-center gap-2' href='/'>
-          <Image alt='Logo' height={32} src='/icons/logo.svg' width={32} />
+          <Logo />
         </Link>
         <Sheet>
           <SheetTrigger asChild>
@@ -141,12 +141,7 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
             <SheetHeader>
               <SheetTitle>
                 <Link className='flex items-center gap-2' href='/'>
-                  <Image
-                    alt='Logo'
-                    height={32}
-                    src='/icons/logo.svg'
-                    width={32}
-                  />
+                  <Logo />
                 </Link>
               </SheetTitle>
             </SheetHeader>

@@ -1,6 +1,6 @@
 import { Calendar, ChevronRight } from 'lucide-react'
 import { NextIntlClientProvider } from 'next-intl'
-import { CookieConsent } from '@/components/blocks/cookie-consent'
+import { CookieConsent } from '@/components/design/cookie-consent'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import { StickyBanner } from '@/components/ui/sticky-banner'
 import { cn } from '@/lib/utils'

@@ -30,6 +30,7 @@ import {
   FormMessage,
 } from '../ui/form'
 import { Input } from '../ui/input'
+import { Logo } from './logo'
 
 const socials = (locale: string) => [
   {
@@ -137,13 +138,7 @@ export function Footer() {
     <footer className='container mx-auto mt-10 px-8'>
       <div className='flex flex-col items-start justify-between gap-10 border-gray-200 border-b py-10 text-[15px] text-slate-500 md:flex-row dark:border-slate-600 dark:text-slate-300'>
         <div>
-          <Image
-            alt='Logo'
-            className='h-9 w-auto text-slate-800 dark:text-white'
-            height={36}
-            src='/icons/logo.svg'
-            width={36}
-          />
+          <Logo />
           <Paragraph className='mt-6'>
             Feature-Rich UI Library - Tailwind CSS Components.
           </Paragraph>

@@ -1,31 +1,38 @@
 import type { Database as AuthDb } from '@auth/kysely-adapter'
-import type { ColumnType } from 'kysely'
+import type {
+  ColumnType,
+  Generated,
+  Insertable,
+  Selectable,
+  Updateable,
+} from 'kysely'
 
-export enum Permission {
-  HAS_ACCESS_TO_DASHBOARD = 0,
-  HAS_ACCESS_TO_SYLLABUS = 0,
-}
+// Keep permissions definition in a single place (prefer your lib/permissions file)
+type PermissionMask = number
 
 interface AppDatabase {
   Subscribers: Subscribers
   SubscriptionTokens: SubscriptionTokens
   Campaigns: Campaigns
   CampaignRecipients: CampaignRecipients
+  sponsors: SponsorTable // <-- add this
 }
 
 interface UserExtra {
-  cdm: string
-  first_name: string
-  last_name: string
-  identity: 'student' | 'professor'
-  permissions: Permission[]
-  password: string
+  cdm: string | null
+  first_name: string | null
+  last_name: string | null
+  // remove if you don't have this column in your migration
+  // identity: 'student' | 'professor' | null
+  permissions: PermissionMask
+  password: string | null
 }
 
 export type Database = Omit<AuthDb, 'User'> & {
   User: AuthDb['User'] & UserExtra
 } & AppDatabase
 
+// ----- newsletter tables (unchanged) -----
 export type SubscriberStatus = 'pending' | 'active' | 'unsubscribed' | 'bounced'
 export type TokenType = 'confirm'
 export type CampaignStatus =
@@ -78,3 +85,31 @@ interface CampaignRecipients {
   click_count: number
   last_error: string | null
 }
+
+// ----- sponsors -----
+interface SponsorTable {
+  // uuid default gen_random_uuid()
+  id: Generated<string>
+
+  name: string
+  slug: string
+
+  description: string | null
+  website_url: string | null
+  logo_url: string
+
+  // defaults in DB -> allow omitting on insert
+  priority: ColumnType<number, number | undefined, number> // default 100
+  is_featured: ColumnType<boolean, boolean | undefined, boolean> // default false
+  approved: ColumnType<boolean, boolean | undefined, boolean> // default false
+
+  created_at: ColumnType<Date, Date | undefined, never> // default now()
+  updated_at: ColumnType<Date, Date | undefined, never> // default now() + trigger
+
+  approved_at: ColumnType<Date | null, Date | undefined, Date | null>
+  approved_by: string | null // uuid FK to "User".id, nullable
+}
+
+export type Sponsor = Selectable<SponsorTable>
+export type NewSponsor = Insertable<SponsorTable>
+export type SponsorUpdate = Updateable<SponsorTable>

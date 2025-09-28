@@ -1,4 +1,6 @@
+import type { Sponsor } from '@/types/schema'
 import Image from 'next/image'
+import useSWR from 'swr'
 import {
   Marquee,
   MarqueeContent,
@@ -8,25 +10,14 @@ import {
 import { SparklesCore } from '@/components/ui/sparkles'
 import { cn } from '@/lib/utils'
 
-const data = [
-  {
-    name: 'CIH Bank',
-    href: 'https://www.instagram.com/le_passage_dakhla',
-    logo: 'cih',
-  },
-  {
-    name: 'Attijari Wafabank',
-    href: 'https://www.instagram.com/le_passage_dakhla',
-    logo: 'awb',
-  },
-  {
-    name: 'Société Générale',
-    href: 'https://www.instagram.com/le_passage_dakhla',
-    logo: 'sg',
-  },
-]
+export function Partners() {
+  const { data: sponsors = [] } = useSWR<Sponsor[]>(
+    '/api/sponsors',
+    (url: string) => fetch(url).then((r) => r.json()),
+  )
 
-export const Partners = () => {
+  if (sponsors.length === 0) return null
+
   return (
     <section aria-label='partners' className='mt-28 mb-8 overflow-hidden'>
       <div className='container mx-auto'>
@@ -40,15 +31,15 @@ export const Partners = () => {
           <MarqueeFade side='left' />
           <MarqueeFade side='right' />
           <MarqueeContent>
-            {data.map((part) => (
-              <MarqueeItem className='h-32 w-32' key={part.name}>
+            {sponsors.map((sp) => (
+              <MarqueeItem className='h-32 w-32' key={sp.name}>
                 <Image
-                  alt={part.name}
+                  alt={sp.name}
                   className='h-9 w-auto translate-y-0.5 select-none text-white dark:text-neutral-200'
                   draggable={false}
                   height={80}
-                  key={part.name}
-                  src={`/partners/${part.logo}.svg`}
+                  key={sp.name}
+                  src={`/partners/${sp.logo_url}.svg`}
                   width={80}
                 />
               </MarqueeItem>
@@ -62,7 +53,7 @@ export const Partners = () => {
           '[mask-image:radial-gradient(50%_50%,white,transparent)]',
           'before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_bottom_center,#69B755,transparent_70%)]',
           'before:opacity-40 after:absolute after:top-1/2 after:aspect-[1/0.7] after:w-[200%] after:rounded-[100%]',
-          'after:border-[#69B75575] after:border-t after:bg-zinc-900',
+          'after:border-[#69B75575] after:border-t after:bg-gray-200 dark:after:bg-zinc-900',
         )}>
         <SparklesCore
           background='#69B755'

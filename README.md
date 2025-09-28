@@ -3,7 +3,8 @@
 - [🐬 Getting Started](#-getting-started)
   - [✨ Features](#-features)
   - [🧭 Roadmap](#-roadmap)
-  - [License](#license)
+  - [🎨 UI Resources](#-ui-resources)
+  - [📜 License](#-license)
 
 ## ✨ Features
 
@@ -14,7 +15,17 @@
 - [ ] Add content creator post with badge for user profile
 - [ ] Create contributors section in home page
 
-## License
+## 🎨 UI Resources
+
+- <https://mynaui.com/>
+- <https://ui.aceternity.com/>
+- <https://magicui.design/>
+- <https://shadcnuikit.com/>
+- <https://ui.shadcn.com/>
+- <https://blocks.mvp-subha.me/>
+- <https://www.launchuicomponents.com/>
+
+## 📜 License
 
 - Code: PolyForm Noncommercial License 1.0.0 © 2025 Walid Korchi  
   <https://polyformproject.org/licenses/noncommercial/1.0.0/>

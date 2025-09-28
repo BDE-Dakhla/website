@@ -9,9 +9,10 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
-      - '5433:5432'
+      - "5433:5432"
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U postgres -d bde-dakhla-db -h 127.0.0.1']
+      test:
+        ["CMD-SHELL", "pg_isready -U postgres -d bde-dakhla-db -h 127.0.0.1"]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -24,7 +25,19 @@ services:
       SMTP_SERVER: ""
     # configure DKIM, SPF, etc. as needed; consult image docs
     ports:
-    - "25:25"
+      - "25:25"
+
+  minio:
+    image: minio/minio:latest
+    ports:
+      - "9000:9000" # S3 API
+      - "9001:9001" # Console
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio12345
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./data/minio:/data
 
 volumes:
   pgdata:

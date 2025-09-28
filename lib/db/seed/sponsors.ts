@@ -21,6 +21,12 @@ const data = [
   },
 ]
 
+const PERM_HAS_ACCESS_TO_DASHBOARD = 1 << 0
+
+const ADMIN_EMAIL = process.env.SEED_ADMIN_EMAIL ?? 'admin@example.com'
+const ADMIN_CDM = process.env.SEED_ADMIN_CDM ?? 'ADM001'
+const ADMIN_PASSWORD = process.env.SEED_ADMIN_PASSWORD ?? 'Admin@123'
+
 async function upsertAdmin(db: Kysely<Database>) {
   const pwHash = await hash(ADMIN_PASSWORD, 10)
 
@@ -62,6 +68,81 @@ async function upsertAdmin(db: Kysely<Database>) {
     .executeTakeFirstOrThrow()
 
   return inserted.id
+}
+
+async function upsertSponsors(db: Kysely<Database>, approvedBy: string) {
+  const now = new Date()
+  const sponsors = [
+    {
+      name: 'Acme Inc.',
+      slug: 'acme',
+      logo_url: 'https://placehold.co/240x100?text=ACME',
+      website_url: 'https://acme.example',
+      description: 'Leading provider of widgets.',
+      is_featured: true,
+      priority: 10,
+    },
+    {
+      name: 'Globex',
+      slug: 'globex',
+      logo_url: 'https://placehold.co/240x100?text=Globex',
+      website_url: 'https://globex.example',
+      description: 'Global solutions for modern teams.',
+      is_featured: false,
+      priority: 50,
+    },
+    {
+      name: 'Initech',
+      slug: 'initech',
+      logo_url: 'https://placehold.co/240x100?text=Initech',
+      website_url: 'https://initech.example',
+      description: 'Enterprise-grade TPS reports.',
+      is_featured: true,
+      priority: 20,
+    },
+  ] as const
+
+  for (const s of sponsors) {
+    const exists = await db
+      .selectFrom('sponsors')
+      .select(['id'])
+      .where('slug', '=', s.slug)
+      .executeTakeFirst()
+
+    if (exists) {
+      await db
+        .updateTable('sponsors')
+        .set({
+          name: s.name,
+          logo_url: s.logo_url,
+          website_url: s.website_url,
+          description: s.description,
+          is_featured: s.is_featured,
+          priority: s.priority,
+          approved: true,
+          approved_at: now,
+          approved_by: approvedBy,
+        })
+        .where('id', '=', exists.id)
+        .execute()
+    } else {
+      await db
+        .insertInto('sponsors')
+        .values({
+          name: s.name,
+          slug: s.slug,
+          logo_url: s.logo_url,
+          website_url: s.website_url,
+          description: s.description,
+          is_featured: s.is_featured,
+          priority: s.priority,
+          approved: true,
+          approved_at: now,
+          approved_by: approvedBy,
+        })
+        .execute()
+    }
+  }
 }
 
 async function main() {

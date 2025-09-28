@@ -32,11 +32,13 @@ const SkeletonOne = () => {
 const SkeletonTwo = () => {
   return (
     <div>
-      <p className='font-bold text-4xl text-white'>House above the clouds</p>
+      <p className='font-bold text-4xl text-white'>Club des Sports Nautiques</p>
       <p className='my-4 max-w-lg font-normal text-base text-neutral-200'>
-        Perched high above the world, this house offers breathtaking views and a
-        unique living experience. It&apos;s a place where the sky meets home,
-        and tranquility is a way of life.
+        Sur le campus de l&apos;ENCG Dakhla, un petit bâtiment en bois abrite le
+        Club des Sports Nautiques. Avec sa façade vitrée et son style simple
+        mais chaleureux, ce local témoigne de l&apos;importance accordée aux
+        activités sportives et maritimes dans cette école située au cœur
+        d&apos;une région côtière.
       </p>
     </div>
   )
@@ -44,10 +46,13 @@ const SkeletonTwo = () => {
 const SkeletonThree = () => {
   return (
     <div>
-      <p className='font-bold text-4xl text-white'>Greens all over</p>
+      <p className='font-bold text-4xl text-white'>La Buvette</p>
       <p className='my-4 max-w-lg font-normal text-base text-neutral-200'>
-        A house surrounded by greenery and nature&apos;s beauty. It&apos;s the
-        perfect place to relax, unwind, and enjoy life.
+        Au sein de l&apos;ENCG Dakhla, la buvette offre un espace convivial et
+        ombragé où les étudiants peuvent se détendre et partager un moment
+        autour d&apos;un rafraîchissement ou d&apos;un encas. Avec son architecture
+        moderne et ses espaces ouverts, ce lieu favorise les échanges et la vie
+        sociale sur le campus.
       </p>
     </div>
   )

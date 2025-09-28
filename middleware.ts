@@ -2,21 +2,34 @@ import { type NextRequest, NextResponse } from 'next/server'
 import { getToken } from 'next-auth/jwt'
 import createMiddleware from 'next-intl/middleware'
 import { defaultLocale, localePrefix, locales } from './i18n/routing'
+import { PERMISSIONS } from './lib/permission'
 
-const handleI18n = createMiddleware({
-  defaultLocale,
-  locales,
-  localePrefix,
-})
+const handleI18n = createMiddleware({ defaultLocale, locales, localePrefix })
 
 function stripLocale(pathname: string) {
-  const segments = pathname.split('/')
-  const maybeLocale = segments[1]
-  const hasLocale = (locales as unknown as string[]).includes(maybeLocale)
-  return {
-    basePath: hasLocale ? '/' + segments.slice(2).join('/') : pathname,
-    locale: hasLocale ? maybeLocale : undefined,
-  }
+  const parts = pathname.split('/').filter(Boolean)
+  const hasLocale =
+    parts.length && (locales as unknown as string[]).includes(parts[0])
+  const rest = hasLocale ? '/' + parts.slice(1).join('/') : pathname
+  return { basePath: rest || '/', locale: hasLocale ? parts[0] : undefined }
+}
+
+function firstSegment(path: string) {
+  const parts = path.split('/').filter(Boolean)
+  return parts[0] ?? ''
+}
+
+function requiredMaskForPath(basePath: string): number {
+  const seg = firstSegment(basePath)
+  if (!seg) return 0
+  const key = `HAS_ACCESS_TO_${seg.toUpperCase()}` as keyof typeof PERMISSIONS
+  return PERMISSIONS[key] ?? 0
+}
+
+function buildLoginRedirect(origin: string, locale: string, basePath: string) {
+  const url = new URL(`/${locale}/login`, origin)
+  url.searchParams.set('callbackUrl', `/${locale}${basePath}`)
+  return url
 }
 
 export default async function middleware(req: NextRequest) {
@@ -28,22 +41,19 @@ export default async function middleware(req: NextRequest) {
     locale ?? req.cookies.get('NEXT_LOCALE')?.value ?? defaultLocale
 
   // guard /syllabus route
-  if (basePath === '/syllabus' || basePath.startsWith('/syllabus/')) {
-    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+  const requiredMask = requiredMaskForPath(basePath)
+  if (requiredMask === 0) return res // public route, no auth required
 
-    if (!token) {
-      const loginUrl = new URL(`/${finalLocale}/connexion`, origin)
-      loginUrl.searchParams.set('callbackUrl', `/${finalLocale}${basePath}`)
-      return NextResponse.redirect(loginUrl)
-    }
-
-    return res
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+  if (!token) {
+    return NextResponse.redirect(
+      buildLoginRedirect(origin, finalLocale, basePath),
+    )
   }
 
-  // redirect authenticated users away from /connexion to /syllabus
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
-  if (basePath === '/connexion' && token) {
-    return NextResponse.redirect(new URL(`/${finalLocale}/syllabus`, origin))
+  const userMask = token.permMask ?? 0
+  if ((userMask & requiredMask) === 0) {
+    return NextResponse.redirect(new URL(`/${finalLocale}/not-found`, origin))
   }
 
   return res

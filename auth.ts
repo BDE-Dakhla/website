@@ -8,9 +8,11 @@ import Credentials from 'next-auth/providers/credentials'
 import Google from 'next-auth/providers/google'
 import { signInSchema } from './lib/auth'
 import { getDb } from './lib/db'
+import { permissionsToMask } from './lib/permission'
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   adapter: KyselyAdapter(getDb() as unknown as Kysely<AuthDb>),
+  session: { strategy: 'jwt' },
   providers: [
     Credentials({
       credentials: {
@@ -50,4 +52,36 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      const db = getDb()
+
+      if (user.id) {
+        const row = await db
+          .selectFrom('User')
+          .select(['id', 'permissions'])
+          .where('id', '=', user.id)
+          .executeTakeFirst()
+        const list = row?.permissions ?? []
+
+        token.permMask = permissionsToMask(list)
+      } else if (token.permMask == null && token.sub) {
+        const row = await db
+          .selectFrom('User')
+          .select(['permissions'])
+          .where('id', '=', token.sub)
+          .executeTakeFirst()
+        const list = row?.permissions ?? []
+        token.permMask = permissionsToMask(list)
+      }
+
+      return token
+    },
+    async session({ session, token }) {
+      session.user ??= {}
+      session.user.id = token.sub
+      session.user.permMask = token.permMask ?? 0
+      return session
+    },
+  },
 })

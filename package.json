@@ -1,6 +1,13 @@
 {
   "name": "bde-dakhla",
-  "version": "0.1.0",
+  "license": "MIT",
+
+  "author": {
+    "email": "walid.korchi@edu.uiz.ac.ma",
+    "name": "Walid Korchi"
+  },
+  "version": "0.0.0",
+  "description": "Site officiel du Bureau des étudiants de l'ENCG Dakhla",
   "private": true,
   "scripts": {
     "dev": "fumadocs-mdx && next dev --turbopack",
@@ -28,7 +35,6 @@
     "@types/canvas-confetti": "^1.9.0",
     "bcryptjs": "^3.0.2",
     "canvas-confetti": "^1.9.3",
-    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "flag-icons": "^7.5.0",
     "framer-motion": "^12.23.18",

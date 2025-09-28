@@ -1,6 +1,11 @@
 import type { Database as AuthDb } from '@auth/kysely-adapter'
 import type { ColumnType } from 'kysely'
 
+enum Permission {
+  HAS_ACCESS_TO_DASHBOARD = 0,
+  HAS_ACCESS_TO_SYLLABUS = 0,
+}
+
 interface AppDatabase {
   Subscribers: Subscribers
   SubscriptionTokens: SubscriptionTokens
@@ -12,6 +17,8 @@ interface UserExtra {
   cdm: string
   first_name: string
   last_name: string
+  identity: 'student' | 'professor'
+  permissions: Permission[]
   password: string
 }
 

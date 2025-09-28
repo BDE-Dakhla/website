@@ -48,7 +48,7 @@ export function Paragraph({
       className={cn(
         paragraphSize[size],
         muted ? 'text-muted-foreground' : 'text-foreground',
-        '[&:not(:first-child)]:mt-6',
+        '[&:not(:first-child)]:mt-4',
         className,
       )}
       {...props}

@@ -1,6 +1,5 @@
 export const PERMISSIONS = {
   HAS_ACCESS_TO_DASHBOARD: 1 << 0,
-  HAS_ACCESS_TO_SYLLABUS: 1 << 1,
 } as const
 
 export type PermissionKey = keyof typeof PERMISSIONS

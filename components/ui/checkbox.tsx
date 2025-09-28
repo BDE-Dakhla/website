@@ -1,17 +1,16 @@
 'use client'
 
-import * as React from 'react'
 import { cn } from '@/lib/utils'
 
-const CustomCheckbox = React.forwardRef<
-  HTMLInputElement,
-  React.InputHTMLAttributes<HTMLInputElement>
->(({ className, ...props }, ref) => {
+const Checkbox: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = ({
+  className,
+  ...props
+}) => {
   return (
     <input
       className={cn(
-        'relative box-border block h-[1.5rem] w-[1.5rem] cursor-pointer appearance-none rounded-md border-1 border-[#d9d9d9] bg-slate-200 transition-all duration-300',
-        'before:absolute before:top-[42%] before:left-2/4 before:h-[10px] before:w-[6px]',
+        'relative box-border block h-[1.25rem] w-[1.25rem] cursor-pointer appearance-none rounded-md border-1 border-[#d9d9d9] bg-slate-200 transition-all duration-300',
+        'before:absolute before:top-[42%] before:left-2/4 before:h-[8px] before:w-[4px]',
         'before:-translate-x-2/4 before:-translate-y-2/4 before:rotate-45 before:scale-0',
         'before:border-r-2 before:border-r-white before:border-b-2 before:border-b-white before:border-solid',
         "before:opacity-0 before:transition-all before:delay-100 before:duration-100 before:ease-in before:content-['']",
@@ -25,106 +24,10 @@ const CustomCheckbox = React.forwardRef<
         '[&:active:not(:checked)]:after:opacity-100 [&:active:not(:checked)]:after:shadow-none [&:active:not(:checked)]:after:transition-none',
         className,
       )}
-      ref={ref}
       type='checkbox'
       {...props}
     />
   )
-})
-CustomCheckbox.displayName = 'CustomCheckbox'
-
-const GradientCheckbox = React.forwardRef<
-  HTMLInputElement,
-  React.InputHTMLAttributes<HTMLInputElement>
->(({ className, ...props }, ref) => {
-  return (
-    <label className='relative block cursor-pointer select-none rounded-md text-3xl outline-2 outline-gray-700 outline-offset-1 has-[:focus-visible]:outline'>
-      <input
-        className='peer absolute opacity-0'
-        ref={ref}
-        type='checkbox'
-        {...props}
-      />
-      <div
-        className={cn(
-          'relative top-0 left-0 h-[1.6rem] w-[1.6rem] rounded-[0.3em] bg-white transition-all duration-300',
-          'after:absolute after:top-0 after:left-0 after:h-[1.6rem] after:w-[1.6rem]',
-          'after:rotate-0 after:rounded-[0.3em] after:border-[2px] after:border-[rgba(0,0,0,0.863)]',
-          "after:transition-all after:delay-100 after:duration-300 after:content-['']",
-          'peer-checked:bg-black',
-          'peer-checked:shadow-[-13px_-13px_40px_0px_rgb(17,0,248),13px_-0_40px_0px_rgb(243,11,243),13px_-13px_40px_0px_rgb(253,228,0),13px_0_40px_0px_rgb(107,255,21),13px_13px_40px_0px_rgb(76,0,255),13px_13px_40px_0px_rgb(255,196,0),-13px_13px_40px_0px_rgb(90,105,240)]',
-          'peer-checked:after:top-[1px] peer-checked:after:left-2 peer-checked:after:h-[0.6em]',
-          'peer-checked:after:w-[0.35em] peer-checked:after:rotate-45 peer-checked:after:rounded-[0em]',
-          'peer-checked:after:border-r-[0.1em] peer-checked:after:border-b-[0.1em]',
-          'peer-checked:after:border-[rgba(238,238,238,0)_white_white_#fff0]',
-          'dark:bg-black dark:after:border-[rgba(255,255,255,0.863)]',
-          'dark:peer-checked:bg-white dark:peer-checked:after:border-[rgba(238,238,238,0)_black_black_#fff0]',
-          className,
-        )}
-      />
-    </label>
-  )
-})
-GradientCheckbox.displayName = 'GradientCheckbox'
-
-const TransformerCheckbox = React.forwardRef<
-  HTMLInputElement,
-  React.InputHTMLAttributes<HTMLInputElement>
->(({ className, ...props }, ref) => {
-  return (
-    <label className='relative block h-[1.5rem] w-[1.5rem] cursor-pointer rounded-sm outline-2 outline-gray-700 outline-offset-1 has-[:focus-visible]:outline'>
-      <input
-        className='peer absolute h-0 w-0 opacity-0'
-        ref={ref}
-        type='checkbox'
-        {...props}
-      />
-      <span
-        className={cn(
-          'block h-[inherit] w-[inherit] rounded-md border-[2px] border-black transition-all duration-300',
-          'peer-checked:ml-1 peer-checked:h-5 peer-checked:w-3',
-          'peer-checked:translate-x-[2px] peer-checked:translate-y-[-1px]',
-          'peer-checked:rotate-45 peer-checked:rounded-none',
-          'peer-checked:border-t-transparent peer-checked:border-b-[2px] peer-checked:border-l-transparent',
-          'dark:border-white',
-          className,
-        )}
-      />
-    </label>
-  )
-})
-TransformerCheckbox.displayName = 'TransformerCheckbox'
-
-const AnimatedCheckbox = React.forwardRef<
-  HTMLInputElement,
-  React.InputHTMLAttributes<HTMLInputElement>
->(({ className, ...props }, ref) => {
-  return (
-    <label className='relative block cursor-pointer select-none rounded-full text-2xl outline-2 outline-[#0b6e4f] outline-offset-1 has-[:checked]:rounded-md has-[:focus-visible]:outline'>
-      <input
-        className='peer absolute h-0 w-0 opacity-0'
-        ref={ref}
-        type='checkbox'
-        {...props}
-      />
-      <div
-        className={cn(
-          'relative top-0 left-0 h-[1.5rem] w-[1.5rem] rounded-[50%] bg-slate-200 transition duration-300',
-          'after:absolute after:top-1 after:left-[0.5rem] after:hidden after:h-[0.8rem] after:w-[0.5rem]',
-          "after:rotate-45 after:border-r-[0.2rem] after:border-b-[0.2rem] after:content-['']",
-          'focus:outline-[#0b6e4f]',
-          'peer-checked:animate-pulse peer-checked:rounded-lg peer-checked:bg-[#0b6e4f] peer-checked:after:block',
-          className,
-        )}
-      />
-    </label>
-  )
-})
-AnimatedCheckbox.displayName = 'AnimatedCheckbox'
-
-export {
-  CustomCheckbox,
-  GradientCheckbox,
-  TransformerCheckbox,
-  AnimatedCheckbox,
 }
+
+export { Checkbox }

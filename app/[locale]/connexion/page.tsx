@@ -16,7 +16,8 @@ import { useSearchParams } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import { useState } from 'react'
 import { treeifyError } from 'zod'
-import { CustomCheckbox as Checkbox } from '@/components/ui/checkbox'
+import { Button as StaticButton } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/stateful-button'
@@ -153,7 +154,7 @@ export default function SignInPage() {
                         aria-invalid={!!errors.cdm}
                         autoCapitalize='characters'
                         autoComplete='username'
-                        className='block w-full rounded-lg border border-border bg-input py-3 pr-3 pl-10 text-sm'
+                        className='block w-full rounded-lg border border-border bg-input py-5 pr-3 pl-12 text-sm'
                         disabled={loading}
                         id='cdm'
                         inputMode='text'
@@ -191,7 +192,7 @@ export default function SignInPage() {
                         }
                         aria-invalid={!!errors.password}
                         autoComplete='current-password'
-                        className='block w-full rounded-lg border border-border bg-input py-3 pr-12 pl-10 text-sm'
+                        className='block w-full rounded-lg border border-border bg-input py-5 pr-12 pl-12 text-sm'
                         disabled={loading}
                         id='password'
                         name='password'
@@ -228,12 +229,9 @@ export default function SignInPage() {
                   </div>
 
                   <div className='flex items-center justify-between'>
+                    {/** biome-ignore lint/a11y/noLabelWithoutControl: biome does not conside custom components */}
                     <label className='flex items-center text-muted-foreground text-sm'>
                       <Checkbox />
-                      <input
-                        className='h-4 w-4 rounded border-border text-primary'
-                        type='checkbox'
-                      />
                       <span className='ml-2'>Se souvenir de moi</span>
                     </label>
                     <a
@@ -264,8 +262,8 @@ export default function SignInPage() {
                     <span className='relative px-2'>Ou</span>
                   </div>
 
-                  <button
-                    className='flex w-full items-center justify-center rounded-lg border border-border bg-secondary px-4 py-2.5 text-foreground text-sm shadow-sm hover:bg-secondary/80'
+                  <StaticButton
+                    className='w-full py-5'
                     disabled={loading}
                     onClick={async () => {
                       setLoading(true)
@@ -275,15 +273,18 @@ export default function SignInPage() {
                         setLoading(false)
                       }
                     }}
-                    type='button'>
+                    type='button'
+                    variant='glow'>
                     <span className='mr-2'>Se connecter avec Google</span>
                     <Image
                       alt='Google icon'
+                      className='select-none'
+                      draggable={false}
                       height={20}
                       src='/icons/google.svg'
                       width={20}
                     />
-                  </button>
+                  </StaticButton>
                 </form>
 
                 <div className='mt-8 text-center text-muted-foreground text-sm'>

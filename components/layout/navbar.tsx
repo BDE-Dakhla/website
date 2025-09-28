@@ -48,10 +48,10 @@ interface MenuItem {
 
 interface NavBarProps {
   menu?: MenuItem[]
-  mobileExtraLinks?: {
+  mobileExtraLinks?: Array<{
     name: string
     url: string
-  }[]
+  }>
 }
 
 export const NavBar = (props: NavBarProps): React.ReactElement => {

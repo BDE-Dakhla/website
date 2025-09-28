@@ -4,6 +4,8 @@ import createMiddleware from 'next-intl/middleware'
 import { defaultLocale, localePrefix, locales } from './i18n/routing'
 import { PERMISSIONS } from './lib/permission'
 
+const AUTH_ONLY_SEGMENTS = new Set(['syllabus'])
+
 const handleI18n = createMiddleware({ defaultLocale, locales, localePrefix })
 
 function stripLocale(pathname: string) {
@@ -27,7 +29,7 @@ function requiredMaskForPath(basePath: string): number {
 }
 
 function buildLoginRedirect(origin: string, locale: string, basePath: string) {
-  const url = new URL(`/${locale}/login`, origin)
+  const url = new URL(`/${locale}/connexion`, origin)
   url.searchParams.set('callbackUrl', `/${locale}${basePath}`)
   return url
 }
@@ -40,11 +42,27 @@ export default async function middleware(req: NextRequest) {
   const finalLocale =
     locale ?? req.cookies.get('NEXT_LOCALE')?.value ?? defaultLocale
 
-  // guard /syllabus route
+  const seg = firstSegment(basePath)
+
+  if (AUTH_ONLY_SEGMENTS.has(seg)) {
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+
+    // log-in required
+    if (!token) {
+      return NextResponse.redirect(
+        buildLoginRedirect(origin, finalLocale, basePath),
+      )
+    }
+
+    return res // logged in, no extra permission needed
+  }
+
+  // guard dashboard route
   const requiredMask = requiredMaskForPath(basePath)
   if (requiredMask === 0) return res // public route, no auth required
 
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+
   if (!token) {
     return NextResponse.redirect(
       buildLoginRedirect(origin, finalLocale, basePath),

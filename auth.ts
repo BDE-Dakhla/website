@@ -13,6 +13,7 @@ import { permissionsToMask } from './lib/permission'
 export const { auth, handlers, signIn, signOut } = NextAuth({
   adapter: KyselyAdapter(getDb() as unknown as Kysely<AuthDb>),
   session: { strategy: 'jwt' },
+  secret: process.env.AUTH_NEXT_SECRET,
   providers: [
     Credentials({
       credentials: {
@@ -81,7 +82,17 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       session.user ??= {}
       session.user.id = token.sub
       session.user.permMask = token.permMask ?? 0
+
       return session
+    },
+    async signIn({ account, profile }) {
+      if (account?.provider === 'google') {
+        return (
+          profile?.email_verified && profile.email?.endsWith('@edu.uiz.ac.ma')
+        )
+      }
+
+      return true // Do different verification for other providers that don't have `email_verified`
     },
   },
 })

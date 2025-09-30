@@ -18,8 +18,8 @@ export default async function Layout({
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <StickyBanner
-        className='gap-x-4 border-b'
-        disabledRoutes={['/connexion', '/syllabus']}
+        className='gap-x-4 border-white/5 border-b bg-black/5 backdrop-blur-3xl'
+        disabledRoutes={['/connexion', '/syllabus', '/dashboard']}
         hideOnScroll>
         <div className='relative flex items-center justify-center rounded-full px-4 py-1.5 shadow-[inset_0_-8px_10px_#8fdfff1f] transition-shadow duration-500 ease-out hover:shadow-[inset_0_-5px_10px_#8fdfff3f]'>
           <span

@@ -10,7 +10,6 @@ import {
   Linkedin,
   XCircle,
 } from 'lucide-react'
-import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
 import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
@@ -51,6 +50,22 @@ const socials = (locale: string) => [
   {
     name: 'Whatsapp',
     href: 'https://chat.whatsapp.com/DoqXbd8zX7p7rUxOsEGGf9',
+    icon: (
+      <svg
+        aria-label='icon'
+        height='20px'
+        role='img'
+        viewBox='0 0 192 192'
+        width='20px'
+        xmlns='http://www.w3.org/2000/svg'>
+        <path
+          clipRule='evenodd'
+          d='M96 16c-44.183 0-80 35.817-80 80 0 13.12 3.163 25.517 8.771 36.455l-8.608 36.155a6.002 6.002 0 0 0 7.227 7.227l36.155-8.608C70.483 172.837 82.88 176 96 176c44.183 0 80-35.817 80-80s-35.817-80-80-80ZM28 96c0-37.555 30.445-68 68-68s68 30.445 68 68-30.445 68-68 68c-11.884 0-23.04-3.043-32.747-8.389a6.003 6.003 0 0 0-4.284-.581l-28.874 6.875 6.875-28.874a6.001 6.001 0 0 0-.581-4.284C31.043 119.039 28 107.884 28 96Zm46.023 21.977c11.975 11.974 27.942 20.007 45.753 21.919 11.776 1.263 20.224-8.439 20.224-18.517v-6.996a18.956 18.956 0 0 0-13.509-18.157l-.557-.167-.57-.112-8.022-1.58a18.958 18.958 0 0 0-15.25 2.568 42.144 42.144 0 0 1-7.027-7.027 18.958 18.958 0 0 0 2.569-15.252l-1.582-8.021-.112-.57-.167-.557A18.955 18.955 0 0 0 77.618 52H70.62c-10.077 0-19.78 8.446-18.517 20.223 1.912 17.81 9.944 33.779 21.92 45.754Zm33.652-10.179a6.955 6.955 0 0 1 6.916-1.743l8.453 1.665a6.957 6.957 0 0 1 4.956 6.663v6.996c0 3.841-3.124 6.995-6.943 6.585a63.903 63.903 0 0 1-26.887-9.232 64.594 64.594 0 0 1-11.661-9.241 64.592 64.592 0 0 1-9.241-11.661 63.917 63.917 0 0 1-9.232-26.888C63.626 67.123 66.78 64 70.62 64h6.997a6.955 6.955 0 0 1 6.66 4.957l1.667 8.451a6.956 6.956 0 0 1-1.743 6.917l-1.12 1.12a5.935 5.935 0 0 0-1.545 2.669c-.372 1.403-.204 2.921.603 4.223a54.119 54.119 0 0 0 7.745 9.777 54.102 54.102 0 0 0 9.778 7.746c1.302.806 2.819.975 4.223.603a5.94 5.94 0 0 0 2.669-1.545l1.12-1.12Z'
+          fill='currentColor'
+          fillRule='evenodd'
+        />
+      </svg>
+    ),
   },
   {
     name: 'Github',
@@ -140,20 +155,19 @@ export function Footer() {
         <div>
           <Logo />
           <Paragraph className='mt-6'>
-            Feature-Rich UI Library - Tailwind CSS Components.
+            Apolo 9.0 — Bureau Des Étudiants de l'ENCG de Dakhla
           </Paragraph>
           <Paragraph className='max-w-102.5'>
-            Explore a growing library of over 300+ beautifully crafted,
-            customizable components built with Tailwind CSS — perfect for any
-            project any size.
+            Centre de mission de l&apos;ENCG Dakhla, Apollo 9 propulse projets
+            et carrières via un guichet unique d&apos;opportunités, de
+            l&apos;idée à l&apos;impact.
           </Paragraph>
-          <div className='mt-3 flex items-center gap-1.5'>
+          <div className='mt-4 flex items-center gap-1.5'>
             <LanguageSwitcher />
             <ThemeSwitcher />
           </div>
         </div>
         <div className='flex w-full flex-wrap justify-between gap-6 md:w-1/2'>
-          {/* max-md:gap-10 */}
           {categories(t).map((cat) => (
             <div key={cat.title}>
               <Title as='h5' className='mb-2 md:mb-5'>
@@ -163,7 +177,7 @@ export function Footer() {
                 {cat.links.map((link) => (
                   <li key={link.name}>
                     <Link
-                      className='block transition hover:text-indigo-500'
+                      className='block transition hover:text-[#69B755]'
                       href={link.href}>
                       {link.name}
                     </Link>
@@ -208,27 +222,22 @@ export function Footer() {
         </p>
         <div className='flex divide-x divide-gray-300 text-sm'>
           {socials(locale).map(
-            (social): React.ReactNode => (
-              <Link
-                className='flex items-center gap-x-2 px-6 transition-all hover:text-indigo-500'
-                href={social.href}
-                key={social.name}
-                rel='noreferrer'
-                target='_blank'>
-                {social.icon ? (
-                  <social.icon />
-                ) : (
-                  <Image
-                    alt={social.name}
-                    className='text-foreground'
-                    height={20}
-                    src={`/icons/${social.name.toLowerCase()}.svg`}
-                    width={20}
-                  />
-                )}
-                {social.name}
-              </Link>
-            ),
+            ({ icon: Icon, name, href }): React.ReactNode => {
+              // @ts-expect-error
+              // biome-ignore lint/suspicious/noExplicitAny: lazy for fix types lmao
+              const iconRender = (Icon.type !== 'svg' ? <Icon /> : Icon) as any
+              return (
+                <Link
+                  className='flex items-center gap-x-2 px-6 transition-all hover:text-[#69B755]'
+                  href={href}
+                  key={name}
+                  rel='noreferrer'
+                  target='_blank'>
+                  {iconRender}
+                  {name}
+                </Link>
+              )
+            },
           )}
         </div>
       </div>

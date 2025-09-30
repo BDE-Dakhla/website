@@ -35,7 +35,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-import { Link } from '@/i18n/routing'
+import { Link, usePathname } from '@/i18n/routing'
 import { Logo } from './logo'
 
 interface MenuItem {
@@ -56,6 +56,12 @@ interface NavBarProps {
 
 export const NavBar = (props: NavBarProps): React.ReactElement => {
   const t = useTranslations()
+  const pathname = usePathname()
+  const isActive = (href: string) => {
+    const path = pathname ?? '/'
+    if (href === '/') return path === '/'
+    return path === href || path.startsWith(href + '/')
+  }
 
   const {
     menu = [
@@ -98,7 +104,7 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
 
   return (
     <header className='container mx-auto p-8'>
-      <nav className='hidden justify-between lg:flex'>
+      <nav className='hidden items-center justify-between lg:flex'>
         <div className='flex items-center gap-6'>
           <Link className='flex items-center gap-2' href='/'>
             <Logo />
@@ -106,19 +112,21 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
           <div className='flex items-center'>
             <NavigationMenu viewport={false}>
               <NavigationMenuList>
-                {menu.map((item) => renderMenuItem(item))}
+                {menu.map((item) => renderMenuItem(item, isActive))}
               </NavigationMenuList>
             </NavigationMenu>
           </div>
         </div>
         <div className='flex gap-2'>
           <Button asChild size='sm' variant='outline'>
-            <Link className='flex items-center gap-x-2' href='/contact'>
-              <Phone />
+            <Link
+              className='!px-3 flex items-center gap-x-2 py-4'
+              href='/contact'>
+              <Phone className='!size-4' />
               Nous contacter
             </Link>
           </Button>
-          <Button size='sm'>
+          <Button asChild size='sm'>
             <Link className='flex items-center gap-x-2' href='/syllabus'>
               <GraduationCap />
               {t('common.syllabus')}
@@ -150,7 +158,7 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
                 className='flex w-full flex-col gap-4'
                 collapsible
                 type='single'>
-                {menu.map((item) => renderMobileMenuItem(item))}
+                {menu.map((item) => renderMobileMenuItem(item, isActive))}
               </Accordion>
               <div className='border-t py-4'>
                 <div className='grid grid-cols-2 justify-start'>
@@ -180,12 +188,23 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
   )
 }
 
-const renderMenuItem = (item: MenuItem) => {
+const renderMenuItem = (
+  item: MenuItem,
+  isActive: (href: string) => boolean,
+) => {
   if (item.items) {
+    const groupActive =
+      isActive(item.url) || item.items.some((sub) => isActive(sub.url))
+
     return (
       <NavigationMenuItem className='text-muted-foreground' key={item.title}>
-        <NavigationMenuTrigger>
-          {item.icon && <item.icon className='mr-2' />}
+        <NavigationMenuTrigger
+          className={
+            groupActive
+              ? 'bg-muted text-accent-foreground'
+              : 'text-muted-foreground'
+          }>
+          {item.icon && <item.icon className='mr-3' />}
           {item.title}
         </NavigationMenuTrigger>
         <NavigationMenuContent>
@@ -194,7 +213,8 @@ const renderMenuItem = (item: MenuItem) => {
               <li key={subItem.title}>
                 <NavigationMenuLink asChild>
                   <Link
-                    className='flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-muted hover:text-accent-foreground'
+                    aria-current={isActive(subItem.url) ? 'page' : undefined}
+                    className={`flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-muted hover:text-accent-foreground ${isActive(subItem.url) ? 'bg-muted text-accent-foreground' : ''}`}
                     href={subItem.url}>
                     {subItem.icon && <subItem.icon />}
                     <span className='w-full'>
@@ -217,32 +237,39 @@ const renderMenuItem = (item: MenuItem) => {
     )
   }
 
+  const active = isActive(item.url)
+
   return (
-    <NavigationMenuItem key={item.title}>
-      <NavigationMenuLink asChild>
-        <Link
-          className='group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 font-medium text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-accent-foreground'
-          href={item.url}>
-          {item.icon && <item.icon className='mr-2' />}
-          {item.title}
-        </Link>
-      </NavigationMenuLink>
-    </NavigationMenuItem>
+    <Link
+      aria-current={active ? 'page' : undefined}
+      className={`flex w-max items-center justify-center rounded-md bg-background px-4 py-2 font-medium text-sm transition-colors hover:bg-muted hover:text-accent-foreground ${active ? 'bg-muted text-accent-foreground' : 'text-muted-foreground'}`}
+      href={item.url}
+      key={item.title}>
+      {item.icon && <item.icon className='mr-3' />}
+      <span>{item.title}</span>
+    </Link>
   )
 }
-
-const renderMobileMenuItem = (item: MenuItem) => {
+const renderMobileMenuItem = (
+  item: MenuItem,
+  isActive: (href: string) => boolean,
+) => {
   if (item.items) {
+    const groupActive =
+      isActive(item.url) || item.items.some((sub) => isActive(sub.url))
+
     return (
       <AccordionItem className='border-b-0' key={item.title} value={item.title}>
-        <AccordionTrigger className='py-0 font-semibold hover:no-underline'>
+        <AccordionTrigger
+          className={`py-0 font-semibold hover:no-underline ${groupActive ? 'text-accent-foreground' : ''}`}>
           {item.icon && <item.icon />}
           {item.title}
         </AccordionTrigger>
         <AccordionContent className='mt-2'>
           {item.items.map((subItem) => (
             <Link
-              className='flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-muted hover:text-accent-foreground'
+              aria-current={isActive(subItem.url) ? 'page' : undefined}
+              className={`flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-muted hover:text-accent-foreground ${isActive(subItem.url) ? 'bg-muted text-accent-foreground' : ''}`}
               href={subItem.url}
               key={subItem.title}>
               {subItem.icon && <subItem.icon />}
@@ -261,8 +288,14 @@ const renderMobileMenuItem = (item: MenuItem) => {
     )
   }
 
+  const active = isActive(item.url)
+
   return (
-    <Link className='font-semibold' href={item.url} key={item.title}>
+    <Link
+      aria-current={active ? 'page' : undefined}
+      className={`font-semibold ${active ? 'text-accent-foreground' : ''}`}
+      href={item.url}
+      key={item.title}>
       {item.icon && <item.icon />}
       {item.title}
     </Link>

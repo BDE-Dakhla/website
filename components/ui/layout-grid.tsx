@@ -49,7 +49,7 @@ export const LayoutGrid = ({ cards, className }: Props) => {
         <div className={cn(card.className, 'p-2')} key={card.id}>
           <motion.button
             aria-label='Expand image'
-            className='relative block h-full w-full overflow-hidden rounded-xl bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+            className='relative block h-full w-full overflow-hidden rounded-xl bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring dark:bg-black'
             layoutId={`card-${card.id}`}
             onClick={() => setSelected(card)}
             type='button'>
@@ -78,7 +78,7 @@ export const LayoutGrid = ({ cards, className }: Props) => {
             <motion.button
               animate={{ opacity: 1 }}
               aria-label='Close'
-              className='absolute inset-0 h-full w-full bg-black/80'
+              className='absolute inset-0 h-full w-full bg-black/50 backdrop-blur-xl'
               exit={{ opacity: 0 }}
               initial={{ opacity: 0 }}
               onClick={() => setSelected(null)}

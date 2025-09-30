@@ -176,7 +176,7 @@
 }
 
 .lucide {
-  @apply size-5;
+  @apply size-4.5;
   stroke-width: 1.5;
 }
 

@@ -6,5 +6,8 @@
     "source.fixAll.biome": "always",
     "source.biome": "always",
     "source.addMissingImports.ts": "always"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

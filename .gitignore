@@ -5,3 +5,4 @@
 .env
 next-env.d.ts
 .source/
+data

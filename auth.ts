@@ -2,7 +2,7 @@ import 'server-only'
 
 import type { Kysely } from 'kysely'
 import { type Database as AuthDb, KyselyAdapter } from '@auth/kysely-adapter'
-import { compare } from 'bcryptjs'
+import { compareSync } from 'bcryptjs'
 import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import Google from 'next-auth/providers/google'
@@ -34,7 +34,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
         if (!user) return null
 
-        const isMatching = await compare(password, user.password)
+        const isMatching = compareSync(password, user.password ?? '')
         if (!isMatching) return null
 
         // remove password key
@@ -58,41 +58,75 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     async jwt({ token, user }) {
       const db = getDb()
 
-      // On first sign-in
       if (user?.id) {
         const row = await db
           .selectFrom('User')
-          .select(['permissions'])
+          .select(['permissions', 'role'])
           .where('id', '=', user.id)
           .executeTakeFirst()
 
-        // @ts-expect-error
-        token.permMask = row?.permissions ?? 0
+        const permMask = row?.permissions ?? 0
+        const role = row?.role ?? 'student'
 
-        return token
+        if (!row?.role) {
+          await db
+            .updateTable('User')
+            .set({ role })
+            .where('id', '=', user.id)
+            .execute()
+        }
+
+        return {
+          sub: user.id,
+          permMask,
+          role,
+        }
       }
 
-      // Later requests: reuse if present, otherwise fetch once
-      if (token.permMask == null && token.sub) {
+      const { sub } = token
+      let permMask = token.permMask as number | undefined
+      let role = token.role as
+        | 'student'
+        | 'professor'
+        | 'contributor'
+        | 'developer'
+        | 'administrator'
+        | undefined
+
+      if ((!permMask || !role) && sub) {
         const row = await db
           .selectFrom('User')
-          .select(['permissions'])
-          .where('id', '=', token.sub)
+          .select(['permissions', 'role'])
+          .where('id', '=', sub)
           .executeTakeFirst()
 
-        // @ts-expect-error
-        token.permMask = row?.permissions ?? 0
+        permMask = row?.permissions ?? 0
+        role = row?.role ?? 'student'
       }
 
-      return token
+      return {
+        sub,
+        permMask: permMask ?? 0,
+        role: role ?? 'student',
+      }
     },
+
     async session({ session, token }) {
       session.user ??= {}
       session.user.id = token.sub
       session.user.permMask = token.permMask ?? 0
+      session.user.role =
+        token.role ??
+        ('student' as
+          | 'student'
+          | 'professor'
+          | 'contributor'
+          | 'developer'
+          | 'administrator')
 
       return session
     },
+
     async signIn({ account, profile }) {
       if (account?.provider === 'google') {
         return Boolean(
@@ -100,7 +134,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         )
       }
 
-      return true // forbid non-ENCG students
+      return true
     },
   },
 })

@@ -1,4 +1,3 @@
-import type * as React from 'react'
 import { Link } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 
@@ -10,7 +9,7 @@ const headingClasses: Record<HeadingTag, string> = {
   h3: 'scroll-m-20 text-2xl font-semibold tracking-tight',
   h4: 'scroll-m-20 text-xl font-semibold tracking-tight',
   h5: 'scroll-m-20 text-lg font-semibold tracking-tight',
-  h6: 'scroll-m-20 text-base font-semibold tracking-tight',
+  h6: 'scroll-m-20 text-base font-semibold tracking-tight'
 }
 
 export type TitleProps = React.HTMLAttributes<HTMLHeadingElement> & {
@@ -32,16 +31,10 @@ export type ParagraphProps = React.HTMLAttributes<HTMLParagraphElement> & {
 const paragraphSize: Record<NonNullable<ParagraphProps['size']>, string> = {
   sm: 'text-sm leading-6',
   md: 'text-base leading-7',
-  lg: 'text-lg leading-8',
+  lg: 'text-lg leading-8'
 }
 
-export function Paragraph({
-  as = 'p',
-  size = 'md',
-  muted = false,
-  className,
-  ...props
-}: ParagraphProps) {
+export function Paragraph({ as = 'p', size = 'md', muted = false, className, ...props }: ParagraphProps) {
   const Component = as as unknown as React.ElementType
   return (
     <Component
@@ -49,7 +42,7 @@ export function Paragraph({
         paragraphSize[size],
         muted ? 'text-muted-foreground' : 'text-foreground',
         '[&:not(:first-child)]:mt-4',
-        className,
+        className
       )}
       {...props}
     />
@@ -64,24 +57,13 @@ export type AProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
   newTab?: boolean
 }
 
-export function A({
-  href,
-  className,
-  locale,
-  prefetch,
-  newTab,
-  ...props
-}: AProps) {
-  const isExternal =
-    newTab ||
-    /^(https?:)?\/\//.test(href) ||
-    href.startsWith('mailto:') ||
-    href.startsWith('tel:')
+export function A({ href, className, locale, prefetch, newTab, ...props }: AProps) {
+  const isExternal = newTab || /^(https?:)?\/\//.test(href) || href.startsWith('mailto:') || href.startsWith('tel:')
 
   const classes = cn(
     'font-medium underline underline-offset-4 hover:underline hover:text-primary',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-    className,
+    className
   )
 
   if (isExternal) {
@@ -96,13 +78,5 @@ export function A({
     )
   }
 
-  return (
-    <Link
-      className={classes}
-      href={href}
-      locale={locale}
-      prefetch={prefetch}
-      {...props}
-    />
-  )
+  return <Link className={classes} href={href} locale={locale} prefetch={prefetch} {...props} />
 }

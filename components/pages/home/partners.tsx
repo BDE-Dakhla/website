@@ -1,20 +1,12 @@
 import type { Sponsor } from '@/types/schema'
 import Image from 'next/image'
 import useSWR from 'swr'
-import {
-  Marquee,
-  MarqueeContent,
-  MarqueeFade,
-  MarqueeItem,
-} from '@/components/ui/shadcn-io/marquee'
+import { Marquee, MarqueeContent, MarqueeFade, MarqueeItem } from '@/components/ui/marquee'
 import { SparklesCore } from '@/components/ui/sparkles'
 import { cn } from '@/lib/utils'
 
 export function Partners() {
-  const { data: sponsors = [] } = useSWR<Sponsor[]>(
-    '/api/sponsors',
-    (url: string) => fetch(url).then((r) => r.json()),
-  )
+  const { data: sponsors = [] } = useSWR<Sponsor[]>('/api/sponsors', (url: string) => fetch(url).then((r) => r.json()))
 
   if (sponsors.length === 0) return null
 
@@ -22,9 +14,7 @@ export function Partners() {
     <section aria-label='partners' className='mt-28 mb-8 overflow-hidden'>
       <div className='container mx-auto'>
         <div className='flex flex-col text-center text-3xl text-white'>
-          <span className='text-black dark:text-white'>
-            Trusted by experts.
-          </span>
+          <span className='text-black dark:text-white'>Trusted by experts.</span>
           <span className='text-black dark:text-white'>Used by leaders.</span>
         </div>
         <Marquee>
@@ -53,7 +43,7 @@ export function Partners() {
           '[mask-image:radial-gradient(50%_50%,white,transparent)]',
           'before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_bottom_center,#69B755,transparent_70%)]',
           'before:opacity-40 after:absolute after:top-1/2 after:aspect-[1/0.7] after:w-[200%] after:rounded-[100%]',
-          'after:border-[#69B75575] after:border-t after:bg-gray-200 dark:after:bg-zinc-900',
+          'after:border-[#69B75575] after:border-t after:bg-gray-200 dark:after:bg-zinc-900'
         )}>
         <SparklesCore
           background='#69B755'

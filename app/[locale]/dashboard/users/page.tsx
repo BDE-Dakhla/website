@@ -12,13 +12,9 @@ export default async function Page() {
 
   return (
     <UsersProvider>
-      <div className='flex flex-col gap-4 py-4 md:gap-6 md:py-6'>
-        <SubHeader />
+      <SubHeader />
 
-        <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0'>
-          <Hi users={users} />
-        </div>
-      </div>
+      <Hi users={users} />
 
       <UsersDialogs />
     </UsersProvider>

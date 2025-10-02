@@ -34,35 +34,19 @@ export const usersColumns: ColumnDef<User>[] = [
     enableHiding: false
   },
   {
-    accessorKey: 'username',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Username' />,
-    cell: ({ row }) => <LongText className='max-w-36 ps-3'>{row.getValue('username')}</LongText>,
-    meta: {
-      className: cn(
-        'drop-shadow-[0_1px_2px_rgb(0_0_0_/_0.1)] dark:drop-shadow-[0_1px_2px_rgb(255_255_255_/_0.1)]',
-        'sticky start-6 @4xl/content:table-cell @4xl/content:drop-shadow-none'
-      )
-    },
-    enableHiding: false
-  },
-  {
-    id: 'fullName',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Name' />,
-    cell: ({ row }) => {
-      const { firstName, lastName } = row.original
-      const fullName = `${firstName} ${lastName}`
-      return <LongText className='max-w-36'>{fullName}</LongText>
-    },
+    id: 'username',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='Nom complet' />,
+    cell: ({ row }) => <LongText className='max-w-36'>{row.original.username}</LongText>,
     meta: { className: 'w-36' }
   },
   {
     accessorKey: 'email',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Email' />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title='Adresse mail' />,
     cell: ({ row }) => <div className='w-fit text-nowrap'>{row.getValue('email')}</div>
   },
   {
     accessorKey: 'phoneNumber',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Phone Number' />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title='Numéro de téléphone' />,
     cell: ({ row }) => <div>{row.getValue('phoneNumber')}</div>,
     enableSorting: false
   },
@@ -110,8 +94,5 @@ export const usersColumns: ColumnDef<User>[] = [
     enableSorting: false,
     enableHiding: false
   },
-  {
-    id: 'actions',
-    cell: DataTableRowActions
-  }
+  { id: 'actions', cell: DataTableRowActions }
 ]

@@ -6,8 +6,8 @@ import type {
   Selectable,
   Updateable,
 } from 'kysely'
+import type { Role } from '@/components/schema'
 
-// Keep permissions definition in a single place (prefer your lib/permissions file)
 type PermissionMask = number
 
 interface AppDatabase {
@@ -15,15 +15,13 @@ interface AppDatabase {
   SubscriptionTokens: SubscriptionTokens
   Campaigns: Campaigns
   CampaignRecipients: CampaignRecipients
-  sponsors: SponsorTable // <-- add this
+  sponsors: SponsorTable
 }
 
 interface UserExtra {
   cdm: string | null
-  first_name: string | null
-  last_name: string | null
-  // remove if you don't have this column in your migration
-  // identity: 'student' | 'professor' | null
+  username: string | null
+  role: Role
   permissions: PermissionMask
   password: string | null
 }
@@ -32,7 +30,6 @@ export type Database = Omit<AuthDb, 'User'> & {
   User: AuthDb['User'] & UserExtra
 } & AppDatabase
 
-// ----- newsletter tables (unchanged) -----
 export type SubscriberStatus = 'pending' | 'active' | 'unsubscribed' | 'bounced'
 export type TokenType = 'confirm'
 export type CampaignStatus =
@@ -86,9 +83,7 @@ interface CampaignRecipients {
   last_error: string | null
 }
 
-// ----- sponsors -----
 interface SponsorTable {
-  // uuid default gen_random_uuid()
   id: Generated<string>
 
   name: string
@@ -98,7 +93,6 @@ interface SponsorTable {
   website_url: string | null
   logo_url: string
 
-  // defaults in DB -> allow omitting on insert
   priority: ColumnType<number, number | undefined, number> // default 100
   is_featured: ColumnType<boolean, boolean | undefined, boolean> // default false
   approved: ColumnType<boolean, boolean | undefined, boolean> // default false

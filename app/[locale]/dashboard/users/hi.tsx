@@ -8,12 +8,8 @@ export function Hi({ users }: any) {
 
   return (
     <UsersTable
-      data={users}
-      navigate={({ search: s }: any) => {
-        // adapter if your table calls navigate({ search: fn | obj })
-        const patch = typeof s === 'function' ? s(search) : s
-        setSearch(patch)
-      }}
+      data={users.map((user: any) => ({ ...user, username: user.name }))}
+      navigate={({ search: s }: any) => setSearch(s(search))}
       search={search}
     />
   )

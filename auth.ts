@@ -28,7 +28,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         const db = getDb()
         const user = await db
           .selectFrom('User')
-          .select(['id', 'cdm', 'first_name', 'last_name', 'email', 'password'])
+          .select(['id', 'cdm', 'username', 'email', 'password'])
           .where('cdm', '=', cdm)
           .executeTakeFirst()
 

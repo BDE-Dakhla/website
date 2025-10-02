@@ -28,9 +28,15 @@ export const defaultLocale: Locale = LANGS.find((l): boolean => {
 })?.locale as Locale
 export const localePrefix = 'as-needed'
 
-export const { Link, useRouter, usePathname, redirect, permanentRedirect } =
-  createNavigation({
-    locales,
-    localePrefix,
-    defaultLocale,
-  })
+export const {
+  Link,
+  useRouter,
+  getPathname,
+  usePathname,
+  redirect,
+  permanentRedirect,
+} = createNavigation({
+  locales,
+  localePrefix,
+  defaultLocale,
+})

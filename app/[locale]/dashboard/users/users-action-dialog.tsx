@@ -22,8 +22,6 @@ import { SelectDropdown } from './select-dropdown'
 
 const formSchema = z
   .object({
-    firstName: z.string().min(1, 'First Name is required.'),
-    lastName: z.string().min(1, 'Last Name is required.'),
     username: z.string().min(1, 'Username is required.'),
     phoneNumber: z.string().min(1, 'Phone number is required.'),
     email: z.email({
@@ -104,8 +102,6 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: UserAction
           isEdit
         }
       : {
-          firstName: '',
-          lastName: '',
           username: '',
           email: '',
           role: '',
@@ -133,21 +129,18 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: UserAction
       open={open}>
       <DialogContent className='sm:max-w-lg'>
         <DialogHeader className='text-start'>
-          <DialogTitle>{isEdit ? 'Edit User' : 'Add New User'}</DialogTitle>
-          <DialogDescription>
-            {isEdit ? 'Update the user here. ' : 'Create new user here. '}
-            Click save when you&apos;re done.
-          </DialogDescription>
+          <DialogTitle>{isEdit ? "Mettez à jour les données de l'" : 'Créer un nouveau'} utilisateur</DialogTitle>
+          <DialogDescription>Cliquez sur le bouton Sauvegarder lorsque vous avez fini.</DialogDescription>
         </DialogHeader>
         <div className='h-[26.25rem] w-[calc(100%+0.75rem)] overflow-y-auto py-1 pe-3'>
           <Form {...form}>
             <form className='space-y-4 px-0.5' id='user-form' onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
-                name='firstName'
+                name='username'
                 render={({ field }) => (
                   <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
-                    <FormLabel className='col-span-2 text-end'>First Name</FormLabel>
+                    <FormLabel className='col-span-2 text-end'>Nom complet</FormLabel>
                     <FormControl>
                       <Input autoComplete='off' className='col-span-4' placeholder='John' {...field} />
                     </FormControl>
@@ -155,32 +148,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: UserAction
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name='lastName'
-                render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
-                    <FormLabel className='col-span-2 text-end'>Last Name</FormLabel>
-                    <FormControl>
-                      <Input autoComplete='off' className='col-span-4' placeholder='Doe' {...field} />
-                    </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='username'
-                render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
-                    <FormLabel className='col-span-2 text-end'>Username</FormLabel>
-                    <FormControl>
-                      <Input className='col-span-4' placeholder='john_doe' {...field} />
-                    </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
-                  </FormItem>
-                )}
-              />
+
               <FormField
                 control={form.control}
                 name='email'
@@ -194,6 +162,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: UserAction
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name='phoneNumber'
@@ -207,6 +176,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: UserAction
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name='role'
@@ -227,6 +197,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: UserAction
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name='password'
@@ -240,6 +211,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: UserAction
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name='confirmPassword'
@@ -261,9 +233,10 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: UserAction
             </form>
           </Form>
         </div>
+
         <DialogFooter>
           <Button form='user-form' type='submit'>
-            Save changes
+            Sauvegarder
           </Button>
         </DialogFooter>
       </DialogContent>

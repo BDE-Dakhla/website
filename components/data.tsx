@@ -1,5 +1,5 @@
-import type { UserStatus } from './schema'
-import { CreditCard, Shield, UserCheck, Users } from 'lucide-react'
+import type { Role, UserStatus } from './schema'
+import { Award, Glasses, GraduationCap, type LucideIcon, ShieldUser, Wrench } from 'lucide-react'
 
 export const callTypes = new Map<UserStatus, string>([
   ['active', 'bg-teal-100/30 text-teal-900 dark:text-teal-200 border-teal-200'],
@@ -10,23 +10,34 @@ export const callTypes = new Map<UserStatus, string>([
 
 export const roles = [
   {
-    label: 'Superadmin',
-    value: 'superadmin',
-    icon: Shield
+    label: 'Contributeur',
+    value: 'contributor',
+    icon: Award
   },
   {
-    label: 'Admin',
-    value: 'admin',
-    icon: UserCheck
+    label: 'Développeur',
+    value: 'developer',
+    icon: Wrench
   },
   {
-    label: 'Manager',
-    value: 'manager',
-    icon: Users
+    label: 'Étudiant',
+    value: 'student',
+    icon: GraduationCap
   },
   {
-    label: 'Cashier',
-    value: 'cashier',
-    icon: CreditCard
+    label: 'Professeur',
+    value: 'teacher',
+    icon: Glasses
+  },
+  {
+    label: 'Administrateur',
+    value: 'administrator',
+    icon: ShieldUser
   }
-] as const
+] as ReadonlyArray<
+  Readonly<{
+    value: Role
+    label: string
+    icon: LucideIcon
+  }>
+>

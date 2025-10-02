@@ -14,9 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <DashboardSideBar variant='floating' />
       <SidebarInset>
         <SiteHeader />
-        <div className='flex flex-1 flex-col'>
-          <div className='@container/main flex flex-1 flex-col gap-2'>{children}</div>
-        </div>
+        <main className='@7xl/content:mx-auto @7xl/content:w-full @7xl/content:max-w-7xl px-4 py-6'>{children}</main>
       </SidebarInset>
     </SidebarProvider>
   )

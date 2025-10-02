@@ -62,13 +62,7 @@ export function UsersTable({ data, search, navigate }: DataTableProps) {
   const table = useReactTable({
     data,
     columns,
-    state: {
-      sorting,
-      pagination,
-      rowSelection,
-      columnFilters,
-      columnVisibility
-    },
+    state: { sorting, pagination, rowSelection, columnFilters, columnVisibility },
     enableRowSelection: true,
     onPaginationChange,
     onColumnFiltersChange,
@@ -151,7 +145,7 @@ export function UsersTable({ data, search, navigate }: DataTableProps) {
             ) : (
               <TableRow>
                 <TableCell className='h-24 text-center' colSpan={columns.length}>
-                  No results.
+                  Aucun résultat n&apos;a été trouvé.
                 </TableCell>
               </TableRow>
             )}

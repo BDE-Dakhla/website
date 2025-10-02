@@ -22,7 +22,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
       style={{ overflowClipMargin: 1 }}>
       <div className='flex w-full items-center justify-between'>
         <div className='flex @2xl/content:hidden w-[100px] items-center justify-center font-medium text-sm'>
-          Page {currentPage} of {totalPages}
+          Page {currentPage} sur {totalPages}
         </div>
         <div className='flex @max-2xl/content:flex-row-reverse items-center gap-2'>
           <Select
@@ -41,13 +41,13 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
               ))}
             </SelectContent>
           </Select>
-          <p className='hidden font-medium text-sm sm:block'>Rows per page</p>
+          <p className='hidden font-medium text-sm sm:block'>Lignes par page</p>
         </div>
       </div>
 
       <div className='flex items-center sm:space-x-6 lg:space-x-8'>
         <div className='flex @max-3xl/content:hidden w-[100px] items-center justify-center font-medium text-sm'>
-          Page {currentPage} of {totalPages}
+          Page {currentPage} sur {totalPages}
         </div>
         <div className='flex items-center space-x-2'>
           <Button
@@ -55,7 +55,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
             disabled={!table.getCanPreviousPage()}
             onClick={() => table.setPageIndex(0)}
             variant='outline'>
-            <span className='sr-only'>Go to first page</span>
+            <span className='sr-only'>Aller à la première page</span>
             <DoubleArrowLeftIcon className='h-4 w-4' />
           </Button>
           <Button
@@ -63,13 +63,13 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
             disabled={!table.getCanPreviousPage()}
             onClick={() => table.previousPage()}
             variant='outline'>
-            <span className='sr-only'>Go to previous page</span>
+            <span className='sr-only'>Revenir à la page précédente</span>
             <ChevronLeftIcon className='h-4 w-4' />
           </Button>
 
           {/* Page number buttons */}
-          {pageNumbers.map((pageNumber, index) => (
-            <div className='flex items-center' key={`${pageNumber}-${index}`}>
+          {pageNumbers.map((pageNumber) => (
+            <div className='flex items-center' key={pageNumber}>
               {pageNumber === '...' ? (
                 <span className='px-1 text-muted-foreground text-sm'>...</span>
               ) : (
@@ -77,7 +77,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
                   className='h-8 min-w-8 px-2'
                   onClick={() => table.setPageIndex((pageNumber as number) - 1)}
                   variant={currentPage === pageNumber ? 'default' : 'outline'}>
-                  <span className='sr-only'>Go to page {pageNumber}</span>
+                  <span className='sr-only'>Aller à la page {pageNumber}</span>
                   {pageNumber}
                 </Button>
               )}
@@ -89,7 +89,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
             disabled={!table.getCanNextPage()}
             onClick={() => table.nextPage()}
             variant='outline'>
-            <span className='sr-only'>Go to next page</span>
+            <span className='sr-only'>Aller à la page suivante</span>
             <ChevronRightIcon className='h-4 w-4' />
           </Button>
           <Button
@@ -97,7 +97,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
             disabled={!table.getCanNextPage()}
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             variant='outline'>
-            <span className='sr-only'>Go to last page</span>
+            <span className='sr-only'>Aller à la dernière page</span>
             <DoubleArrowRightIcon className='h-4 w-4' />
           </Button>
         </div>

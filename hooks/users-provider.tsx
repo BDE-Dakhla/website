@@ -22,7 +22,6 @@ export function UsersProvider({ children }: { children: React.ReactNode }) {
   return <UsersContext value={{ open, setOpen, currentRow, setCurrentRow }}>{children}</UsersContext>
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useUsers = () => {
   const usersContext = useContext(UsersContext)
 

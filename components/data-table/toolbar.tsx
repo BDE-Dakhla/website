@@ -5,27 +5,27 @@ import { Input } from '@/components/ui/input'
 import { DataTableFacetedFilter } from '../faceted-filter'
 import { DataTableViewOptions } from '../view-options'
 
-type DataTableToolbarProps<TData> = {
-  table: Table<TData>
+interface DataTableToolbarProps<T> {
+  table: Table<T>
   searchPlaceholder?: string
   searchKey?: string
-  filters?: {
+  filters?: Array<{
     columnId: string
     title: string
-    options: {
+    options: Array<{
       label: string
       value: string
       icon?: React.ComponentType<{ className?: string }>
-    }[]
-  }[]
+    }>
+  }>
 }
 
-export function DataTableToolbar<TData>({
+export function DataTableToolbar<T>({
   table,
   searchPlaceholder = 'Filter...',
   searchKey,
   filters = []
-}: DataTableToolbarProps<TData>) {
+}: DataTableToolbarProps<T>) {
   const isFiltered = table.getState().columnFilters.length > 0 || table.getState().globalFilter
 
   return (

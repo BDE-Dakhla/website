@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label'
 import { showSubmittedData } from '@/lib/utils'
 import { ConfirmDialog } from './confirm-dialog'
 
-type UserDeleteDialogProps = {
+interface UserDeleteDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   currentRow: User
@@ -22,7 +22,7 @@ export function UsersDeleteDialog({ open, onOpenChange, currentRow }: UserDelete
     if (value.trim() !== currentRow.username) return
 
     onOpenChange(false)
-    showSubmittedData(currentRow, 'The following user has been deleted:')
+    showSubmittedData(currentRow, "L'utilisateur a été supprimé.")
   }
 
   return (
@@ -31,24 +31,25 @@ export function UsersDeleteDialog({ open, onOpenChange, currentRow }: UserDelete
       desc={
         <div className='space-y-4'>
           <p className='mb-2'>
-            Are you sure you want to delete <span className='font-bold'>{currentRow.username}</span>?
+            Êtes-vous certain de vouloir supprimer
+            <span className='ml-1 font-bold'>{currentRow.username}</span> ?
             <br />
-            This action will permanently remove the user with the role of{' '}
-            <span className='font-bold'>{currentRow.role.toUpperCase()}</span> from the system. This cannot be undone.
+            Cette action va supprimer de manière permanente l&apos;utilisateur avec le role de{' '}
+            <span className='font-bold'>{currentRow.role.toUpperCase()}</span> du système.
           </p>
 
           <Label className='my-2'>
-            Username:
+            Nom complet:
             <Input
               onChange={(e) => setValue(e.target.value)}
-              placeholder='Enter username to confirm deletion.'
+              placeholder="Saisissez le nom complet de l'utilisateur pour confirmer la suppression."
               value={value}
             />
           </Label>
 
           <Alert variant='destructive'>
-            <AlertTitle>Warning!</AlertTitle>
-            <AlertDescription>Please be careful, this operation can not be rolled back.</AlertDescription>
+            <AlertTitle>Attention !</AlertTitle>
+            <AlertDescription>Soyez prudent, cette action est irréversible.</AlertDescription>
           </Alert>
         </div>
       }
@@ -59,7 +60,7 @@ export function UsersDeleteDialog({ open, onOpenChange, currentRow }: UserDelete
       open={open}
       title={
         <span className='text-destructive'>
-          <AlertTriangle className='me-1 inline-block stroke-destructive' size={18} /> Delete User
+          <AlertTriangle className='me-1 inline-block stroke-destructive' size={18} /> Supprimer l&apos;utilisateur
         </span>
       }
     />

@@ -16,16 +16,15 @@ interface UserMultiDeleteDialogProps<TData> {
   table: Table<TData>
 }
 
-const CONFIRM_WORD = 'DELETE'
+const CONFIRM_WORD = 'SUPPRIMER'
 
 export function UsersMultiDeleteDialog<TData>({ open, onOpenChange, table }: UserMultiDeleteDialogProps<TData>) {
   const [value, setValue] = useState('')
-
   const selectedRows = table.getFilteredSelectedRowModel().rows
 
   const handleDelete = () => {
     if (value.trim() !== CONFIRM_WORD) {
-      toast.error(`Please type "${CONFIRM_WORD}" to confirm.`)
+      toast.error(`Veuillez entrer "${CONFIRM_WORD}" pour confirmer.`)
       return
     }
 
@@ -47,22 +46,22 @@ export function UsersMultiDeleteDialog<TData>({ open, onOpenChange, table }: Use
       desc={
         <div className='space-y-4'>
           <p className='mb-2'>
-            Are you sure you want to delete the selected users? <br />
-            This action cannot be undone.
+            Êtes-vous certain de vouloir supprimer les {selectedRows.length}{' '}
+            {selectedRows.length > 1 ? 'utilisateurs' : 'utilisateur'} sélectionnés ? <br />
           </p>
 
           <Label className='my-4 flex flex-col items-start gap-1.5'>
-            <span className=''>Confirm by typing "{CONFIRM_WORD}":</span>
+            <span>Confirmer en saisissant "{CONFIRM_WORD}":</span>
             <Input
               onChange={(e) => setValue(e.target.value)}
-              placeholder={`Type "${CONFIRM_WORD}" to confirm.`}
+              placeholder={`Saisissez "${CONFIRM_WORD}" pour confirmer.`}
               value={value}
             />
           </Label>
 
           <Alert variant='destructive'>
-            <AlertTitle>Warning!</AlertTitle>
-            <AlertDescription>Please be careful, this operation can not be rolled back.</AlertDescription>
+            <AlertTitle>Attention !</AlertTitle>
+            <AlertDescription>Soyez prudent, cette action est irréversible.</AlertDescription>
           </Alert>
         </div>
       }
@@ -73,7 +72,7 @@ export function UsersMultiDeleteDialog<TData>({ open, onOpenChange, table }: Use
       open={open}
       title={
         <span className='text-destructive'>
-          <AlertTriangle className='me-1 inline-block stroke-destructive' size={18} /> Delete {selectedRows.length}{' '}
+          <AlertTriangle className='me-1 inline-block stroke-destructive' size={18} /> Supprimer {selectedRows.length}{' '}
           {selectedRows.length > 1 ? 'users' : 'user'}
         </span>
       }

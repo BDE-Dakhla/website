@@ -16,7 +16,7 @@ import {
 const data = {
   navMain: [
     { title: 'Statistiques', url: '/dashboard/analytics', icon: ChartPie },
-    { title: "Member de l'équipge", url: '/dashboard/members', icon: Users },
+    { title: "Member de l'équipage", url: '/dashboard/members', icon: Users },
     {
       title: 'Sponsors & Partenaires',
       url: '/dashboard/partners',
@@ -77,18 +77,19 @@ export function DashboardSideBar({ ...props }: React.ComponentProps<typeof Sideb
             <svg
               aria-label='icon'
               fill='none'
-              height='24'
+              height='22'
               role='img'
               stroke='currentColor'
-              stroke-linecap='round'
-              stroke-linejoin='round'
-              stroke-width='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth='2'
               viewBox='0 0 24 24'
-              width='24'
+              width='22'
               xmlns='http://www.w3.org/2000/svg'>
-              <path d='M3 20h4.5a.5.5 0 0 0 .5-.5v-.282a.52.52 0 0 0-.247-.437 8 8 0 1 1 8.494-.001.52.52 0 0 0-.247.438v.282a.5.5 0 0 0 .5.5H21' />
+              <path d='M13 13.74a2 2 0 0 1-2 0L2.5 8.87a1 1 0 0 1 0-1.74L11 2.26a2 2 0 0 1 2 0l8.5 4.87a1 1 0 0 1 0 1.74z' />
+              <path d='m20 14.285 1.5.845a1 1 0 0 1 0 1.74L13 21.74a2 2 0 0 1-2 0l-8.5-4.87a1 1 0 0 1 0-1.74l1.5-.845' />
             </svg>
-            <span className='font-semibold text-base'>Dashboard</span>
+            <span className='font-semibold text-base'>Tableau de bord</span>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>

@@ -1,16 +1,6 @@
 'use client'
 
-import {
-  Eye,
-  EyeOff,
-  FolderOpen,
-  GraduationCap,
-  KeyRound,
-  Loader2,
-  Lock,
-  MessageCircle,
-  Newspaper,
-} from 'lucide-react'
+import { Eye, EyeOff, FolderOpen, GraduationCap, KeyRound, Loader2, Lock, MessageCircle, Newspaper } from 'lucide-react'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import { signIn } from 'next-auth/react'
@@ -44,7 +34,7 @@ export default function SignInPage() {
       const { properties } = treeifyError(parsed.error)
       return setErrors({
         cdm: properties?.cdm?.errors[0],
-        password: properties?.password?.errors[0],
+        password: properties?.password?.errors[0]
       })
     }
 
@@ -54,7 +44,7 @@ export default function SignInPage() {
       await signIn('credentials', {
         cdm: parsed.data.cdm,
         password: parsed.data.password,
-        redirectTo: '/syllabus',
+        redirectTo: '/syllabus'
       })
     } finally {
       setLoading(false)
@@ -69,15 +59,10 @@ export default function SignInPage() {
             {/* Left Side */}
             <div className="relative m-4 rounded-3xl bg-[linear-gradient(-90deg,rgba(0,0,0,0),rgba(0,0,0,1)),url('/auth.jpg')] bg-center bg-cover bg-no-repeat p-12 text-white">
               <div>
-                <div className='mb-12 font-semibold text-lg uppercase'>
-                  Syllabus
-                </div>
-                <h1 className='mb-4 font-bold text-6xl'>
-                  Mes cours en un seul lieu
-                </h1>
+                <div className='mb-12 font-semibold text-lg uppercase'>Syllabus</div>
+                <h1 className='mb-4 font-bold text-6xl'>Mes cours en un seul lieu</h1>
                 <p className='mb-12 text-xl opacity-80'>
-                  Retrouvez tout vos cours, documents annexes et organisez les
-                  comme bon vous semble !
+                  Retrouvez tout vos cours, documents annexes et organisez les comme bon vous semble !
                 </p>
 
                 <div className='space-y-6'>
@@ -85,23 +70,23 @@ export default function SignInPage() {
                     {
                       icon: <FolderOpen />,
                       title: 'Organisation beaucoup plus fluide',
-                      desc: 'Notez vos cours, vos absences... et retrouvez toutes les ressources utiles pour réussir votre année.',
+                      desc: 'Notez vos cours, vos absences... et retrouvez toutes les ressources utiles pour réussir votre année.'
                     },
                     {
                       icon: <MessageCircle />,
                       title: 'Échange direct avec vos professeurs',
-                      desc: 'Posez/obtenez des questions/réponses où tout le monde peut y bénéficier.',
+                      desc: 'Posez/obtenez des questions/réponses où tout le monde peut y bénéficier.'
                     },
                     {
                       icon: <GraduationCap />,
                       title: 'Outils gratuits à votre disposition',
-                      desc: 'Accédez à votre calendrier personnel, votre emploi du temps, ainsi que tout vos cours en quelques clics.',
+                      desc: 'Accédez à votre calendrier personnel, votre emploi du temps, ainsi que tout vos cours en quelques clics.'
                     },
                     {
                       icon: <Newspaper />,
                       title: 'Vie estudiantine plus facile que jamais',
-                      desc: "Soyez au courant des activités universitaires et parascolaires à l'intérieur du Campus à la minute près.",
-                    },
+                      desc: "Soyez au courant des activités universitaires et parascolaires à l'intérieur du Campus à la minute près."
+                    }
                   ].map(({ icon, title, desc }, i) => (
                     <div
                       className='feature-item flex animate-fadeInUp items-center'
@@ -125,9 +110,7 @@ export default function SignInPage() {
               <div className='mx-auto w-full max-w-md'>
                 <div className='mb-8 text-center'>
                   <h2 className='font-light text-3xl uppercase'>BIENVENUE</h2>
-                  <p className='mt-2 text-sm text-stone-600'>
-                    Connectez-vous pour accéder à votre espace étudiant
-                  </p>
+                  <p className='mt-2 text-sm text-stone-600'>Connectez-vous pour accéder à votre espace étudiant</p>
                 </div>
 
                 {serverError && (
@@ -140,9 +123,7 @@ export default function SignInPage() {
 
                 <form className='space-y-6' noValidate onSubmit={handleSubmit}>
                   <div>
-                    <Label
-                      className='mb-2 block font-medium text-sm uppercase'
-                      htmlFor='cdm'>
+                    <Label className='mb-2 block font-medium text-sm uppercase' htmlFor='cdm'>
                       Code Massar
                     </Label>
                     <div className='relative'>
@@ -159,9 +140,7 @@ export default function SignInPage() {
                         id='cdm'
                         inputMode='text'
                         name='cdm'
-                        onChange={(e) =>
-                          setUser({ ...user, cdm: e.target.value })
-                        }
+                        onChange={(e) => setUser({ ...user, cdm: e.target.value })}
                         pattern='[Rr]\d{9}'
                         placeholder='R142002537'
                         title='R followed by 9 digits, e.g., R142002537'
@@ -177,9 +156,7 @@ export default function SignInPage() {
                   </div>
 
                   <div>
-                    <Label
-                      className='mb-2 block font-medium text-sm uppercase'
-                      htmlFor='password'>
+                    <Label className='mb-2 block font-medium text-sm uppercase' htmlFor='password'>
                       Mot de passe
                     </Label>
                     <div className='relative'>
@@ -187,28 +164,20 @@ export default function SignInPage() {
                         <Lock className='h-5 w-5 text-gray-400' />
                       </div>
                       <Input
-                        aria-describedby={
-                          errors.password ? 'password-error' : undefined
-                        }
+                        aria-describedby={errors.password ? 'password-error' : undefined}
                         aria-invalid={!!errors.password}
                         autoComplete='current-password'
                         className='block w-full rounded-lg border border-border bg-input py-5 pr-12 pl-12 text-sm'
                         disabled={loading}
                         id='password'
                         name='password'
-                        onChange={(e) =>
-                          setUser({ ...user, password: e.target.value })
-                        }
+                        onChange={(e) => setUser({ ...user, password: e.target.value })}
                         placeholder='**********'
                         type={showPassword ? 'text' : 'password'}
                         value={user.password}
                       />
                       <button
-                        aria-label={
-                          showPassword
-                            ? 'Masquer le mot de passe'
-                            : 'Afficher le mot de passe'
-                        }
+                        aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
                         className='absolute inset-y-0 right-0 flex items-center pr-3'
                         onClick={() => setShowPassword((s) => !s)}
                         type='button'>
@@ -220,9 +189,7 @@ export default function SignInPage() {
                       </button>
                     </div>
                     {errors.password && (
-                      <p
-                        className='mt-1 text-red-600 text-sm'
-                        id='password-error'>
+                      <p className='mt-1 text-red-600 text-sm' id='password-error'>
                         {errors.password}
                       </p>
                     )}
@@ -231,12 +198,10 @@ export default function SignInPage() {
                   <div className='flex items-center justify-between'>
                     {/** biome-ignore lint/a11y/noLabelWithoutControl: biome does not conside custom components */}
                     <label className='flex items-center text-muted-foreground text-sm'>
-                      <Checkbox />
+                      <Checkbox.Animated />
                       <span className='ml-2'>Se souvenir de moi</span>
                     </label>
-                    <a
-                      className='text-primary text-sm hover:text-primary/80'
-                      href='/'>
+                    <a className='text-primary text-sm hover:text-primary/80' href='/'>
                       Mot de passe oublié?
                     </a>
                   </div>
@@ -289,9 +254,7 @@ export default function SignInPage() {
 
                 <div className='mt-8 text-center text-muted-foreground text-sm'>
                   Vous n&apos;avez pas encore de compte ?
-                  <Link
-                    className='ml-1 text-primary hover:text-primary/80'
-                    href='/inscription'>
+                  <Link className='ml-1 text-primary hover:text-primary/80' href='/inscription'>
                     Inscrivez-vous ici.
                   </Link>
                 </div>

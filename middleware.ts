@@ -5,9 +5,14 @@ import createMiddleware from 'next-intl/middleware'
 import { defaultLocale, localePrefix, locales } from './i18n/routing'
 import { hasPermission } from './lib/permission'
 
-const AUTH_ONLY_SEGMENTS = new Set(['syllabus'])
-
 const handleI18n = createMiddleware({ defaultLocale, locales, localePrefix })
+
+const AUTH_ONLY_SEGMENTS = new Set(['syllabus']) // login-only segments (no specific permission, just must be logged in)
+const PUBLIC_SEGMENTS = new Set(['connexion', 'not-found']) // always public, never guard those
+
+const PERMISSION_KEYS_BY_SEGMENT: Record<string, string> = {
+  dashboard: 'HAS_ACCESS_TO_DASHBOARD',
+}
 
 function stripLocale(pathname: string) {
   const parts = pathname.split('/').filter(Boolean)
@@ -24,8 +29,8 @@ function firstSegment(path: string) {
 
 function requiredPermissionKeyForPath(basePath: string): string | null {
   const seg = firstSegment(basePath)
-  if (!seg) return null
-  return `HAS_ACCESS_TO_${seg.toUpperCase()}`
+  if (!seg || PUBLIC_SEGMENTS.has(seg)) return null
+  return PERMISSION_KEYS_BY_SEGMENT[seg] ?? null // unknown segments are public
 }
 
 function buildLoginRedirect(
@@ -48,9 +53,17 @@ export default async function middleware(req: NextRequest) {
     locale ?? req.cookies.get('NEXT_LOCALE')?.value ?? defaultLocale
 
   const seg = firstSegment(basePath)
+  if (PUBLIC_SEGMENTS.has(seg)) return res
+
+  const requiredKey = requiredPermissionKeyForPath(basePath)
+
+  // only fetch token if we actually need it
+  const needsAuth = AUTH_ONLY_SEGMENTS.has(seg) || !!requiredKey
+  const token = needsAuth
+    ? await getToken({ req, secret: process.env.AUTH_NEXT_SECRET })
+    : null
 
   if (AUTH_ONLY_SEGMENTS.has(seg)) {
-    const token = await getToken({ req, secret: process.env.AUTH_NEXT_SECRET })
     if (!token) {
       return NextResponse.redirect(
         buildLoginRedirect(origin, finalLocale, basePath, req.nextUrl.search),
@@ -59,10 +72,8 @@ export default async function middleware(req: NextRequest) {
     return res
   }
 
-  const requiredKey = requiredPermissionKeyForPath(basePath)
-  if (!requiredKey) return res // public
+  if (!requiredKey) return res // public route
 
-  const token = await getToken({ req, secret: process.env.AUTH_NEXT_SECRET })
   if (!token) {
     return NextResponse.redirect(
       buildLoginRedirect(origin, finalLocale, basePath, req.nextUrl.search),

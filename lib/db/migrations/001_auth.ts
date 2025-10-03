@@ -15,6 +15,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
     .addColumn('cdm', 'text')
     .addColumn('permissions', 'integer', (col) => col.notNull().defaultTo(0))
     .addColumn('username', 'text')
+    .addColumn('role', 'text', (col) => col.notNull().defaultTo('student'))
     .addColumn('password', 'text')
     .execute()
 

@@ -1,6 +1,7 @@
 'use client'
 
 import type { User } from '@/components/schema'
+import type { DialogContext } from './confirm-dialog'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -84,10 +85,8 @@ const formSchema = z
   )
 type UserForm = z.infer<typeof formSchema>
 
-interface UserActionDialogProps {
-  currentRow?: User
-  open: boolean
-  onOpenChange: (open: boolean) => void
+export interface UserActionDialogProps extends DialogContext {
+  currentRow: User
 }
 
 export function UsersActionDialog({ currentRow, open, onOpenChange }: UserActionDialogProps) {

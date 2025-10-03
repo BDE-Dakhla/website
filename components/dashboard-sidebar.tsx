@@ -1,7 +1,17 @@
 'use client'
 
-import { BadgeQuestionMark, BookOpen, ChartPie, ContactRound, Handshake, Users } from 'lucide-react'
-import { NavMain } from '@/components/nav-main'
+import {
+  BadgeQuestionMark,
+  BookOpen,
+  ChartPie,
+  ContactRound,
+  Handshake,
+  Newspaper,
+  TicketsIcon,
+  Users,
+  UsersRound
+} from 'lucide-react'
+import { type NavItem, NavMain } from '@/components/nav-main'
 import { NavSecondary } from '@/components/nav-secondary'
 import { NavUser } from '@/components/nav-user'
 import {
@@ -12,6 +22,7 @@ import {
   SidebarMenu,
   SidebarMenuItem
 } from '@/components/ui/sidebar'
+import { NavLinks } from './nav-links'
 
 const data = {
   navMain: [
@@ -28,36 +39,30 @@ const data = {
       icon: ContactRound
     }
   ],
-  /* navClouds: [
+  navEvents: [
     {
-      title: 'Capture',
-      icon: IconCamera,
-      isActive: true,
-      url: '#',
-      items: [
-        { title: 'Active Proposals', url: '#' },
-        { title: 'Archived', url: '#' },
-      ],
+      title: 'Tickets',
+      url: '/dashboard/tickets',
+      icon: TicketsIcon
     },
     {
-      title: 'Proposal',
-      icon: IconFileDescription,
-      url: '#',
-      items: [
-        { title: 'Active Proposals', url: '#' },
-        { title: 'Archived', url: '#' },
-      ],
+      title: 'Annonces',
+      url: '/dashboard/events',
+      icon: Newspaper
+    }
+  ],
+  navAcademic: [
+    {
+      title: 'Documents',
+      url: '/dashboard/files',
+      icon: Newspaper
     },
     {
-      title: 'Prompts',
-      icon: IconFileAi,
-      url: '#',
-      items: [
-        { title: 'Active Proposals', url: '#' },
-        { title: 'Archived', url: '#' },
-      ],
-    },
-  ], */
+      title: 'Contacts',
+      url: '/dashboard/contacts',
+      icon: UsersRound
+    }
+  ],
   navSecondary: [
     { title: 'Documentation', url: '/dashboard/docs', icon: BookOpen },
     {
@@ -66,7 +71,7 @@ const data = {
       icon: BadgeQuestionMark
     }
   ]
-}
+} satisfies Record<string, NavItem[]>
 
 export function DashboardSideBar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -95,6 +100,8 @@ export function DashboardSideBar({ ...props }: React.ComponentProps<typeof Sideb
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
+        <NavLinks items={data.navEvents} title='Événementiel' />
+        <NavLinks items={data.navAcademic} title='Académique' />
         <NavSecondary className='mt-auto' items={data.navSecondary} />
       </SidebarContent>
       <SidebarFooter>

@@ -7,7 +7,6 @@ import {
   Brain,
   Calendar,
   Camera,
-  ChevronDown,
   CirclePlus,
   Clock,
   FileIcon,
@@ -21,18 +20,12 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem
+  SidebarMenuItem
 } from '@/components/ui/sidebar'
 import { Button } from './ui/button'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible'
 
 const data = {
   navMain: [],
@@ -115,6 +108,7 @@ export function SyllabusSidebar({ ...props }: React.ComponentProps<typeof Sideba
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+
       <SidebarContent>
         <NavMain items={data.navMain}>
           <SidebarMenu>
@@ -132,42 +126,11 @@ export function SyllabusSidebar({ ...props }: React.ComponentProps<typeof Sideba
             </SidebarMenuItem>
           </SidebarMenu>
         </NavMain>
+
         <NavDocuments items={data.public} />
-
-        <SidebarGroup>
-          <SidebarGroupLabel>Alternative Sources</SidebarGroupLabel>
-          <SidebarMenu>
-            {data.navClouds.map((item) => (
-              <Collapsible asChild className='group/collapsible' defaultOpen={item.isActive} key={item.title}>
-                <SidebarMenuItem>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton tooltip={item.title}>
-                      {item.icon && <item.icon />}
-                      <span>{item.title}</span>
-                      <ChevronDown className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-180' />
-                    </SidebarMenuButton>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      {item.items?.map((subItem) => (
-                        <SidebarMenuSubItem key={subItem.title}>
-                          <SidebarMenuSubButton asChild>
-                            <a href={subItem.url}>
-                              <span>{subItem.title}</span>
-                            </a>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      ))}
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
-                </SidebarMenuItem>
-              </Collapsible>
-            ))}
-          </SidebarMenu>
-        </SidebarGroup>
-
         <NavSecondary className='mt-auto' items={data.navSecondary} />
       </SidebarContent>
+
       <SidebarFooter>
         <NavUser />
       </SidebarFooter>

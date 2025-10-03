@@ -34,8 +34,6 @@ export function NavUser() {
   const { data: session, status } = useSession()
   const { theme, setTheme } = useTheme()
 
-  console.log(session)
-
   const user = session?.user
   const name = user?.name ?? 'Guest'
   const email = user?.email ?? 'Not signed in'

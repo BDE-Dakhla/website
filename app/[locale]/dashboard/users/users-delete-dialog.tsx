@@ -1,6 +1,6 @@
 'use client'
 
-import type { User } from '@/components/schema'
+import type { UserActionDialogProps } from './users-action-dialog'
 import { AlertTriangle } from 'lucide-react'
 import { useState } from 'react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -9,13 +9,7 @@ import { Label } from '@/components/ui/label'
 import { showSubmittedData } from '@/lib/utils'
 import { ConfirmDialog } from './confirm-dialog'
 
-interface UserDeleteDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  currentRow: User
-}
-
-export function UsersDeleteDialog({ open, onOpenChange, currentRow }: UserDeleteDialogProps) {
+export function UsersDeleteDialog({ open, onOpenChange, currentRow }: UserActionDialogProps) {
   const [value, setValue] = useState('')
 
   const handleDelete = () => {

@@ -155,5 +155,3 @@ function CalendarDayButton({ className, day, modifiers, ...props }: React.Compon
 }
 
 export { Calendar, CalendarDayButton }
-
-export { Calendar, CalendarDayButton }

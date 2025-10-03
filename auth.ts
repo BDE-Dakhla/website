@@ -1,6 +1,7 @@
 import 'server-only'
 
 import type { Kysely } from 'kysely'
+import type { Role } from './components/schema'
 import { type Database as AuthDb, KyselyAdapter } from '@auth/kysely-adapter'
 import { compareSync } from 'bcryptjs'
 import NextAuth from 'next-auth'
@@ -85,13 +86,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
       const { sub } = token
       let permMask = token.permMask as number | undefined
-      let role = token.role as
-        | 'student'
-        | 'professor'
-        | 'contributor'
-        | 'developer'
-        | 'administrator'
-        | undefined
+      let role = token.role as Role
 
       if ((!permMask || !role) && sub) {
         const row = await db
@@ -115,14 +110,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       session.user ??= {}
       session.user.id = token.sub
       session.user.permMask = token.permMask ?? 0
-      session.user.role =
-        token.role ??
-        ('student' as
-          | 'student'
-          | 'professor'
-          | 'contributor'
-          | 'developer'
-          | 'administrator')
+      session.user.role = token.role ?? ('student' as Role)
 
       return session
     },

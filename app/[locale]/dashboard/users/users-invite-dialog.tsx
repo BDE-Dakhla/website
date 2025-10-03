@@ -1,5 +1,6 @@
 'use client'
 
+import type { DialogContext } from './confirm-dialog'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { MailPlus, Send } from 'lucide-react'
 import { useForm } from 'react-hook-form'
@@ -31,12 +32,7 @@ const formSchema = z.object({
 
 type UserInviteForm = z.infer<typeof formSchema>
 
-type UserInviteDialogProps = {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-}
-
-export function UsersInviteDialog({ open, onOpenChange }: UserInviteDialogProps) {
+export function UsersInviteDialog({ open, onOpenChange }: DialogContext) {
   const form = useForm<UserInviteForm>({
     resolver: zodResolver(formSchema),
     defaultValues: { email: '', role: '', desc: '' }
@@ -58,11 +54,11 @@ export function UsersInviteDialog({ open, onOpenChange }: UserInviteDialogProps)
       <DialogContent className='sm:max-w-md'>
         <DialogHeader className='text-start'>
           <DialogTitle className='flex items-center gap-2'>
-            <MailPlus /> Invite User
+            <MailPlus /> Inviter un utilisateur
           </DialogTitle>
           <DialogDescription>
-            Invite new user to join your team by sending them an email invitation. Assign a role to define their access
-            level.
+            Inviter un nouveau utilisateur pour rejoindre la plateforme en enovoyant formellement une invitation par
+            email. Spécifier le role de l'utilisateur pour lui donner les accès appropriés.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -93,7 +89,7 @@ export function UsersInviteDialog({ open, onOpenChange }: UserInviteDialogProps)
                       value
                     }))}
                     onValueChange={field.onChange}
-                    placeholder='Select a role'
+                    placeholder='Sélectionner un rôle'
                   />
                   <FormMessage />
                 </FormItem>
@@ -104,11 +100,11 @@ export function UsersInviteDialog({ open, onOpenChange }: UserInviteDialogProps)
               name='desc'
               render={({ field }) => (
                 <FormItem className=''>
-                  <FormLabel>Description (optional)</FormLabel>
+                  <FormLabel>Description (optionnel)</FormLabel>
                   <FormControl>
                     <Textarea
                       className='resize-none'
-                      placeholder='Add a personal note to your invitation (optional)'
+                      placeholder='Ajouter une note complémentaire à votre invitation...'
                       {...field}
                     />
                   </FormControl>
@@ -120,10 +116,10 @@ export function UsersInviteDialog({ open, onOpenChange }: UserInviteDialogProps)
         </Form>
         <DialogFooter className='gap-y-2'>
           <DialogClose asChild>
-            <Button variant='outline'>Cancel</Button>
+            <Button variant='outline'>Annuler</Button>
           </DialogClose>
           <Button form='user-invite-form' type='submit'>
-            Invite <Send />
+            Inviter <Send />
           </Button>
         </DialogFooter>
       </DialogContent>

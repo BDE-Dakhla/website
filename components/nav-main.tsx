@@ -9,29 +9,48 @@ import {
   SidebarMenuButton,
   SidebarMenuItem
 } from '@/components/ui/sidebar'
+import { usePathname } from '@/i18n/routing'
 
-export type NavItem = {
+export interface NavItem {
   title: string
   url: string
   icon?: LucideIcon
+  disabled?: boolean
+  items?: Array<NavItem>
 }
 
 export function NavMain({ items, children }: React.PropsWithChildren<{ items: NavItem[] }>) {
+  const pathname = usePathname()
+
   return (
     <SidebarGroup>
       <SidebarGroupContent className='flex flex-col gap-4'>
         {children}
         <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild tooltip={item.title}>
-                <Link href={item.url}>
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          {items.map((item) => {
+            const active = pathname.includes(item.url)
+
+            const Content = () => (
+              <>
+                {item.icon && <item.icon />}
+                <span>{item.title}</span>
+              </>
+            )
+
+            return (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton asChild={!active} isActive={active} tooltip={item.title}>
+                  {active ? (
+                    <Content />
+                  ) : (
+                    <Link href={item.url}>
+                      <Content />
+                    </Link>
+                  )}
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            )
+          })}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

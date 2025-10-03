@@ -4,15 +4,13 @@ import type { Table } from '@tanstack/react-table'
 import { AlertTriangle } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
-import { ConfirmDialog } from '@/app/[locale]/dashboard/users/confirm-dialog'
+import { ConfirmDialog, type DialogContext } from '@/app/[locale]/dashboard/users/confirm-dialog'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { sleep } from '@/lib/utils'
 
-interface UserMultiDeleteDialogProps<TData> {
-  open: boolean
-  onOpenChange: (open: boolean) => void
+interface UserMultiDeleteDialogProps<TData> extends DialogContext {
   table: Table<TData>
 }
 

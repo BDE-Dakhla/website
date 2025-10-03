@@ -10,9 +10,12 @@ import {
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
-type ConfirmDialogProps = {
+export interface DialogContext {
   open: boolean
   onOpenChange: (open: boolean) => void
+}
+
+interface ConfirmDialogProps extends DialogContext {
   title: React.ReactNode
   disabled?: boolean
   desc: React.JSX.Element | string

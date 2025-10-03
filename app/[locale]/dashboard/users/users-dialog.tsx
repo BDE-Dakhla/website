@@ -7,6 +7,7 @@ import { UsersInviteDialog } from './users-invite-dialog'
 
 export function UsersDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } = useUsers()
+
   return (
     <>
       <UsersActionDialog key='user-add' onOpenChange={() => setOpen('add')} open={open === 'add'} />

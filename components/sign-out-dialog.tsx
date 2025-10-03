@@ -1,23 +1,22 @@
 'use client'
 
 import { signOut } from 'next-auth/react'
-import { ConfirmDialog } from '@/app/[locale]/dashboard/users/confirm-dialog'
+import {
+  ConfirmDialog,
+  type DialogContext,
+} from '@/app/[locale]/dashboard/users/confirm-dialog'
 
-interface SignOutDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-}
-
-export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
+export function SignOutDialog({ open, onOpenChange }: DialogContext) {
   return (
     <ConfirmDialog
+      cancelBtnText='Annuler'
       className='sm:max-w-sm'
-      confirmText='Sign out'
-      desc='Are you sure you want to sign out? You will need to sign in again to access your account.'
-      handleConfirm={async () => await signOut()}
+      confirmText='Se déconnecter'
+      desc='Êtes-vous sûr(e) de vouloir vous déconnecter ? Vous aurez besoin de vous reconnecter pour acceder à votre compte.'
+      handleConfirm={async (): Promise<void> => await signOut()}
       onOpenChange={onOpenChange}
       open={open}
-      title='Sign out'
+      title='Déconnecter mon compte'
     />
   )
 }

@@ -1,7 +1,5 @@
 import 'server-only'
-import type { Database as AuthDb } from '@auth/kysely-adapter'
-import type { Kysely } from 'kysely'
-import type { PermissionMap, Role } from './types/schema'
+
 import { KyselyAdapter } from '@auth/kysely-adapter'
 import { compare } from 'bcryptjs'
 import NextAuth from 'next-auth'
@@ -10,10 +8,16 @@ import Google from 'next-auth/providers/google'
 import { signInSchema } from './lib/auth'
 import { getAuthDb, getDb } from './lib/db/instance'
 
-const USER_META_FIELDS = ['permissions', 'role', 'username', 'email'] as const
+const USER_META_FIELDS = [
+  'permissions',
+  'role',
+  'username',
+  'name',
+  'email',
+] as const
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  adapter: KyselyAdapter(getAuthDb() as unknown as Kysely<AuthDb>),
+  adapter: KyselyAdapter(getAuthDb()),
   session: { strategy: 'jwt' },
   secret: process.env.AUTH_NEXT_SECRET,
   providers: [
@@ -32,7 +36,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
         const user = await db
           .selectFrom('User')
-          .select(['id', 'cdm', 'username', 'email', 'password'])
+          .select(['id', 'cdm', 'username', 'email', 'name', 'password'])
           .where('cdm', '=', cdm)
           .executeTakeFirst()
 
@@ -60,6 +64,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     async jwt({ token, user }) {
       const db = getDb()
 
+      // first time sign-in
       if (user?.id) {
         const row = await db
           .selectFrom('User')
@@ -81,16 +86,20 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           sub: user.id,
           role,
           username: row?.username ?? null,
+          name: row?.name ?? null,
           email: row?.email ?? null,
-          perms: (row?.permissions as PermissionMap | null) ?? {},
+          perms: row?.permissions ?? {},
         }
       }
 
+      // subsequent requests
       const sub = token.sub
-      let role = token.role as Role | undefined
-      let username = token.username as string | null | undefined
-      let email = token.email as string | null | undefined
-      let perms = token.perms as PermissionMap | undefined
+      const name = token.name
+      const image = token.image
+      let role = token.role
+      let username = token.username
+      let email = token.email
+      let perms = token.perms
 
       const needsBackfill =
         (role === undefined ||
@@ -109,7 +118,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         role = role ?? row?.role ?? 'student'
         username = username ?? row?.username ?? null
         email = email ?? row?.email ?? null
-        perms = perms ?? (row?.permissions as PermissionMap | null) ?? {}
+        perms = perms ?? row?.permissions ?? {}
       }
 
       return {
@@ -117,6 +126,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         sub,
         role: role ?? 'student',
         username: username ?? null,
+        image: image ?? null,
+        name: name ?? null,
         email: email ?? null,
         perms: perms ?? {},
       }
@@ -125,9 +136,11 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     async session({ session, token }) {
       session.user ??= {}
       session.user.id = token.sub
-      session.user.role = token.role ?? ('student' as Role)
+      session.user.role = token.role ?? 'student'
       session.user.username = token.username ?? null
       session.user.email = token.email ?? null
+      session.user.name = token.name ?? null
+      session.user.image = token.image ?? null
       session.user.perms = token.perms ?? {}
       return session
     },

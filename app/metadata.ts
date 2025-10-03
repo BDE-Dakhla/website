@@ -7,11 +7,11 @@ export const metadata: Metadata = {
   keywords: SEO.keywords,
   authors: [
     {
-      name: 'Magic UI',
-      url: 'https://magicui.design',
+      name: 'BDE Dakhla',
+      url: 'https://encgd.bde-dakhla.org',
     },
   ],
-  creator: 'magicuidesign',
+  creator: 'bde-dakhla',
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -19,12 +19,6 @@ export const metadata: Metadata = {
     title: SEO.name,
     description: SEO.description,
     siteName: SEO.name,
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: SEO.name,
-    description: SEO.description,
-    creator: '@magicuidesign',
   },
   robots: {
     index: true,

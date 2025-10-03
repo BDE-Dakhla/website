@@ -1,17 +1,10 @@
 export const SEO = {
-  name: 'Changelog Template',
-  url: 'https://changelog-magicui.vercel.app',
-  description: 'A minimal changelog templaaaate built using Next.js.',
+  name: 'BDE Dakhla',
+  url: 'https://encgd.bde-dakhla.org',
+  /* TODO: Change empty string description */
+  description: '',
   links: {
-    twitter: 'https://x.com/magicuidesign',
-    github: 'https://github.com/magicuidesign',
+    github: 'https://github.com/BDE-Dakhla/website',
   },
-  keywords: [
-    'Changelog',
-    'Next.js',
-    'Fumadocs',
-    'Tailwind CSS',
-    'shadcn',
-    'Magic UI',
-  ],
+  keywords: ['Next.js', 'Fumadocs', 'Tailwind CSS', 'shadcn'],
 }

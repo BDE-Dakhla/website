@@ -13,6 +13,7 @@ const USER_META_FIELDS = [
   'role',
   'username',
   'name',
+  'image',
   'email',
 ] as const
 
@@ -36,7 +37,15 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
         const user = await db
           .selectFrom('User')
-          .select(['id', 'cdm', 'username', 'email', 'name', 'password'])
+          .select([
+            'id',
+            'cdm',
+            'username',
+            'email',
+            'name',
+            'image',
+            'password',
+          ])
           .where('cdm', '=', cdm)
           .executeTakeFirst()
 
@@ -86,6 +95,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           sub: user.id,
           role,
           username: row?.username ?? null,
+          image: row?.image,
           name: row?.name ?? null,
           email: row?.email ?? null,
           perms: row?.permissions ?? {},
@@ -94,8 +104,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
       // subsequent requests
       const sub = token.sub
-      const name = token.name
-      const image = token.image
+      let name = token.name
+      let image = token.image
       let role = token.role
       let username = token.username
       let email = token.email
@@ -104,6 +114,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       const needsBackfill =
         (role === undefined ||
           username === undefined ||
+          name === undefined ||
+          image === undefined ||
           email === undefined ||
           perms === undefined) &&
         sub
@@ -119,6 +131,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         username = username ?? row?.username ?? null
         email = email ?? row?.email ?? null
         perms = perms ?? row?.permissions ?? {}
+        image = image ?? row?.image ?? null
+        name = name ?? row?.name ?? null
       }
 
       return {

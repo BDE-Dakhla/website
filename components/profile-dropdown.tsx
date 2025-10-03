@@ -42,7 +42,6 @@ export function ProfileDropdown({ profile }: Props) {
 
   const email = profile?.email ?? 'Not signed in'
   const avatar = profile?.image ?? '/avatars/placeholder.png'
-  console.log(profile?.image)
   const avatarFallback = displayName
     .trim()
     .split(/\s+/)
@@ -50,6 +49,8 @@ export function ProfileDropdown({ profile }: Props) {
     .join('')
     .slice(0, 2)
     .toUpperCase()
+
+  console.log(profile?.image)
 
   useShortcuts(
     {

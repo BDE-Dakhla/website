@@ -1,15 +1,15 @@
-import type { Kysely } from 'kysely'
 import type { Database } from '../../../types/schema'
+import { type Kysely, sql } from 'kysely'
 
-// bitmask flags (keep in sync with lib/permissions if needed)
-const PERM_DASHBOARD = 1 << 0
+const KEY = 'HAS_ACCESS_TO_DASHBOARD'
 
 export async function seed(db: Kysely<Database>) {
-  const test = await db
+  const email = process.env.SEED_ADMIN_EMAIL ?? 'admin@example.com'
+  await db
     .updateTable('User')
-    .set('permissions', PERM_DASHBOARD)
-    .where('email', '=', process.env.SEED_ADMIN_EMAIL ?? 'admin@example.com')
-    .executeTakeFirst()
-
-  console.log(test)
+    .set({
+      permissions: sql`COALESCE("permissions", '{}'::jsonb) || jsonb_build_object(${KEY}, 1)`,
+    })
+    .where('email', '=', email)
+    .execute()
 }

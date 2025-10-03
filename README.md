@@ -2,6 +2,7 @@
 
 - [🐬 Getting Started](#-getting-started)
   - [✨ Features](#-features)
+  - [Helpful Commands](#helpful-commands)
   - [🧭 Roadmap](#-roadmap)
   - [🎨 UI Resources](#-ui-resources)
   - [📜 License](#-license)
@@ -9,6 +10,13 @@
 ## ✨ Features
 
 - Campus News : Events/News from Campus in one place powered by FumaDocs (with MDX support)
+
+## Helpful Commands
+
+```bash
+bun run migrate reset # reset database
+bun run seed help/all/list # (development only) - fuzzy matching integrated
+```
 
 ## 🧭 Roadmap
 

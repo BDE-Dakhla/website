@@ -14,13 +14,16 @@ export const usersColumns: ColumnDef<User>[] = [
     header: ({ table }) => (
       <Checkbox.Native
         aria-label='Select all'
-        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
         className='translate-y-[2px]'
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
       />
     ),
     meta: {
-      className: cn('sticky md:table-cell start-0 z-10 rounded-tl-[inherit]')
+      className: cn('sticky md:table-cell start-0 z-10 rounded-tl-[inherit]'),
     },
     cell: ({ row }) => (
       <Checkbox.Native
@@ -31,31 +34,51 @@ export const usersColumns: ColumnDef<User>[] = [
       />
     ),
     enableSorting: false,
-    enableHiding: false
+    enableHiding: false,
   },
   {
     id: 'username',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Nom complet' />,
-    cell: ({ row }) => <LongText className='max-w-36'>{row.original.username}</LongText>,
-    meta: { className: 'w-36' }
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Nom complet' />
+    ),
+    cell: ({ row }) => (
+      <LongText className='max-w-36'>{row.original.username}</LongText>
+    ),
+    meta: { className: 'w-36' },
   },
   {
     accessorKey: 'email',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Adresse mail' />,
-    cell: ({ row }) => <div className='w-fit text-nowrap'>{row.getValue('email')}</div>
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Adresse mail' />
+    ),
+    cell: ({ row }) => (
+      <div className='w-fit text-nowrap'>{row.getValue('email')}</div>
+    ),
+  },
+  {
+    accessorKey: 'permissions',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Permissions' />
+    ),
+    cell: ({ row }) => (
+      <div className='w-fit text-nowrap'>{row.getValue('permissions')}</div>
+    ),
   },
   {
     accessorKey: 'phoneNumber',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Numéro de téléphone' />,
-    cell: ({ row }) => <div>{row.getValue('phoneNumber')}</div>,
-    enableSorting: false
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Numéro de téléphone' />
+    ),
+    cell: ({ row }) => <div>hi{row.getValue('phoneNumber')}</div>,
+    enableSorting: false,
   },
   {
     accessorKey: 'status',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Status' />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Status' />
+    ),
     cell: ({ row }) => {
-      const { status } = row.original
-      const badgeColor = callTypes.get(status)
+      const badgeColor = callTypes.get(row.original.status)
       return (
         <div className='flex space-x-2'>
           <Badge className={cn('capitalize', badgeColor)} variant='outline'>
@@ -68,11 +91,13 @@ export const usersColumns: ColumnDef<User>[] = [
       return value.includes(row.getValue(id))
     },
     enableHiding: false,
-    enableSorting: false
+    enableSorting: false,
   },
   {
     accessorKey: 'role',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Role' />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Role' />
+    ),
     cell: ({ row }) => {
       const { role } = row.original
       const userType = roles.find(({ value }) => value === role)
@@ -83,7 +108,9 @@ export const usersColumns: ColumnDef<User>[] = [
 
       return (
         <div className='flex items-center gap-x-2'>
-          {userType.icon && <userType.icon className='text-muted-foreground' size={16} />}
+          {userType.icon && (
+            <userType.icon className='text-muted-foreground' size={16} />
+          )}
           <span className='text-sm capitalize'>{row.getValue('role')}</span>
         </div>
       )
@@ -92,7 +119,7 @@ export const usersColumns: ColumnDef<User>[] = [
       return value.includes(row.getValue(id))
     },
     enableSorting: false,
-    enableHiding: false
+    enableHiding: false,
   },
-  { id: 'actions', cell: DataTableRowActions }
+  { id: 'actions', cell: DataTableRowActions },
 ]

@@ -1,17 +1,19 @@
 import 'server-only'
-
+import type { Database as AuthDb } from '@auth/kysely-adapter'
 import type { Kysely } from 'kysely'
-import type { Role } from './components/schema'
-import { type Database as AuthDb, KyselyAdapter } from '@auth/kysely-adapter'
-import { compareSync } from 'bcryptjs'
+import type { PermissionMap, Role } from './types/schema'
+import { KyselyAdapter } from '@auth/kysely-adapter'
+import { compare } from 'bcryptjs'
 import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import Google from 'next-auth/providers/google'
 import { signInSchema } from './lib/auth'
-import { getDb } from './lib/db/instance'
+import { getAuthDb, getDb } from './lib/db/instance'
+
+const USER_META_FIELDS = ['permissions', 'role', 'username', 'email'] as const
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  adapter: KyselyAdapter(getDb() as unknown as Kysely<AuthDb>),
+  adapter: KyselyAdapter(getAuthDb() as unknown as Kysely<AuthDb>),
   session: { strategy: 'jwt' },
   secret: process.env.AUTH_NEXT_SECRET,
   providers: [
@@ -20,25 +22,24 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         cdm: { label: 'Code Massar', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
-      authorize: async (credentials) => {
-        const parsed = signInSchema.safeParse(credentials)
+      authorize: async (raw) => {
+        const parsed = signInSchema.safeParse(raw)
         if (!parsed.success) return null
 
-        const cdm = parsed.data.cdm.toUpperCase()
+        const cdm = parsed.data.cdm.trim().toUpperCase()
         const password = parsed.data.password
         const db = getDb()
+
         const user = await db
           .selectFrom('User')
           .select(['id', 'cdm', 'username', 'email', 'password'])
           .where('cdm', '=', cdm)
           .executeTakeFirst()
 
-        if (!user) return null
+        if (!user || !user.password) return null
+        const ok = await compare(password, user.password)
+        if (!ok) return null
 
-        const isMatching = compareSync(password, user.password ?? '')
-        if (!isMatching) return null
-
-        // remove password key
         const { password: _pw, ...safeUser } = user
         return safeUser
       },
@@ -62,13 +63,11 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if (user?.id) {
         const row = await db
           .selectFrom('User')
-          .select(['permissions', 'role'])
+          .select(USER_META_FIELDS)
           .where('id', '=', user.id)
           .executeTakeFirst()
 
-        const permMask = row?.permissions ?? 0
         const role = row?.role ?? 'student'
-
         if (!row?.role) {
           await db
             .updateTable('User')
@@ -78,50 +77,67 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         }
 
         return {
+          ...token,
           sub: user.id,
-          permMask,
           role,
+          username: row?.username ?? null,
+          email: row?.email ?? null,
+          perms: (row?.permissions as PermissionMap | null) ?? {},
         }
       }
 
-      const { sub } = token
-      let permMask = token.permMask as number | undefined
-      let role = token.role as Role
+      const sub = token.sub
+      let role = token.role as Role | undefined
+      let username = token.username as string | null | undefined
+      let email = token.email as string | null | undefined
+      let perms = token.perms as PermissionMap | undefined
 
-      if ((!permMask || !role) && sub) {
+      const needsBackfill =
+        (role === undefined ||
+          username === undefined ||
+          email === undefined ||
+          perms === undefined) &&
+        sub
+
+      if (needsBackfill && sub) {
         const row = await db
           .selectFrom('User')
-          .select(['permissions', 'role'])
+          .select(USER_META_FIELDS)
           .where('id', '=', sub)
           .executeTakeFirst()
 
-        permMask = row?.permissions ?? 0
-        role = row?.role ?? 'student'
+        role = role ?? row?.role ?? 'student'
+        username = username ?? row?.username ?? null
+        email = email ?? row?.email ?? null
+        perms = perms ?? (row?.permissions as PermissionMap | null) ?? {}
       }
 
       return {
+        ...token,
         sub,
-        permMask: permMask ?? 0,
         role: role ?? 'student',
+        username: username ?? null,
+        email: email ?? null,
+        perms: perms ?? {},
       }
     },
 
     async session({ session, token }) {
       session.user ??= {}
       session.user.id = token.sub
-      session.user.permMask = token.permMask ?? 0
       session.user.role = token.role ?? ('student' as Role)
-
+      session.user.username = token.username ?? null
+      session.user.email = token.email ?? null
+      session.user.perms = token.perms ?? {}
       return session
     },
 
     async signIn({ account, profile }) {
       if (account?.provider === 'google') {
-        return Boolean(
-          profile?.email_verified && profile.email?.endsWith('@edu.uiz.ac.ma'),
-        )
+        const email = typeof profile?.email === 'string' ? profile.email : ''
+        const verified = profile?.email_verified === true
+        return Boolean(verified && email.endsWith('@edu.uiz.ac.ma'))
       }
-
       return true
     },
   },

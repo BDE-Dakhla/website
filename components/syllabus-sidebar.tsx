@@ -10,7 +10,8 @@ import {
   CirclePlus,
   Clock,
   FileIcon,
-  Inbox
+  Inbox,
+  LibraryBig,
 } from 'lucide-react'
 import { NavDocuments } from '@/components/nav-documents'
 import { NavMain } from '@/components/nav-main'
@@ -23,12 +24,33 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem
+  SidebarMenuItem,
 } from '@/components/ui/sidebar'
+import { NavLinks } from './nav-links'
 import { Button } from './ui/button'
 
 const data = {
   navMain: [],
+  public: [
+    {
+      name: 'Calendrier annuel',
+      url: '/syllabus/calendar',
+      icon: Calendar,
+    },
+    { name: 'Emploi du temps', url: '/syllabus/schedule', icon: Clock },
+    {
+      name: 'Contact des professeurs',
+      url: '/syllabus/contacts',
+      icon: BookUser,
+    },
+  ],
+  navItems: [
+    {
+      title: 'Ressources',
+      url: '/syllabus/resources',
+      icon: LibraryBig,
+    },
+  ],
   navClouds: [
     {
       title: 'Capture',
@@ -37,8 +59,8 @@ const data = {
       url: '#',
       items: [
         { title: 'Active Proposals', url: '#' },
-        { title: 'Archived', url: '#' }
-      ]
+        { title: 'Archived', url: '#' },
+      ],
     },
     {
       title: 'Proposal',
@@ -46,8 +68,8 @@ const data = {
       url: '#',
       items: [
         { title: 'Active Proposals', url: '#' },
-        { title: 'Archived', url: '#' }
-      ]
+        { title: 'Archived', url: '#' },
+      ],
     },
     {
       title: 'Prompts',
@@ -55,34 +77,23 @@ const data = {
       url: '#',
       items: [
         { title: 'Active Proposals', url: '#' },
-        { title: 'Archived', url: '#' }
-      ]
-    }
+        { title: 'Archived', url: '#' },
+      ],
+    },
   ],
   navSecondary: [
     { title: 'Documentation', url: '/syllabus/docs', icon: BookOpen },
     {
       title: "Obtenir de l'aide",
       url: '/syllabus/help',
-      icon: BadgeQuestionMark
-    }
-  ],
-  public: [
-    {
-      name: 'Calendrier annuel',
-      url: '/syllabus/calendar',
-      icon: Calendar
+      icon: BadgeQuestionMark,
     },
-    { name: 'Emploi du temps', url: '/syllabus/schedule', icon: Clock },
-    {
-      name: 'Contact des professeurs',
-      url: '/syllabus/teachers',
-      icon: BookUser
-    }
-  ]
+  ],
 }
 
-export function SyllabusSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function SyllabusSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible='offcanvas' {...props}>
       <SidebarHeader>
@@ -119,14 +130,17 @@ export function SyllabusSidebar({ ...props }: React.ComponentProps<typeof Sideba
                 <CirclePlus />
                 <span>Créer un dossier</span>
               </SidebarMenuButton>
-              <Button className='size-8 group-data-[collapsible=icon]:opacity-0' size='icon' variant='outline'>
+              <Button
+                className='size-8 group-data-[collapsible=icon]:opacity-0'
+                size='icon'
+                variant='outline'>
                 <Inbox />
                 <span className='sr-only'>Inbox</span>
               </Button>
             </SidebarMenuItem>
           </SidebarMenu>
         </NavMain>
-
+        <NavLinks items={data.navItems} title="Ressources" />
         <NavDocuments items={data.public} />
         <NavSecondary className='mt-auto' items={data.navSecondary} />
       </SidebarContent>

@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { userRoleSchema } from '@/types/schema'
 
 const userStatusSchema = z.union([
   z.literal('active'),
@@ -8,16 +9,6 @@ const userStatusSchema = z.union([
 ])
 
 export type UserStatus = z.infer<typeof userStatusSchema>
-
-const userRoleSchema = z.union([
-  z.literal('developer'),
-  z.literal('teacher'),
-  z.literal('student'),
-  z.literal('contributor'),
-  z.literal('administrator'),
-])
-
-export type Role = z.infer<typeof userRoleSchema>
 
 const userSchema = z.object({
   id: z.string(),

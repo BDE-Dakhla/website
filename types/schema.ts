@@ -6,9 +6,7 @@ import type {
   Selectable,
   Updateable,
 } from 'kysely'
-import type { Role } from '@/components/schema'
-
-type PermissionMask = number
+import z from 'zod'
 
 interface AppDatabase {
   Subscribers: Subscribers
@@ -21,10 +19,23 @@ interface AppDatabase {
 interface UserExtra {
   cdm: string | null
   username: string | null
-  role: Role
-  permissions: PermissionMask
+  role: Role | null
+  permissions: PermissionMap | null
   password: string | null
 }
+
+export const userRoleSchema = z.union([
+  z.literal('developer'),
+  z.literal('teacher'),
+  z.literal('student'),
+  z.literal('contributor'),
+  z.literal('administrator'),
+])
+
+export type Role = z.infer<typeof userRoleSchema>
+
+export type PermissionValue = 0 | 1
+export type PermissionMap = Record<string, PermissionValue>
 
 export type Database = Omit<AuthDb, 'User'> & {
   User: AuthDb['User'] & UserExtra

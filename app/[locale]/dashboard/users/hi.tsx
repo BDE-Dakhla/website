@@ -1,15 +1,16 @@
 'use client'
 
+import type { Database } from '@/types/schema'
 import { UsersTable } from '@/components/users-table'
 import { useUsersUrlState } from '@/hooks/use-users-url-state'
 
-export function Hi({ users }: any) {
+export function Hi({ users }: { users: Array<Database['User']> }) {
   const { search, setSearch } = useUsersUrlState()
 
   return (
     <UsersTable
-      data={users.map((user: any) => ({ ...user, username: user.name }))}
-      navigate={({ search: s }: any) => setSearch(s(search))}
+      data={users.map((user) => ({ ...user, username: user.name }))}
+      navigate={({ search: s }) => setSearch(s(search))}
       search={search}
     />
   )

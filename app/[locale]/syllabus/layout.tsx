@@ -1,3 +1,4 @@
+import { auth } from '@/auth'
 import { Header } from '@/components/header'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
@@ -5,7 +6,15 @@ import { SyllabusSidebar } from '@/components/syllabus-sidebar'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { SearchProvider } from '@/hooks/use-search'
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const session = await auth()
+
+  console.log(session)
+
   return (
     <SearchProvider>
       <SidebarProvider
@@ -20,7 +29,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Header fixed>
             <Search />
             <div className='ms-auto flex items-center space-x-4'>
-              <ProfileDropdown />
+              <ProfileDropdown profile={session?.user} />
             </div>
           </Header>
           <div className='@container/main h-full p-4 xl:group-data-[theme-content-layout=centered]/layout:container xl:group-data-[theme-content-layout=centered]/layout:mx-auto'>

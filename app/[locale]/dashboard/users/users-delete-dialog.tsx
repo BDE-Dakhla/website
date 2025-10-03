@@ -9,11 +9,15 @@ import { Label } from '@/components/ui/label'
 import { showSubmittedData } from '@/lib/utils'
 import { ConfirmDialog } from './confirm-dialog'
 
-export function UsersDeleteDialog({ open, onOpenChange, currentRow }: UserActionDialogProps) {
+export function UsersDeleteDialog({
+  open,
+  onOpenChange,
+  currentRow,
+}: UserActionDialogProps) {
   const [value, setValue] = useState('')
 
   const handleDelete = () => {
-    if (value.trim() !== currentRow.username) return
+    if (value.trim() !== currentRow?.username) return
 
     onOpenChange(false)
     showSubmittedData(currentRow, "L'utilisateur a été supprimé.")
@@ -26,10 +30,12 @@ export function UsersDeleteDialog({ open, onOpenChange, currentRow }: UserAction
         <div className='space-y-4'>
           <p className='mb-2'>
             Êtes-vous certain de vouloir supprimer
-            <span className='ml-1 font-bold'>{currentRow.username}</span> ?
+            <span className='ml-1 font-bold'>{currentRow?.username}</span> ?
             <br />
-            Cette action va supprimer de manière permanente l&apos;utilisateur avec le role de{' '}
-            <span className='font-bold'>{currentRow.role.toUpperCase()}</span> du système.
+            Cette action va supprimer de manière permanente l&apos;utilisateur
+            avec le role de{' '}
+            <span className='font-bold'>{currentRow?.role.toUpperCase()}</span>{' '}
+            du système.
           </p>
 
           <Label className='my-2'>
@@ -43,18 +49,24 @@ export function UsersDeleteDialog({ open, onOpenChange, currentRow }: UserAction
 
           <Alert variant='destructive'>
             <AlertTitle>Attention !</AlertTitle>
-            <AlertDescription>Soyez prudent, cette action est irréversible.</AlertDescription>
+            <AlertDescription>
+              Soyez prudent, cette action est irréversible.
+            </AlertDescription>
           </Alert>
         </div>
       }
       destructive
-      disabled={value.trim() !== currentRow.username}
+      disabled={value.trim() !== currentRow?.username}
       handleConfirm={handleDelete}
       onOpenChange={onOpenChange}
       open={open}
       title={
         <span className='text-destructive'>
-          <AlertTriangle className='me-1 inline-block stroke-destructive' size={18} /> Supprimer l&apos;utilisateur
+          <AlertTriangle
+            className='me-1 inline-block stroke-destructive'
+            size={18}
+          />{' '}
+          Supprimer l&apos;utilisateur
         </span>
       }
     />

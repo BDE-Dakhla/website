@@ -1,15 +1,24 @@
 import 'next-auth'
 import 'next-auth/jwt'
-import type { Permission } from './schema'
+import type { PermissionMap, Role } from './schema'
 
 declare module 'next-auth' {
   interface Session {
-    user: Session['user'] & { id?: string; permMask?: number }
+    user: Session['user'] & {
+      id?: string
+      role?: Role
+      username?: string | null
+      email?: string | null
+      perms?: PermissionMap
+    }
   }
 }
 
 declare module 'next-auth/jwt' {
   interface JWT {
-    permMask?: Permission[]
+    role?: Role
+    username?: string | null
+    email?: string | null
+    perms?: PermissionMap
   }
 }

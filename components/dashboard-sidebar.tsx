@@ -9,7 +9,7 @@ import {
   Newspaper,
   TicketsIcon,
   Users,
-  UsersRound
+  UsersRound,
 } from 'lucide-react'
 import { type NavItem, NavMain } from '@/components/nav-main'
 import { NavSecondary } from '@/components/nav-secondary'
@@ -20,60 +20,64 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuItem
+  SidebarMenuItem,
 } from '@/components/ui/sidebar'
 import { NavLinks } from './nav-links'
 
 const data = {
   navMain: [
     { title: 'Statistiques', url: '/dashboard/analytics', icon: ChartPie },
+    {
+      title: 'Utilisateurs',
+      url: '/dashboard/users',
+      icon: ContactRound,
+    },
+  ],
+  navWebApp: [
     { title: "Member de l'équipage", url: '/dashboard/members', icon: Users },
     {
       title: 'Sponsors & Partenaires',
       url: '/dashboard/partners',
-      icon: Handshake
+      icon: Handshake,
     },
-    {
-      title: 'Gestion des utilisateurs',
-      url: '/dashboard/users',
-      icon: ContactRound
-    }
   ],
   navEvents: [
     {
       title: 'Tickets',
       url: '/dashboard/tickets',
-      icon: TicketsIcon
+      icon: TicketsIcon,
     },
     {
       title: 'Annonces',
       url: '/dashboard/events',
-      icon: Newspaper
-    }
+      icon: Newspaper,
+    },
   ],
   navAcademic: [
     {
       title: 'Documents',
       url: '/dashboard/files',
-      icon: Newspaper
+      icon: Newspaper,
     },
     {
       title: 'Contacts',
       url: '/dashboard/contacts',
-      icon: UsersRound
-    }
+      icon: UsersRound,
+    },
   ],
   navSecondary: [
     { title: 'Documentation', url: '/dashboard/docs', icon: BookOpen },
     {
       title: "Obtenir de l'aide",
       url: '/dashboard/help',
-      icon: BadgeQuestionMark
-    }
-  ]
+      icon: BadgeQuestionMark,
+    },
+  ],
 } satisfies Record<string, NavItem[]>
 
-export function DashboardSideBar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function DashboardSideBar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible='offcanvas' {...props}>
       <SidebarHeader>
@@ -101,6 +105,7 @@ export function DashboardSideBar({ ...props }: React.ComponentProps<typeof Sideb
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavLinks items={data.navEvents} title='Événementiel' />
+        <NavLinks items={data.navWebApp} title='Plateforme' />
         <NavLinks items={data.navAcademic} title='Académique' />
         <NavSecondary className='mt-auto' items={data.navSecondary} />
       </SidebarContent>

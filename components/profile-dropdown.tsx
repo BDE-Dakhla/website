@@ -1,5 +1,6 @@
 'use client'
 
+import type { Database } from '@/types/schema'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,8 +17,20 @@ import useDialogState from '@/hooks/use-dialog-state'
 import { Link } from '@/i18n/routing'
 import { SignOutDialog } from './sign-out-dialog'
 
-export function ProfileDropdown() {
+interface Props {
+  profile: Database['User']
+}
+
+export function ProfileDropdown({ profile }: Props) {
   const [open, setOpen] = useDialogState()
+
+  const name = profile?.name ?? 'Guest'
+  const email = profile?.email ?? 'Not signed in'
+  const avatar = profile?.image ?? '/avatars/placeholder.png'
+  const avatarFallback = name
+    .split(' ')
+    .map((n: string) => n[0])
+    .join('')
 
   return (
     <>
@@ -25,45 +38,41 @@ export function ProfileDropdown() {
         <DropdownMenuTrigger asChild>
           <Button className='relative h-8 w-8 rounded-full' variant='ghost'>
             <Avatar className='h-8 w-8'>
-              <AvatarImage alt='@shadcn' src='/avatars/01.png' />
-              <AvatarFallback>SN</AvatarFallback>
+              <AvatarImage alt={name} src={avatar} />
+              <AvatarFallback className='rounded-lg'>
+                {avatarFallback}
+              </AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end' className='w-56' forceMount>
           <DropdownMenuLabel className='font-normal'>
             <div className='flex flex-col gap-1.5'>
-              <p className='font-medium text-sm leading-none'>satnaing</p>
+              <p className='font-medium text-sm leading-none'>{name}</p>
               <p className='text-muted-foreground text-xs leading-none'>
-                satnaingdev@gmail.com
+                {email}
               </p>
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem asChild>
-              <Link href='/settings'>
-                Profile
+              <Link href='/syllabus/profile'>
+                Profil
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href='/settings'>
-                Billing
-                <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href='/settings'>
-                Settings
+              <Link href='/syllabus/settings'>
+                Paramètres
                 <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>New Team</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => setOpen(true)}>
-            Sign out
+          <DropdownMenuItem onClick={() => setOpen(true)} variant='destructive'>
+            Se déconnecter
             <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuContent>

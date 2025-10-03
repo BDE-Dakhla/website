@@ -1,8 +1,9 @@
+import type { PermissionMap } from './types/schema'
 import { type NextRequest, NextResponse } from 'next/server'
 import { getToken } from 'next-auth/jwt'
 import createMiddleware from 'next-intl/middleware'
 import { defaultLocale, localePrefix, locales } from './i18n/routing'
-import { PERMISSIONS } from './lib/permission'
+import { hasPermission } from './lib/permission'
 
 const AUTH_ONLY_SEGMENTS = new Set(['syllabus'])
 
@@ -21,11 +22,10 @@ function firstSegment(path: string) {
   return parts[0] ?? ''
 }
 
-function requiredMaskForPath(basePath: string): number {
+function requiredPermissionKeyForPath(basePath: string): string | null {
   const seg = firstSegment(basePath)
-  if (!seg) return 0
-  const key = `HAS_ACCESS_TO_${seg.toUpperCase()}` as keyof typeof PERMISSIONS
-  return PERMISSIONS[key] ?? 0
+  if (!seg) return null
+  return `HAS_ACCESS_TO_${seg.toUpperCase()}`
 }
 
 function buildLoginRedirect(
@@ -51,30 +51,26 @@ export default async function middleware(req: NextRequest) {
 
   if (AUTH_ONLY_SEGMENTS.has(seg)) {
     const token = await getToken({ req, secret: process.env.AUTH_NEXT_SECRET })
-
-    // log-in required
     if (!token) {
       return NextResponse.redirect(
         buildLoginRedirect(origin, finalLocale, basePath, req.nextUrl.search),
       )
     }
-
-    return res // logged in, no extra permission needed
+    return res
   }
 
-  // guard dashboard route
-  const requiredMask = requiredMaskForPath(basePath)
-  if (requiredMask === 0) return res // public route, no auth required
+  const requiredKey = requiredPermissionKeyForPath(basePath)
+  if (!requiredKey) return res // public
 
   const token = await getToken({ req, secret: process.env.AUTH_NEXT_SECRET })
-
   if (!token) {
     return NextResponse.redirect(
       buildLoginRedirect(origin, finalLocale, basePath, req.nextUrl.search),
     )
   }
 
-  if (((token.permMask ?? 0) & requiredMask) === 0) {
+  const perms = token.perms as PermissionMap | undefined
+  if (!hasPermission(perms, requiredKey)) {
     return NextResponse.redirect(new URL(`/${finalLocale}/not-found`, origin))
   }
 

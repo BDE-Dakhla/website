@@ -2,7 +2,6 @@
 
 import { useRouter } from 'next/navigation'
 import { useLocale } from 'next-intl'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -17,6 +16,7 @@ import {
 import useDialogState from '@/hooks/use-dialog-state'
 import { Link } from '@/i18n/routing'
 import { mod, useShortcuts } from '@/lib/shortcuts'
+import { Avatar } from './avatar'
 import { SignOutDialog } from './sign-out-dialog'
 
 interface Profile {
@@ -41,16 +41,15 @@ export function ProfileDropdown({ profile }: Props) {
     'Guest'
 
   const email = profile?.email ?? 'Not signed in'
-  const avatar = profile?.image ?? '/avatars/placeholder.png'
-  const avatarFallback = displayName
-    .trim()
-    .split(/\s+/)
-    .map((n) => n[0])
-    .join('')
-    .slice(0, 2)
-    .toUpperCase()
-
-  console.log(profile?.image)
+  const avatar =
+    profile?.image ??
+    displayName
+      .trim()
+      .split(/\s+/)
+      .map((n) => n[0])
+      .join('')
+      .slice(0, 2)
+      .toUpperCase()
 
   useShortcuts(
     {
@@ -75,12 +74,11 @@ export function ProfileDropdown({ profile }: Props) {
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button className='relative h-8 w-8 rounded-full' variant='ghost'>
-            <Avatar className='h-8 w-8'>
-              <AvatarImage alt={displayName} src={avatar} />
-              <AvatarFallback className='rounded-lg'>
-                {avatarFallback}
-              </AvatarFallback>
-            </Avatar>
+            <Avatar
+              className='rounded-full'
+              image={avatar}
+              name={displayName}
+            />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end' className='w-56' forceMount>

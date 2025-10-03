@@ -69,7 +69,7 @@ const data = {
   ],
   public: [
     {
-      name: 'Calendrier Universitaire',
+      name: 'Calendrier annuel',
       url: '/syllabus/calendar',
       icon: Calendar
     },

@@ -57,7 +57,6 @@ function clampEndAfterStart(start: Date, end: Date) {
   return end > start ? end : new Date(start.getTime() + 60 * 60 * 1000)
 }
 
-/* Date + Time picker that opens on click */
 function DateTimePicker({
   id,
   value,
@@ -300,7 +299,6 @@ export default function Page() {
         <BigCalendar onChange={onDaySelected} value={date} />
       </div>
 
-      {/* Drawer for creating an event */}
       <Drawer onOpenChange={setDrawerOpen} open={drawerOpen}>
         <DrawerContent>
           <DrawerHeader>

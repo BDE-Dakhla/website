@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useTheme } from 'next-themes'
 import { Button } from '@/components/ui/button'
 
-export default function SubHeader() {
+export function Greetings() {
   const { theme } = useTheme()
   return (
     <div className='grid gap-4 lg:grid-cols-12'>
@@ -15,9 +15,12 @@ export default function SubHeader() {
               Bonjour, Walid
               <span className='ml-2 select-none text-4xl'>👋</span>
             </div>
-            <div className='text-2xl'>What do you want to learn today with your partner?</div>
+            <div className='text-2xl'>
+              What do you want to learn today with your partner?
+            </div>
             <div className='text-muted-foreground'>
-              Discover courses, track progress, and achieve your learning goods seamlessly.
+              Discover courses, track progress, and achieve your learning goods
+              seamlessly.
             </div>
 
             <div className='pt-2'>

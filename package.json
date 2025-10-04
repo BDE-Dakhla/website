@@ -12,7 +12,6 @@
     "dev": "fumadocs-mdx && next dev --turbopack",
     "build": "fumadocs-mdx && next build --turbopack",
     "start": "next start",
-    "lint": "biome check .",
     "postinstall": "fumadocs-mdx",
     "migrate": "bun run lib/db/migrate.ts",
     "seed": "bun run lib/db/seed.ts"

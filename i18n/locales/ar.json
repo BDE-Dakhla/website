@@ -1,4 +1,35 @@
 {
+  "dashboard": {
+    "users": {
+      "table": {
+        "columns": {
+          "fullName": "الاسم الكامل",
+          "email": "عنوان البريد الإلكتروني",
+          "permissions": "الصلاحيات",
+          "phoneNumber": "رقم الهاتف",
+          "status": "الحالة",
+          "role": "الدور"
+        },
+        "emptyState": "لم يتم العثور على نتائج",
+        "noData": {
+          "fullName": "غير محدد",
+          "phoneNumber": "غير محدد",
+          "permissions": "لا توجد"
+        }
+      }
+    },
+    "permissions": {
+      "HAS_ACCESS_TO_DASHBOARD": "الوصول للوحة التحكم",
+      "CAN_READ_DOCS": "قراءة المستندات",
+      "CAN_WRITE_DOCS": "كتابة المستندات",
+      "CAN_MANAGE_USERS": "إدارة المستخدمين",
+      "CAN_ADMIN": "الإدارة",
+      "CAN_MANAGE_CONTENT": "إدارة المحتوى",
+      "CAN_VIEW_ANALYTICS": "عرض التحليلات",
+      "CAN_MANAGE_SETTINGS": "إعدادات النظام"
+    }
+  },
+
   "home": {
     "school-section": {
       "title": "اكتشفوا مدرستنا المميزة",

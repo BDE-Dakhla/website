@@ -20,7 +20,6 @@ export async function POST(req: NextRequest) {
   const now = new Date()
   const batch = SEND_BATCH_SIZE()
 
-  // Pick a due campaign
   const campaign = await db
     .selectFrom('campaigns')
     .selectAll()
@@ -35,7 +34,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, message: 'No due campaigns' })
   }
 
-  // Mark as sending
   if (campaign.status !== 'sending') {
     await db
       .updateTable('campaigns')
@@ -55,7 +53,6 @@ export async function POST(req: NextRequest) {
     .execute()
 
   if (recipients.length === 0) {
-    // no more: mark campaign sent
     await db
       .updateTable('campaigns')
       .set({ status: 'sent', updated_at: now })

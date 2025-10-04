@@ -1,6 +1,10 @@
 'use client'
 
-import * as React from 'react'
+import { Landmark, Monitor, School, TrendingUp } from 'lucide-react'
+import { useCallback, useMemo } from 'react'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import {
   Table,
   TableBody,
@@ -9,15 +13,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
-import { Badge } from '@/components/ui/badge'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Landmark, School, Monitor, TrendingUp } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 type DayKey = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday'
 type SlotIndex = 0 | 1 | 2 | 3
-// 0: 09h00–11h00, 1: 11h00–13h00, 2: 14h00–15h30, 3: 15h30–17h00
 
 const DAYS: { key: DayKey; label: string }[] = [
   { key: 'monday', label: 'LUNDI' },
@@ -42,28 +41,27 @@ type SlotRow =
       kind: 'class'
       id: string
       title: string
-      type?: ClassType // rendered as uniform badge
-      tags?: Tag[] // optional extra tags
-      group?: string // e.g. "Groupe A"
-      teacher?: string // e.g. "Pr. Ouallou"
+      type?: ClassType
+      tags?: Tag[]
+      group?: string
+      teacher?: string
       avatarUrl?: string
     }
   | {
       kind: 'free'
       id: string
-      label?: string // e.g. "Libre"
-      start?: string // "14h00"
-      end?: string // "15h00"
+      label?: string
+      start?: string
+      end?: string
     }
 
 export interface ScheduleEntry {
   day: DayKey
   slot: SlotIndex
   row: SlotRow
-  span?: 1 | 2 // spans the pair (0->1 or 2->3)
+  span?: 1 | 2
 }
 
-/* Rooms registry and mapping */
 export type RoomLabel =
   | 'Amphithéâtre'
   | 'Classe'
@@ -72,15 +70,15 @@ export type RoomLabel =
 
 export interface Room {
   id: string
-  name: string // e.g. "Salle 1"
+  name: string
   label: RoomLabel
 }
 
-type RoomByEventId = Record<string, string> // { [eventRowId]: roomId }
+type RoomByEventId = Record<string, string>
 
 const RoomIconMap: Record<RoomLabel, React.ComponentType<any>> = {
-  'Amphithéâtre': Landmark,
-  'Classe': School,
+  Amphithéâtre: Landmark,
+  Classe: School,
   'Salle des marchés': TrendingUp,
   "Salle d'informatique": Monitor,
 }
@@ -92,9 +90,8 @@ function initials(name: string) {
 
 function ClassTypeBadge({ type }: { type?: ClassType }) {
   if (!type) return null
-  // uniform style for TD/TP/Cours
   return (
-    <Badge variant="secondary" className="text-[10px]">
+    <Badge className='text-[10px]' variant='secondary'>
       {type}
     </Badge>
   )
@@ -105,7 +102,7 @@ function ExtraTags({ tags }: { tags?: Tag[] }) {
   return (
     <>
       {tags.map((t) => (
-        <Badge key={t} variant="outline" className="text-[10px]">
+        <Badge className='text-[10px]' key={t} variant='outline'>
           {t}
         </Badge>
       ))}
@@ -113,17 +110,13 @@ function ExtraTags({ tags }: { tags?: Tag[] }) {
   )
 }
 
-function RoomPill({
-  room,
-}: {
-  room?: Room | null
-}) {
+function RoomPill({ room }: { room?: Room | null }) {
   if (!room) return null
   const Icon = RoomIconMap[room.label]
   return (
-    <div className="mt-0.5 inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-xs">
-      <Icon className="h-3.5 w-3.5 text-muted-foreground" />
-      <span className="font-medium">{room.name}</span>
+    <div className='mt-0.5 inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-xs'>
+      <Icon className='h-3.5 w-3.5 text-muted-foreground' />
+      <span className='font-medium'>{room.name}</span>
     </div>
   )
 }
@@ -136,28 +129,27 @@ function ClassRowView({
   room?: Room | null
 }) {
   return (
-    <div className="grid place-items-center p-2 text-center">
-      <div className="flex flex-col items-center gap-1">
-        {/* type + group/tags */}
-        <div className="flex flex-wrap items-center justify-center gap-1">
+    <div className='grid place-items-center p-2 text-center'>
+      <div className='flex flex-col items-center gap-1'>
+        <div className='flex flex-wrap items-center justify-center gap-1'>
           <ClassTypeBadge type={row.type} />
           {row.group ? (
-            <Badge variant="outline" className="text-[10px]">
+            <Badge className='text-[10px]' variant='outline'>
               {row.group}
             </Badge>
           ) : null}
           <ExtraTags tags={row.tags} />
         </div>
 
-        <div className="text-sm font-semibold leading-tight">{row.title}</div>
+        <div className='font-semibold text-sm leading-tight'>{row.title}</div>
 
         {row.teacher ? (
-          <div className="mt-0.5 flex items-center gap-2 text-xs">
-            <Avatar className="h-5 w-5">
+          <div className='mt-0.5 flex items-center gap-2 text-xs'>
+            <Avatar className='h-5 w-5'>
               {row.avatarUrl ? (
-                <AvatarImage src={row.avatarUrl} alt={row.teacher} />
+                <AvatarImage alt={row.teacher} src={row.avatarUrl} />
               ) : null}
-              <AvatarFallback className="text-[10px]">
+              <AvatarFallback className='text-[10px]'>
                 {initials(row.teacher)}
               </AvatarFallback>
             </Avatar>
@@ -173,10 +165,12 @@ function ClassRowView({
 
 function FreeRowView({ row }: { row: Extract<SlotRow, { kind: 'free' }> }) {
   return (
-    <div className="mx-2 my-1 flex items-center justify-center rounded bg-muted/40 px-4 py-1 text-[11px] leading-none text-muted-foreground">
-      <span className="font-medium">
+    <div className='mx-2 my-1 flex items-center justify-center rounded bg-muted/40 px-4 py-1 text-[11px] text-muted-foreground leading-none'>
+      <span className='font-medium'>
         {row.label ?? 'Libre'}
-        {row.start || row.end ? ` — ${row.start ?? ''}${row.start && row.end ? ' - ' : ''}${row.end ?? ''}` : ''}
+        {row.start || row.end
+          ? ` — ${row.start ?? ''}${row.start && row.end ? ' - ' : ''}${row.end ?? ''}`
+          : ''}
       </span>
     </div>
   )
@@ -189,15 +183,14 @@ function CellView({
   rows: SlotRow[]
   resolveRoom: (rowId: string) => Room | undefined
 }) {
-  // centered cell content; stacked rows divide the cell height evenly
   return (
-    <div className="flex h-full min-h-[96px] flex-col justify-center divide-y divide-border">
+    <div className='flex h-full min-h-[96px] flex-col justify-center divide-y divide-border'>
       {rows.length === 0 ? (
-        <div className="h-[96px] grid place-items-center bg-muted/10" />
+        <div className='grid h-[96px] place-items-center bg-muted/10' />
       ) : (
         rows.map((r) =>
           r.kind === 'class' ? (
-            <ClassRowView key={r.id} row={r} room={resolveRoom(r.id)} />
+            <ClassRowView key={r.id} room={resolveRoom(r.id)} row={r} />
           ) : (
             <FreeRowView key={r.id} row={r} />
           ),
@@ -219,9 +212,7 @@ function TimetableRow({
   resolveRoom: (rowId: string) => Room | undefined
 }) {
   const getRows = (slot: SlotIndex) =>
-    entries
-      .filter((e) => e.day === day && e.slot === slot)
-      .map((e) => e.row)
+    entries.filter((e) => e.day === day && e.slot === slot).map((e) => e.row)
 
   const renderPair = (firstSlot: SlotIndex, secondSlot: SlotIndex) => {
     const spanning = entries.find(
@@ -230,11 +221,10 @@ function TimetableRow({
     if (spanning) {
       return (
         <TableCell
-          key={`${day}-pair-${firstSlot}`}
+          className='border border-border bg-background p-0 align-middle'
           colSpan={2}
-          className="p-0 align-middle border border-border bg-background"
-        >
-          <CellView rows={[spanning.row]} resolveRoom={resolveRoom} />
+          key={`${day}-pair-${firstSlot}`}>
+          <CellView resolveRoom={resolveRoom} rows={[spanning.row]} />
         </TableCell>
       )
     }
@@ -242,28 +232,27 @@ function TimetableRow({
     return (
       <>
         <TableCell
-          key={`${day}-${firstSlot}`}
-          className="p-0 align-middle border border-border bg-background"
-        >
-          <CellView rows={getRows(firstSlot)} resolveRoom={resolveRoom} />
+          className='border border-border bg-background p-0 align-middle'
+          key={`${day}-${firstSlot}`}>
+          <CellView resolveRoom={resolveRoom} rows={getRows(firstSlot)} />
         </TableCell>
         <TableCell
-          key={`${day}-${secondSlot}`}
-          className="p-0 align-middle border border-border bg-background"
-        >
-          <CellView rows={getRows(secondSlot)} resolveRoom={resolveRoom} />
+          className='border border-border bg-background p-0 align-middle'
+          key={`${day}-${secondSlot}`}>
+          <CellView resolveRoom={resolveRoom} rows={getRows(secondSlot)} />
         </TableCell>
       </>
     )
   }
 
   return (
-    <TableRow className="hover:bg-transparent">
-      <TableCell className={cn(
-        'w-28 select-none text-center font-bold uppercase',
-        'bg-amber-600 text-white',
-        'border border-border'
-      )}>
+    <TableRow className='hover:bg-transparent'>
+      <TableCell
+        className={cn(
+          'w-28 select-none text-center font-bold uppercase',
+          'bg-amber-600 text-white',
+          'border border-border',
+        )}>
         {DAYS.find((d) => d.key === day)?.label}
       </TableCell>
 
@@ -271,11 +260,10 @@ function TimetableRow({
 
       {isFirstRow ? (
         <TableCell
-          rowSpan={DAYS.length}
-          className="w-10 p-0 text-center border border-border bg-sky-700 text-white"
-        >
-          <div className="flex h-full items-center justify-center">
-            <span className="rotate-180 [writing-mode:vertical-rl] tracking-wider font-bold text-xs">
+          className='w-10 border border-border bg-sky-700 p-0 text-center text-white'
+          rowSpan={DAYS.length}>
+          <div className='flex h-full items-center justify-center'>
+            <span className='rotate-180 font-bold text-xs tracking-wider [writing-mode:vertical-rl]'>
               PAUSE DEJEUNER
             </span>
           </div>
@@ -295,16 +283,16 @@ export function Timetable({
 }: {
   events: ScheduleEntry[]
   rooms: Room[]
-  roomByEventId?: RoomByEventId // map class-row id -> roomId
+  roomByEventId?: RoomByEventId
   className?: string
 }) {
-  const roomMap = React.useMemo(() => {
+  const roomMap = useMemo(() => {
     const m = new Map<string, Room>()
     rooms.forEach((r) => m.set(r.id, r))
     return m
   }, [rooms])
 
-  const resolveRoom = React.useCallback(
+  const resolveRoom = useCallback(
     (rowId: string) => {
       const roomId = roomByEventId?.[rowId]
       return roomId ? roomMap.get(roomId) : undefined
@@ -314,35 +302,29 @@ export function Timetable({
 
   return (
     <ScrollArea className={cn('w-full', className)}>
-      <div className="min-w-[1040px] rounded-md border">
-        <Table className="w-full border-separate border-spacing-0 text-sm">
+      <div className='min-w-[1040px] rounded-md border'>
+        <Table className='w-full border-separate border-spacing-0 text-sm'>
           <TableHeader>
-            <TableRow className="hover:bg-transparent">
-              {/* empty top-left header */}
-              <TableHead className="w-28 p-2 text-left font-bold border border-border bg-muted/40" />
+            <TableRow className='hover:bg-transparent'>
+              <TableHead className='w-28 border border-border bg-muted/40 p-2 text-left font-bold' />
 
-              {/* Morning headers */}
               {SLOTS.slice(0, 2).map((s) => (
                 <TableHead
-                  key={s.idx}
-                  className="text-center font-bold text-white border border-border bg-amber-600"
-                >
+                  className='border border-border bg-amber-600 text-center font-bold text-white'
+                  key={s.idx}>
                   {s.label}
                 </TableHead>
               ))}
 
-              {/* Lunch header column (no label here to avoid duplication) */}
               <TableHead
                 aria-hidden
-                className="w-10 p-0 text-center border border-border bg-sky-700"
+                className='w-10 border border-border bg-sky-700 p-0 text-center'
               />
 
-              {/* Afternoon headers */}
               {SLOTS.slice(2).map((s) => (
                 <TableHead
-                  key={s.idx}
-                  className="text-center font-bold text-white border border-border bg-amber-600"
-                >
+                  className='border border-border bg-amber-600 text-center font-bold text-white'
+                  key={s.idx}>
                   {s.label}
                 </TableHead>
               ))}
@@ -352,34 +334,34 @@ export function Timetable({
           <TableBody>
             {DAYS.map((d, i) => (
               <TimetableRow
-                key={d.key}
                 day={d.key}
                 entries={events}
                 isFirstRow={i === 0}
+                key={d.key}
                 resolveRoom={resolveRoom}
               />
             ))}
           </TableBody>
         </Table>
       </div>
-      <ScrollBar orientation="horizontal" />
+      <ScrollBar orientation='horizontal' />
     </ScrollArea>
   )
 }
 
-/* ----------------------------------
-   Example Rooms + Mapping + Events
------------------------------------*/
 
 export const ROOMS: Room[] = [
   { id: 'r-amphi-1', name: 'Amphi 1', label: 'Amphithéâtre' },
   { id: 'r-salle-1', name: 'Salle 1', label: 'Classe' },
   { id: 'r-marche-1', name: 'Salle des marchés', label: 'Salle des marchés' },
-  { id: 'r-info-1', name: "Salle d'informatique", label: "Salle d'informatique" },
+  {
+    id: 'r-info-1',
+    name: "Salle d'informatique",
+    label: "Salle d'informatique",
+  },
 ]
 
 export const ROOM_BY_EVENT_ID: RoomByEventId = {
-  // Lundi
   'mon-09-micro': 'r-salle-1',
   'mon-11-droit': 'r-salle-1',
   'mon-14-cg-a': 'r-salle-1',
@@ -387,21 +369,17 @@ export const ROOM_BY_EVENT_ID: RoomByEventId = {
   'mon-1530-cg-b': 'r-salle-1',
   'mon-1530-droit-c': 'r-salle-1',
 
-  // Mardi
   'tue-09-free': 'r-salle-1',
   'tue-09-mgmt': 'r-salle-1',
   'tue-11-cg': 'r-salle-1',
 
-  // Mercredi
   'wed-14-english-span': 'r-marche-1',
 
-  // Jeudi
   'thu-09-fr': 'r-amphi-1',
   'thu-11-en': 'r-amphi-1',
 }
 
 export const SAMPLE_EVENTS: ScheduleEntry[] = [
-  // Lundi — matin
   {
     day: 'monday',
     slot: 0,
@@ -425,7 +403,6 @@ export const SAMPLE_EVENTS: ScheduleEntry[] = [
     },
   },
 
-  // Lundi — 14:00–15:30: two groups in the same slot
   {
     day: 'monday',
     slot: 2,
@@ -451,7 +428,6 @@ export const SAMPLE_EVENTS: ScheduleEntry[] = [
     },
   },
 
-  // Lundi — 15:30–17:00: two groups in the same slot
   {
     day: 'monday',
     slot: 3,
@@ -477,11 +453,16 @@ export const SAMPLE_EVENTS: ScheduleEntry[] = [
     },
   },
 
-  // Mardi — example with "free time" band plus a class
   {
     day: 'tuesday',
     slot: 0,
-    row: { kind: 'free', id: 'tue-09-free', label: 'Libre', start: '09h00', end: '09h45' },
+    row: {
+      kind: 'free',
+      id: 'tue-09-free',
+      label: 'Libre',
+      start: '09h00',
+      end: '09h45',
+    },
   },
   {
     day: 'tuesday',
@@ -506,7 +487,6 @@ export const SAMPLE_EVENTS: ScheduleEntry[] = [
     },
   },
 
-  // Mercredi — spanning pm
   {
     day: 'wednesday',
     slot: 2,
@@ -520,7 +500,6 @@ export const SAMPLE_EVENTS: ScheduleEntry[] = [
     },
   },
 
-  // Jeudi
   {
     day: 'thursday',
     slot: 0,

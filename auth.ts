@@ -67,13 +67,15 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           response_type: 'code',
         },
       },
+      httpOptions: {
+        timeout: 15000,
+      },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
       const db = getDb()
 
-      // first time sign-in
       if (user?.id) {
         const row = await db
           .selectFrom('User')
@@ -102,7 +104,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         }
       }
 
-      // subsequent requests
       const sub = token.sub
       let name = token.name
       let image = token.image
@@ -167,5 +168,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       }
       return true
     },
+  },
+  pages: {
+    signIn: '/connexion',
+    error: '/connexion/error',
   },
 })

@@ -33,7 +33,6 @@ export async function POST(req: NextRequest) {
       .execute()
   } catch (e: any) {
     if (e?.code === '23505') {
-      // Exists: set to pending if unsubscribed, keep if pending/active
       const existing = await db
         .selectFrom('subscribers')
         .selectAll()
@@ -54,7 +53,7 @@ export async function POST(req: NextRequest) {
   }
 
   const token = randomToken(32)
-  const expires = new Date(Date.now() + 1000 * 60 * 60 * 48) // 48h
+  const expires = new Date(Date.now() + 1000 * 60 * 60 * 48)
   await db
     .insertInto('subscription_tokens')
     .values({

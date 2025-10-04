@@ -1,5 +1,14 @@
 import { z } from 'zod'
+import type { Database } from '@/types/schema'
 import { userRoleSchema } from '@/types/schema'
+
+// Use the proper database User type for table components
+export type User = Database['User'] & {
+  // Add any additional fields that might be computed/transformed
+  username?: string | null // Can be transformed from 'name'
+  phoneNumber?: string | null // If this field exists
+  status?: 'active' | 'inactive' | 'invited' | 'suspended' // If this field exists
+}
 
 const userStatusSchema = z.union([
   z.literal('active'),
@@ -10,7 +19,8 @@ const userStatusSchema = z.union([
 
 export type UserStatus = z.infer<typeof userStatusSchema>
 
-const userSchema = z.object({
+// Keep the old schema for compatibility if needed elsewhere
+const legacyUserSchema = z.object({
   id: z.string(),
   username: z.string(),
   email: z.string(),
@@ -21,5 +31,4 @@ const userSchema = z.object({
   updatedAt: z.coerce.date(),
 })
 
-export type User = z.infer<typeof userSchema>
-export const userListSchema = z.array(userSchema)
+export const userListSchema = z.array(legacyUserSchema)

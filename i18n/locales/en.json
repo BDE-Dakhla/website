@@ -5,6 +5,44 @@
     }
   },
 
+  "dashboard": {
+    "users": {
+      "table": {
+        "columns": {
+          "fullName": "Full Name",
+          "email": "Email Address",
+          "permissions": "Permissions",
+          "phoneNumber": "Phone Number",
+          "status": "Status",
+          "role": "Role"
+        },
+        "emptyState": "No results found",
+        "noData": {
+          "fullName": "Not specified",
+          "phoneNumber": "Not specified",
+          "permissions": "None"
+        }
+      }
+    },
+    "permissions": {
+      "HAS_ACCESS_TO_DASHBOARD": "Dashboard Access",
+      "CAN_READ_DOCS": "Read Documents",
+      "CAN_WRITE_DOCS": "Write Documents",
+      "CAN_MANAGE_USERS": "Manage Users",
+      "CAN_ADMIN": "Administration",
+      "CAN_MANAGE_CONTENT": "Manage Content",
+      "CAN_VIEW_ANALYTICS": "View Analytics",
+      "CAN_MANAGE_SETTINGS": "System Settings"
+    }
+  },
+
+  "validation": {
+    "phone": {
+      "invalid": "Phone number must be a valid Moroccan number (+212 6XX XXX XXX, +212 7XX XXX XXX, or +212 5XX XXX XXX)",
+      "required": "Phone number is required"
+    }
+  },
+
   "home": {
     "school-section": {
       "title": "Discover our prestigious school",

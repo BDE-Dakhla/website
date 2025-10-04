@@ -1,7 +1,9 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import { Calendar as CalendarIcon, CalendarPlus, Clock } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
+import { SyllabusContentFadeIn } from '@/components/syllabus-page-transition'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Calendar as MiniCalendar } from '@/components/ui/calendar'
@@ -125,7 +127,7 @@ function DateTimePicker({
       </PopoverTrigger>
       <PopoverContent align='start' className='w-auto p-0'>
         <MiniCalendar
-          initialFocus
+          autoFocus
           mode='single'
           month={month}
           onMonthChange={setMonth}
@@ -140,14 +142,12 @@ function DateTimePicker({
               className='h-9 rounded-md border bg-background px-2 text-sm'
               onChange={(e) => setHour(parseInt(e.target.value, 10))}
               value={hour}>
-              {Array.from({ length: 24 }, (h) => {
-                const idx = h as number
-                return (
-                  <option key={idx} value={idx}>
-                    {String(h).padStart(2, '0')}
-                  </option>
-                )
-              })}
+              {Array.from({ length: 24 }, (_, h) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: h refers to index
+                <option key={h} value={h}>
+                  {String(h).padStart(2, '0')}
+                </option>
+              ))}
             </select>
             <span className='text-muted-foreground'>:</span>
             <select
@@ -210,13 +210,7 @@ export default function Page() {
     if (!d) return
     const start = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 9, 0)
     const end = new Date(start.getTime() + 60 * 60 * 1000)
-    setForm({
-      title: '',
-      description: '',
-      start,
-      end,
-      color: '#3b82f6',
-    })
+    setForm({ title: '', description: '', start, end, color: '#3b82f6' })
     setErrors(null)
     setDrawerOpen(true)
   }
@@ -253,25 +247,70 @@ export default function Page() {
   }
 
   return (
-    <div className='flex h-full min-h-0 lg:space-x-5'>
-      <aside className='sticky top-20 hidden w-80 shrink-0 space-y-4 xl:block'>
-        <Button className='w-full'>
-          <CalendarPlus /> Ajouter un événement
-        </Button>
+    <SyllabusContentFadeIn
+      className='flex h-full min-h-0 lg:space-x-5'
+      delay={0.1}>
+      <motion.aside
+        animate={{ opacity: 1, x: 0 }}
+        className='sticky top-20 hidden w-80 shrink-0 space-y-4 xl:block'
+        initial={{ opacity: 0, x: -50 }}
+        transition={{ duration: 0.6, delay: 0.2 }}>
+        <motion.div
+          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          transition={{ duration: 0.5, delay: 0.3 }}>
+          <Button
+            className='w-full'
+            onClick={() => {
+              const today = new Date()
+              const start = new Date(
+                today.getFullYear(),
+                today.getMonth(),
+                today.getDate(),
+                9,
+                0,
+              )
+              const end = new Date(start.getTime() + 60 * 60 * 1000)
+              setForm({
+                title: '',
+                description: '',
+                start,
+                end,
+                color: '#3b82f6',
+              })
+              setErrors(null)
+              setDrawerOpen(true)
+            }}>
+            <CalendarPlus /> Ajouter un événement
+          </Button>
+        </motion.div>
 
         <ScrollArea>
-          <h5 className='sticky top-0 hidden items-center bg-background pb-5 font-medium xl:flex'>
+          <motion.h5
+            animate={{ opacity: 1 }}
+            className='sticky top-0 hidden items-center pb-5 font-medium xl:flex'
+            initial={{ opacity: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}>
             Événements à venir
             <Badge className='ml-2 select-none' variant='outline'>
               {upcoming.length}
             </Badge>
-          </h5>
+          </motion.h5>
 
-          <div className='mt-0.5 divide-y overflow-hidden rounded-md xl:border'>
-            {upcoming.map((evt) => (
-              <div
+          <motion.div
+            animate={{ opacity: 1, y: 0 }}
+            className='mt-0.5 divide-y overflow-hidden rounded-md xl:border'
+            initial={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.5 }}>
+            {upcoming.map((evt, index) => (
+              <motion.div
+                animate={{ opacity: 1, x: 0 }}
                 className='flex min-w-72 cursor-pointer items-start gap-2 py-4 font-medium text-sm xl:px-4 xl:hover:bg-muted'
-                key={evt.id}>
+                initial={{ opacity: 0, x: -20 }}
+                key={evt.id}
+                transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
+                whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+                whileTap={{ scale: 0.98 }}>
                 <span
                   className='mt-1 block size-4 rounded-full'
                   style={{ backgroundColor: evt.color }}
@@ -283,21 +322,34 @@ export default function Page() {
                     {formatDateTime(evt.start)}
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
 
             {upcoming.length === 0 && (
-              <div className='p-4 text-muted-foreground text-sm'>
+              <motion.div
+                animate={{ opacity: 1 }}
+                className='p-4 text-muted-foreground text-sm'
+                initial={{ opacity: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}>
                 Aucun événement à venir.
-              </div>
+              </motion.div>
             )}
-          </div>
+          </motion.div>
         </ScrollArea>
-      </aside>
+      </motion.aside>
 
-      <div className='flex h-[calc(100svh-6rem)] min-h-0 w-full min-w-0 overflow-hidden lg:space-x-5'>
-        <BigCalendar onChange={onDaySelected} value={date} />
-      </div>
+      <motion.div
+        animate={{ opacity: 1, scale: 1 }}
+        className='flex h-[calc(100svh-7rem)] min-h-0 w-full min-w-0 overflow-hidden lg:space-x-5'
+        initial={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.6, delay: 0.1 }}>
+        <BigCalendar
+          events={events}
+          onChange={onDaySelected}
+          onEventCreate={onDaySelected}
+          value={date}
+        />
+      </motion.div>
 
       <Drawer onOpenChange={setDrawerOpen} open={drawerOpen}>
         <DrawerContent>
@@ -405,6 +457,6 @@ export default function Page() {
           </form>
         </DrawerContent>
       </Drawer>
-    </div>
+    </SyllabusContentFadeIn>
   )
 }

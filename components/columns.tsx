@@ -1,3 +1,5 @@
+'use client'
+
 import type { ColumnDef } from '@tanstack/react-table'
 import type { User } from './schema'
 import { Badge } from '@/components/ui/badge'
@@ -7,8 +9,13 @@ import { DataTableColumnHeader } from './column-header'
 import { callTypes, roles } from './data'
 import { DataTableRowActions } from './data-table-row-actions'
 import { LongText } from './long-text'
+import { useTranslations } from 'next-intl'
+import { formatMoroccanPhone } from '@/lib/validation/phone'
 
-export const usersColumns: ColumnDef<User>[] = [
+export function useUsersColumns(): ColumnDef<User>[] {
+  const t = useTranslations('dashboard')
+  
+  return [
   {
     id: 'select',
     header: ({ table }) => (
@@ -39,17 +46,19 @@ export const usersColumns: ColumnDef<User>[] = [
   {
     id: 'username',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Nom complet' />
+      <DataTableColumnHeader column={column} title={t('users.table.columns.fullName')} />
     ),
     cell: ({ row }) => (
-      <LongText className='max-w-36'>{row.original.username}</LongText>
+      <LongText className='max-w-36'>
+        {row.original.username || row.original.name || <span className='text-muted-foreground'>{t('users.table.noData.fullName')}</span>}
+      </LongText>
     ),
     meta: { className: 'w-36' },
   },
   {
     accessorKey: 'email',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Adresse mail' />
+      <DataTableColumnHeader column={column} title={t('users.table.columns.email')} />
     ),
     cell: ({ row }) => (
       <div className='w-fit text-nowrap'>{row.getValue('email')}</div>
@@ -58,31 +67,84 @@ export const usersColumns: ColumnDef<User>[] = [
   {
     accessorKey: 'permissions',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Permissions' />
+      <DataTableColumnHeader column={column} title={t('users.table.columns.permissions')} />
     ),
-    cell: ({ row }) => (
-      <div className='w-fit text-nowrap'>{row.getValue('permissions')}</div>
-    ),
+    cell: ({ row }) => {
+      const permissions = row.getValue('permissions') as Record<string, any> | null
+      
+      if (!permissions || typeof permissions !== 'object') {
+        return <div className='text-muted-foreground text-sm'>{t('users.table.noData.permissions')}</div>
+      }
+      
+      const permissionEntries = Object.entries(permissions)
+      const activePermissions = permissionEntries.filter(([_, value]) => value === 1 || value === true)
+      
+      if (activePermissions.length === 0) {
+        return <div className='text-muted-foreground text-sm'>{t('users.table.noData.permissions')}</div>
+      }
+      
+      return (
+        <div className='flex flex-wrap gap-1 max-w-48'>
+          {activePermissions.map(([key, _]) => {
+            // Get the translated permission name, fallback to formatted key
+            const translatedPermission = t(`permissions.${key}`, {
+              fallback: key.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase())
+            })
+            
+            return (
+              <Badge 
+                key={key} 
+                variant='secondary' 
+                className='text-xs px-2 py-0.5'
+                title={`Permission: ${key}`}
+              >
+                {translatedPermission}
+              </Badge>
+            )
+          })}
+        </div>
+      )
+    },
   },
   {
     accessorKey: 'phoneNumber',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Numéro de téléphone' />
+      <DataTableColumnHeader column={column} title={t('users.table.columns.phoneNumber')} />
     ),
-    cell: ({ row }) => <div>hi{row.getValue('phoneNumber')}</div>,
+    cell: ({ row }) => {
+      const phoneNumber = row.getValue('phoneNumber') as string | null
+      
+      if (!phoneNumber) {
+        return (
+          <div className='text-sm'>
+            <span className='text-muted-foreground'>{t('users.table.noData.phoneNumber')}</span>
+          </div>
+        )
+      }
+      
+      // Format Moroccan phone number
+      const formatted = formatMoroccanPhone(phoneNumber) || phoneNumber
+      
+      return (
+        <div className='text-sm font-mono'>
+          {formatted}
+        </div>
+      )
+    },
     enableSorting: false,
   },
   {
     accessorKey: 'status',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Status' />
+      <DataTableColumnHeader column={column} title={t('users.table.columns.status')} />
     ),
     cell: ({ row }) => {
-      const badgeColor = callTypes.get(row.original.status)
+      const status = row.original.status || 'active' // Default to active if no status
+      const badgeColor = callTypes.get(status)
       return (
         <div className='flex space-x-2'>
           <Badge className={cn('capitalize', badgeColor)} variant='outline'>
-            {row.getValue('status')}
+            {status}
           </Badge>
         </div>
       )
@@ -96,7 +158,7 @@ export const usersColumns: ColumnDef<User>[] = [
   {
     accessorKey: 'role',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Role' />
+      <DataTableColumnHeader column={column} title={t('users.table.columns.role')} />
     ),
     cell: ({ row }) => {
       const { role } = row.original
@@ -122,4 +184,5 @@ export const usersColumns: ColumnDef<User>[] = [
     enableHiding: false,
   },
   { id: 'actions', cell: DataTableRowActions },
-]
+  ]
+}

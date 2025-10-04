@@ -6,7 +6,6 @@ import { SMTP_FROM_EMAIL, SMTP_FROM_NAME } from '@/lib/env'
 export const runtime = 'nodejs'
 
 export async function POST(req: NextRequest) {
-  // body: { subject, html, text?, scheduledAt? ISO }
   const db = getDb()
   const body = await req.json()
   const subject = body.subject?.trim()
@@ -39,7 +38,6 @@ export async function POST(req: NextRequest) {
     })
     .execute()
 
-  // Pre-generate recipients for all active subscribers
   const subs = await db
     .selectFrom('subscribers')
     .select(['id', 'email'])

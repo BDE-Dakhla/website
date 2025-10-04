@@ -26,6 +26,44 @@
     }
   },
 
+  "dashboard": {
+    "users": {
+      "table": {
+        "columns": {
+          "fullName": "Nom complet",
+          "email": "Adresse mail",
+          "permissions": "Permissions",
+          "phoneNumber": "Numéro de téléphone",
+          "status": "Statut",
+          "role": "Rôle"
+        },
+        "emptyState": "Aucun résultat trouvé",
+        "noData": {
+          "fullName": "Non renseigné",
+          "phoneNumber": "Non renseigné",
+          "permissions": "Aucune"
+        }
+      }
+    },
+    "permissions": {
+      "HAS_ACCESS_TO_DASHBOARD": "Accès tableau de bord",
+      "CAN_READ_DOCS": "Lecture documents",
+      "CAN_WRITE_DOCS": "Écriture documents",
+      "CAN_MANAGE_USERS": "Gestion utilisateurs",
+      "CAN_ADMIN": "Administration",
+      "CAN_MANAGE_CONTENT": "Gestion contenu",
+      "CAN_VIEW_ANALYTICS": "Voir analyses",
+      "CAN_MANAGE_SETTINGS": "Paramètres système"
+    }
+  },
+
+  "validation": {
+    "phone": {
+      "invalid": "Le numéro de téléphone doit être un numéro marocain valide (+212 6XX XXX XXX, +212 7XX XXX XXX, ou +212 5XX XXX XXX)",
+      "required": "Le numéro de téléphone est requis"
+    }
+  },
+
   "home": {
     "school-section": {
       "title": "Découvrez notre précieuse école",

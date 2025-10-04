@@ -14,7 +14,8 @@ import {
   type VisibilityState
 } from '@tanstack/react-table'
 import { useEffect, useState } from 'react'
-import { usersColumns as columns } from '@/components/columns'
+import { useTranslations } from 'next-intl'
+import { useUsersColumns } from '@/components/columns'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { type NavigateFn, useTableUrlState } from '@/hooks/use-table-url-state'
 import { cn } from '@/lib/utils'
@@ -36,6 +37,11 @@ interface DataTableProps {
 }
 
 export function UsersTable({ data, search, navigate }: DataTableProps) {
+  const t = useTranslations('dashboard')
+  
+  // Get columns with translations
+  const columns = useUsersColumns()
+  
   // Local UI-only states
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -145,7 +151,7 @@ export function UsersTable({ data, search, navigate }: DataTableProps) {
             ) : (
               <TableRow>
                 <TableCell className='h-24 text-center' colSpan={columns.length}>
-                  Aucun résultat n&apos;a été trouvé.
+                  {t('users.table.emptyState')}
                 </TableCell>
               </TableRow>
             )}

@@ -1,5 +1,9 @@
 import type { NavItem } from './nav-main'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@radix-ui/react-collapsible'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@radix-ui/react-collapsible'
 import { ChevronDown } from 'lucide-react'
 import { Link } from '@/i18n/routing'
 import {
@@ -10,7 +14,7 @@ import {
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubButton,
-  SidebarMenuSubItem
+  SidebarMenuSubItem,
 } from './ui/sidebar'
 
 interface NavLinksProps {
@@ -24,9 +28,13 @@ export const NavLinks = ({ items, title }: NavLinksProps) => {
       <SidebarGroupLabel>{title}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
-          <Collapsible asChild className='group/collapsible' defaultOpen={false} key={item.title}>
+          <Collapsible
+            asChild
+            className='group/collapsible'
+            defaultOpen={false}
+            key={item.title}>
             <SidebarMenuItem>
-              {item.items?.length > 0 ? (
+              {Number(item.items?.length) > 0 ? (
                 <>
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton tooltip={item.title}>
@@ -39,7 +47,9 @@ export const NavLinks = ({ items, title }: NavLinksProps) => {
                     <SidebarMenuSub>
                       {item.items?.map((subItem) => (
                         <SidebarMenuSubItem key={subItem.title}>
-                          <SidebarMenuSubButton aria-disabled={item.disabled} asChild>
+                          <SidebarMenuSubButton
+                            aria-disabled={item.disabled}
+                            asChild>
                             <a href={subItem.url}>
                               <span>{subItem.title}</span>
                             </a>
@@ -50,7 +60,10 @@ export const NavLinks = ({ items, title }: NavLinksProps) => {
                   </CollapsibleContent>
                 </>
               ) : (
-                <SidebarMenuButton aria-disabled={item.disabled} asChild tooltip={item.title}>
+                <SidebarMenuButton
+                  aria-disabled={item.disabled}
+                  asChild
+                  tooltip={item.title}>
                   <Link href={item.url}>
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>

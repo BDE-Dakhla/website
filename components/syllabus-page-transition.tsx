@@ -26,20 +26,14 @@ const pageVariants = {
     y: 0,
     scale: 1,
     filter: 'hue-rotate(5deg) brightness(1.02)',
-    transition: {
-      duration: 0.6,
-      ease: 'easeOut',
-    },
+    transition: { duration: 0.6, ease: 'easeOut' },
   },
   out: {
     opacity: 0,
     y: -30,
     scale: 0.96,
     filter: 'hue-rotate(-5deg) brightness(0.98)',
-    transition: {
-      duration: 0.3,
-      ease: 'easeIn',
-    },
+    transition: { duration: 0.3, ease: 'easeIn' },
   },
 } satisfies Variants
 
@@ -104,11 +98,8 @@ export function SyllabusPageTransition({
   )
 }
 
-// Staggered animation for multiple items
 const containerVariants = {
-  initial: {
-    opacity: 0,
-  },
+  initial: { opacity: 0 },
   in: {
     opacity: 1,
     transition: {
@@ -183,7 +174,6 @@ export function SyllabusStaggeredTransition({
   )
 }
 
-// Individual item wrapper for staggered animations
 interface TransitionItemProps {
   children: ReactNode
   className?: string
@@ -205,16 +195,12 @@ export function SyllabusTransitionItem({
   )
 }
 
-// Slide transition for nested routes
 const slideVariants = {
+  in: { x: 0, opacity: 1 },
   initial: (direction: number) => ({
     x: direction > 0 ? 300 : -300,
     opacity: 0,
   }),
-  in: {
-    x: 0,
-    opacity: 1,
-  },
   out: (direction: number) => ({
     x: direction < 0 ? 300 : -300,
     opacity: 0,
@@ -255,7 +241,6 @@ export function SyllabusSlideTransition({
   )
 }
 
-// Simple content fade-in for reliable animations
 interface ContentFadeInProps {
   children: ReactNode
   className?: string
@@ -274,11 +259,7 @@ export function SyllabusContentFadeIn({
       animate={{ opacity: 1, y: 0 }}
       className={className}
       initial={{ opacity: 0, y: 20 }}
-      transition={{
-        duration,
-        delay,
-        ease: 'easeOut',
-      }}>
+      transition={{ duration, delay, ease: 'easeOut' }}>
       {children}
     </motion.div>
   )

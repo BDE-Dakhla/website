@@ -1,7 +1,15 @@
 'use client'
 
-import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import {
+  createContext,
+  type ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
+import { sleep } from '@/lib/utils'
 
 interface NavigationContextType {
   isNavigating: boolean
@@ -10,36 +18,41 @@ interface NavigationContextType {
   setNavigating: (isNavigating: boolean) => void
 }
 
-const NavigationContext = createContext<NavigationContextType | undefined>(undefined)
+const NavigationContext = createContext<NavigationContextType | undefined>(
+  undefined,
+)
 
 interface NavigationProviderProps {
   children: ReactNode
 }
 
-export function SyllabusNavigationProvider({ children }: NavigationProviderProps) {
+export function SyllabusNavigationProvider({
+  children,
+}: NavigationProviderProps) {
   const [isNavigating, setIsNavigating] = useState(false)
   const [activeRoute, setActiveRoute] = useState<string | null>(null)
   const router = useRouter()
   const pathname = usePathname()
 
-  const navigateTo = useCallback(async (path: string) => {
-    if (path === pathname) return
-    
-    setIsNavigating(true)
-    setActiveRoute(path)
-    
-    try {
-      router.push(path)
-      // Simulate a small delay for better UX  
-      await new Promise(resolve => setTimeout(resolve, 100))
-    } catch (error) {
-      console.error('Navigation error:', error)
-      setIsNavigating(false)
-      setActiveRoute(null)
-    }
-  }, [router, pathname])
+  const navigateTo = useCallback(
+    async (path: string) => {
+      if (path === pathname) return
 
-  // Reset navigation state when pathname changes
+      setIsNavigating(true)
+      setActiveRoute(path)
+
+      try {
+        router.push(path)
+        await sleep(100)
+      } catch (error) {
+        console.error('Navigation error:', error)
+        setIsNavigating(false)
+        setActiveRoute(null)
+      }
+    },
+    [router, pathname],
+  )
+
   useEffect(() => {
     if (isNavigating) {
       const timer = setTimeout(() => {
@@ -48,19 +61,20 @@ export function SyllabusNavigationProvider({ children }: NavigationProviderProps
       }, 200)
       return () => clearTimeout(timer)
     }
-  }, [pathname, isNavigating])
+  }, [isNavigating])
 
   const setNavigating = useCallback((navigating: boolean) => {
     setIsNavigating(navigating)
   }, [])
 
   return (
-    <NavigationContext.Provider value={{
-      isNavigating,
-      activeRoute,
-      navigateTo,
-      setNavigating,
-    }}>
+    <NavigationContext.Provider
+      value={{
+        isNavigating,
+        activeRoute,
+        navigateTo,
+        setNavigating,
+      }}>
       {children}
     </NavigationContext.Provider>
   )
@@ -68,8 +82,12 @@ export function SyllabusNavigationProvider({ children }: NavigationProviderProps
 
 export function useSyllabusNavigation() {
   const context = useContext(NavigationContext)
+
   if (context === undefined) {
-    throw new Error('useSyllabusNavigation must be used within a SyllabusNavigationProvider')
+    throw new Error(
+      'useSyllabusNavigation must be used within a SyllabusNavigationProvider',
+    )
   }
+
   return context
 }

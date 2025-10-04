@@ -184,7 +184,7 @@ function WeekView({
         ))}
       </div>
 
-      <div className='flex-1 overflow-y-auto'>
+      <div className='flex-1'>
         <div className='grid min-h-full grid-cols-8'>
           <div className='border-r'>
             {hours.map((hour) => (
@@ -280,7 +280,7 @@ function DayView({ date, events, onEventClick, onEventCreate }: DayViewProps) {
         </div>
       </div>
 
-      <div className='flex-1 overflow-y-auto'>
+      <div className='flex-1'>
         <div className='grid min-h-full grid-cols-[auto,1fr]'>
           <div className='border-r bg-muted/10'>
             {hours.map((hour) => (
@@ -447,7 +447,7 @@ export function BigCalendar(props: Props) {
     const isSelected = selected && isSameDay(date, selected)
     const isToday = isSameDay(date, new Date())
     const isOutside = modifiers?.outside
-    
+
     const ref = useRef<HTMLButtonElement>(null)
     useEffect(() => {
       if (modifiers?.focused) ref.current?.focus()
@@ -455,82 +455,85 @@ export function BigCalendar(props: Props) {
 
     return (
       <Button
-        ref={ref}
         className={cn(
-          'group relative flex aspect-square size-auto w-full h-full cursor-pointer flex-col justify-start p-2 transition-all duration-300 bg-white hover:bg-accent focus:ring-2 focus:ring-primary',
+          'group relative flex aspect-square size-auto h-full w-full cursor-pointer flex-col justify-start overflow-y-auto bg-white p-2 transition-all duration-300 hover:bg-accent focus:ring-2 focus:ring-primary',
           {
             'bg-muted/50 text-muted-foreground opacity-50 hover:bg-muted/70':
               isOutside,
-            'hover:bg-accent/70 hover:shadow-md': !isOutside && !isSelected && !isToday,
-            'bg-primary/15 text-primary hover:bg-primary/20 shadow-md': isSelected,
-            'bg-accent border-2 border-primary/40 text-primary font-semibold shadow-sm hover:bg-primary/10': isToday && !isSelected,
-            'bg-primary/20 border-2 border-primary/50 text-primary font-bold shadow-md': isToday && isSelected,
+            'hover:bg-accent/70 hover:shadow-md':
+              !isOutside && !isSelected && !isToday,
+            'bg-primary/15 text-primary shadow-md hover:bg-primary/20':
+              isSelected,
+            'border-2 border-primary/40 bg-accent font-semibold text-primary shadow-sm hover:bg-primary/10':
+              isToday && !isSelected,
+            'border-2 border-primary/50 bg-primary/20 font-bold text-primary shadow-md':
+              isToday && isSelected,
           },
           className,
         )}
-        variant='ghost'
-        size='icon'
-        onClick={() => handleDayClick(date)}
         data-day={date.toLocaleDateString()}
+        data-outside={isOutside}
         data-selected={isSelected}
         data-today={isToday}
-        data-outside={isOutside}
+        onClick={() => handleDayClick(date)}
+        ref={ref}
+        size='icon'
+        variant='ghost'
         {...props}>
         <p
           about='n_day of the month'
-          className={cn(
-            'mt-3 mr-2 text-right text-sm leading-none tracking-widest',
-            {
-              'opacity-50': isOutside,
-              'font-bold text-primary': isToday,
-              'font-semibold text-primary/80': isSelected && !isToday,
-            },
-          )}>
+          className={cn('mt-3 text-sm tracking-widest', {
+            'opacity-50': isOutside,
+            'font-bold text-primary': isToday,
+            'font-semibold text-primary/80': isSelected && !isToday,
+          })}>
           {date.getDate()}
         </p>
 
-        <div className={cn('flex-1 space-y-1', { 'opacity-60': isOutside })}>
-          {dayEvents.slice(0, 3).map((event) => (
-            <Button
-              className='cursor-pointer truncate rounded-sm px-1.5 py-0.5 font-medium text-[10px] hover:opacity-80'
-              key={event.id}
-              onClick={(e) => {
-                e.stopPropagation()
-                handleEventClick(event)
-              }}
-              style={{
-                backgroundColor: `${event.color}15`,
-                borderLeft: `2px solid ${event.color}`,
-                color: event.color,
-              }}>
-              {event.title}
-            </Button>
-          ))}
-          {dayEvents.length > 3 && (
-            <div className='px-1.5 font-medium text-[9px] text-gray-500'>
-              +{dayEvents.length - 3} more
-            </div>
-          )}
-        </div>
+        {dayEvents.length > 0 && (
+          <div
+            className={cn('w-full flex-1 space-y-1 px-2', {
+              'opacity-60': isOutside,
+            })}>
+            {dayEvents.slice(0, 3).map((event) => (
+              <div
+                className='truncate px-2 py-1 pl-3 text-start text-[10px] hover:opacity-80'
+                key={event.id}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleEventClick(event)
+                }}
+                style={{
+                  backgroundColor: `${event.color}15`,
+                  borderLeft: `2px solid ${event.color}`,
+                  color: event.color,
+                }}>
+                {event.title}
+              </div>
+            ))}
+            {dayEvents.length > 3 && (
+              <div className='mt-2 px-2 font-medium text-[9px] text-gray-500'>
+                +{dayEvents.length - 3} autre(s)
+              </div>
+            )}
+          </div>
+        )}
 
-        <div className='absolute top-2 right-2 opacity-0 transition-opacity group-hover:opacity-100'>
-          <button
-            aria-label='Add event'
-            className='flex h-5 w-5 items-center justify-center rounded-full bg-blue-100 transition-colors hover:bg-blue-200'
-            onClick={(e) => {
-              e.stopPropagation()
-              handleEventCreate(date)
-            }}
-            type='button'>
-            <Plus className='h-3 w-3 text-blue-600' />
-          </button>
+        <div
+          about='add event inside cell day of table'
+          className='absolute top-2 right-2 grid size-5 place-items-center rounded-full bg-primary/10 opacity-0 transition-opacity duration-500 hover:scale-110 hover:bg-primary/5 group-hover:opacity-100'
+          onClick={(e): void => {
+            e.stopPropagation()
+            handleEventCreate(date)
+          }}>
+          <Plus className='size-1 text-primary' />
         </div>
       </Button>
     )
   }
 
   return (
-    <div className='syllabus-calendar flex min-h-0 flex-1 grow flex-col overflow-hidden'>
+    <div className='syllabus-calendar flex min-h-0 flex-1 grow flex-col'>
       <div className='flex items-center justify-between px-2 pb-2'>
         <div className='flex items-center gap-2'>
           <ToggleGroup type='single' variant='outline'>
@@ -574,7 +577,7 @@ export function BigCalendar(props: Props) {
         </div>
       </div>
 
-      <div className='min-h-0 flex-1 overflow-hidden'>
+      <div className='min-h-0 flex-1'>
         <AnimatePresence mode='wait'>
           {view === 'month' && (
             <ViewTransition keyedBy='month' preset='slide-up'>
@@ -584,7 +587,7 @@ export function BigCalendar(props: Props) {
                   nav: 'hidden',
                   month_caption: 'hidden sr-only',
                   month_grid:
-                    'h-full min-h-0 flex flex-col border border-border rounded-lg overflow-hidden',
+                    'h-full min-h-0 flex flex-col border border-border rounded-lg',
                   week: 'h-full min-h-[120px] grid grid-cols-7 border-b last:border-b-0 border-border',
                   weekdays:
                     'grid grid-cols-7 border-b border-border bg-muted/10',

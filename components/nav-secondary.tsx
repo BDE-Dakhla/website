@@ -1,6 +1,8 @@
 'use client'
 
 import type { NavItem } from './nav-main'
+import { Badge } from './ui/badge'
+import { cn } from '@/lib/utils'
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -19,16 +21,45 @@ export function NavSecondary({
     <SidebarGroup {...props}>
       <SidebarGroupContent>
         <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild>
-                <a href={item.url}>
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          {items
+            .filter((item) => item.visible ?? true)
+            .map((item) => (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton
+                  asChild={!item.disabled}
+                  className={cn({
+                    'opacity-50 cursor-not-allowed': item.disabled,
+                  })}
+                  disabled={item.disabled}
+                  tooltip={item.title}>
+                  {item.disabled ? (
+                    <div className='flex w-full cursor-not-allowed items-center justify-between gap-2'>
+                      <div className='flex items-center gap-2'>
+                        {item.icon && <item.icon />}
+                        <span>{item.title}</span>
+                      </div>
+                      {item.tooltip && (
+                        <Badge className='ml-auto' variant='secondary'>
+                          {item.tooltip}
+                        </Badge>
+                      )}
+                    </div>
+                  ) : (
+                    <a className='flex w-full items-center justify-between' href={item.url}>
+                      <div className='flex items-center gap-2'>
+                        {item.icon && <item.icon />}
+                        <span>{item.title}</span>
+                      </div>
+                      {item.tooltip && (
+                        <Badge className='ml-auto' variant='secondary'>
+                          {item.tooltip}
+                        </Badge>
+                      )}
+                    </a>
+                  )}
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

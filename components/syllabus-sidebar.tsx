@@ -2,7 +2,9 @@
 
 import { AnimatePresence } from 'framer-motion'
 import {
+  AppWindow,
   BadgeQuestionMark,
+  Book,
   BookOpen,
   BookUser,
   Brain,
@@ -10,9 +12,10 @@ import {
   Camera,
   CirclePlus,
   Clock,
+  ExternalLink,
   FileIcon,
+  Folder,
   Inbox,
-  LibraryBig,
   Loader2,
 } from 'lucide-react'
 import { NavMain } from '@/components/nav-main'
@@ -41,7 +44,13 @@ const data = {
       url: '/syllabus/calendar',
       icon: Calendar,
     },
-    { title: 'Emploi du temps', url: '/syllabus/schedule', icon: Clock },
+    {
+      title: 'Emploi du temps',
+      url: '/syllabus/schedule',
+      icon: Clock,
+      disabled: true,
+      tooltip: 'Bientôt',
+    },
     {
       title: 'Contact des professeurs',
       url: '/syllabus/contacts',
@@ -50,9 +59,14 @@ const data = {
   ],
   navItems: [
     {
-      title: 'Ressources',
-      url: '/syllabus/resources',
-      icon: LibraryBig,
+      title: 'Mes cours',
+      url: '/syllabus/my-courses',
+      icon: Folder,
+    },
+    {
+      title: 'Bibliothèque',
+      url: '/syllabus/library',
+      icon: Book,
     },
   ],
   navClouds: [
@@ -86,7 +100,19 @@ const data = {
     },
   ],
   navSecondary: [
-    { title: 'Documentation', url: '/syllabus/docs', icon: BookOpen },
+    {
+      title: 'Tableau de bord',
+      url: '/dashboard',
+      icon: AppWindow,
+      tooltip: <ExternalLink className='size-3.5' />,
+    },
+    {
+      title: 'Documentation',
+      url: '/syllabus/docs',
+      icon: BookOpen,
+      disabled: true,
+      tooltip: 'Beta',
+    },
     {
       title: "Obtenir de l'aide",
       url: '/syllabus/help',

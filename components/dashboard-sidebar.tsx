@@ -6,6 +6,7 @@ import {
   ChartPie,
   ContactRound,
   Handshake,
+  LayoutDashboard,
   Newspaper,
   TicketsIcon,
   Users,
@@ -22,6 +23,8 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
+import { hasPermission } from '@/lib/permission'
+import { useSession } from 'next-auth/react'
 import { NavLinks } from './nav-links'
 
 const data = {
@@ -78,6 +81,22 @@ const data = {
 export function DashboardSideBar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
+  const { data: session } = useSession()
+  const canSeeDashboard = hasPermission(
+    session?.user?.perms,
+    'HAS_ACCESS_TO_DASHBOARD',
+  )
+
+  const navMain: NavItem[] = [
+    {
+      title: 'Dashboard',
+      url: '/dashboard',
+      icon: LayoutDashboard,
+      visible: canSeeDashboard,
+    },
+    ...data.navMain,
+  ]
+
   return (
     <Sidebar collapsible='offcanvas' {...props}>
       <SidebarHeader>
@@ -103,7 +122,7 @@ export function DashboardSideBar({
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={navMain} />
         <NavLinks items={data.navEvents} title='Événementiel' />
         <NavLinks items={data.navWebApp} title='Plateforme' />
         <NavLinks items={data.navAcademic} title='Académique' />

@@ -14,6 +14,9 @@ interface AppDatabase {
   Campaigns: Campaigns
   CampaignRecipients: CampaignRecipients
   sponsors: SponsorTable
+  analytics_visitors: AnalyticsVisitor
+  analytics_sessions: AnalyticsSession
+  analytics_events: AnalyticsEvent
 }
 
 interface UserExtra {
@@ -112,7 +115,42 @@ interface SponsorTable {
   updated_at: ColumnType<Date, Date | undefined, never> // default now() + trigger
 
   approved_at: ColumnType<Date | null, Date | undefined, Date | null>
-  approved_by: string | null // uuid FK to "User".id, nullable
+  approved_by: string | null // uuid FK to \"User\".id, nullable
+}
+
+// Analytics tables
+interface AnalyticsVisitor {
+  id: Generated<string>
+  visitor_key: string
+  user_agent: string | null
+  ip_hash: string | null
+  created_at: ColumnType<Date, Date | undefined, never>
+  ua_brands: unknown | null
+  ua_platform: string | null
+  ua_mobile: ColumnType<boolean | null, boolean | null | undefined, boolean | null>
+  device_category: string | null
+}
+
+interface AnalyticsSession {
+  id: Generated<string>
+  visitor_id: string
+  user_id: string | null
+  started_at: ColumnType<Date, Date | undefined, never>
+  last_activity_at: ColumnType<Date, Date | undefined, never>
+  entry_path: string | null
+  entry_locale: string | null
+  referrer: string | null
+  country_code: string | null
+}
+
+interface AnalyticsEvent {
+  id: Generated<string>
+  session_id: string
+  happened_at: ColumnType<Date, Date | undefined, never>
+  type: 'pageview' | 'heartbeat' | 'event'
+  path: string
+  title: string | null
+  event_name: string | null
 }
 
 export type Sponsor = Selectable<SponsorTable>

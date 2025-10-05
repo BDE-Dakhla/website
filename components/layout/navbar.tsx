@@ -37,6 +37,7 @@ import {
 } from '@/components/ui/sheet'
 import { Link, usePathname } from '@/i18n/routing'
 import { Logo } from './logo'
+import { trackEvent } from '@/components/analytics-tracker'
 
 interface MenuItem {
   title: string
@@ -121,13 +122,14 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
           <Button asChild size='sm' variant='outline'>
             <Link
               className='!px-3 flex items-center gap-x-2 py-4'
-              href='/contact'>
+              href='/contact'
+              onClick={() => trackEvent('contact-button-header')}>
               <Phone className='!size-4' />
               Nous contacter
             </Link>
           </Button>
           <Button asChild size='sm'>
-            <Link className='flex items-center gap-x-2' href='/syllabus'>
+            <Link className='flex items-center gap-x-2' href='/syllabus' onClick={() => trackEvent('syllabus-button-header')}>
               <GraduationCap />
               {t('common.syllabus')}
             </Link>
@@ -174,7 +176,7 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
               </div>
               <div className='flex flex-col gap-3'>
                 <Button asChild size='sm'>
-                  <Link className='flex items-center gap-x-2' href='/syllabus'>
+                  <Link className='flex items-center gap-x-2' href='/syllabus' onClick={() => trackEvent('syllabus-button-header-mobile')}>
                     <GraduationCap />
                     {t('common.syllabus')}
                   </Link>
@@ -215,7 +217,8 @@ const renderMenuItem = (
                   <Link
                     aria-current={isActive(subItem.url) ? 'page' : undefined}
                     className={`flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-muted hover:text-accent-foreground ${isActive(subItem.url) ? 'bg-muted text-accent-foreground' : ''}`}
-                    href={subItem.url}>
+                    href={subItem.url}
+                    onClick={() => trackEvent(`nav-${subItem.title.toLowerCase().replace(/\s+/g,'-')}`)}>
                     {subItem.icon && <subItem.icon />}
                     <span className='w-full'>
                       <span className='w-full font-semibold text-sm'>
@@ -244,7 +247,8 @@ const renderMenuItem = (
       aria-current={active ? 'page' : undefined}
       className={`flex w-max items-center justify-center rounded-md bg-background px-4 py-2 font-medium text-sm transition-colors hover:bg-muted hover:text-accent-foreground ${active ? 'bg-muted text-accent-foreground' : 'text-muted-foreground'}`}
       href={item.url}
-      key={item.title}>
+      key={item.title}
+      onClick={() => trackEvent(`nav-${item.title.toLowerCase().replace(/\s+/g,'-')}`)}>
       {item.icon && <item.icon className='mr-3' />}
       <span>{item.title}</span>
     </Link>

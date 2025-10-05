@@ -1,9 +1,21 @@
-"use client"
+'use client'
 
-import { useEffect, useState } from "react"
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
-
-import { useIsMobile } from "@/hooks/use-mobile"
+import { FilterIcon, X } from 'lucide-react'
+import { useEffect, useMemo, useState } from 'react'
+import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
+import useSWR from 'swr'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardAction,
@@ -11,280 +23,434 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from '@/components/ui/card'
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
+} from '@/components/ui/chart'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/components/ui/toggle-group"
+} from '@/components/ui/select'
+import { Skeleton } from '@/components/ui/skeleton'
+import { useIsMobile } from '@/hooks/use-mobile'
 
-export const description = "An interactive area chart"
+export const description = 'An interactive area chart'
 
-const chartData = [
-  { date: "2024-04-01", desktop: 222, mobile: 150 },
-  { date: "2024-04-02", desktop: 97, mobile: 180 },
-  { date: "2024-04-03", desktop: 167, mobile: 120 },
-  { date: "2024-04-04", desktop: 242, mobile: 260 },
-  { date: "2024-04-05", desktop: 373, mobile: 290 },
-  { date: "2024-04-06", desktop: 301, mobile: 340 },
-  { date: "2024-04-07", desktop: 245, mobile: 180 },
-  { date: "2024-04-08", desktop: 409, mobile: 320 },
-  { date: "2024-04-09", desktop: 59, mobile: 110 },
-  { date: "2024-04-10", desktop: 261, mobile: 190 },
-  { date: "2024-04-11", desktop: 327, mobile: 350 },
-  { date: "2024-04-12", desktop: 292, mobile: 210 },
-  { date: "2024-04-13", desktop: 342, mobile: 380 },
-  { date: "2024-04-14", desktop: 137, mobile: 220 },
-  { date: "2024-04-15", desktop: 120, mobile: 170 },
-  { date: "2024-04-16", desktop: 138, mobile: 190 },
-  { date: "2024-04-17", desktop: 446, mobile: 360 },
-  { date: "2024-04-18", desktop: 364, mobile: 410 },
-  { date: "2024-04-19", desktop: 243, mobile: 180 },
-  { date: "2024-04-20", desktop: 89, mobile: 150 },
-  { date: "2024-04-21", desktop: 137, mobile: 200 },
-  { date: "2024-04-22", desktop: 224, mobile: 170 },
-  { date: "2024-04-23", desktop: 138, mobile: 230 },
-  { date: "2024-04-24", desktop: 387, mobile: 290 },
-  { date: "2024-04-25", desktop: 215, mobile: 250 },
-  { date: "2024-04-26", desktop: 75, mobile: 130 },
-  { date: "2024-04-27", desktop: 383, mobile: 420 },
-  { date: "2024-04-28", desktop: 122, mobile: 180 },
-  { date: "2024-04-29", desktop: 315, mobile: 240 },
-  { date: "2024-04-30", desktop: 454, mobile: 380 },
-  { date: "2024-05-01", desktop: 165, mobile: 220 },
-  { date: "2024-05-02", desktop: 293, mobile: 310 },
-  { date: "2024-05-03", desktop: 247, mobile: 190 },
-  { date: "2024-05-04", desktop: 385, mobile: 420 },
-  { date: "2024-05-05", desktop: 481, mobile: 390 },
-  { date: "2024-05-06", desktop: 498, mobile: 520 },
-  { date: "2024-05-07", desktop: 388, mobile: 300 },
-  { date: "2024-05-08", desktop: 149, mobile: 210 },
-  { date: "2024-05-09", desktop: 227, mobile: 180 },
-  { date: "2024-05-10", desktop: 293, mobile: 330 },
-  { date: "2024-05-11", desktop: 335, mobile: 270 },
-  { date: "2024-05-12", desktop: 197, mobile: 240 },
-  { date: "2024-05-13", desktop: 197, mobile: 160 },
-  { date: "2024-05-14", desktop: 448, mobile: 490 },
-  { date: "2024-05-15", desktop: 473, mobile: 380 },
-  { date: "2024-05-16", desktop: 338, mobile: 400 },
-  { date: "2024-05-17", desktop: 499, mobile: 420 },
-  { date: "2024-05-18", desktop: 315, mobile: 350 },
-  { date: "2024-05-19", desktop: 235, mobile: 180 },
-  { date: "2024-05-20", desktop: 177, mobile: 230 },
-  { date: "2024-05-21", desktop: 82, mobile: 140 },
-  { date: "2024-05-22", desktop: 81, mobile: 120 },
-  { date: "2024-05-23", desktop: 252, mobile: 290 },
-  { date: "2024-05-24", desktop: 294, mobile: 220 },
-  { date: "2024-05-25", desktop: 201, mobile: 250 },
-  { date: "2024-05-26", desktop: 213, mobile: 170 },
-  { date: "2024-05-27", desktop: 420, mobile: 460 },
-  { date: "2024-05-28", desktop: 233, mobile: 190 },
-  { date: "2024-05-29", desktop: 78, mobile: 130 },
-  { date: "2024-05-30", desktop: 340, mobile: 280 },
-  { date: "2024-05-31", desktop: 178, mobile: 230 },
-  { date: "2024-06-01", desktop: 178, mobile: 200 },
-  { date: "2024-06-02", desktop: 470, mobile: 410 },
-  { date: "2024-06-03", desktop: 103, mobile: 160 },
-  { date: "2024-06-04", desktop: 439, mobile: 380 },
-  { date: "2024-06-05", desktop: 88, mobile: 140 },
-  { date: "2024-06-06", desktop: 294, mobile: 250 },
-  { date: "2024-06-07", desktop: 323, mobile: 370 },
-  { date: "2024-06-08", desktop: 385, mobile: 320 },
-  { date: "2024-06-09", desktop: 438, mobile: 480 },
-  { date: "2024-06-10", desktop: 155, mobile: 200 },
-  { date: "2024-06-11", desktop: 92, mobile: 150 },
-  { date: "2024-06-12", desktop: 492, mobile: 420 },
-  { date: "2024-06-13", desktop: 81, mobile: 130 },
-  { date: "2024-06-14", desktop: 426, mobile: 380 },
-  { date: "2024-06-15", desktop: 307, mobile: 350 },
-  { date: "2024-06-16", desktop: 371, mobile: 310 },
-  { date: "2024-06-17", desktop: 475, mobile: 520 },
-  { date: "2024-06-18", desktop: 107, mobile: 170 },
-  { date: "2024-06-19", desktop: 341, mobile: 290 },
-  { date: "2024-06-20", desktop: 408, mobile: 450 },
-  { date: "2024-06-21", desktop: 169, mobile: 210 },
-  { date: "2024-06-22", desktop: 317, mobile: 270 },
-  { date: "2024-06-23", desktop: 480, mobile: 530 },
-  { date: "2024-06-24", desktop: 132, mobile: 180 },
-  { date: "2024-06-25", desktop: 141, mobile: 190 },
-  { date: "2024-06-26", desktop: 434, mobile: 380 },
-  { date: "2024-06-27", desktop: 448, mobile: 490 },
-  { date: "2024-06-28", desktop: 149, mobile: 200 },
-  { date: "2024-06-29", desktop: 103, mobile: 160 },
-  { date: "2024-06-30", desktop: 446, mobile: 400 },
-]
+type Range = '3h' | '6h' | '12h' | '24h' | '7d' | '30d' | '90d' | '6mo' | '1y'
 
 const chartConfig = {
+  views: {
+    label: 'Views',
+    color: 'var(--primary)',
+  },
   visitors: {
-    label: "Visitors",
-  },
-  desktop: {
-    label: "Desktop",
-    color: "var(--primary)",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "var(--primary)",
+    label: 'Visitors',
+    color: 'hsl(var(--muted-foreground))',
   },
 } satisfies ChartConfig
 
-export function ChartAreaInteractive() {
+const fetcher = (url: string) =>
+  fetch(url, { cache: 'no-store' }).then((r) => r.json())
+
+interface Props {
+  range?: Range
+  onRangeChange?: (r: Range) => void
+}
+
+export function ChartAreaInteractive({
+  range: controlledRange,
+  onRangeChange,
+}: Props) {
   const isMobile = useIsMobile()
-  const [timeRange, setTimeRange] = useState("90d")
+  const [timeRange, setTimeRange] = useState<Range>('24h')
 
   useEffect(() => {
-    if (isMobile) {
-      setTimeRange("7d")
+    if (!controlledRange && isMobile) {
+      setTimeRange('24h')
     }
-  }, [isMobile])
+  }, [isMobile, controlledRange])
 
-  const filteredData = chartData.filter((item) => {
-    const date = new Date(item.date)
-    const referenceDate = new Date("2024-06-30")
-    let daysToSubtract = 90
-    if (timeRange === "30d") {
-      daysToSubtract = 30
-    } else if (timeRange === "7d") {
-      daysToSubtract = 7
+  const range = controlledRange ?? timeRange
+
+  const [filters, setFilters] = useState<
+    {
+      field: 'url' | 'referrer' | 'browser' | 'os' | 'device'
+      op: 'is' | 'is_not' | 'contains' | 'not_contains'
+      value: string
+    }[]
+  >([])
+
+  const urlOpts = useSWR(
+    `/api/analytics/options?kind=url&range=${range}`,
+    fetcher,
+  )
+  const refOpts = useSWR(
+    `/api/analytics/options?kind=referrer&range=${range}`,
+    fetcher,
+  )
+  const brOpts = useSWR(
+    `/api/analytics/options?kind=browser&range=${range}`,
+    fetcher,
+  )
+  const osOpts = useSWR(
+    `/api/analytics/options?kind=os&range=${range}`,
+    fetcher,
+  )
+  const devOpts = useSWR(
+    `/api/analytics/options?kind=device&range=${range}`,
+    fetcher,
+  )
+
+  const [draft, setDraft] = useState<{
+    [K in 'url' | 'referrer' | 'browser' | 'os' | 'device']?: {
+      op: 'is' | 'is_not' | 'contains' | 'not_contains'
+      value?: string
     }
-    const startDate = new Date(referenceDate)
-    startDate.setDate(startDate.getDate() - daysToSubtract)
-    return date >= startDate
-  })
+  }>({})
+
+  const filtersParam = useMemo(
+    () => encodeURIComponent(JSON.stringify(filters)),
+    [filters],
+  )
+
+  const { data } = useSWR(
+    `/api/analytics/metrics?range=${range}&filters=${filtersParam}`,
+    fetcher,
+    {
+      refreshInterval: 60_000,
+    },
+  )
+
+  const series = useMemo(
+    () =>
+      // biome-ignore lint/suspicious/noExplicitAny: todo fix type
+      (data?.series ?? []).map((d: any) => ({
+        date: d.time,
+        views: Number(d.views),
+        visitors: Number(d.visitors),
+      })),
+    [data?.series],
+  )
+
+  const formatTick = (value: string) => {
+    const date = new Date(value)
+    if (data?.unit === 'hour') {
+      return date.toLocaleTimeString(undefined, { hour: 'numeric' })
+    }
+    return date.toLocaleDateString(undefined, {
+      month: 'short',
+      day: 'numeric',
+    })
+  }
+
+  function handleRangeChange(v: string) {
+    if (!v) return
+    const r = v as Range
+    if (!controlledRange) setTimeRange(r)
+    onRangeChange?.(r)
+  }
+
+  const loading = !data
 
   return (
-    <Card className="@container/card">
+    <Card className='@container/card'>
       <CardHeader>
-        <CardTitle>Total Visitors</CardTitle>
+        <CardTitle>Traffic</CardTitle>
         <CardDescription>
-          <span className="hidden @[540px]/card:block">
-            Total for the last 3 months
+          <span>
+            {(() => {
+              const labels: Record<Range, string> = {
+                '3h': 'Last 3 hours',
+                '6h': 'Last 6 hours',
+                '12h': 'Last 12 hours',
+                '24h': 'Last 24 hours',
+                '7d': 'Last 7 days',
+                '30d': 'Last 30 days',
+                '90d': 'Last 3 months',
+                '6mo': 'Last 6 months',
+                '1y': 'Last year',
+              }
+              return labels[range]
+            })()}
           </span>
-          <span className="@[540px]/card:hidden">Last 3 months</span>
         </CardDescription>
-        <CardAction>
-          <ToggleGroup
-            type="single"
-            value={timeRange}
-            onValueChange={setTimeRange}
-            variant="outline"
-            className="hidden *:data-[slot=toggle-group-item]:!px-4 @[767px]/card:flex"
-          >
-            <ToggleGroupItem value="90d">Last 3 months</ToggleGroupItem>
-            <ToggleGroupItem value="30d">Last 30 days</ToggleGroupItem>
-            <ToggleGroupItem value="7d">Last 7 days</ToggleGroupItem>
-          </ToggleGroup>
-          <Select value={timeRange} onValueChange={setTimeRange}>
+        <CardAction className='flex items-center gap-2'>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size='sm' variant='outline'>
+                <FilterIcon />
+                Filtres
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className='w-72'>
+              <DropdownMenuLabel>Ajouter un filtre</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {[
+                ['url', 'URL'] as const,
+                ['referrer', 'Referrer'] as const,
+                ['browser', 'Browser'] as const,
+                ['os', 'OS'] as const,
+                ['device', 'Device'] as const,
+              ].map(([key, label]) => (
+                <DropdownMenuSub key={key}>
+                  <DropdownMenuSubTrigger>{label}</DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent className='w-72'>
+                    <div className='grid gap-2 p-1'>
+                      <Select
+                        onValueChange={(op) =>
+                          setDraft((d) => ({
+                            ...d,
+                            [key]: {
+                              ...(d[key] || { op: 'is' }),
+                              op: op,
+                            },
+                          }))
+                        }
+                        value={draft[key]?.op || 'is'}>
+                        <SelectTrigger className='w-full' size='sm'>
+                          <SelectValue placeholder='Operator' />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value='is'>Is</SelectItem>
+                          <SelectItem value='is_not'>Is Not</SelectItem>
+                          <SelectItem value='contains'>Contains</SelectItem>
+                          <SelectItem value='not_contains'>
+                            Does not contain
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <Select
+                        onValueChange={(val) =>
+                          setDraft((d) => ({
+                            ...d,
+                            [key]: { ...(d[key] || { op: 'is' }), value: val },
+                          }))
+                        }
+                        value={draft[key]?.value}>
+                        <SelectTrigger className='w-full' size='sm'>
+                          <SelectValue placeholder='Select value' />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {(
+                            (key === 'url'
+                              ? urlOpts.data?.items
+                              : key === 'referrer'
+                                ? refOpts.data?.items
+                                : key === 'browser'
+                                  ? brOpts.data?.items
+                                  : key === 'os'
+                                    ? osOpts.data?.items
+                                    : devOpts.data?.items) || []
+                          ).map((v: string) => (
+                            <SelectItem key={v} value={v}>
+                              {v}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <Button
+                        onClick={() => {
+                          const d = draft[key]
+                          if (!d?.value) return
+                          setFilters((f) => [
+                            ...f,
+                            {
+                              field: key,
+                              op: d.op || 'is',
+                              value: d.value as string,
+                            },
+                          ])
+                        }}
+                        size='sm'>
+                        Add rule
+                      </Button>
+                    </div>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <Select onValueChange={handleRangeChange} value={range}>
             <SelectTrigger
-              className="flex w-40 **:data-[slot=select-value]:block **:data-[slot=select-value]:truncate @[767px]/card:hidden"
-              size="sm"
-              aria-label="Select a value"
-            >
-              <SelectValue placeholder="Last 3 months" />
+              aria-label='Select a value'
+              className='flex w-40 **:data-[slot=select-value]:block **:data-[slot=select-value]:truncate'
+              size='sm'>
+              <SelectValue placeholder='Last 3 months' />
             </SelectTrigger>
-            <SelectContent className="rounded-xl">
-              <SelectItem value="90d" className="rounded-lg">
-                Last 3 months
+            <SelectContent className='rounded-xl'>
+              <SelectItem className='rounded-lg' value='24h'>
+                Last 24 hours
               </SelectItem>
-              <SelectItem value="30d" className="rounded-lg">
+              <SelectItem className='rounded-lg' value='12h'>
+                Last 12 hours
+              </SelectItem>
+              <SelectItem className='rounded-lg' value='6h'>
+                Last 6 hours
+              </SelectItem>
+              <SelectItem className='rounded-lg' value='3h'>
+                Last 3 hours
+              </SelectItem>
+              <SelectItem className='rounded-lg' value='7d'>
+                Last 7 days
+              </SelectItem>
+              <SelectItem className='rounded-lg' value='30d'>
                 Last 30 days
               </SelectItem>
-              <SelectItem value="7d" className="rounded-lg">
-                Last 7 days
+              <SelectItem className='rounded-lg' value='90d'>
+                Last 3 months
+              </SelectItem>
+              <SelectItem className='rounded-lg' value='6mo'>
+                Last 6 months
+              </SelectItem>
+              <SelectItem className='rounded-lg' value='1y'>
+                Last year
               </SelectItem>
             </SelectContent>
           </Select>
         </CardAction>
       </CardHeader>
-      <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
-        <ChartContainer
-          config={chartConfig}
-          className="aspect-auto h-[250px] w-full"
-        >
-          <AreaChart data={filteredData}>
-            <defs>
-              <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-desktop)"
-                  stopOpacity={1.0}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-desktop)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-              <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-mobile)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-mobile)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-            </defs>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="date"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              minTickGap={32}
-              tickFormatter={(value) => {
-                const date = new Date(value)
-                return date.toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                })
-              }}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={
-                <ChartTooltipContent
-                  labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                    })
-                  }}
-                  indicator="dot"
-                />
-              }
-            />
-            <Area
-              dataKey="mobile"
-              type="natural"
-              fill="url(#fillMobile)"
-              stroke="var(--color-mobile)"
-              stackId="a"
-            />
-            <Area
-              dataKey="desktop"
-              type="natural"
-              fill="url(#fillDesktop)"
-              stroke="var(--color-desktop)"
-              stackId="a"
-            />
-          </AreaChart>
-        </ChartContainer>
+      <CardContent className='px-2 pt-4 sm:px-6 sm:pt-6'>
+        {/* Active filters */}
+        {filters.length > 0 && (
+          <div className='mb-3 flex flex-wrap items-center gap-2'>
+            {filters.map((f, idx) => (
+              <span
+                className='inline-flex items-center gap-2 rounded-full border px-2 py-1 text-xs'
+                key={f.value}>
+                <span className='font-medium'>{f.field}</span>
+                <span className='text-muted-foreground'>{f.op}</span>
+                <span className='max-w-48 truncate'>{f.value}</span>
+                <Button
+                  aria-label='Remove filter'
+                  className='text-muted-foreground hover:text-foreground'
+                  onClick={() =>
+                    setFilters((arr) => arr.filter((_, i) => i !== idx))
+                  }
+                  size='icon'
+                  variant='outline'>
+                  <X className='size-3' />
+                </Button>
+              </span>
+            ))}
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button size='xs' variant='outline'>
+                  Clear all
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Clear all filters?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will remove all current filter rules.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => setFilters([])}>
+                    Clear
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+        )}
+
+        {loading ? (
+          <div className='h-[250px] w-full'>
+            <Skeleton className='h-full w-full' />
+          </div>
+        ) : (
+          <ChartContainer
+            className='aspect-auto h-[250px] w-full'
+            config={chartConfig}>
+            <AreaChart data={series}>
+              <defs>
+                <linearGradient id='fillViews' x1='0' x2='0' y1='0' y2='1'>
+                  <stop
+                    offset='5%'
+                    stopColor='var(--color-views)'
+                    stopOpacity={1.0}
+                  />
+                  <stop
+                    offset='95%'
+                    stopColor='var(--color-views)'
+                    stopOpacity={0.1}
+                  />
+                </linearGradient>
+                <linearGradient id='fillVisitors' x1='0' x2='0' y1='0' y2='1'>
+                  <stop
+                    offset='5%'
+                    stopColor='var(--color-visitors)'
+                    stopOpacity={0.8}
+                  />
+                  <stop
+                    offset='95%'
+                    stopColor='var(--color-visitors)'
+                    stopOpacity={0.1}
+                  />
+                </linearGradient>
+              </defs>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                axisLine={false}
+                dataKey='date'
+                minTickGap={32}
+                tickFormatter={(v) => formatTick(String(v))}
+                tickLine={false}
+                tickMargin={8}
+              />
+              <ChartTooltip
+                content={
+                  <ChartTooltipContent
+                    indicator='dot'
+                    labelFormatter={(value) => {
+                      const d = new Date(String(value))
+                      return data?.unit === 'hour'
+                        ? d.toLocaleString(undefined, { hour: 'numeric' })
+                        : d.toLocaleDateString(undefined, {
+                            month: 'short',
+                            day: 'numeric',
+                          })
+                    }}
+                  />
+                }
+                cursor={false}
+              />
+              <Area
+                dataKey='visitors'
+                fill='url(#fillVisitors)'
+                stackId='a'
+                stroke='var(--color-visitors)'
+                type='natural'
+              />
+              <Area
+                dataKey='views'
+                fill='url(#fillViews)'
+                stackId='a'
+                stroke='var(--color-views)'
+                type='natural'
+              />
+            </AreaChart>
+          </ChartContainer>
+        )}
       </CardContent>
     </Card>
   )

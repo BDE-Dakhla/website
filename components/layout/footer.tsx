@@ -175,13 +175,13 @@ export function Footer() {
               </Title>
               <ul className='space-y-1'>
                 {cat.links.map((link) => (
-                  <li key={link.name}>
-                    <Link
-                      className='block transition hover:text-[#69B755]'
-                      href={link.href}>
-                      {link.name}
-                    </Link>
-                  </li>
+                  <Link
+                    as='li'
+                    className='block transition hover:text-[#69B755]'
+                    href={link.href}
+                    key={link.name}>
+                    {link.name}
+                  </Link>
                 ))}
               </ul>
             </div>

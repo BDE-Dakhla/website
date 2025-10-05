@@ -5,6 +5,24 @@ import createNextIntlPlugin from 'next-intl/plugin'
 const nextConfig: NextConfig = {
   serverExternalPackages: ['pg', 'kysely'],
   transpilePackages: ['geist'],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.simpleicons.org',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.iconify.design',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+  },
 }
 
 const withMDX = createMDX()

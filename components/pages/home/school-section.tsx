@@ -3,6 +3,7 @@
 import { ExternalLink, Video } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { useLocale, useTranslations } from 'use-intl'
+import { trackEvent } from '@/components/analytics-tracker'
 import { Paragraph, Title } from '@/components/design/typography'
 import { Button } from '@/components/ui/button'
 import {
@@ -117,6 +118,11 @@ export function SchoolSection() {
   const audioLang = 'fr' // change to the language the video is spoken in
   const videoRef = useRef<HTMLVideoElement>(null)
 
+  const interactWithVideo = (): void => {
+    setVideoOpen(true)
+    trackEvent('watch-school-video')
+  }
+
   return (
     <section
       aria-label='our-school'
@@ -128,7 +134,7 @@ export function SchoolSection() {
         <Paragraph className='mt-4'>{t('description_2')}</Paragraph>
 
         <div className='mt-6 flex items-center gap-x-4'>
-          <RainbowButton onClick={() => setVideoOpen(true)} size='lg'>
+          <RainbowButton onClick={interactWithVideo} size='lg'>
             <Video className='size-5' />
             {t('watch_video')}
           </RainbowButton>

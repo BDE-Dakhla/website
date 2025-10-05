@@ -25,6 +25,7 @@ import { Button } from '@/components/ui/stateful-button'
 import { useAuthErrors } from '@/hooks/use-auth-errors'
 import { Link } from '@/i18n/routing'
 import { signInSchema } from '@/lib/auth'
+import { trackEvent } from '@/components/analytics-tracker'
 
 type FieldErrors = Partial<{ cdm: string; password: string; form: string }>
 
@@ -43,6 +44,8 @@ export default function SignInPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setErrors({})
+
+    trackEvent('login-submit')
 
     const parsed = signInSchema.safeParse(user)
 
@@ -70,6 +73,8 @@ export default function SignInPage() {
   const handleGoogleSignIn = async (isRetry = false) => {
     setGoogleLoading(true)
     setErrors({})
+
+    trackEvent('login-google', { retry: isRetry })
 
     try {
       if (isRetry) {

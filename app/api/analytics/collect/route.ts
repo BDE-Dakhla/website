@@ -66,13 +66,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
   }
 
-  const { type, path, title, referrer, locale, ua_ch } = body as {
-    type: 'pageview' | 'heartbeat'
+  const { type, path, title, referrer, locale, ua_ch, event } = body as {
+    type: 'pageview' | 'heartbeat' | 'event'
     path: string
     title?: string
     referrer?: string
     locale?: string
     ua_ch?: { brands?: { brand: string; version?: string }[]; platform?: string; mobile?: boolean }
+    event?: string
   }
 
   if (ua_ch) {
@@ -82,8 +83,11 @@ export async function POST(req: NextRequest) {
   }
   const uaParsed = parseUserAgent(ua, { ua_brands: uaBrands as any, ua_platform: uaPlatform, ua_mobile: uaMobile })
 
-  if (!type || (type !== 'pageview' && type !== 'heartbeat') || !path) {
+  if (!type || !path) {
     return NextResponse.json({ error: 'Invalid payload' }, { status: 400 })
+  }
+  if (type === 'event' && (!event || typeof event !== 'string')) {
+    return NextResponse.json({ error: 'Missing event name' }, { status: 400 })
   }
 
   // Find or create visitor by cookie
@@ -169,7 +173,7 @@ export async function POST(req: NextRequest) {
   // Insert event
   await db
     .insertInto('analytics_events')
-    .values({ session_id: session!.id, happened_at: now, type, path, title: title ?? null })
+    .values({ session_id: session!.id, happened_at: now, type, path, title: title ?? null, event_name: type === 'event' ? event! : null })
     .execute()
 
   const res = NextResponse.json({ ok: true })

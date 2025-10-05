@@ -147,9 +147,10 @@ interface AnalyticsEvent {
   id: Generated<string>
   session_id: string
   happened_at: ColumnType<Date, Date | undefined, never>
-  type: 'pageview' | 'heartbeat'
+  type: 'pageview' | 'heartbeat' | 'event'
   path: string
   title: string | null
+  event_name: string | null
 }
 
 export type Sponsor = Selectable<SponsorTable>

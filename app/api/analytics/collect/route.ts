@@ -34,13 +34,6 @@ export async function POST(req: NextRequest) {
   let uaPlatform = chPlatform?.replace(/\"/g, '') || null
   let uaMobile = chMobile ? chMobile.includes('1') : null
 
-  if (ua_ch) {
-    if (Array.isArray(ua_ch.brands) && ua_ch.brands.length) uaBrands = ua_ch.brands
-    if (typeof ua_ch.platform === 'string') uaPlatform = ua_ch.platform
-    if (typeof ua_ch.mobile === 'boolean') uaMobile = ua_ch.mobile
-  }
-  const uaParsed = parseUserAgent(ua, { ua_brands: uaBrands as any, ua_platform: uaPlatform, ua_mobile: uaMobile })
-
   let body: any
   try {
     body = await req.json()
@@ -56,6 +49,13 @@ export async function POST(req: NextRequest) {
     locale?: string
     ua_ch?: { brands?: { brand: string; version?: string }[]; platform?: string; mobile?: boolean }
   }
+
+  if (ua_ch) {
+    if (Array.isArray(ua_ch.brands) && ua_ch.brands.length) uaBrands = ua_ch.brands
+    if (typeof ua_ch.platform === 'string') uaPlatform = ua_ch.platform
+    if (typeof ua_ch.mobile === 'boolean') uaMobile = ua_ch.mobile
+  }
+  const uaParsed = parseUserAgent(ua, { ua_brands: uaBrands as any, ua_platform: uaPlatform, ua_mobile: uaMobile })
 
   if (!type || (type !== 'pageview' && type !== 'heartbeat') || !path) {
     return NextResponse.json({ error: 'Invalid payload' }, { status: 400 })

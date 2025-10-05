@@ -3,10 +3,8 @@
 import { useState } from 'react'
 import { AnalyticsOverview } from '@/components/analytics/analytics-overview'
 import { CurrentVisitorsBadge } from '@/components/analytics/current-visitors'
+import { AnalyticsTopList, type Range } from '@/components/analytics/top-list'
 import { ChartAreaInteractive } from '@/components/chart-area-interactive'
-import { AnalyticsTopList } from '@/components/analytics/top-list'
-
-type Range = '3h' | '6h' | '12h' | '24h' | '7d' | '30d' | '90d' | '6mo' | '1y'
 
 export default function Page() {
   const [range, setRange] = useState<Range>('24h')
@@ -18,18 +16,15 @@ export default function Page() {
       </div>
       <AnalyticsOverview range={range} />
       <div className='px-4 lg:px-6'>
-        <ChartAreaInteractive range={range} onRangeChange={(r) => setRange(r)} />
+        <ChartAreaInteractive
+          onRangeChange={(r) => setRange(r)}
+          range={range}
+        />
       </div>
       <div className='grid grid-cols-1 gap-4 px-4 lg:grid-cols-3 lg:px-6'>
-        <div>
-          <AnalyticsTopList kind='browsers' range={range} title='Browsers' />
-        </div>
-        <div>
-          <AnalyticsTopList kind='os' range={range} title='OS' />
-        </div>
-        <div>
-          <AnalyticsTopList kind='devices' range={range} title='Devices' />
-        </div>
+        <AnalyticsTopList kind='browsers' range={range} title='Browsers' />
+        <AnalyticsTopList kind='os' range={range} title='OS' />
+        <AnalyticsTopList kind='devices' range={range} title='Devices' />
       </div>
     </div>
   )

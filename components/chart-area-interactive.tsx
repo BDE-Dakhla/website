@@ -1,8 +1,21 @@
 'use client'
 
+import { FilterIcon, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 import useSWR from 'swr'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardAction,
@@ -18,27 +31,23 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart'
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
-import { Skeleton } from "@/components/ui/skeleton"
-import { X } from 'lucide-react'
+} from '@/components/ui/dropdown-menu'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useIsMobile } from '@/hooks/use-mobile'
 
 export const description = 'An interactive area chart'
@@ -59,17 +68,18 @@ const chartConfig = {
 const fetcher = (url: string) =>
   fetch(url, { cache: 'no-store' }).then((r) => r.json())
 
+interface Props {
+  range?: Range
+  onRangeChange?: (r: Range) => void
+}
+
 export function ChartAreaInteractive({
   range: controlledRange,
   onRangeChange,
-}: {
-  range?: Range
-  onRangeChange?: (r: Range) => void
-}) {
+}: Props) {
   const isMobile = useIsMobile()
   const [timeRange, setTimeRange] = useState<Range>('24h')
 
-  // Initialize shorter range on mobile when uncontrolled
   useEffect(() => {
     if (!controlledRange && isMobile) {
       setTimeRange('24h')
@@ -78,25 +88,58 @@ export function ChartAreaInteractive({
 
   const range = controlledRange ?? timeRange
 
-  const [filters, setFilters] = useState<{ field: 'url' | 'referrer' | 'browser' | 'os' | 'device'; op: 'is' | 'is_not' | 'contains' | 'not_contains'; value: string }[]>([])
+  const [filters, setFilters] = useState<
+    {
+      field: 'url' | 'referrer' | 'browser' | 'os' | 'device'
+      op: 'is' | 'is_not' | 'contains' | 'not_contains'
+      value: string
+    }[]
+  >([])
 
-  // Options for each dimension
-  const urlOpts = useSWR(`/api/analytics/options?kind=url&range=${range}`, fetcher)
-  const refOpts = useSWR(`/api/analytics/options?kind=referrer&range=${range}`, fetcher)
-  const brOpts = useSWR(`/api/analytics/options?kind=browser&range=${range}`, fetcher)
-  const osOpts = useSWR(`/api/analytics/options?kind=os&range=${range}`, fetcher)
-  const devOpts = useSWR(`/api/analytics/options?kind=device&range=${range}`, fetcher)
+  const urlOpts = useSWR(
+    `/api/analytics/options?kind=url&range=${range}`,
+    fetcher,
+  )
+  const refOpts = useSWR(
+    `/api/analytics/options?kind=referrer&range=${range}`,
+    fetcher,
+  )
+  const brOpts = useSWR(
+    `/api/analytics/options?kind=browser&range=${range}`,
+    fetcher,
+  )
+  const osOpts = useSWR(
+    `/api/analytics/options?kind=os&range=${range}`,
+    fetcher,
+  )
+  const devOpts = useSWR(
+    `/api/analytics/options?kind=device&range=${range}`,
+    fetcher,
+  )
 
-  const [draft, setDraft] = useState<{ [K in 'url' | 'referrer' | 'browser' | 'os' | 'device']?: { op: 'is' | 'is_not' | 'contains' | 'not_contains'; value?: string } }>({})
+  const [draft, setDraft] = useState<{
+    [K in 'url' | 'referrer' | 'browser' | 'os' | 'device']?: {
+      op: 'is' | 'is_not' | 'contains' | 'not_contains'
+      value?: string
+    }
+  }>({})
 
-  const filtersParam = useMemo(() => encodeURIComponent(JSON.stringify(filters)), [filters])
+  const filtersParam = useMemo(
+    () => encodeURIComponent(JSON.stringify(filters)),
+    [filters],
+  )
 
-  const { data } = useSWR(`/api/analytics/metrics?range=${range}&filters=${filtersParam}`, fetcher, {
-    refreshInterval: 60_000,
-  })
+  const { data } = useSWR(
+    `/api/analytics/metrics?range=${range}&filters=${filtersParam}`,
+    fetcher,
+    {
+      refreshInterval: 60_000,
+    },
+  )
 
   const series = useMemo(
     () =>
+      // biome-ignore lint/suspicious/noExplicitAny: todo fix type
       (data?.series ?? []).map((d: any) => ({
         date: d.time,
         views: Number(d.views),
@@ -150,54 +193,91 @@ export function ChartAreaInteractive({
         <CardAction className='flex items-center gap-2'>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button size='sm' variant='outline'>Filters</Button>
+              <Button size='sm' variant='outline'>
+                <FilterIcon />
+                Filtres
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className='w-72'>
-              <DropdownMenuLabel>Add filter</DropdownMenuLabel>
+              <DropdownMenuLabel>Ajouter un filtre</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              {([
+              {[
                 ['url', 'URL'] as const,
                 ['referrer', 'Referrer'] as const,
                 ['browser', 'Browser'] as const,
                 ['os', 'OS'] as const,
                 ['device', 'Device'] as const,
-              ]).map(([key, label]) => (
+              ].map(([key, label]) => (
                 <DropdownMenuSub key={key}>
                   <DropdownMenuSubTrigger>{label}</DropdownMenuSubTrigger>
                   <DropdownMenuSubContent className='w-72'>
-                    <div className='p-1 grid gap-2'>
+                    <div className='grid gap-2 p-1'>
                       <Select
-                        value={draft[key]?.op || 'is'}
-                        onValueChange={(op) => setDraft((d) => ({ ...d, [key]: { ...(d[key] || { op: 'is' }), op: op as any } }))}>
-                        <SelectTrigger size='sm' className='w-full'>
+                        onValueChange={(op) =>
+                          setDraft((d) => ({
+                            ...d,
+                            [key]: {
+                              ...(d[key] || { op: 'is' }),
+                              op: op,
+                            },
+                          }))
+                        }
+                        value={draft[key]?.op || 'is'}>
+                        <SelectTrigger className='w-full' size='sm'>
                           <SelectValue placeholder='Operator' />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value='is'>Is</SelectItem>
                           <SelectItem value='is_not'>Is Not</SelectItem>
                           <SelectItem value='contains'>Contains</SelectItem>
-                          <SelectItem value='not_contains'>Does not contain</SelectItem>
+                          <SelectItem value='not_contains'>
+                            Does not contain
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                       <Select
-                        value={draft[key]?.value}
-                        onValueChange={(val) => setDraft((d) => ({ ...d, [key]: { ...(d[key] || { op: 'is' }), value: val } }))}>
-                        <SelectTrigger size='sm' className='w-full'>
+                        onValueChange={(val) =>
+                          setDraft((d) => ({
+                            ...d,
+                            [key]: { ...(d[key] || { op: 'is' }), value: val },
+                          }))
+                        }
+                        value={draft[key]?.value}>
+                        <SelectTrigger className='w-full' size='sm'>
                           <SelectValue placeholder='Select value' />
                         </SelectTrigger>
                         <SelectContent>
-                          {((key === 'url' ? urlOpts.data?.items : key === 'referrer' ? refOpts.data?.items : key === 'browser' ? brOpts.data?.items : key === 'os' ? osOpts.data?.items : devOpts.data?.items) || []).map((v: string) => (
-                            <SelectItem key={v} value={v}>{v}</SelectItem>
+                          {(
+                            (key === 'url'
+                              ? urlOpts.data?.items
+                              : key === 'referrer'
+                                ? refOpts.data?.items
+                                : key === 'browser'
+                                  ? brOpts.data?.items
+                                  : key === 'os'
+                                    ? osOpts.data?.items
+                                    : devOpts.data?.items) || []
+                          ).map((v: string) => (
+                            <SelectItem key={v} value={v}>
+                              {v}
+                            </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
                       <Button
-                        size='sm'
                         onClick={() => {
                           const d = draft[key]
                           if (!d?.value) return
-                          setFilters((f) => [...f, { field: key as any, op: (d.op || 'is') as any, value: d.value! }])
-                        }}>
+                          setFilters((f) => [
+                            ...f,
+                            {
+                              field: key,
+                              op: d.op || 'is',
+                              value: d.value as string,
+                            },
+                          ])
+                        }}
+                        size='sm'>
                         Add rule
                       </Button>
                     </div>
@@ -208,19 +288,40 @@ export function ChartAreaInteractive({
           </DropdownMenu>
 
           <Select onValueChange={handleRangeChange} value={range}>
-            <SelectTrigger aria-label='Select a value' className='flex w-40 **:data-[slot=select-value]:block **:data-[slot=select-value]:truncate' size='sm'>
+            <SelectTrigger
+              aria-label='Select a value'
+              className='flex w-40 **:data-[slot=select-value]:block **:data-[slot=select-value]:truncate'
+              size='sm'>
               <SelectValue placeholder='Last 3 months' />
             </SelectTrigger>
             <SelectContent className='rounded-xl'>
-              <SelectItem className='rounded-lg' value='24h'>Last 24 hours</SelectItem>
-              <SelectItem className='rounded-lg' value='12h'>Last 12 hours</SelectItem>
-              <SelectItem className='rounded-lg' value='6h'>Last 6 hours</SelectItem>
-              <SelectItem className='rounded-lg' value='3h'>Last 3 hours</SelectItem>
-              <SelectItem className='rounded-lg' value='7d'>Last 7 days</SelectItem>
-              <SelectItem className='rounded-lg' value='30d'>Last 30 days</SelectItem>
-              <SelectItem className='rounded-lg' value='90d'>Last 3 months</SelectItem>
-              <SelectItem className='rounded-lg' value='6mo'>Last 6 months</SelectItem>
-              <SelectItem className='rounded-lg' value='1y'>Last year</SelectItem>
+              <SelectItem className='rounded-lg' value='24h'>
+                Last 24 hours
+              </SelectItem>
+              <SelectItem className='rounded-lg' value='12h'>
+                Last 12 hours
+              </SelectItem>
+              <SelectItem className='rounded-lg' value='6h'>
+                Last 6 hours
+              </SelectItem>
+              <SelectItem className='rounded-lg' value='3h'>
+                Last 3 hours
+              </SelectItem>
+              <SelectItem className='rounded-lg' value='7d'>
+                Last 7 days
+              </SelectItem>
+              <SelectItem className='rounded-lg' value='30d'>
+                Last 30 days
+              </SelectItem>
+              <SelectItem className='rounded-lg' value='90d'>
+                Last 3 months
+              </SelectItem>
+              <SelectItem className='rounded-lg' value='6mo'>
+                Last 6 months
+              </SelectItem>
+              <SelectItem className='rounded-lg' value='1y'>
+                Last year
+              </SelectItem>
             </SelectContent>
           </Select>
         </CardAction>
@@ -230,27 +331,42 @@ export function ChartAreaInteractive({
         {filters.length > 0 && (
           <div className='mb-3 flex flex-wrap items-center gap-2'>
             {filters.map((f, idx) => (
-              <span key={idx} className='inline-flex items-center gap-2 rounded-full border px-2 py-1 text-xs'>
+              <span
+                className='inline-flex items-center gap-2 rounded-full border px-2 py-1 text-xs'
+                key={f.value}>
                 <span className='font-medium'>{f.field}</span>
                 <span className='text-muted-foreground'>{f.op}</span>
                 <span className='max-w-48 truncate'>{f.value}</span>
-                <button aria-label='Remove filter' onClick={() => setFilters((arr) => arr.filter((_, i) => i !== idx))} className='text-muted-foreground hover:text-foreground'>
+                <Button
+                  aria-label='Remove filter'
+                  className='text-muted-foreground hover:text-foreground'
+                  onClick={() =>
+                    setFilters((arr) => arr.filter((_, i) => i !== idx))
+                  }
+                  size='icon'
+                  variant='outline'>
                   <X className='size-3' />
-                </button>
+                </Button>
               </span>
             ))}
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button size='xs' variant='outline'>Clear all</Button>
+                <Button size='xs' variant='outline'>
+                  Clear all
+                </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>Clear all filters?</AlertDialogTitle>
-                  <AlertDialogDescription>This will remove all current filter rules.</AlertDialogDescription>
+                  <AlertDialogDescription>
+                    This will remove all current filter rules.
+                  </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={() => setFilters([])}>Clear</AlertDialogAction>
+                  <AlertDialogAction onClick={() => setFilters([])}>
+                    Clear
+                  </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>

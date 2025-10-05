@@ -140,6 +140,7 @@ interface AnalyticsSession {
   entry_path: string | null
   entry_locale: string | null
   referrer: string | null
+  country_code: string | null
 }
 
 interface AnalyticsEvent {

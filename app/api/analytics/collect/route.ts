@@ -31,8 +31,33 @@ export async function POST(req: NextRequest) {
   const chPlatform = req.headers.get('sec-ch-ua-platform')
   const chMobile = req.headers.get('sec-ch-ua-mobile')
   let uaBrands = parseSecChUaBrands(chUa)
-  let uaPlatform = chPlatform?.replace(/\"/g, '') || null
+  let uaPlatform = chPlatform?.replace(/\\\"/g, '') || null
   let uaMobile = chMobile ? chMobile.includes('1') : null
+
+  // Try to resolve visitor country via common proxy/CDN headers
+  const countryHeaders = [
+    'x-vercel-ip-country',
+    'x-geo-country',
+    'x-country',
+    'x-country-code',
+    'cf-ipcountry',
+    'cloudfront-viewer-country',
+    'fastly-country-code',
+  ] as const
+  let countryCode: string | null = null
+  for (const h of countryHeaders) {
+    const v = req.headers.get(h)
+    if (v && v.length >= 2) {
+      countryCode = v.slice(0, 2).toUpperCase()
+      break
+    }
+  }
+  // Fallback: infer region from Accept-Language (e.g., en-US -> US)
+  if (!countryCode) {
+    const al = req.headers.get('accept-language')
+    const m = al?.match(/[A-Za-z]{2,8}[-_](?<cc>[A-Za-z]{2})/)
+    if (m?.groups?.cc) countryCode = m.groups.cc.toUpperCase()
+  }
 
   let body: any
   try {
@@ -70,13 +95,30 @@ export async function POST(req: NextRequest) {
     vid = crypto.randomUUID()
   }
 
+  const jsonBrands = uaBrands.length ? JSON.stringify(uaBrands) : null
+
   const [visitor] = await db
     .insertInto('analytics_visitors')
-    .values({ visitor_key: vid, ip_hash: ipHash, user_agent: ua ?? undefined, ua_brands: uaBrands.length ? uaBrands : undefined, ua_platform: uaPlatform ?? undefined, ua_mobile: uaMobile as any, device_category: uaParsed.device })
+    .values({
+      visitor_key: vid,
+      ip_hash: ipHash,
+      user_agent: ua ?? undefined,
+      ua_brands: jsonBrands ? (sql`cast(${jsonBrands} as jsonb)` as any) : undefined,
+      ua_platform: uaPlatform ?? undefined,
+      ua_mobile: uaMobile as any,
+      device_category: uaParsed.device,
+    })
     .onConflict((oc) =>
       oc
         .column('visitor_key')
-        .doUpdateSet({ ip_hash: ipHash, user_agent: ua ?? undefined, ua_brands: uaBrands.length ? uaBrands : undefined, ua_platform: uaPlatform ?? undefined, ua_mobile: uaMobile as any, device_category: uaParsed.device }),
+        .doUpdateSet({
+          ip_hash: ipHash,
+          user_agent: ua ?? undefined,
+          ua_brands: jsonBrands ? (sql`cast(${jsonBrands} as jsonb)` as any) : undefined,
+          ua_platform: uaPlatform ?? undefined,
+          ua_mobile: uaMobile as any,
+          device_category: uaParsed.device,
+        }),
     )
     .returningAll()
     .execute()
@@ -109,6 +151,7 @@ export async function POST(req: NextRequest) {
         entry_path,
         entry_locale,
         referrer: ref,
+        country_code: countryCode,
       })
       .onConflict((oc) => oc.doNothing())
       .returningAll()

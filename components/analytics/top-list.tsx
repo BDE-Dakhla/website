@@ -77,7 +77,8 @@ export function AnalyticsTopList({
                   key={`${kind}-${it.name}`}>
                   <Image
                     alt={it.name}
-                    className='shrink-0 opacity-90'
+                    className='shrink-0 select-none opacity-90'
+                    draggable={false}
                     height={18}
                     loading='lazy'
                     referrerPolicy='no-referrer'

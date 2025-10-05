@@ -5,6 +5,7 @@ import { AnalyticsOverview } from '@/components/analytics/analytics-overview'
 import { CurrentVisitorsBadge } from '@/components/analytics/current-visitors'
 import { AnalyticsTopList, type Range } from '@/components/analytics/top-list'
 import { ChartAreaInteractive } from '@/components/chart-area-interactive'
+import { VisitorsByCountry } from '@/components/analytics/countries-map'
 
 export default function Page() {
   const [range, setRange] = useState<Range>('24h')
@@ -25,6 +26,9 @@ export default function Page() {
         <AnalyticsTopList kind='browsers' range={range} title='Browsers' />
         <AnalyticsTopList kind='os' range={range} title='OS' />
         <AnalyticsTopList kind='devices' range={range} title='Devices' />
+      </div>
+      <div className='px-4 lg:px-6'>
+        <VisitorsByCountry range={range} />
       </div>
     </div>
   )

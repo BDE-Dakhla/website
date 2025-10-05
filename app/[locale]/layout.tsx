@@ -1,8 +1,10 @@
 import { Calendar, ChevronRight } from 'lucide-react'
-import { NextIntlClientProvider } from 'next-intl'
+import { notFound } from 'next/navigation'
+import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { CookieConsent } from '@/components/design/cookie-consent'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import { StickyBanner } from '@/components/ui/sticky-banner'
+import { routing } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 
 export default async function Layout({
@@ -13,6 +15,7 @@ export default async function Layout({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  if (!hasLocale(routing.locales, locale)) notFound()
   const messages = (await import(`../../i18n/locales/${locale}.json`)).default
 
   return (

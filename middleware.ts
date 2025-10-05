@@ -2,10 +2,11 @@ import type { PermissionMap } from './types/schema'
 import { type NextRequest, NextResponse } from 'next/server'
 import { getToken } from 'next-auth/jwt'
 import createMiddleware from 'next-intl/middleware'
-import { defaultLocale, localePrefix, locales } from './i18n/routing'
+import { routing } from './i18n/routing'
 import { hasPermission } from './lib/permission'
 
-const handleI18n = createMiddleware({ defaultLocale, locales, localePrefix })
+const { locales, defaultLocale } = routing
+const handleI18n = createMiddleware(routing)
 
 const AUTH_ONLY_SEGMENTS = new Set(['syllabus']) // login-only segments (no specific permission, just must be logged in)
 const PUBLIC_SEGMENTS = new Set(['connexion', 'not-found']) // always public, never guard those

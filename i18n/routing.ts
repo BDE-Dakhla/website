@@ -1,4 +1,5 @@
 import { createNavigation } from 'next-intl/navigation'
+import { defineRouting } from 'next-intl/routing'
 
 interface Lang {
   locale: string
@@ -20,13 +21,22 @@ export const LANGS: Lang[] = [
   { locale: 'uk', label: 'Українська', flag: 'ua', disabled: true },
 ]
 
-export const locales = LANGS.map((l): string => l.locale) as readonly string[]
-export type Locale = (typeof locales)[number]
+const envDefault = process.env.NEXT_PUBLIC_DEFAULT_LANG
+const fallbackDefault = LANGS[0].locale
+export const defaultLocale: string = LANGS.some((l) => l.locale === envDefault)
+  ? (envDefault as string)
+  : fallbackDefault
 
-export const defaultLocale: Locale = LANGS.find((l): boolean => {
-  return l.locale === process.env.NEXT_PUBLIC_DEFAULT_LANG
-})?.locale as Locale
-export const localePrefix = 'as-needed'
+export const localePrefix = 'as-needed' as const
+
+export const routing = defineRouting({
+  locales: LANGS.map((l): string => l.locale),
+  defaultLocale,
+  localePrefix,
+})
+
+export const locales = routing.locales as readonly string[]
+export type Locale = (typeof locales)[number]
 
 export const {
   Link,
@@ -35,8 +45,4 @@ export const {
   usePathname,
   redirect,
   permanentRedirect,
-} = createNavigation({
-  locales,
-  localePrefix,
-  defaultLocale,
-})
+} = createNavigation(routing)

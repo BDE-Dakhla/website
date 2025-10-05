@@ -62,7 +62,8 @@
       "recommended": true,
       "a11y": {
         "useKeyWithClickEvents": "off",
-        "noStaticElementInteractions": "off"
+        "noStaticElementInteractions": "off",
+        "noNoninteractiveTabindex": "off"
       },
       "correctness": {
         "noUnusedImports": {

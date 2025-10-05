@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
   let sent = 0,
     failed = 0
   for (const r of recipients) {
-    const pixel = `<img src="${APP_BASE_URL()}/api/t/open?rid=${encodeURIComponent(r.trid)}" width="1" height="1" style="display:none" alt="" />`
+    const pixel = `<img src="${APP_BASE_URL()}/api/newsletter/t/open?rid=${encodeURIComponent(r.trid)}" width="1" height="1" style="display:none" alt="" />`
     const html =
       campaign.html_body.replace('</body>', `${pixel}</body>`) ||
       campaign.html_body + pixel

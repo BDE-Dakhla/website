@@ -65,9 +65,9 @@ export async function POST(req: NextRequest) {
     })
     .execute()
 
-  const confirmUrl = `${APP_BASE_URL()}/api/confirm?token=${encodeURIComponent(token)}`
+  const confirmUrl = `${APP_BASE_URL()}/api/newsletter/confirm?token=${encodeURIComponent(token)}`
   const unsubToken = makeUnsubToken(subscriberId, lower)
-  const listUnsub = `<mailto:${SMTP_FROM_EMAIL()}?subject=unsubscribe>, <${APP_BASE_URL()}/api/unsubscribe?token=${encodeURIComponent(unsubToken)}&email=${encodeURIComponent(lower)}>`
+  const listUnsub = `<mailto:${SMTP_FROM_EMAIL()}?subject=unsubscribe>, <${APP_BASE_URL()}/api/newsletter/unsubscribe?token=${encodeURIComponent(unsubToken)}&email=${encodeURIComponent(lower)}>`
 
   await sendSmtpMail({
     from: { name: SMTP_FROM_NAME(), email: SMTP_FROM_EMAIL() },

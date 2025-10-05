@@ -53,7 +53,7 @@ export const ThemeSwitcher = ({ className }: props) => {
       onClick={changeTheme}
       ref={buttonRef}
       size='icon'
-      variant='ghost'>
+      variant='outline'>
       {isDarkMode ? <SunDim /> : <Moon />}
     </Button>
   )

@@ -132,8 +132,9 @@ export function Footer() {
     values: z.infer<typeof schema>,
   ): Promise<void> => {
     form.reset()
-    const res = await fetch(`/api/newsletter/subscribe`, {
+    const res = await fetch(`/api/newsletter`, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: values.email }),
     })
 
@@ -162,7 +163,7 @@ export function Footer() {
             et carrières via un guichet unique d&apos;opportunités, de
             l&apos;idée à l&apos;impact.
           </Paragraph>
-          <div className='mt-4 flex items-center gap-1.5'>
+          <div className='mt-4 flex items-center gap-2'>
             <LanguageSwitcher />
             <ThemeSwitcher />
           </div>

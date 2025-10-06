@@ -27,7 +27,7 @@ export default async function Layout({
                 '--header-height': 'calc(var(--spacing) * 12)',
               } as React.CSSProperties
             }>
-            <SyllabusSidebar variant='inset' />
+            <SyllabusSidebar />
             <SidebarInset>
               <Header fixed>
                 <Search />

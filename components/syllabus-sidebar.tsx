@@ -127,7 +127,7 @@ export function SyllabusSidebar({
   const { isNavigating } = useSyllabusNavigation()
 
   return (
-    <Sidebar collapsible='offcanvas' {...props}>
+    <Sidebar collapsible='icon' variant='inset' {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem className='relative flex w-full items-center space-x-3 p-2 pl-4'>

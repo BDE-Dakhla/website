@@ -3,24 +3,22 @@
 import {
   BadgeQuestionMark,
   BookOpen,
+  Calendar,
   ChartPie,
   ContactRound,
+  FileText,
   Handshake,
   Inbox,
   LayoutDashboard,
   Mail,
   MailOpen,
-  Newspaper,
+  Megaphone,
   Send,
-  Settings,
-  Shield,
   TicketsIcon,
   Users,
   UsersRound,
-  FileText,
-  Calendar,
-  Megaphone,
 } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 import { type NavItem, NavMain } from '@/components/nav-main'
 import { NavSecondary } from '@/components/nav-secondary'
 import { NavUser } from '@/components/nav-user'
@@ -33,7 +31,6 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
 import { hasPermission } from '@/lib/permission'
-import { useSession } from 'next-auth/react'
 import { NavLinks } from './nav-links'
 
 const data = {
@@ -41,7 +38,7 @@ const data = {
   navOverview: [
     { title: 'Statistiques', url: '/dashboard/analytics', icon: ChartPie },
   ],
-  
+
   // User & Member Management
   navUserManagement: [
     {
@@ -51,7 +48,7 @@ const data = {
     },
     { title: "Membres de l'équipage", url: '/dashboard/members', icon: Users },
   ],
-  
+
   // Events & Activities
   navEvents: [
     {
@@ -70,7 +67,7 @@ const data = {
       icon: Megaphone,
     },
   ],
-  
+
   // Content & Resources
   navContent: [
     {
@@ -84,7 +81,7 @@ const data = {
       icon: UsersRound,
     },
   ],
-  
+
   // Partnerships
   navPartnerships: [
     {
@@ -93,7 +90,7 @@ const data = {
       icon: Handshake,
     },
   ],
-  
+
   // Newsletter & Communications
   navNewsletter: [
     {
@@ -117,7 +114,7 @@ const data = {
       icon: Send,
     },
   ],
-  
+
   // Support & Documentation
   navSecondary: [
     { title: 'Documentation', url: '/dashboard/docs', icon: BookOpen },
@@ -149,7 +146,7 @@ export function DashboardSideBar({
   ]
 
   return (
-    <Sidebar collapsible='offcanvas' {...props}>
+    <Sidebar variant='inset' {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem className='flex items-center space-x-3 p-1.5'>
@@ -172,13 +169,19 @@ export function DashboardSideBar({
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent className="sidebar-scroll">
+      <SidebarContent className='sidebar-scroll'>
         <NavMain items={navMain} />
-        <NavLinks items={data.navUserManagement} title='Gestion des utilisateurs' />
+        <NavLinks
+          items={data.navUserManagement}
+          title='Gestion des utilisateurs'
+        />
         <NavLinks items={data.navEvents} title='Événements & Activités' />
         <NavLinks items={data.navContent} title='Contenu & Ressources' />
         <NavLinks items={data.navPartnerships} title='Partenariats' />
-        <NavLinks items={data.navNewsletter} title='Newsletter & Communications' />
+        <NavLinks
+          items={data.navNewsletter}
+          title='Newsletter & Communications'
+        />
         <NavSecondary className='mt-auto' items={data.navSecondary} />
       </SidebarContent>
       <SidebarFooter>

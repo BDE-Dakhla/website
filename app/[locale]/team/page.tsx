@@ -92,12 +92,12 @@ const categories = [
         specs: [
           {
             icon: GraduationCap,
-            name: 'Maintenir le développement globale du site et du Syllabus'
+            name: 'Maintenir le développement globale du site et du Syllabus',
           },
         ],
       },
       {
-        name: 'Safaa ALI OMAR',
+        name: 'Safa ALI OMAR',
         poste: 'Chargée Communication',
         icon: Podcast,
         styles: { backgroundPositionY: '25%', backgroundSize: '200%' },
@@ -143,7 +143,7 @@ const categories = [
           'Soutient la préparation et le bon déroulement des activités (concerts, galas, forums)',
       },
       {
-        name: 'Zouhair YOUSSEFI',
+        name: 'Zouheir YOUSSEFI',
         poste: 'Responsable Divertissement',
         icon: PartyPopper,
         styles: { backgroundPosition: '50% 0%', backgroundSize: '170%' },

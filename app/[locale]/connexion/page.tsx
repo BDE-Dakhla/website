@@ -11,12 +11,13 @@ import {
   MessageCircle,
   Newspaper,
 } from 'lucide-react'
-import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { treeifyError } from 'zod'
+import { trackEvent } from '@/components/analytics-tracker'
+import Image from '@/components/layout/image'
 import { Button as StaticButton } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
@@ -25,7 +26,6 @@ import { Button } from '@/components/ui/stateful-button'
 import { useAuthErrors } from '@/hooks/use-auth-errors'
 import { Link } from '@/i18n/routing'
 import { signInSchema } from '@/lib/auth'
-import { trackEvent } from '@/components/analytics-tracker'
 
 type FieldErrors = Partial<{ cdm: string; password: string; form: string }>
 
@@ -371,8 +371,6 @@ export default function SignInPage() {
                         <span className='mr-2'>Se connecter avec Google</span>
                         <Image
                           alt='Google icon'
-                          className='select-none'
-                          draggable={false}
                           height={20}
                           src='/icons/google.svg'
                           width={20}

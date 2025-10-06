@@ -1,10 +1,10 @@
 'use client'
 
-import Image from 'next/image'
 import useSWR from 'swr'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { browserIconUrl, deviceIconUrl, osIconUrl } from '@/lib/brand-icons'
+import Image from '../layout/image'
 
 const fetcher = (url: string) =>
   fetch(url, { cache: 'no-store' }).then((r) => r.json())
@@ -77,8 +77,7 @@ export function AnalyticsTopList({
                   key={`${kind}-${it.name}`}>
                   <Image
                     alt={it.name}
-                    className='shrink-0 select-none opacity-90'
-                    draggable={false}
+                    className='shrink-0 opacity-90'
                     height={18}
                     loading='lazy'
                     referrerPolicy='no-referrer'

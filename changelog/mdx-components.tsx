@@ -1,6 +1,6 @@
 import type { MDXComponents } from 'mdx/types'
 import defaultMdxComponents from 'fumadocs-ui/mdx'
-import NextImage from 'next/image'
+import Image from '@/components/layout/image'
 import {
   Accordion,
   AccordionContent,
@@ -32,17 +32,14 @@ export const Title: React.FC<React.PropsWithChildren<Props>> = ({
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
   return {
     ...defaultMdxComponents,
-    Image: ({ className, ...props }) => {
-      // TODO: implement modal open
-      return (
-        <NextImage
-          alt='Illustration'
-          className={cn('my-6 select-none rounded-xl shadow-2xl', className)}
-          draggable={false}
-          {...props}
-        />
-      )
-    },
+    Image: ({ className, ...props }) => (
+      <Image
+        alt='Illustration'
+        className={cn('my-6 rounded-xl shadow-2xl', className)}
+        withLens
+        {...props}
+      />
+    ),
     Video: ({ className, ...props }: React.ComponentProps<'video'>) => (
       <video
         className={cn('rounded-md border', className)}

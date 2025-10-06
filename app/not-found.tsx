@@ -1,7 +1,7 @@
 import { ArrowLeftToLine, LifeBuoy } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { Paragraph, Title } from '@/components/design/typography'
+import Image from '@/components/layout/image'
 import { Button } from '@/components/ui/button'
 
 export default function NotFound() {
@@ -31,8 +31,7 @@ export default function NotFound() {
         </div>
         <Image
           alt='Illustration'
-          className='h-96 select-none'
-          draggable={false}
+          className='h-96'
           height={400}
           src='/not-found.svg'
           width={400}

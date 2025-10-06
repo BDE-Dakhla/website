@@ -19,7 +19,11 @@ export function UsersProvider({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useDialogState<UsersDialogType>(null)
   const [currentRow, setCurrentRow] = useState<User | null>(null)
 
-  return <UsersContext value={{ open, setOpen, currentRow, setCurrentRow }}>{children}</UsersContext>
+  return (
+    <UsersContext value={{ open, setOpen, currentRow, setCurrentRow }}>
+      {children}
+    </UsersContext>
+  )
 }
 
 export const useUsers = () => {

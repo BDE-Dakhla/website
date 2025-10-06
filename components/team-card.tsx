@@ -4,20 +4,23 @@ import { motion, useMotionTemplate, useMotionValue } from 'framer-motion'
 import {
   ArrowRight,
   Code2,
+  CodeXml,
   Copy,
   type LucideIcon,
   Rocket,
   Zap,
 } from 'lucide-react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { tv } from 'tailwind-variants'
 import { cn } from '@/lib/utils'
+import { AnimatedGradientText } from './ui/animated-gradient-text'
 
 export interface TeamCardProps {
   name: string
   poste: string
   description: string
 
+  isCreator?: boolean
   specs?: string[]
   styles?: React.CSSProperties
   icon: LucideIcon
@@ -47,6 +50,7 @@ export default function TeamCard({
   poste,
   icon: Icon,
   description,
+  isCreator,
   specs = [],
   category,
   styles,
@@ -58,6 +62,35 @@ export default function TeamCard({
     mouseX.set(-gradientSize)
     mouseY.set(-gradientSize)
   }, [mouseX, mouseY])
+
+  const containerRef = useRef<HTMLLIElement>(null)
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+
+  useEffect(() => {
+    if (!isCreator) return
+
+    const updateDimensions = () => {
+      if (containerRef.current) {
+        const { offsetWidth, offsetHeight } = containerRef.current
+        setDimensions({ width: offsetWidth, height: offsetHeight })
+      }
+    }
+
+    updateDimensions()
+    window.addEventListener('resize', updateDimensions)
+
+    return () => {
+      window.removeEventListener('resize', updateDimensions)
+    }
+  }, [isCreator])
+
+  useEffect(() => {
+    if (!isCreator) return
+    if (containerRef.current) {
+      const { offsetWidth, offsetHeight } = containerRef.current
+      setDimensions({ width: offsetWidth, height: offsetHeight })
+    }
+  }, [isCreator])
 
   const handlePointerMove = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
@@ -103,13 +136,48 @@ export default function TeamCard({
     .split(' ')
     .join('-')
 
+  const neonBorderSize = 2
+  const neonBorderRadiusPx = 16
+  const neonFirstColor = '#ff00aa'
+  const neonSecondColor = '#00FFF1'
+
+  const neonStyle = isCreator
+    ? ({
+        '--border-size': `${neonBorderSize}px`,
+        '--border-radius': `${neonBorderRadiusPx}px`,
+        '--neon-first-color': neonFirstColor,
+        '--neon-second-color': neonSecondColor,
+        '--card-width': `${dimensions.width}px`,
+        '--card-height': `${dimensions.height}px`,
+        '--pseudo-element-background-image': `linear-gradient(0deg, ${neonFirstColor}, ${neonSecondColor})`,
+        '--pseudo-element-width': `${dimensions.width + neonBorderSize * 2}px`,
+        '--pseudo-element-height': `${dimensions.height + neonBorderSize * 2}px`,
+        '--after-blur': `${dimensions.width / 6}px`,
+      } as React.CSSProperties)
+    : undefined
+
   return (
     <li
-      className='group relative h-[360px] w-full max-w-[300px] rounded-2xl [perspective:2000px]'
+      className={cn(
+        'group relative h-[360px] w-full max-w-[300px] rounded-2xl [perspective:2000px]',
+        isCreator && [
+          'z-10',
+          'before:-top-[var(--border-size)] before:-left-[var(--border-size)] before:-z-10 before:absolute before:block',
+          "before:h-[var(--pseudo-element-height)] before:w-[var(--pseudo-element-width)] before:rounded-[inherit] before:content-['']",
+          'before:bg-[length:100%_200%] before:bg-[linear-gradient(0deg,var(--neon-first-color),var(--neon-second-color))]',
+          'before:animate-background-position-spin',
+          'after:-top-[var(--border-size)] after:-left-[var(--border-size)] after:-z-10 after:absolute after:block',
+          "after:h-[var(--pseudo-element-height)] after:w-[var(--pseudo-element-width)] after:rounded-[inherit] after:blur-[var(--after-blur)] after:content-['']",
+          'after:bg-[length:100%_200%] after:bg-[linear-gradient(0deg,var(--neon-first-color),var(--neon-second-color))] after:opacity-50',
+          'after:animate-background-position-spin',
+        ],
+      )}
       onBlur={(): void => setIsFlipped(false)}
       onFocus={(): void => setIsFlipped(true)}
       onMouseEnter={(): void => setIsFlipped(true)}
       onMouseLeave={(): void => setIsFlipped(false)}
+      ref={containerRef}
+      style={neonStyle}
       tabIndex={0}>
       <div
         className={cn(
@@ -137,6 +205,28 @@ export default function TeamCard({
             backgroundSize: styles?.backgroundSize ?? 'cover',
             ...styles,
           }}>
+          {isCreator && (
+            <div className='-translate-x-1/2 group-hover:-translate-y-10 absolute top-2 left-1/2 flex items-center justify-center text-nowrap rounded-full bg-background/75 px-4 py-1.5 shadow-[inset_0_-8px_10px_#8fdfff1f] backdrop-blur-lg transition-all duration-700 ease-out hover:shadow-[inset_0_-5px_10px_#8fdfff3f]'>
+              <span
+                className={cn(
+                  'absolute inset-0 block h-full w-full animate-gradient rounded-[inherit] bg-[length:300%_100%] bg-gradient-to-r from-[#ffaa40]/50 via-[#9c40ff]/50 to-[#ffaa40]/50 p-[1px]',
+                )}
+                style={{
+                  mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  maskComposite: 'subtract',
+                  WebkitClipPath: 'padding-box',
+                  WebkitMask:
+                    'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  WebkitMaskComposite: 'destination-out',
+                }}
+              />
+              <CodeXml className='!size-4' />
+              <hr className='mx-3 h-4 w-px shrink-0 bg-primary/30' />
+              <AnimatedGradientText className='font-medium text-sm uppercase'>
+                Développeur du site
+              </AnimatedGradientText>
+            </div>
+          )}
           <div className='custom-borders absolute right-0 bottom-4 left-0 mx-2.5 grid h-[70px] grid-cols-[1fr_45px] overflow-hidden rounded-2xl bg-gradient-to-tl from-[#000000]/70 to-[#1B1B1B]/70 pl-4 shadow-[0_15px_52.3px_0_rgba(0,0,0,0.51)] backdrop-blur-xs transition-transform duration-700 group-hover:translate-y-full group-hover:scale-0'>
             <div className='flex flex-col justify-center'>
               <p className='flex max-w-[195px] text-white uppercase opacity-75'>

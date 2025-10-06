@@ -152,7 +152,7 @@ export function Footer() {
 
   return (
     <footer className='container mx-auto mt-10 px-8'>
-      <div className='flex flex-col items-start justify-between gap-10 border-gray-200 border-b py-10 text-[15px] text-slate-500 md:flex-row dark:border-slate-600 dark:text-slate-300'>
+      <div className='flex flex-col items-start justify-between gap-10 border-primary/20 border-b py-10 text-[15px] text-slate-500 md:flex-row dark:border-primary/15 dark:text-slate-300'>
         <div>
           <Logo />
           <Paragraph className='mt-6'>
@@ -221,7 +221,7 @@ export function Footer() {
           {t('footer.copyright.short')} {new Date().getFullYear()} &copy;{' '}
           {t('footer.copyright.long')}.
         </p>
-        <div className='flex divide-x divide-gray-300 text-sm'>
+        <div className='flex divide-x divide-primary/15 text-sm'>
           {socials(locale).map(
             ({ icon: Icon, name, href }): React.ReactNode => {
               // @ts-expect-error

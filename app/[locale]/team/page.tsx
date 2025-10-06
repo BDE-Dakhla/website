@@ -82,6 +82,7 @@ const categories = [
     members: [
       {
         name: 'Walid Korchi',
+        isCreator: true,
         poste: 'Responsable Communication',
         icon: RadioTower,
         styles: { backgroundPosition: '50% 100%', backgroundSize: '135%' },

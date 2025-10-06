@@ -3,6 +3,7 @@ import { type NextRequest, NextResponse } from 'next/server'
 import { getDb } from '@/lib/db'
 import { APP_BASE_URL, SMTP_FROM_EMAIL, SMTP_FROM_NAME } from '@/lib/env'
 import { sendSmtpMail } from '@/lib/smtp'
+import { captureEmailForDev } from '@/lib/email-dev'
 import { makeUnsubToken, randomToken } from '@/lib/tokens'
 
 export const runtime = 'nodejs'
@@ -69,7 +70,7 @@ export async function POST(req: NextRequest) {
   const unsubToken = makeUnsubToken(subscriberId, lower)
   const listUnsub = `<mailto:${SMTP_FROM_EMAIL()}?subject=unsubscribe>, <${APP_BASE_URL()}/api/newsletter/unsubscribe?token=${encodeURIComponent(unsubToken)}&email=${encodeURIComponent(lower)}>`
 
-  await sendSmtpMail({
+  const emailData = {
     from: { name: SMTP_FROM_NAME(), email: SMTP_FROM_EMAIL() },
     to: lower,
     subject: 'Confirm your subscription',
@@ -78,7 +79,16 @@ export async function POST(req: NextRequest) {
     headers: {
       'List-Unsubscribe': listUnsub,
     },
-  })
+  }
+
+  // Always use development email capture (no quotas, full control)
+  try {
+    await captureEmailForDev(emailData)
+    console.log('📧 Email captured for development:', lower)
+  } catch (error) {
+    console.error('❌ Failed to capture email:', error)
+    // Continue anyway - user is subscribed
+  }
 
   return NextResponse.json({ ok: true })
 }

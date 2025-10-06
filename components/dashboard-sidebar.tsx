@@ -6,11 +6,20 @@ import {
   ChartPie,
   ContactRound,
   Handshake,
+  Inbox,
   LayoutDashboard,
+  Mail,
+  MailOpen,
   Newspaper,
+  Send,
+  Settings,
+  Shield,
   TicketsIcon,
   Users,
   UsersRound,
+  FileText,
+  Calendar,
+  Megaphone,
 } from 'lucide-react'
 import { type NavItem, NavMain } from '@/components/nav-main'
 import { NavSecondary } from '@/components/nav-secondary'
@@ -28,23 +37,28 @@ import { useSession } from 'next-auth/react'
 import { NavLinks } from './nav-links'
 
 const data = {
-  navMain: [
+  // Core Dashboard Overview
+  navOverview: [
     { title: 'Statistiques', url: '/dashboard/analytics', icon: ChartPie },
+  ],
+  
+  // User & Member Management
+  navUserManagement: [
     {
       title: 'Utilisateurs',
       url: '/dashboard/users',
       icon: ContactRound,
     },
+    { title: "Membres de l'équipage", url: '/dashboard/members', icon: Users },
   ],
-  navWebApp: [
-    { title: "Member de l'équipage", url: '/dashboard/members', icon: Users },
-    {
-      title: 'Sponsors & Partenaires',
-      url: '/dashboard/partners',
-      icon: Handshake,
-    },
-  ],
+  
+  // Events & Activities
   navEvents: [
+    {
+      title: 'Événements',
+      url: '/dashboard/events',
+      icon: Calendar,
+    },
     {
       title: 'Tickets',
       url: '/dashboard/tickets',
@@ -52,15 +66,17 @@ const data = {
     },
     {
       title: 'Annonces',
-      url: '/dashboard/events',
-      icon: Newspaper,
+      url: '/dashboard/announcements',
+      icon: Megaphone,
     },
   ],
-  navAcademic: [
+  
+  // Content & Resources
+  navContent: [
     {
       title: 'Documents',
       url: '/dashboard/files',
-      icon: Newspaper,
+      icon: FileText,
     },
     {
       title: 'Contacts',
@@ -68,6 +84,41 @@ const data = {
       icon: UsersRound,
     },
   ],
+  
+  // Partnerships
+  navPartnerships: [
+    {
+      title: 'Sponsors & Partenaires',
+      url: '/dashboard/partners',
+      icon: Handshake,
+    },
+  ],
+  
+  // Newsletter & Communications
+  navNewsletter: [
+    {
+      title: 'Boîte de Réception',
+      url: '/dashboard/newsletter/inbox',
+      icon: Inbox,
+    },
+    {
+      title: 'Emails Capturés',
+      url: '/dashboard/newsletter/emails',
+      icon: MailOpen,
+    },
+    {
+      title: 'Abonnés',
+      url: '/dashboard/newsletter/subscribers',
+      icon: Mail,
+    },
+    {
+      title: 'Campagnes',
+      url: '/dashboard/newsletter/campaigns',
+      icon: Send,
+    },
+  ],
+  
+  // Support & Documentation
   navSecondary: [
     { title: 'Documentation', url: '/dashboard/docs', icon: BookOpen },
     {
@@ -94,7 +145,7 @@ export function DashboardSideBar({
       icon: LayoutDashboard,
       visible: canSeeDashboard,
     },
-    ...data.navMain,
+    ...data.navOverview,
   ]
 
   return (
@@ -121,11 +172,13 @@ export function DashboardSideBar({
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="sidebar-scroll">
         <NavMain items={navMain} />
-        <NavLinks items={data.navEvents} title='Événementiel' />
-        <NavLinks items={data.navWebApp} title='Plateforme' />
-        <NavLinks items={data.navAcademic} title='Académique' />
+        <NavLinks items={data.navUserManagement} title='Gestion des utilisateurs' />
+        <NavLinks items={data.navEvents} title='Événements & Activités' />
+        <NavLinks items={data.navContent} title='Contenu & Ressources' />
+        <NavLinks items={data.navPartnerships} title='Partenariats' />
+        <NavLinks items={data.navNewsletter} title='Newsletter & Communications' />
         <NavSecondary className='mt-auto' items={data.navSecondary} />
       </SidebarContent>
       <SidebarFooter>

@@ -15,7 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             '--header-height': 'calc(var(--spacing) * 12)',
           } as React.CSSProperties
         }>
-        <DashboardSideBar variant='floating' />
+        <DashboardSideBar variant='inset' />
         <SidebarInset>
           <Header fixed>
             <Search />

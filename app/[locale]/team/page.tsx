@@ -4,6 +4,7 @@ import {
   BookPlus,
   CalendarCheck2,
   Crown,
+  GraduationCap,
   HandHeart,
   HandHelping,
   Handshake,
@@ -89,8 +90,10 @@ const categories = [
         description:
           'Supervise la stratégie de communication et les relations presse',
         specs: [
-          'Maintenir le développement globale du site et du Syllabus',
-          'Mobiliser les ressources humaines',
+          {
+            icon: GraduationCap,
+            name: 'Maintenir le développement globale du site et du Syllabus'
+          },
         ],
       },
       {

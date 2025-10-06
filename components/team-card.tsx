@@ -1,15 +1,7 @@
 'use client'
 
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion'
-import {
-  ArrowRight,
-  Code2,
-  CodeXml,
-  Copy,
-  type LucideIcon,
-  Rocket,
-  Zap,
-} from 'lucide-react'
+import { ArrowRight, CodeXml, type LucideIcon } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { tv } from 'tailwind-variants'
 import { cn } from '@/lib/utils'
@@ -21,7 +13,7 @@ export interface TeamCardProps {
   description: string
 
   isCreator?: boolean
-  specs?: string[]
+  specs?: Array<{ name: string; icon: LucideIcon }>
   styles?: React.CSSProperties
   icon: LucideIcon
   category?: string
@@ -31,13 +23,24 @@ const celluleStyles = tv({
   base: 'bg-gradient-to-br',
   variants: {
     color: {
-      pilotage: 'from-red-500/45 via-red-500/30 to-red-500/10',
-      communication: 'from-green-500/45 via-green-500/30 to-green-500/10',
-      evenementiel: 'from-[#ffaa40] via-[#9c40ff] to-[#ffaa40]',
-      formation: 'from-[#ffaa40] via-[#9c40ff] to-[#ffaa40]',
+      pilotage:
+        'text-red-500 bg-gradient-to-br from-red-500/45 via-red-500/30 to-red-500/10',
+      communication:
+        'text-green-500 bg-gradient-to-br from-green-500/45 via-green-500/30 to-green-500/10',
+      evenementiel:
+        'text-[#ffaa40] bg-gradient-to-br from-[#ffaa40] via-[#9c40ff] to-[#ffaa40]',
+      formation:
+        'text-[#ffaa40] bg-gradient-to-br from-[#ffaa40] via-[#9c40ff] to-[#ffaa40]',
     },
   },
 })
+
+const specBgColor = {
+  pilotage: 'text-red-500 bg-red-500/20',
+  communication: 'text-green-500 bg-green-500/20',
+  evenementiel: 'text-[#ffaa40] bg-[#ffaa40]/20',
+  formation: 'text-[#ffaa40] bg-[#ffaa40]/20',
+}
 
 const gradientSize = 200
 const gradientColor = '#262626'
@@ -206,7 +209,7 @@ export default function TeamCard({
             ...styles,
           }}>
           {isCreator && (
-            <div className='-translate-x-1/2 group-hover:-translate-y-10 absolute top-2 left-1/2 flex items-center justify-center text-nowrap rounded-full bg-background/75 px-4 py-1.5 shadow-[inset_0_-8px_10px_#8fdfff1f] backdrop-blur-lg transition-all duration-700 ease-out hover:shadow-[inset_0_-5px_10px_#8fdfff3f]'>
+            <div className='-translate-x-1/2 group-hover:-translate-y-10 absolute top-3 left-1/2 flex items-center justify-center text-nowrap rounded-full bg-foreground/75 px-4 py-1.5 shadow-[inset_0_-8px_10px_#8fdfff1f] backdrop-blur-lg transition-all duration-700 ease-out hover:shadow-[inset_0_-5px_10px_#8fdfff3f] dark:bg-background/75'>
               <span
                 className={cn(
                   'absolute inset-0 block h-full w-full animate-gradient rounded-[inherit] bg-[length:300%_100%] bg-gradient-to-r from-[#ffaa40]/50 via-[#9c40ff]/50 to-[#ffaa40]/50 p-[1px]',
@@ -220,8 +223,8 @@ export default function TeamCard({
                   WebkitMaskComposite: 'destination-out',
                 }}
               />
-              <CodeXml className='!size-4' />
-              <hr className='mx-3 h-4 w-px shrink-0 bg-primary/30' />
+              <CodeXml className='!size-4 text-white' />
+              <hr className='mx-3 h-4 w-px shrink-0 bg-white/30' />
               <AnimatedGradientText className='font-medium text-sm uppercase'>
                 Développeur du site
               </AnimatedGradientText>
@@ -296,28 +299,27 @@ export default function TeamCard({
             </div>
 
             <div className='space-y-2.5'>
-              {specs.map((feature, index) => {
-                const icons = [Copy, Code2, Rocket, Zap]
-                const IconComponent = icons[index % icons.length]
-
-                return (
+              {specs.map((spec, index) => (
+                <div
+                  className='flex items-center gap-3 text-sm text-zinc-700 transition-all duration-500 dark:text-zinc-300'
+                  key={`${spec.icon.name}-${index}`}
+                  style={{
+                    transform: isFlipped
+                      ? 'translateX(0)'
+                      : 'translateX(-20px)',
+                    opacity: isFlipped ? 1 : 0,
+                    transitionDelay: `${index * 100 + 200}ms`,
+                  }}>
                   <div
-                    className='flex items-center gap-3 text-sm text-zinc-700 transition-all duration-500 dark:text-zinc-300'
-                    key={feature}
-                    style={{
-                      transform: isFlipped
-                        ? 'translateX(0)'
-                        : 'translateX(-20px)',
-                      opacity: isFlipped ? 1 : 0,
-                      transitionDelay: `${index * 100 + 200}ms`,
-                    }}>
-                    <div className='flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md bg-primary/10 dark:bg-primary/20'>
-                      <IconComponent className='h-3 w-3 text-primary' />
-                    </div>
-                    <span className='font-medium'>{feature}</span>
+                    className={cn(
+                      'flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-md',
+                      specBgColor[category as keyof typeof specBgColor],
+                    )}>
+                    <spec.icon className='h-3 w-3 text-inherit' />
                   </div>
-                )
-              })}
+                  <span className='font-medium'>{spec.name}</span>
+                </div>
+              ))}
             </div>
           </div>
 

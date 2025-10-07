@@ -20,35 +20,9 @@ export const callTypes = new Map<UserStatus, string>([
 ])
 
 export const roles = [
-  {
-    label: 'Contributeur',
-    value: 'contributor',
-    icon: Award,
-  },
-  {
-    label: 'Développeur',
-    value: 'developer',
-    icon: Wrench,
-  },
-  {
-    label: 'Étudiant',
-    value: 'student',
-    icon: GraduationCap,
-  },
-  {
-    label: 'Professeur',
-    value: 'teacher',
-    icon: Glasses,
-  },
-  {
-    label: 'Administrateur',
-    value: 'administrator',
-    icon: ShieldUser,
-  },
-] as ReadonlyArray<
-  Readonly<{
-    value: Role
-    label: string
-    icon: LucideIcon
-  }>
->
+  { label: 'Contributeur', value: 'contributor', icon: Award },
+  { label: 'Développeur', value: 'developer', icon: Wrench },
+  { label: 'Étudiant', value: 'student', icon: GraduationCap },
+  { label: 'Professeur', value: 'teacher', icon: Glasses },
+  { label: 'Administrateur', value: 'administrator', icon: ShieldUser },
+] as ReadonlyArray<Readonly<{ value: Role; label: string; icon: LucideIcon }>>

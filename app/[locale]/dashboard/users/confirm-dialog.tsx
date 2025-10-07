@@ -5,7 +5,7 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle
+  AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -47,13 +47,13 @@ export function ConfirmDialog(props: ConfirmDialogProps) {
       <AlertDialogContent className={cn(className && className)}>
         <AlertDialogHeader className='text-start'>
           <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription asChild>
-            <div>{desc}</div>
-          </AlertDialogDescription>
+          <AlertDialogDescription asChild>{desc}</AlertDialogDescription>
         </AlertDialogHeader>
         {children}
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isLoading}>{cancelBtnText ?? 'Cancel'}</AlertDialogCancel>
+          <AlertDialogCancel disabled={isLoading}>
+            {cancelBtnText ?? 'Cancel'}
+          </AlertDialogCancel>
           <Button
             disabled={disabled || isLoading}
             onClick={handleConfirm}

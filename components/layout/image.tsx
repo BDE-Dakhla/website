@@ -1,12 +1,11 @@
 'use client'
 
-import type { ComponentProps, ReactNode } from 'react'
 import NextImage from 'next/image'
 import { forwardRef, useState } from 'react'
 import { cn } from '@/lib/utils'
-import { Lens } from '../lens'
+import { Lens } from '../ui/lens'
 
-type NextImageProps = ComponentProps<typeof NextImage>
+type NextImageProps = React.ComponentProps<typeof NextImage>
 
 interface ImageProps extends NextImageProps {
   withLens?: boolean
@@ -25,7 +24,7 @@ const BaseImage = forwardRef<HTMLImageElement, NextImageProps>(
   },
 )
 
-function LensWrapper({ children }: { children: ReactNode }) {
+function LensWrapper({ children }: { children: React.ReactNode }) {
   const [hovering, setHovering] = useState(false)
   return (
     <Lens hovering={hovering} setHovering={setHovering}>

@@ -20,7 +20,7 @@ import { formatMoroccanPhone } from '@/lib/validation/phone'
 import { DataTableColumnHeader } from './column-header'
 import { callTypes, roles } from './data'
 import { DataTableRowActions } from './data-table-row-actions'
-import { LongText } from './long-text'
+import { LongText } from './layout/long-text'
 
 export function useUsersColumns(): ColumnDef<User>[] {
   const t = useTranslations('dashboard')
@@ -66,7 +66,10 @@ export function useUsersColumns(): ColumnDef<User>[] {
         />
       ),
       cell: ({ row }) => {
-        const v = (row.getValue('username') as string | null) ?? row.original.name ?? null
+        const v =
+          (row.getValue('username') as string | null) ??
+          row.original.name ??
+          null
         return (
           <LongText className='max-w-36'>
             {v || (

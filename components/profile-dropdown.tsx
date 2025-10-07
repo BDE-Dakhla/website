@@ -1,7 +1,9 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { signOut } from 'next-auth/react'
 import { useLocale } from 'next-intl'
+import { ConfirmDialog } from '@/app/[locale]/dashboard/users/confirm-dialog'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -17,7 +19,6 @@ import useDialogState from '@/hooks/use-dialog-state'
 import { Link } from '@/i18n/routing'
 import { mod, useShortcuts } from '@/lib/shortcuts'
 import { Avatar } from './avatar'
-import { SignOutDialog } from './sign-out-dialog'
 
 interface Profile {
   name?: string | null
@@ -113,7 +114,16 @@ export function ProfileDropdown({ profile }: Props) {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <SignOutDialog onOpenChange={setOpen} open={!!open} />
+      <ConfirmDialog
+        cancelBtnText='Annuler'
+        className='sm:max-w-sm'
+        confirmText='Se déconnecter'
+        desc='Êtes-vous sûr(e) de vouloir vous déconnecter ? Vous aurez besoin de vous reconnecter pour acceder à votre compte.'
+        handleConfirm={async (): Promise<void> => await signOut()}
+        onOpenChange={setOpen}
+        open={!!open}
+        title='Déconnecter mon compte'
+      />
     </>
   )
 }

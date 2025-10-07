@@ -1,4 +1,5 @@
 import type { Column } from '@tanstack/react-table'
+import type { LucideIcon } from 'lucide-react'
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -21,11 +22,13 @@ type DataTableColumnHeaderProps<TData, TValue> = Omit<
 > & {
   column: Column<TData, TValue>
   title: React.ReactNode
+  icon: LucideIcon
 }
 
 export function DataTableColumnHeader<TData, TValue>({
   column,
   title,
+  icon: Icon,
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) {
@@ -40,7 +43,10 @@ export function DataTableColumnHeader<TData, TValue>({
             className='-ms-3 h-8 data-[state=open]:bg-accent'
             size='sm'
             variant='ghost'>
-            <span>{title}</span>
+            <span className='inline-flex items-center gap-1'>
+              <Icon className='text-muted-foreground' size={14} />
+              {title}
+            </span>
             {column.getIsSorted() === 'desc' ? (
               <ArrowDownIcon className='ms-2 h-4 w-4' />
             ) : column.getIsSorted() === 'asc' ? (

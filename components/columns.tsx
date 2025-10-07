@@ -4,8 +4,9 @@ import type { ColumnDef } from '@tanstack/react-table'
 import type { User } from './schema'
 import {
   Activity,
-  Briefcase,
-  CalendarClock,
+  BriefcaseBusiness,
+  Calendar,
+  IdCard,
   KeyRound,
   Mail,
   Phone,
@@ -39,7 +40,9 @@ export function useUsersColumns(): ColumnDef<User>[] {
         />
       ),
       meta: {
-        className: cn('sticky md:table-cell start-0 z-10 rounded-tl-[inherit]'),
+        className: cn(
+          'sticky md:table-cell w-10 start-0 z-10 rounded-tl-[inherit]',
+        ),
       },
       cell: ({ row }) => (
         <Checkbox.Native
@@ -57,12 +60,8 @@ export function useUsersColumns(): ColumnDef<User>[] {
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
-          title={
-            <span className='inline-flex items-center gap-1'>
-              <UserIcon className='text-muted-foreground' size={14} />
-              {t('users.table.columns.fullName')}
-            </span>
-          }
+          icon={UserIcon}
+          title={t('users.table.columns.fullName')}
         />
       ),
       cell: ({ row }) => (
@@ -77,67 +76,143 @@ export function useUsersColumns(): ColumnDef<User>[] {
       meta: { className: 'w-36' },
     },
     {
+      accessorKey: 'role',
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          icon={BriefcaseBusiness}
+          title={t('users.table.columns.role')}
+        />
+      ),
+      cell: ({ row }) => {
+        const { role } = row.original
+        const userType = roles.find(({ value }) => value === role)
+
+        if (!userType) {
+          return null
+        }
+
+        return (
+          <div className='flex items-center gap-x-2'>
+            {userType.icon && (
+              <userType.icon className='text-muted-foreground' size={16} />
+            )}
+            <span className='text-sm capitalize'>{row.getValue('role')}</span>
+          </div>
+        )
+      },
+      filterFn: (row, id, value) => {
+        return value.includes(row.getValue(id))
+      },
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
       accessorKey: 'email',
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
-          title={
-            <span className='inline-flex items-center gap-1'>
-              <Mail className='text-muted-foreground' size={14} />
-              {t('users.table.columns.email')}
-            </span>
-          }
+          icon={Mail}
+          title={t('users.table.columns.email')}
         />
       ),
       cell: ({ row }) => (
         <div className='w-fit text-nowrap'>{row.getValue('email')}</div>
       ),
+      meta: { className: 'w-60' },
     },
     {
-      accessorKey: 'created_at',
+      accessorKey: 'cdm',
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
-          title={
-            <span className='inline-flex items-center gap-1'>
-              <CalendarClock className='text-muted-foreground' size={14} />
-              {t('users.table.columns.signupDate')}
-            </span>
-          }
+          icon={IdCard}
+          title={t('users.table.columns.cdm')}
         />
       ),
       cell: ({ row }) => {
-        const value = row.original.created_at as Date | string | undefined
-        if (!value) {
+        const cdm = row.getValue('cdm') as string | null
+        if (!cdm) {
           return (
             <div className='text-sm'>
               <span className='text-muted-foreground'>
-                {t('users.table.noData.signupDate')}
+                {t('users.table.noData.cdm')}
               </span>
             </div>
           )
         }
-        const d = typeof value === 'string' ? new Date(value) : value
-        const formatted = new Intl.DateTimeFormat(undefined, {
-          dateStyle: 'medium',
-          timeStyle: 'short',
-        }).format(d)
-        return <div className='font-mono text-sm'>{formatted}</div>
+        return (
+          <div className='font-mono text-xs uppercase tracking-wide'>{cdm}</div>
+        )
       },
-      enableSorting: true,
       meta: { className: 'w-36' },
+      enableSorting: false,
     },
     {
-      accessorKey: 'permissions',
+      accessorKey: 'phoneNumber',
+      meta: { className: 'w-42' },
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
-          title={
-            <span className='inline-flex items-center gap-1'>
-              <KeyRound className='text-muted-foreground' size={14} />
-              {t('users.table.columns.permissions')}
-            </span>
-          }
+          icon={Phone}
+          title={t('users.table.columns.phoneNumber')}
+        />
+      ),
+      cell: ({ row }) => {
+        const phoneNumber = row.getValue('phoneNumber') as string | null
+
+        if (!phoneNumber) {
+          return (
+            <div className='text-sm'>
+              <span className='text-muted-foreground'>
+                {t('users.table.noData.phoneNumber')}
+              </span>
+            </div>
+          )
+        }
+
+        // Format Moroccan phone number
+        const formatted = formatMoroccanPhone(phoneNumber) || phoneNumber
+
+        return <div className='font-mono text-sm'>{formatted}</div>
+      },
+      enableSorting: false,
+    },
+    {
+      accessorKey: 'status',
+      meta: { className: 'w-30' },
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          icon={Activity}
+          title={t('users.table.columns.status')}
+        />
+      ),
+      cell: ({ row }) => {
+        const status = row.original.status || 'active' // Default to active if no status
+        const badgeColor = callTypes.get(status)
+        return (
+          <div className='flex space-x-2'>
+            <Badge className={cn('capitalize', badgeColor)} variant='outline'>
+              {status}
+            </Badge>
+          </div>
+        )
+      },
+      filterFn: (row, id, value) => {
+        return value.includes(row.getValue(id))
+      },
+      enableHiding: false,
+      enableSorting: false,
+    },
+    {
+      accessorKey: 'permissions',
+      meta: { className: 'w-60' },
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          icon={KeyRound}
+          title={t('users.table.columns.permissions')}
         />
       ),
       cell: ({ row }) => {
@@ -193,103 +268,34 @@ export function useUsersColumns(): ColumnDef<User>[] {
       },
     },
     {
-      accessorKey: 'phoneNumber',
+      accessorKey: 'created_at',
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
-          title={
-            <span className='inline-flex items-center gap-1'>
-              <Phone className='text-muted-foreground' size={14} />
-              {t('users.table.columns.phoneNumber')}
-            </span>
-          }
+          icon={Calendar}
+          title={t('users.table.columns.signupDate')}
         />
       ),
       cell: ({ row }) => {
-        const phoneNumber = row.getValue('phoneNumber') as string | null
-
-        if (!phoneNumber) {
+        const value = row.original.created_at as Date | string | undefined
+        if (!value) {
           return (
             <div className='text-sm'>
               <span className='text-muted-foreground'>
-                {t('users.table.noData.phoneNumber')}
+                {t('users.table.noData.signupDate')}
               </span>
             </div>
           )
         }
-
-        // Format Moroccan phone number
-        const formatted = formatMoroccanPhone(phoneNumber) || phoneNumber
-
+        const d = typeof value === 'string' ? new Date(value) : value
+        const formatted = new Intl.DateTimeFormat(undefined, {
+          dateStyle: 'medium',
+          timeStyle: 'short',
+        }).format(d)
         return <div className='font-mono text-sm'>{formatted}</div>
       },
-      enableSorting: false,
-    },
-    {
-      accessorKey: 'status',
-      header: ({ column }) => (
-        <DataTableColumnHeader
-          column={column}
-          title={
-            <span className='inline-flex items-center gap-1'>
-              <Activity className='text-muted-foreground' size={14} />
-              {t('users.table.columns.status')}
-            </span>
-          }
-        />
-      ),
-      cell: ({ row }) => {
-        const status = row.original.status || 'active' // Default to active if no status
-        const badgeColor = callTypes.get(status)
-        return (
-          <div className='flex space-x-2'>
-            <Badge className={cn('capitalize', badgeColor)} variant='outline'>
-              {status}
-            </Badge>
-          </div>
-        )
-      },
-      filterFn: (row, id, value) => {
-        return value.includes(row.getValue(id))
-      },
-      enableHiding: false,
-      enableSorting: false,
-    },
-    {
-      accessorKey: 'role',
-      header: ({ column }) => (
-        <DataTableColumnHeader
-          column={column}
-          title={
-            <span className='inline-flex items-center gap-1'>
-              <Briefcase className='text-muted-foreground' size={14} />
-              {t('users.table.columns.role')}
-            </span>
-          }
-        />
-      ),
-      cell: ({ row }) => {
-        const { role } = row.original
-        const userType = roles.find(({ value }) => value === role)
-
-        if (!userType) {
-          return null
-        }
-
-        return (
-          <div className='flex items-center gap-x-2'>
-            {userType.icon && (
-              <userType.icon className='text-muted-foreground' size={16} />
-            )}
-            <span className='text-sm capitalize'>{row.getValue('role')}</span>
-          </div>
-        )
-      },
-      filterFn: (row, id, value) => {
-        return value.includes(row.getValue(id))
-      },
-      enableSorting: false,
-      enableHiding: false,
+      enableSorting: true,
+      meta: { className: 'w-60' },
     },
     { id: 'actions', cell: DataTableRowActions },
   ]

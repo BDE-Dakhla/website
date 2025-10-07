@@ -30,18 +30,20 @@
     "users": {
       "table": {
         "columns": {
-          "fullName": "Nom complet",
+"fullName": "Nom complet",
           "email": "Adresse mail",
+          "cdm": "CODE MASSAR",
           "permissions": "Permissions",
           "phoneNumber": "Numéro de téléphone",
           "status": "Statut",
-"role": "Rôle",
+          "role": "Rôle",
           "signupDate": "Date d'inscription"
         },
         "emptyState": "Aucun résultat trouvé",
         "noData": {
           "fullName": "Non renseigné",
           "phoneNumber": "Non renseigné",
+          "cdm": "Non renseigné",
           "permissions": "Aucune",
           "signupDate": "Non renseigné"
         }

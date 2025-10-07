@@ -9,18 +9,20 @@
     "users": {
       "table": {
         "columns": {
-          "fullName": "Full Name",
+"fullName": "Full Name",
           "email": "Email Address",
+          "cdm": "Massar Code",
           "permissions": "Permissions",
           "phoneNumber": "Phone Number",
           "status": "Status",
-"role": "Role",
+          "role": "Role",
           "signupDate": "Signup date"
         },
         "emptyState": "No results found",
         "noData": {
           "fullName": "Not specified",
           "phoneNumber": "Not specified",
+          "cdm": "Not specified",
           "permissions": "None",
           "signupDate": "Not specified"
         }

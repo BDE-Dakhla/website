@@ -11,7 +11,6 @@ import {
   Inbox,
   LayoutDashboard,
   Mail,
-  MailOpen,
   Megaphone,
   Send,
   TicketsIcon,
@@ -97,11 +96,6 @@ const data = {
       title: 'Boîte de Réception',
       url: '/dashboard/newsletter/inbox',
       icon: Inbox,
-    },
-    {
-      title: 'Emails Capturés',
-      url: '/dashboard/newsletter/emails',
-      icon: MailOpen,
     },
     {
       title: 'Abonnés',

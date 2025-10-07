@@ -11,6 +11,3 @@ next-env.d.ts
 
 # monio s3
 data
-
-# Development email capture
-dev-emails/

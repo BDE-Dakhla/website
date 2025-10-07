@@ -2,8 +2,6 @@ import { randomUUID } from 'node:crypto'
 import { type NextRequest, NextResponse } from 'next/server'
 import { getDb } from '@/lib/db'
 import { APP_BASE_URL, SMTP_FROM_EMAIL, SMTP_FROM_NAME } from '@/lib/env'
-import { sendSmtpMail } from '@/lib/smtp'
-import { captureEmailForDev } from '@/lib/email-dev'
 import { makeUnsubToken, randomToken } from '@/lib/tokens'
 
 export const runtime = 'nodejs'
@@ -81,14 +79,6 @@ export async function POST(req: NextRequest) {
     },
   }
 
-  // Always use development email capture (no quotas, full control)
-  try {
-    await captureEmailForDev(emailData)
-    console.log('📧 Email captured for development:', lower)
-  } catch (error) {
-    console.error('❌ Failed to capture email:', error)
-    // Continue anyway - user is subscribed
-  }
 
   return NextResponse.json({ ok: true })
 }

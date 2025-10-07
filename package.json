@@ -14,8 +14,7 @@
     "start": "next start",
     "postinstall": "fumadocs-mdx",
     "migrate": "bun run lib/db/migrate.ts",
-    "seed": "bun run lib/db/seed.ts",
-    "view-emails": "ls -t dev-emails/*.html | head -5 | xargs -I {} sh -c 'echo \"📧 {}\" && echo'"
+    "seed": "bun run lib/db/seed.ts"
   },
   "dependencies": {
     "@auth/kysely-adapter": "^1.10.0",

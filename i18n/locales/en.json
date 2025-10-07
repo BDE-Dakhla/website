@@ -14,13 +14,15 @@
           "permissions": "Permissions",
           "phoneNumber": "Phone Number",
           "status": "Status",
-          "role": "Role"
+"role": "Role",
+          "signupDate": "Signup date"
         },
         "emptyState": "No results found",
         "noData": {
           "fullName": "Not specified",
           "phoneNumber": "Not specified",
-          "permissions": "None"
+          "permissions": "None",
+          "signupDate": "Not specified"
         }
       }
     },

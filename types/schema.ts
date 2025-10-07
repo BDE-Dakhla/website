@@ -41,7 +41,11 @@ export type PermissionValue = 0 | 1
 export type PermissionMap = Record<string, PermissionValue>
 
 export type Database = Omit<AuthDb, 'User'> & {
-  User: AuthDb['User'] & UserExtra
+  User: AuthDb['User'] &
+    UserExtra & {
+      created_at: Date
+      updated_at: Date
+    }
 } & AppDatabase
 
 export type SubscriberStatus = 'pending' | 'active' | 'unsubscribed' | 'bounced'

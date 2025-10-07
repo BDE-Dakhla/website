@@ -9,7 +9,7 @@ export function Hi({ users }: { users: Array<Database['User']> }) {
 
   return (
     <UsersTable
-      data={users.map((user) => ({ ...user, username: user.name }))}
+      data={users.map((user) => ({ ...user, username: user.name ?? null }))}
       navigate={({ search: s }) => setSearch(s(search))}
       search={search}
     />

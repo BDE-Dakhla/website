@@ -35,13 +35,15 @@
           "permissions": "Permissions",
           "phoneNumber": "Numéro de téléphone",
           "status": "Statut",
-          "role": "Rôle"
+"role": "Rôle",
+          "signupDate": "Date d'inscription"
         },
         "emptyState": "Aucun résultat trouvé",
         "noData": {
           "fullName": "Non renseigné",
           "phoneNumber": "Non renseigné",
-          "permissions": "Aucune"
+          "permissions": "Aucune",
+          "signupDate": "Non renseigné"
         }
       }
     },

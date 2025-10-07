@@ -2,6 +2,15 @@
 
 import type { ColumnDef } from '@tanstack/react-table'
 import type { User } from './schema'
+import {
+  Activity,
+  Briefcase,
+  CalendarClock,
+  KeyRound,
+  Mail,
+  Phone,
+  User as UserIcon,
+} from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -48,7 +57,12 @@ export function useUsersColumns(): ColumnDef<User>[] {
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
-          title={t('users.table.columns.fullName')}
+          title={
+            <span className='inline-flex items-center gap-1'>
+              <UserIcon className='text-muted-foreground' size={14} />
+              {t('users.table.columns.fullName')}
+            </span>
+          }
         />
       ),
       cell: ({ row }) => (
@@ -67,7 +81,12 @@ export function useUsersColumns(): ColumnDef<User>[] {
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
-          title={t('users.table.columns.email')}
+          title={
+            <span className='inline-flex items-center gap-1'>
+              <Mail className='text-muted-foreground' size={14} />
+              {t('users.table.columns.email')}
+            </span>
+          }
         />
       ),
       cell: ({ row }) => (
@@ -75,11 +94,50 @@ export function useUsersColumns(): ColumnDef<User>[] {
       ),
     },
     {
+      accessorKey: 'created_at',
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title={
+            <span className='inline-flex items-center gap-1'>
+              <CalendarClock className='text-muted-foreground' size={14} />
+              {t('users.table.columns.signupDate')}
+            </span>
+          }
+        />
+      ),
+      cell: ({ row }) => {
+        const value = row.original.created_at as Date | string | undefined
+        if (!value) {
+          return (
+            <div className='text-sm'>
+              <span className='text-muted-foreground'>
+                {t('users.table.noData.signupDate')}
+              </span>
+            </div>
+          )
+        }
+        const d = typeof value === 'string' ? new Date(value) : value
+        const formatted = new Intl.DateTimeFormat(undefined, {
+          dateStyle: 'medium',
+          timeStyle: 'short',
+        }).format(d)
+        return <div className='font-mono text-sm'>{formatted}</div>
+      },
+      enableSorting: true,
+      meta: { className: 'w-36' },
+    },
+    {
       accessorKey: 'permissions',
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
-          title={t('users.table.columns.permissions')}
+          title={
+            <span className='inline-flex items-center gap-1'>
+              <KeyRound className='text-muted-foreground' size={14} />
+              {t('users.table.columns.permissions')}
+            </span>
+          }
         />
       ),
       cell: ({ row }) => {
@@ -139,7 +197,12 @@ export function useUsersColumns(): ColumnDef<User>[] {
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
-          title={t('users.table.columns.phoneNumber')}
+          title={
+            <span className='inline-flex items-center gap-1'>
+              <Phone className='text-muted-foreground' size={14} />
+              {t('users.table.columns.phoneNumber')}
+            </span>
+          }
         />
       ),
       cell: ({ row }) => {
@@ -167,7 +230,12 @@ export function useUsersColumns(): ColumnDef<User>[] {
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
-          title={t('users.table.columns.status')}
+          title={
+            <span className='inline-flex items-center gap-1'>
+              <Activity className='text-muted-foreground' size={14} />
+              {t('users.table.columns.status')}
+            </span>
+          }
         />
       ),
       cell: ({ row }) => {
@@ -192,7 +260,12 @@ export function useUsersColumns(): ColumnDef<User>[] {
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
-          title={t('users.table.columns.role')}
+          title={
+            <span className='inline-flex items-center gap-1'>
+              <Briefcase className='text-muted-foreground' size={14} />
+              {t('users.table.columns.role')}
+            </span>
+          }
         />
       ),
       cell: ({ row }) => {

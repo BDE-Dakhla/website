@@ -14,7 +14,6 @@ import {
   Megaphone,
   Send,
   TicketsIcon,
-  Users,
   UsersRound,
 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
@@ -45,7 +44,6 @@ const data = {
       url: '/dashboard/users',
       icon: ContactRound,
     },
-    { title: "Membres de l'équipage", url: '/dashboard/members', icon: Users },
   ],
 
   // Events & Activities

@@ -56,7 +56,8 @@ export function useUsersColumns(): ColumnDef<User>[] {
       enableHiding: false,
     },
     {
-      id: 'username',
+      accessorKey: 'username',
+      meta: { className: 'w-36' },
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
@@ -64,20 +65,31 @@ export function useUsersColumns(): ColumnDef<User>[] {
           title={t('users.table.columns.fullName')}
         />
       ),
-      cell: ({ row }) => (
-        <LongText className='max-w-36'>
-          {row.original.username || row.original.name || (
-            <span className='text-muted-foreground'>
-              {t('users.table.noData.fullName')}
-            </span>
-          )}
-        </LongText>
-      ),
-      meta: { className: 'w-36' },
+      cell: ({ row }) => {
+        const v = (row.getValue('username') as string | null) ?? row.original.name ?? null
+        return (
+          <LongText className='max-w-36'>
+            {v || (
+              <span className='text-muted-foreground'>
+                {t('users.table.noData.fullName')}
+              </span>
+            )}
+          </LongText>
+        )
+      },
+      filterFn: (row, id, value) => {
+        const cell = row.getValue(id) as string | null | undefined
+        const needle = typeof value === 'string' ? value : ''
+        if (!needle) return true
+        if (!cell) return false
+        return cell.toLowerCase().includes(needle.toLowerCase())
+      },
     },
     {
       accessorKey: 'role',
       meta: { className: 'w-38' },
+      enableSorting: false,
+      enableHiding: false,
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
@@ -105,8 +117,6 @@ export function useUsersColumns(): ColumnDef<User>[] {
       filterFn: (row, id, value) => {
         return value.includes(row.getValue(id))
       },
-      enableSorting: false,
-      enableHiding: false,
     },
     {
       accessorKey: 'email',

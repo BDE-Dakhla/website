@@ -31,11 +31,11 @@ export function serializeUsersSearch(s: UsersSearch) {
   if (s.pageSize !== 10) params.set('pageSize', String(s.pageSize))
   if (s.username) params.set('username', s.username)
 
-  s.status.forEach((v): void => {
+  ;(s.status ?? []).forEach((v): void => {
     params.append('status', v)
   })
 
-  s.role.forEach((v): void => {
+  ;(s.role ?? []).forEach((v): void => {
     params.append('role', v)
   })
 

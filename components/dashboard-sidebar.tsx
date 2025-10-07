@@ -111,6 +111,8 @@ const data = {
     {
       title: 'Campagnes',
       url: '/dashboard/newsletter/campaigns',
+      disabled: true,
+      tooltip: 'Bientôt',
       icon: Send,
     },
   ],

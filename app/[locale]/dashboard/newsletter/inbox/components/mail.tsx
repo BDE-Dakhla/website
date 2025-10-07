@@ -14,6 +14,7 @@ import {
   Trash2,
   Users2,
 } from 'lucide-react'
+import { useDeferredValue, useMemo, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import {
   ResizableHandle,
@@ -29,7 +30,6 @@ import { AccountSwitcher } from './account-switcher'
 import { MailDisplay } from './mail-display'
 import { MailList } from './mail-list'
 import { Nav } from './nav'
-import { useState } from 'react'
 
 interface MailProps {
   accounts: {
@@ -53,11 +53,67 @@ function MailInner({
   const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed)
   const [mail] = useMail()
 
-  const stats = {
-    inbox: mails.length,
-    unread: mails.filter((m) => !m.read).length,
-    important: mails.filter((m) => m.labels.includes('important')).length,
-  }
+  // Search state (deferred for responsiveness on large lists)
+  const [query, setQuery] = useState('')
+  const deferredQuery = useDeferredValue(query)
+
+  // Memoized stats to avoid repeated O(n) scans per render
+  const stats = useMemo(
+    () => ({
+      inbox: mails.length,
+      unread: mails.filter((m) => !m.read).length,
+      important: mails.filter((m) => m.labels.includes('important')).length,
+    }),
+    [mails],
+  )
+
+  // Precompute label counts in a single pass for side nav
+  const labelCounts = useMemo(() => {
+    const counts: Record<string, number> = {}
+    for (const m of mails) {
+      for (const l of m.labels) counts[l] = (counts[l] || 0) + 1
+    }
+    return counts
+  }, [mails])
+
+  // Build a normalized search index once per mails change
+  const normalize = (s: string) =>
+    s
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+
+  const searchIndex = useMemo(
+    () =>
+      mails.map((m) => ({
+        id: m.id,
+        read: m.read,
+        ref: m,
+        content: normalize(
+          [m.subject, m.text, m.name, m.email, ...(m.labels || [])].join(' '),
+        ),
+      })),
+    [mails],
+  )
+
+  // Tokenize the query; require all tokens to match (AND semantics)
+  const tokens = useMemo(() => {
+    const n = normalize(deferredQuery)
+    return n.split(/\s+/).filter(Boolean)
+  }, [deferredQuery])
+
+  // Fast filter using the precomputed index
+  const filteredAll = useMemo(() => {
+    if (tokens.length === 0) return mails
+    return searchIndex
+      .filter((entry) => tokens.every((t) => entry.content.includes(t)))
+      .map((e) => e.ref)
+  }, [tokens, searchIndex, mails])
+
+  const filteredUnread = useMemo(
+    () => filteredAll.filter((item) => !item.read),
+    [filteredAll],
+  )
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -149,33 +205,25 @@ function MailInner({
             links={[
               {
                 title: 'Partenariats',
-                label: mails
-                  .filter((m) => m.labels.includes('partenariat'))
-                  .length.toString(),
+                label: (labelCounts['partenariat'] || 0).toString(),
                 icon: Users2,
                 variant: 'ghost',
               },
               {
                 title: 'Événements',
-                label: mails
-                  .filter((m) => m.labels.includes('événement'))
-                  .length.toString(),
+                label: (labelCounts['événement'] || 0).toString(),
                 icon: AlertCircle,
                 variant: 'ghost',
               },
               {
                 title: 'Communications',
-                label: mails
-                  .filter((m) => m.labels.includes('notification'))
-                  .length.toString(),
+                label: (labelCounts['notification'] || 0).toString(),
                 icon: MessagesSquare,
                 variant: 'ghost',
               },
               {
                 title: 'Rapports',
-                label: mails
-                  .filter((m) => m.labels.includes('rapport'))
-                  .length.toString(),
+                label: (labelCounts['rapport'] || 0).toString(),
                 icon: Archive,
                 variant: 'ghost',
               },
@@ -205,15 +253,22 @@ function MailInner({
               <form>
                 <div className='relative'>
                   <Search className='absolute top-2.5 left-2 h-4 w-4 text-muted-foreground' />
-                  <Input className='pl-8' placeholder='Rechercher...' />
+                  <Input
+                    aria-label='Rechercher dans les emails'
+                    autoComplete='off'
+                    className='pl-8'
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder='Rechercher...'
+                    value={query}
+                  />
                 </div>
               </form>
             </div>
             <TabsContent className='m-0' value='all'>
-              <MailList items={mails} />
+              <MailList items={filteredAll} />
             </TabsContent>
             <TabsContent className='m-0' value='unread'>
-              <MailList items={mails.filter((item) => !item.read)} />
+              <MailList items={filteredUnread} />
             </TabsContent>
           </Tabs>
         </ResizablePanel>

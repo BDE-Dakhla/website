@@ -1,5 +1,5 @@
-import { z } from 'zod'
 import type { Database } from '@/types/schema'
+import { z } from 'zod'
 import { userRoleSchema } from '@/types/schema'
 
 // Use the proper database User type for table components

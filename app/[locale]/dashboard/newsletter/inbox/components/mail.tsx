@@ -1,6 +1,7 @@
 'use client'
 
 import type { Mail } from '../data'
+import Cookies from 'js-cookie'
 import {
   AlertCircle,
   Archive,
@@ -13,7 +14,6 @@ import {
   Trash2,
   Users2,
 } from 'lucide-react'
-import * as React from 'react'
 import { Input } from '@/components/ui/input'
 import {
   ResizableHandle,
@@ -29,6 +29,7 @@ import { AccountSwitcher } from './account-switcher'
 import { MailDisplay } from './mail-display'
 import { MailList } from './mail-list'
 import { Nav } from './nav'
+import { useState } from 'react'
 
 interface MailProps {
   accounts: {
@@ -49,7 +50,7 @@ function MailInner({
   defaultCollapsed = false,
   navCollapsedSize,
 }: MailProps) {
-  const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed)
+  const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed)
   const [mail] = useMail()
 
   const stats = {
@@ -64,9 +65,10 @@ function MailInner({
         className='h-full max-h-[800px] items-stretch'
         direction='horizontal'
         onLayout={(sizes: number[]) => {
-          document.cookie = `react-resizable-panels:layout:mail=${JSON.stringify(
-            sizes,
-          )}`
+          Cookies.set(
+            'react-resizable-panels:layout:mail',
+            JSON.stringify(sizes),
+          )
         }}>
         <ResizablePanel
           className={cn(
@@ -80,15 +82,17 @@ function MailInner({
           minSize={15}
           onCollapse={() => {
             setIsCollapsed(true)
-            document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-              true,
-            )}`
+            Cookies.set(
+              'react-resizable-panels:collapsed',
+              JSON.stringify(true),
+            )
           }}
           onResize={() => {
             setIsCollapsed(false)
-            document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-              false,
-            )}`
+            Cookies.set(
+              'react-resizable-panels:collapsed',
+              JSON.stringify(false),
+            )
           }}>
           <div
             className={cn(

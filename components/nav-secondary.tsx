@@ -1,8 +1,6 @@
 'use client'
 
 import type { NavItem } from './nav-main'
-import { Badge } from './ui/badge'
-import { cn } from '@/lib/utils'
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -10,6 +8,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
+import { cn } from '@/lib/utils'
+import { Badge } from './ui/badge'
 
 export function NavSecondary({
   items,
@@ -28,7 +28,7 @@ export function NavSecondary({
                 <SidebarMenuButton
                   asChild={!item.disabled}
                   className={cn({
-                    'opacity-50 cursor-not-allowed': item.disabled,
+                    'cursor-not-allowed opacity-50': item.disabled,
                   })}
                   disabled={item.disabled}
                   tooltip={item.title}>
@@ -45,7 +45,9 @@ export function NavSecondary({
                       )}
                     </div>
                   ) : (
-                    <a className='flex w-full items-center justify-between' href={item.url}>
+                    <a
+                      className='flex w-full items-center justify-between'
+                      href={item.url}>
                       <div className='flex items-center gap-2'>
                         {item.icon && <item.icon />}
                         <span>{item.title}</span>

@@ -1,9 +1,15 @@
-export type UAInfo = { browser: string; os: string; device: 'Desktop' | 'Mobile' | 'Tablet' }
+export type UAInfo = {
+  browser: string
+  os: string
+  device: 'Desktop' | 'Mobile' | 'Tablet'
+}
 
-export function parseSecChUaBrands(header: string | null | undefined): { brand: string; version?: string }[] {
+export function parseSecChUaBrands(
+  header: string | null | undefined,
+): { brand: string; version?: string }[] {
   if (!header) return []
   const out: { brand: string; version?: string }[] = []
-  const re = /\"([^\"]+)\"\s*;\s*v=\"([^\"]+)\"/g
+  const re = /"([^"]+)"\s*;\s*v="([^"]+)"/g
   let m: RegExpExecArray | null
   while ((m = re.exec(header))) {
     out.push({ brand: m[1], version: m[2] })
@@ -32,11 +38,14 @@ function pickBrand(brands: { brand: string }[]): string | null {
   return firstReal || names[0]
 }
 
-export function parseUserAgent(uaRaw: string | null | undefined, opts?: {
-  ua_brands?: { brand: string; version?: string }[] | null
-  ua_platform?: string | null
-  ua_mobile?: boolean | null
-}): UAInfo {
+export function parseUserAgent(
+  uaRaw: string | null | undefined,
+  opts?: {
+    ua_brands?: { brand: string; version?: string }[] | null
+    ua_platform?: string | null
+    ua_mobile?: boolean | null
+  },
+): UAInfo {
   const ua = (uaRaw || '').toString()
   const lower = ua.toLowerCase()
 
@@ -79,17 +88,34 @@ export function parseUserAgent(uaRaw: string | null | undefined, opts?: {
     else if (/edg\//i.test(ua) || /edge/i.test(ua)) browser = 'Edge (Chromium)'
     else if (/opr\//i.test(ua) || /opera/i.test(ua)) browser = 'Opera'
     else if (/crios/i.test(ua)) browser = 'Chrome (iOS)'
-    else if (/chrome/i.test(ua) && !/edge|edg\//i.test(ua) && !/opr\//i.test(ua)) browser = 'Chrome'
+    else if (
+      /chrome/i.test(ua) &&
+      !/edge|edg\//i.test(ua) &&
+      !/opr\//i.test(ua)
+    )
+      browser = 'Chrome'
     else if (/fxios/i.test(ua)) browser = 'Firefox (iOS)'
     else if (/firefox/i.test(ua)) browser = 'Firefox'
-    else if (/safari/i.test(ua) && !/chrome|crios|opr\//i.test(ua)) browser = 'Safari'
+    else if (/safari/i.test(ua) && !/chrome|crios|opr\//i.test(ua))
+      browser = 'Safari'
     else if (/os 12_\d+ like mac os x/i.test(ua)) browser = 'iOS (webview)'
   }
 
   return { browser, os, device }
 }
 
-export function detectFromVisitor(input: { user_agent: string | null; ua_brands?: any; ua_platform?: string | null; ua_mobile?: boolean | null }): UAInfo {
-  const brands = Array.isArray(input.ua_brands) ? (input.ua_brands as { brand: string; version?: string }[]) : []
-  return parseUserAgent(input.user_agent, { ua_brands: brands, ua_platform: input.ua_platform, ua_mobile: input.ua_mobile })
+export function detectFromVisitor(input: {
+  user_agent: string | null
+  ua_brands?: any
+  ua_platform?: string | null
+  ua_mobile?: boolean | null
+}): UAInfo {
+  const brands = Array.isArray(input.ua_brands)
+    ? (input.ua_brands as { brand: string; version?: string }[])
+    : []
+  return parseUserAgent(input.user_agent, {
+    ua_brands: brands,
+    ua_platform: input.ua_platform,
+    ua_mobile: input.ua_mobile,
+  })
 }

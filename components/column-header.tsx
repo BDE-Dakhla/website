@@ -32,7 +32,15 @@ export function DataTableColumnHeader<TData, TValue>({
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) {
-    return <div className={cn(className)}>{title}</div>
+    return (
+      <div
+        className={cn(className, {
+          'inline-flex items-center gap-2': Icon != null,
+        })}>
+        <Icon className='text-muted-foreground' size={14} />
+        {title}
+      </div>
+    )
   }
 
   return (
@@ -43,7 +51,7 @@ export function DataTableColumnHeader<TData, TValue>({
             className='-ms-3 h-8 data-[state=open]:bg-accent'
             size='sm'
             variant='ghost'>
-            <span className='inline-flex items-center gap-1'>
+            <span className='inline-flex items-center gap-2'>
               <Icon className='text-muted-foreground' size={14} />
               {title}
             </span>

@@ -1,4 +1,5 @@
 import 'server-only'
+
 import type { PermissionMap } from '@/types/schema'
 import { getDb } from '@/lib/db/instance'
 

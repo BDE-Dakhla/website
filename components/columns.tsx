@@ -77,6 +77,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
     },
     {
       accessorKey: 'role',
+      meta: { className: 'w-38' },
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
@@ -109,6 +110,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
     },
     {
       accessorKey: 'email',
+      enableSorting: false,
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
@@ -123,6 +125,8 @@ export function useUsersColumns(): ColumnDef<User>[] {
     },
     {
       accessorKey: 'cdm',
+      meta: { className: 'w-38' },
+      enableSorting: false,
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
@@ -145,8 +149,6 @@ export function useUsersColumns(): ColumnDef<User>[] {
           <div className='font-mono text-xs uppercase tracking-wide'>{cdm}</div>
         )
       },
-      meta: { className: 'w-36' },
-      enableSorting: false,
     },
     {
       accessorKey: 'phoneNumber',

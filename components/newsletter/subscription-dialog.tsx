@@ -28,6 +28,7 @@ export function SubscriptionDialog({
   const t = useTranslations('footer.newsletter')
 
   const getDialogContent = () => {
+    console.log(status)
     switch (status) {
       case 'success':
         return {

@@ -32,7 +32,7 @@
       },
       "error": {
         "title": "Subscription error",
-        "description": "An error occurred during your subscription. Please try again later.",
+        "description": "An error occurred during your subscription. Please try again in a few moments. If the problem persists, contact an administrator or the site developer.",
         "close": "Close"
       }
     },

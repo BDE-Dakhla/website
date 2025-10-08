@@ -26,6 +26,19 @@ services:
     # configure DKIM, SPF, etc. as needed; consult image docs
     ports:
       - "25:25"
+    profiles:
+      - production  # Only use in production
+
+  # MailHog - Email testing tool for development
+  # Captures all outgoing emails and displays them in a web UI
+  # Access the UI at: http://localhost:8025
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025"  # SMTP server
+      - "8025:8025"  # Web UI
+    profiles:
+      - dev  # Only use in development
 
   minio:
     image: minio/minio:latest

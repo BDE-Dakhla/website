@@ -33,7 +33,7 @@
       },
       "error": {
         "title": "Erreur d'inscription",
-        "description": "Une erreur s'est produite lors de votre inscription. Veuillez réessayer plus tard.",
+        "description": "Une erreur s'est produite lors de votre inscription. Veuillez réessayer dans quelques instants. Si le problème persiste, contactez un administrateur ou le développeur du site.",
         "close": "Fermer"
       }
     },

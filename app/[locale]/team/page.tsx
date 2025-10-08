@@ -43,6 +43,14 @@ const categories = [
           'Bras droit du président, garant de la coordination entre pôles, suivi des projets en cours',
       },
       {
+        name: 'Anas ELMARRABI',
+        poste: 'Conseiller',
+        icon: HandHelping,
+        styles: { backgroundPositionY: '20%', backgroundSize: '120%' },
+        description:
+          "Apporte une vision externe, conseille sur la stratégie et l'amélioration continue",
+      },
+      {
         name: 'Wissal EL HAZAL',
         poste: 'Secrétaire Générale',
         icon: Scroll,
@@ -65,15 +73,7 @@ const categories = [
         styles: { backgroundPosition: '46% 33%', backgroundSize: '350%' },
         description:
           "Encadre les membres, gère le recrutement interne, le suivi des compétences etla dynamique d'équipe",
-      },
-      {
-        name: 'Anas ELMARRABI',
-        poste: 'Conseiller',
-        icon: HandHelping,
-        styles: { backgroundPositionY: '20%', backgroundSize: '120%' },
-        description:
-          "Apporte une vision externe, conseille sur la stratégie et l'amélioration continue",
-      },
+      }
     ],
   },
   {

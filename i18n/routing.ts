@@ -10,7 +10,7 @@ interface Lang {
 
 export const LANGS: Lang[] = [
   { locale: 'fr', label: 'Français', flag: 'fr' },
-  { locale: 'en', label: 'English', flag: 'gb', disabled: true },
+  { locale: 'en', label: 'English', flag: 'gb' },
   { locale: 'es', label: 'Español', flag: 'es', disabled: true },
   { locale: 'zh', label: '中文', flag: 'cn', disabled: true },
   { locale: 'it', label: 'Italiano', flag: 'it', disabled: true },

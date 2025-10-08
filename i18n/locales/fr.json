@@ -1,24 +1,43 @@
 {
   "common": {
     "email": "E-mail",
+    "emailAddress": "Adresse mail",
     "students": "Étudiants",
     "subscribe": "S'abonner",
     "syllabus": "Espace étudiant"
   },
 
   "footer": {
+    "aboutUs": "À propos de nous",
+    "bdeTitle": "Apolo 9.0 — Bureau Des Étudiants de l'ENCG de Dakhla",
+    "bdeDescription": "Centre de mission de l'ENCG Dakhla, Apollo 9 propulse projets et carrières via un guichet unique d'opportunités, de l'idée à l'impact.",
+    "team": "Équipe",
+    "partners": "Partenaires",
+    "privacy": "Confidentialité",
+    "clubs": "Clubs",
+    "news": "Actualités",
     "fastLinks": "Liens rapides",
     "newsletter": {
       "title": "Soyez notifier où que vous soyez",
       "description": "Restez notifier à la seconde prêt des activités universitaires et parascolaires, directement dans votre boîte mail.",
-      "invalidEmail": "L'email doit avoir un format valide"
+      "invalidEmail": "L'email doit avoir un format valide",
+      "success": {
+        "title": "Inscription réussie !",
+        "description": "Vous recevrez désormais toutes les actualités et notifications du BDE directement dans votre boîte mail.",
+        "close": "Parfait !"
+      },
+      "alreadySubscribed": {
+        "title": "Déjà inscrit !",
+        "description": "Cette adresse email est déjà inscrite à notre newsletter. Vous recevez déjà nos actualités.",
+        "close": "Compris"
+      },
+      "error": {
+        "title": "Erreur d'inscription",
+        "description": "Une erreur s'est produite lors de votre inscription. Veuillez réessayer plus tard.",
+        "close": "Fermer"
+      }
     },
-    "partners": "Partenaires",
-    "clubs": "Clubs",
-    "news": "Actualités",
-    "team": "Équipe",
     "homepage": "Page d'accueil",
-    "privacy": "Confidentialité",
     "tos": { "short": "CGU", "long": "Conditions générales d'utilisation" },
     "copyright": {
       "short": "Droits d'auteurs",

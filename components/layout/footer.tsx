@@ -2,23 +2,19 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import confetti, { type Options } from 'canvas-confetti'
-import {
-  CheckCircle,
-  Facebook,
-  Github,
-  Instagram,
-  Linkedin,
-  XCircle,
-} from 'lucide-react'
+import { Facebook, Github, Instagram, Linkedin } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { z } from 'zod'
 import { Link } from '@/i18n/routing'
 import { LanguageSwitcher } from '../design/lang-switcher'
 import { ThemeSwitcher } from '../design/theme-switcher'
 import { Paragraph, Title } from '../design/typography'
+import {
+  SubscriptionDialog,
+  type SubscriptionStatus,
+} from '../newsletter/subscription-dialog'
 import { Button } from '../ui/button'
 import {
   Form,
@@ -76,7 +72,7 @@ const socials = (locale: string) => [
 
 const categories = (t: ReturnType<typeof useTranslations>) => [
   {
-    title: 'À propos de nous',
+    title: t('footer.aboutUs'),
     links: [
       { name: t('footer.team'), href: '/team' },
       { name: t('footer.partners'), href: '/partners' },
@@ -113,6 +109,9 @@ const fireConfettiTopCenter = () => {
 export function Footer() {
   const locale = useLocale()
   const t = useTranslations()
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [subscriptionStatus, setSubscriptionStatus] =
+    useState<SubscriptionStatus>('success')
 
   const schema = useMemo(
     () =>
@@ -131,23 +130,38 @@ export function Footer() {
   const subscribeToNewsletteer = async (
     values: z.infer<typeof schema>,
   ): Promise<void> => {
-    form.reset()
-    const res = await fetch(`/api/newsletter`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: values.email }),
-    })
+    try {
+      const res = await fetch(`/api/newsletter`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: values.email }),
+      })
 
-    const position = res.ok ? 'top-center' : 'bottom-right'
+      const data = await res.json()
 
-    toast(res.ok ? 'Thank you !!!' : 'Something went wrong, please try again', {
-      position,
-      icon: res.ok ? <CheckCircle /> : <XCircle />,
-    })
+      if (res.ok) {
+        form.reset()
 
-    if (res.ok) {
-      fireConfettiTopCenter()
+        if (data.message === 'already_subscribed') {
+          setSubscriptionStatus('already_subscribed')
+        } else {
+          setSubscriptionStatus('success')
+          fireConfettiTopCenter()
+        }
+
+        setDialogOpen(true)
+      } else {
+        setSubscriptionStatus('error')
+        setDialogOpen(true)
+      }
+    } catch {
+      setSubscriptionStatus('error')
+      setDialogOpen(true)
     }
+  }
+
+  const handleDialogClose = () => {
+    setDialogOpen(false)
   }
 
   return (
@@ -155,13 +169,9 @@ export function Footer() {
       <div className='flex flex-col items-start justify-between gap-10 border-primary/20 border-b py-10 text-[15px] text-slate-500 md:flex-row dark:border-primary/15 dark:text-slate-300'>
         <div>
           <Logo />
-          <Paragraph className='mt-6'>
-            Apolo 9.0 — Bureau Des Étudiants de l'ENCG de Dakhla
-          </Paragraph>
+          <Paragraph className='mt-6'>{t('footer.bdeTitle')}</Paragraph>
           <Paragraph className='max-w-102.5'>
-            Centre de mission de l&apos;ENCG Dakhla, Apollo 9 propulse projets
-            et carrières via un guichet unique d&apos;opportunités, de
-            l&apos;idée à l&apos;impact.
+            {t('footer.bdeDescription')}
           </Paragraph>
           <div className='mt-4 flex items-center gap-2'>
             <LanguageSwitcher />
@@ -177,7 +187,6 @@ export function Footer() {
               <ul className='space-y-1'>
                 {cat.links.map((link) => (
                   <Link
-                    as='li'
                     className='block transition hover:text-[#69B755]'
                     href={link.href}
                     key={link.name}>
@@ -200,7 +209,7 @@ export function Footer() {
                     name='email'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Addresse mail</FormLabel>
+                        <FormLabel>{t('common.emailAddress')}</FormLabel>
                         <FormControl>
                           <Input placeholder={t('common.email')} {...field} />
                         </FormControl>
@@ -242,6 +251,12 @@ export function Footer() {
           )}
         </div>
       </div>
+
+      <SubscriptionDialog
+        onClose={handleDialogClose}
+        open={dialogOpen}
+        status={subscriptionStatus}
+      />
     </footer>
   )
 }

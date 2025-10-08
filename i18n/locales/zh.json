@@ -1,4 +1,91 @@
 {
+  "common": {
+    "email": "电子邮件",
+    "emailAddress": "电子邮件地址",
+    "students": "学生",
+    "subscribe": "订阅",
+    "syllabus": "学生区"
+  },
+  "footer": {
+    "aboutUs": "关于我们",
+    "bdeTitle": "Apolo 9.0 - Dakhla ENCG 学生办公室",
+    "bdeDescription": "阿波罗 9 号是达赫拉国立高等师范学院的任务中心，通过一站式服务，提供从创意到影响的各种机会，推动项目和职业发展。",
+    "team": "团队",
+    "partners": "合作伙伴",
+    "privacy": "隐私",
+    "clubs": "俱乐部",
+    "news": "新闻",
+    "fastLinks": "快速链接",
+    "newsletter": {
+      "title": "随时随地收到通知",
+      "description": "获取大学和课外活动的最新通知，直接发送到您的收件箱。",
+      "invalidEmail": "电子邮件格式必须有效",
+      "success": {
+        "title": "成功注册！",
+        "description": "现在，您的邮箱将直接收到 BDE 的所有新闻和通知。",
+        "close": "太完美了"
+      },
+      "alreadySubscribed": {
+        "title": "已经注册！",
+        "description": "此电子邮件地址已订阅我们的新闻通讯。您已经收到我们的新闻。",
+        "close": "包括"
+      },
+      "error": {
+        "title": "订阅错误",
+        "description": "注册时发生错误。请稍后再试。",
+        "close": "关闭"
+      }
+    },
+    "homepage": "主页",
+    "tos": {
+      "short": "GTC",
+      "long": "使用条款和条件"
+    },
+    "copyright": {
+      "short": "版权",
+      "long": "保留所有权利"
+    }
+  },
+  "dashboard": {
+    "users": {
+      "table": {
+        "columns": {
+          "fullName": "全称",
+          "email": "电子邮件地址",
+          "cdm": "马萨尔代码",
+          "permissions": "权限",
+          "phoneNumber": "电话号码",
+          "status": "状态",
+          "role": "角色",
+          "signupDate": "注册日期"
+        },
+        "emptyState": "未找到结果",
+        "noData": {
+          "fullName": "未找到结果",
+          "phoneNumber": "未找到",
+          "cdm": "未提供",
+          "permissions": "无",
+          "signupDate": "未说明"
+        }
+      }
+    },
+    "permissions": {
+      "HAS_ACCESS_TO_DASHBOARD": "仪表板访问",
+      "CAN_READ_DOCS": "阅读文件",
+      "CAN_WRITE_DOCS": "写入文件",
+      "CAN_MANAGE_USERS": "用户管理",
+      "CAN_ADMIN": "行政管理",
+      "CAN_MANAGE_CONTENT": "内容管理",
+      "CAN_VIEW_ANALYTICS": "查看分析",
+      "CAN_MANAGE_SETTINGS": "系统设置"
+    }
+  },
+  "validation": {
+    "phone": {
+      "invalid": "电话号码必须是有效的摩洛哥号码（+212 6XX XXX XXX、+212 7XX XXX XXX 或 +212 5XX XXX XXX）",
+      "required": "电话号码是必填项\n"
+    }
+  },
   "home": {
     "school-section": {
       "title": "探索我们珍贵的学校",

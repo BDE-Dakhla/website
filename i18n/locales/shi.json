@@ -1,4 +1,91 @@
 {
+  "common": {
+    "email": "ⵉⵎⴰⵢⵍ",
+    "emailAddress": "ⵜⴰⵏⵙⴰ ⵏ ⵉⵎⴰⵢⵍ",
+    "students": "ⵉⵏⵍⵎⴰⴷⵏ",
+    "subscribe": "ⵣⵎⵎⵎ",
+    "syllabus": "ⴰⴳⵎⵎⴰⵎ ⵏ ⵉⵏⵍⵎⴰⴷⵏ"
+  },
+  "footer": {
+    "aboutUs": "ⵅⴼ ⵏⵖ",
+    "bdeTitle": "ⴰⴱⵓⵍⵓ 9.0 — ⵍⴱⵉⵔⵓ ⵏ ⵉⵏⵍⵎⴰⴷⵏ ⵏ ENCG ⵏ ⴷⴰⵅⵍⴰ",
+    "bdeDescription": "ⴰⵎⵎⴰⵙ ⵏ ⵜⵡⵓⵔⵉ ⵏ ENCG ⴷⴰⵅⵍⴰ, ⴰⴱⵓⵍⵓ 9 ⴰⵔ ⵉⵙⵙⵓⴷⴷⵓ ⵉⵙⵏⴼⴰⵔⵏ ⴷ ⵜⵡⵓⵔⵉⵡⵉⵏ ⵙ ⵢⴰⵏ ⵡⴰⵎⵎⴰⵙ ⵏ ⵜⵔⵓⴱⴱⴰ, ⵙⴳ ⵜⵡⵏⴳⵉⵎⵜ ⴰⵔ ⵓⵙⵎⵔⵙ",
+    "team": "ⵜⴰⵔⴰⴱⴱⵓⵜ",
+    "partners": "ⵉⵎⴷⵓⴽⴰⵍ",
+    "privacy": "ⵜⵓⴷⵔⵜ ⵜⵓⵙⵍⵉⴳⵜ",
+    "clubs": "ⵜⵉⵔⵓⴱⴱⴰ",
+    "news": "ⵉⵏⵖⵎⵉⵙⵏ",
+    "fastLinks": "ⵉⵙⵖⵓⵏⵏ ⵉⵣⵔⴱⴰⵏ",
+    "newsletter": {
+      "title": "ⴰⵡⵉ ⵜⵉⵏⵖⵎⵉⵙⵉⵏ ⵎⴰⵏⵉ ⵉⵍⵍⴰⵏ",
+      "description": "ⴰⵡⵉ ⵜⵉⵏⵖⵎⵉⵙⵉⵏ ⴼ ⵜⵡⵓⵔⵉⵡⵉⵏ ⵏ ⵜⵙⴷⴰⵡⵉⵜ ⴷ ⵜⵉⵏ ⴱⵕⵕⴰ ⵏ ⵜⵙⴷⴰⵡⵉⵜ, ⵙⵇⵇⴰⵛ ⴳ ⵜⴰⵏⴱⴰⴹⵜ ⵏⵏⴽ",
+      "invalidEmail": "ⵉⵎⴰⵢⵍ ⵉⵅⵚⵚⴰ ⴰⴷ ⵉⴳ ⴰⵎⵥⵍⴰⵢ",
+      "success": {
+        "title": "ⵉⴼⴼⵖ ⵓⵙⵎⴷⵢⴰ!",
+        "description": "ⴰⴷ ⵜⴰⵡⵉⴷ ⵎⴰⵕⵕⴰ ⴰⴽⴽ ⵉⵏⵖⵎⵉⵙⵏ ⴷ ⵉⵙⴰⵖⵓⵍⵏ ⵏ BDE ⵙⵇⵇⴰⵛ ⴳ ⵜⴰⵏⴱⴰⴹⵜ ⵏⵏⴽ",
+        "close": "ⵉⴳⴳⵓⴷⴰ!"
+      },
+      "alreadySubscribed": {
+        "title": "ⵢⴰⴷ ⵜⵙⵎⴷⵢⴰⴷ!",
+        "description": "ⵜⴰⵏⵙⴰ ⴰⴷ ⵏ ⵉⵎⴰⵢⵍ ⵜⵙⵎⴷⵢⴰ ⵢⴰⴷ ⴳ ⵜⴰⵍⵖⵓⵜ ⵏⵏⵖ. ⴰⵔ ⵜⴰⵡⵉⴷ ⵢⴰⴷ ⵉⵏⵖⵎⵉⵙⵏ ⵏⵏⵖ",
+        "close": "ⴰⵡⵉⵖ"
+      },
+      "error": {
+        "title": "ⴰⵣⴳⵍ ⴳ ⵓⵙⵎⴷⵢⴰ",
+        "description": "ⵉⵍⵍⴰ ⵢⴰⵏ ⵓⵣⴳⵍ ⴳ ⵓⵙⵎⴷⵢⴰ ⵏⵏⴽ. ⵜⴰⵔⵎ ⵜⵉⴽⴽⵍⵜ ⵎⴰⵕⵕⴰ",
+        "close": "ⵔⴳⵍ"
+      }
+    },
+    "homepage": "ⵜⴰⵙⵏⴰ ⵜⴰⵎⵣⵡⴰⵔⵓⵜ",
+    "tos": {
+      "short": "ⵜⵉⵎⵔⵣⴰ",
+      "long": "ⵜⵉⵎⵔⵣⴰ ⵜⵉⵎⴰⵜⴰⵢⵉⵏ ⵏ ⵓⵙⵎⵔⵙ"
+    },
+    "copyright": {
+      "short": "ⵉⵣⵔⴼⴰⵏ ⵏ ⵓⵎⴰⵔⴰ",
+      "long": "ⴰⴽⴽ ⵉⵣⵔⴼⴰⵏ ⴳⴰⵏⵜ ⵉⵃⴹⴰⵏ"
+    }
+  },
+  "dashboard": {
+    "users": {
+      "table": {
+        "columns": {
+          "fullName": "ⵉⵙⵎ ⴰⵎⵓⵔⴰⵏ",
+          "email": "ⵜⴰⵏⵙⴰ ⵏ ⵉⵎⴰⵢⵍ",
+          "cdm": "ⵜⴰⵏⴳⴰⵍⵜ MASSAR",
+          "permissions": "ⵜⵓⵔⴰⴳⵉⵏ",
+          "phoneNumber": "ⵓⵟⵟⵓⵏ ⵏ ⵜⵉⵍⵉⴼⵓⵏ",
+          "status": "ⴰⴷⴷⴰⴷ",
+          "role": "ⵜⴰⵡⵓⵔⵉ",
+          "signupDate": "ⴰⵙⵙ ⵏ ⵓⵙⵎⴷⵢⴰ"
+        },
+        "emptyState": "ⵓⵔ ⵏⵓⴼⵉ ⴰⵔⴰ",
+        "noData": {
+          "fullName": "ⵓⵔ ⵉⵜⵜⵓⵙⴽⴰⵔ",
+          "phoneNumber": "ⵓⵔ ⵉⵜⵜⵓⵙⴽⴰⵔ",
+          "cdm": "ⵓⵔ ⵉⵜⵜⵓⵙⴽⴰⵔ",
+          "permissions": "ⴰⵡⴷ ⵢⴰⵏ",
+          "signupDate": "ⵓⵔ ⵉⵜⵜⵓⵙⴽⴰⵔ"
+        }
+      }
+    },
+    "permissions": {
+      "HAS_ACCESS_TO_DASHBOARD": "ⴰⴽⵛⵛⵓⵎ ⵖⵔ ⵓⴳⵎⵎⴰⵎ",
+      "CAN_READ_DOCS": "ⵜⴰⵖⵓⵔⵉ ⵏ ⵉⴼⵔⵙⵏ",
+      "CAN_WRITE_DOCS": "ⴰⵔⵔⴰ ⵏ ⵉⴼⵔⵙⵏ",
+      "CAN_MANAGE_USERS": "ⴰⵙⵡⵓⴷⴷⵓ ⵏ ⵉⵙⵎⵔⵙⵏ",
+      "CAN_ADMIN": "ⴰⵙⵡⵓⴷⴷⵓ",
+      "CAN_MANAGE_CONTENT": "ⴰⵙⵡⵓⴷⴷⵓ ⵏ ⵓⴳⴷⵓⴷ",
+      "CAN_VIEW_ANALYTICS": "ⵥⵕ ⵉⵙⴼⵙⴰⵢⵏ",
+      "CAN_MANAGE_SETTINGS": "ⵉⵙⵖⴰⵍⵏ ⵏ ⵓⵏⴰⴳⵔⴰⵡ"
+    }
+  },
+  "validation": {
+    "phone": {
+      "invalid": "ⵓⵟⵟⵓⵏ ⵏ ⵜⵉⵍⵉⴼⵓⵏ ⵉⵅⵚⵚⴰ ⴰⴷ ⵉⴳ ⴰⵎⵖⵔⴰⴱⵉ ⴰⵎⵥⵍⴰⵢ (+212 6XX XXX XXX, +212 7XX XXX XXX, ⵏⵖ +212 5XX XXX XXX)",
+      "required": "ⵓⵟⵟⵓⵏ ⵏ ⵜⵉⵍⵉⴼⵓⵏ ⵉⵅⵚⵚⴰ"
+    }
+  },
   "home": {
     "school-section": {
       "title": "ⴰⵎⵥⵓⵍ ⵏ ⵜⴽⵙⵉⵏⵜⵉⵏ ⵜⵎⵔⴰⵢⵜ ⵉⵏⵖ",

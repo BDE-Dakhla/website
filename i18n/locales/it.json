@@ -1,4 +1,91 @@
 {
+  "common": {
+    "email": "E-mail",
+    "emailAddress": "Indirizzo e-mail",
+    "students": "Studenti",
+    "subscribe": "Abbonati",
+    "syllabus": "Area studenti"
+  },
+  "footer": {
+    "aboutUs": "Informazioni su di noi",
+    "bdeTitle": "Apolo 9.0 - Ufficio studenti ENCG di Dakhla",
+    "bdeDescription": "Il centro di missione dell'ENCG di Dakhla, Apollo 9 promuove progetti e carriere attraverso uno sportello unico di opportunità, dall'idea all'impatto.",
+    "team": "Team",
+    "partners": "I partner",
+    "privacy": "Privacy",
+    "clubs": "Club",
+    "news": "Notizie",
+    "fastLinks": "Link veloci",
+    "newsletter": {
+      "title": "Ricevi una notifica ovunque tu sia",
+      "description": "Ricevi notifiche aggiornate sulle attività universitarie ed extracurriculari direttamente nella tua casella di posta.",
+      "invalidEmail": "L'e-mail deve avere un formato valido",
+      "success": {
+        "title": "Registrazione riuscita!",
+        "description": "Ora riceverai tutte le notizie e le notifiche di BDE direttamente nella tua casella di posta elettronica.",
+        "close": "Perfetto!"
+      },
+      "alreadySubscribed": {
+        "title": "Già registrato!",
+        "description": "Questo indirizzo e-mail è già iscritto alla nostra newsletter. Ricevi già le nostre notizie.",
+        "close": "Incluso"
+      },
+      "error": {
+        "title": "Errore di iscrizione",
+        "description": "Si è verificato un errore durante la registrazione. Riprovare più tardi.",
+        "close": "Chiudere"
+      }
+    },
+    "homepage": "Pagina iniziale",
+    "tos": {
+      "short": "GTC",
+      "long": "Termini e condizioni d'uso"
+    },
+    "copyright": {
+      "short": "Copyright",
+      "long": "Tutti i diritti riservati"
+    }
+  },
+  "dashboard": {
+    "users": {
+      "table": {
+        "columns": {
+          "fullName": "Nome completo",
+          "email": "Indirizzo e-mail",
+          "cdm": "CODICE MASSAR",
+          "permissions": "Permessi",
+          "phoneNumber": "Numero di telefono",
+          "status": "Stato",
+          "role": "Ruolo",
+          "signupDate": "Data di registrazione"
+        },
+        "emptyState": "Nessun risultato trovato",
+        "noData": {
+          "fullName": "Nessun risultato trovato",
+          "phoneNumber": "Non trovato",
+          "cdm": "Non dato",
+          "permissions": "Nessun risultato",
+          "signupDate": "Non specificato"
+        }
+      }
+    },
+    "permissions": {
+      "HAS_ACCESS_TO_DASHBOARD": "Accesso al cruscotto",
+      "CAN_READ_DOCS": "Leggi i documenti",
+      "CAN_WRITE_DOCS": "Scrivere documenti",
+      "CAN_MANAGE_USERS": "Gestione degli utenti",
+      "CAN_ADMIN": "Amministrazione",
+      "CAN_MANAGE_CONTENT": "Gestione dei contenuti",
+      "CAN_VIEW_ANALYTICS": "Vedi analisi",
+      "CAN_MANAGE_SETTINGS": "Impostazioni di sistema"
+    }
+  },
+  "validation": {
+    "phone": {
+      "invalid": "Il numero di telefono deve essere un numero marocchino valido (+212 6XX XXX XXX, +212 7XX XXX XXX o +212 5XX XXX XXX).",
+      "required": "Il numero di telefono è obbligatorio\n"
+    }
+  },
   "home": {
     "school-section": {
       "title": "Scoprite la nostra preziosa scuola",

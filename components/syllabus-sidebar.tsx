@@ -48,7 +48,7 @@ const data = {
       title: 'Emploi du temps',
       url: '/syllabus/schedule',
       icon: Clock,
-      disabled: true,
+      disabled: false,
       tooltip: 'Bientôt',
     },
     {

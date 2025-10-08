@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
       .values({
         id,
         email: lower,
-        status: 'pending',
+        status: 'active',
         created_at: now,
         updated_at: now,
         unsubscribed_at: null,
@@ -42,43 +42,19 @@ export async function POST(req: NextRequest) {
       if (existing.status === 'unsubscribed') {
         await db
           .updateTable('subscribers')
-          .set({ status: 'pending', updated_at: now, unsubscribed_at: null })
+          .set({ status: 'active', updated_at: now, unsubscribed_at: null })
           .where('id', '=', existing.id)
           .execute()
+      } else if (existing.status === 'active') {
+        return NextResponse.json({ ok: true, message: 'already_subscribed' })
       }
     } else {
       throw e
     }
   }
 
-  const token = randomToken(32)
-  const expires = new Date(Date.now() + 1000 * 60 * 60 * 48)
-  await db
-    .insertInto('subscription_tokens')
-    .values({
-      token,
-      subscriber_id: subscriberId,
-      type: 'confirm',
-      expires_at: expires,
-      used_at: null,
-    })
-    .execute()
+  // Plus besoin de token de confirmation car l'abonnement est direct
+  // L'utilisateur est déjà activé ci-dessus
 
-  const confirmUrl = `${APP_BASE_URL()}/api/newsletter/confirm?token=${encodeURIComponent(token)}`
-  const unsubToken = makeUnsubToken(subscriberId, lower)
-  const listUnsub = `<mailto:${SMTP_FROM_EMAIL()}?subject=unsubscribe>, <${APP_BASE_URL()}/api/newsletter/unsubscribe?token=${encodeURIComponent(unsubToken)}&email=${encodeURIComponent(lower)}>`
-
-  const emailData = {
-    from: { name: SMTP_FROM_NAME(), email: SMTP_FROM_EMAIL() },
-    to: lower,
-    subject: 'Confirm your subscription',
-    text: `Please confirm your subscription: ${confirmUrl}`,
-    html: `<p>Please confirm your subscription:</p><p><a href="${confirmUrl}">Confirm</a></p>`,
-    headers: {
-      'List-Unsubscribe': listUnsub,
-    },
-  }
-
-
-  return NextResponse.json({ ok: true })
+  return NextResponse.json({ ok: true, message: 'subscribed' })
 }

@@ -1,10 +1,48 @@
 {
+  "common": {
+    "email": "Email",
+    "emailAddress": "Email address",
+    "students": "Students",
+    "subscribe": "Subscribe",
+    "syllabus": "Student Portal"
+  },
   "footer": {
+    "aboutUs": "About us",
+    "bdeTitle": "Apollo 9.0 — Student Office of ENCG Dakhla",
+    "bdeDescription": "ENCG Dakhla's mission center, Apollo 9 propels projects and careers through a one-stop shop of opportunities, from idea to impact.",
+    "team": "Team",
+    "partners": "Partners",
+    "privacy": "Privacy",
+    "clubs": "Clubs",
+    "news": "News",
+    "fastLinks": "Quick Links",
     "newsletter": {
-      "title": "Be notified wherever you are"
+      "title": "Be notified wherever you are",
+      "description": "Stay notified about university and extracurricular activities, directly in your inbox.",
+      "invalidEmail": "Email must have a valid format",
+      "success": {
+        "title": "Successfully subscribed!",
+        "description": "You will now receive all news and notifications from BDE directly in your inbox.",
+        "close": "Perfect!"
+      },
+      "alreadySubscribed": {
+        "title": "Already subscribed!",
+        "description": "This email address is already subscribed to our newsletter. You are already receiving our news.",
+        "close": "Got it"
+      },
+      "error": {
+        "title": "Subscription error",
+        "description": "An error occurred during your subscription. Please try again later.",
+        "close": "Close"
+      }
+    },
+    "homepage": "Homepage",
+    "tos": { "short": "ToS", "long": "Terms of Service" },
+    "copyright": {
+      "short": "Copyright",
+      "long": "All rights reserved"
     }
   },
-
   "dashboard": {
     "users": {
       "table": {

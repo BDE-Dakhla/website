@@ -1,26 +1,38 @@
 'use client'
 
-import { Search, Users } from 'lucide-react'
+import { Mail, TrendingUp, Users, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-
-interface Subscriber {
-  id: string
-  email: string
-  status: 'pending' | 'active' | 'unsubscribed' | 'bounced'
-  created_at: string
-  updated_at: string
-  unsubscribed_at: string | null
-}
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
+import { SubscribersTable, type Subscriber } from '@/components/subscribers-table'
 
 export default function SubscribersPage() {
   const [subscribers, setSubscribers] = useState<Subscriber[]>([])
   const [loading, setLoading] = useState(true)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [statusFilter, setStatusFilter] = useState<string>('all')
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [subscriberToDelete, setSubscriberToDelete] = useState<Subscriber | null>(
+    null,
+  )
+  const [deleting, setDeleting] = useState(false)
+
+  // Simple local state for demo
+  const [search] = useState<Record<string, unknown>>({})
+  const navigate = () => {}
 
   const fetchSubscribers = async () => {
     try {
@@ -36,227 +48,175 @@ export default function SubscribersPage() {
     }
   }
 
-  const getStatusBadge = (status: string) => {
-    const statusMap = {
-      pending: {
-        label: 'En attente',
-        variant: 'outline' as const,
-        color: 'text-yellow-600',
-      },
-      active: {
-        label: 'Actif',
-        variant: 'default' as const,
-        color: 'text-green-600',
-      },
-      unsubscribed: {
-        label: 'Désabonné',
-        variant: 'secondary' as const,
-        color: 'text-gray-600',
-      },
-      bounced: {
-        label: 'Rejeté',
-        variant: 'destructive' as const,
-        color: 'text-red-600',
-      },
+  const handleDeleteClick = (subscriber: Subscriber) => {
+    setSubscriberToDelete(subscriber)
+    setDeleteDialogOpen(true)
+  }
+
+  const handleDeleteConfirm = async () => {
+    if (!subscriberToDelete) return
+
+    setDeleting(true)
+    try {
+      const response = await fetch(
+        `/api/newsletter/subscribers?id=${subscriberToDelete.id}`,
+        {
+          method: 'DELETE',
+        },
+      )
+
+      if (response.ok) {
+        setSubscribers(subscribers.filter((s) => s.id !== subscriberToDelete.id))
+        setDeleteDialogOpen(false)
+        setSubscriberToDelete(null)
+      } else {
+        alert('Erreur lors de la suppression')
+      }
+    } catch (error) {
+      console.error('Failed to delete subscriber:', error)
+      alert('Erreur lors de la suppression')
+    } finally {
+      setDeleting(false)
     }
+  }
 
-    const config =
-      statusMap[status as keyof typeof statusMap] || statusMap.pending
-
-    return (
-      <Badge className={config.color} variant={config.variant}>
-        {config.label}
-      </Badge>
+  const handleBulkDelete = async (subscriberIds: string[]) => {
+    const deletePromises = subscriberIds.map((id) =>
+      fetch(`/api/newsletter/subscribers?id=${id}`, {
+        method: 'DELETE',
+      }),
     )
-  }
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString('fr-FR')
-  }
-
-  const filteredSubscribers = subscribers.filter((subscriber) => {
-    const matchesSearch = subscriber.email
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase())
-    const matchesStatus =
-      statusFilter === 'all' || subscriber.status === statusFilter
-    return matchesSearch && matchesStatus
-  })
-
-  const stats = {
-    total: subscribers.length,
-    active: subscribers.filter((s) => s.status === 'active').length,
-    pending: subscribers.filter((s) => s.status === 'pending').length,
-    unsubscribed: subscribers.filter((s) => s.status === 'unsubscribed').length,
+    await Promise.all(deletePromises)
+    setSubscribers(subscribers.filter((s) => !subscriberIds.includes(s.id)))
   }
 
   useEffect(() => {
     fetchSubscribers()
   }, [])
 
+  const stats = {
+    total: subscribers.length,
+    active: subscribers.filter((s) => s.status === 'active').length,
+    unsubscribed: subscribers.filter((s) => s.status === 'unsubscribed').length,
+    bounced: subscribers.filter((s) => s.status === 'bounced').length,
+  }
+
   if (loading) {
     return (
-      <div className='container mx-auto p-6'>
-        <div className='animate-pulse'>
-          <div className='mb-6 h-8 w-1/3 rounded bg-gray-200'></div>
-          <div className='mb-6 grid grid-cols-1 gap-4 md:grid-cols-4'>
-            {[1, 2, 3, 4].map((i) => (
-              <div className='h-20 rounded bg-gray-200' key={i}></div>
-            ))}
-          </div>
-          <div className='space-y-4'>
-            {[1, 2, 3].map((i) => (
-              <div className='h-16 rounded bg-gray-200' key={i}></div>
-            ))}
-          </div>
+      <div className='flex h-[calc(100vh-4rem)] items-center justify-center'>
+        <div className='text-center'>
+          <div className='mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent' />
+          <p className='text-muted-foreground'>Chargement des abonnés...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className='container mx-auto p-6'>
-      <div className='mb-6 flex items-center justify-between'>
+    <div className='flex flex-1 flex-col gap-4 p-4 md:gap-6 md:p-6'>
+      {/* Header */}
+      <div className='flex items-center justify-between'>
         <div>
-          <h1 className='font-bold text-3xl'>👥 Abonnés Newsletter</h1>
-          <p className='mt-2 text-gray-600'>
-            Gérez tous les abonnés à votre newsletter
+          <h1 className='font-semibold text-2xl'>Newsletter — Abonnés</h1>
+          <p className='text-muted-foreground text-sm'>
+            Gérez votre liste d'abonnés à la newsletter
           </p>
         </div>
-        <Button onClick={fetchSubscribers} variant='outline'>
-          🔄 Actualiser
-        </Button>
       </div>
 
       {/* Stats Cards */}
-      <div className='mb-6 grid grid-cols-1 gap-4 md:grid-cols-4'>
+      <div className='grid gap-4 md:grid-cols-4'>
         <Card>
-          <CardContent className='p-4 text-center'>
-            <div className='font-bold text-2xl text-blue-600'>
-              {stats.total}
-            </div>
-            <div className='text-gray-600 text-sm'>Total</div>
+          <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+            <CardTitle className='font-medium text-sm'>Total</CardTitle>
+            <Users className='h-4 w-4 text-muted-foreground' />
+          </CardHeader>
+          <CardContent>
+            <div className='font-bold text-2xl'>{stats.total}</div>
+            <p className='text-muted-foreground text-xs'>abonnés au total</p>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className='p-4 text-center'>
-            <div className='font-bold text-2xl text-green-600'>
-              {stats.active}
-            </div>
-            <div className='text-gray-600 text-sm'>Actifs</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className='p-4 text-center'>
-            <div className='font-bold text-2xl text-yellow-600'>
-              {stats.pending}
-            </div>
-            <div className='text-gray-600 text-sm'>En attente</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className='p-4 text-center'>
-            <div className='font-bold text-2xl text-gray-600'>
-              {stats.unsubscribed}
-            </div>
-            <div className='text-gray-600 text-sm'>Désabonnés</div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Filters */}
-      <div className='mb-6 flex flex-col gap-4 sm:flex-row'>
-        <div className='relative flex-1'>
-          <Search className='-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 transform text-gray-400' />
-          <Input
-            className='pl-10'
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder='Rechercher par email...'
-            value={searchQuery}
-          />
-        </div>
-        <div className='flex gap-2'>
-          <Button
-            onClick={() => setStatusFilter('all')}
-            size='sm'
-            variant={statusFilter === 'all' ? 'default' : 'outline'}>
-            Tous
-          </Button>
-          <Button
-            onClick={() => setStatusFilter('active')}
-            size='sm'
-            variant={statusFilter === 'active' ? 'default' : 'outline'}>
-            Actifs
-          </Button>
-          <Button
-            onClick={() => setStatusFilter('pending')}
-            size='sm'
-            variant={statusFilter === 'pending' ? 'default' : 'outline'}>
-            En attente
-          </Button>
-          <Button
-            onClick={() => setStatusFilter('unsubscribed')}
-            size='sm'
-            variant={statusFilter === 'unsubscribed' ? 'default' : 'outline'}>
-            Désabonnés
-          </Button>
-        </div>
-      </div>
-
-      {/* Subscribers List */}
-      {filteredSubscribers.length === 0 ? (
-        <Card>
-          <CardContent className='flex flex-col items-center justify-center py-12'>
-            <Users className='mb-4 h-16 w-16 text-gray-400' />
-            <h3 className='mb-2 font-semibold text-lg'>
-              {searchQuery || statusFilter !== 'all'
-                ? 'Aucun résultat'
-                : 'Aucun abonné'}
-            </h3>
-            <p className='text-center text-gray-600'>
-              {searchQuery || statusFilter !== 'all'
-                ? 'Essayez de modifier vos critères de recherche'
-                : 'Les nouveaux abonnés apparaîtront ici automatiquement'}
+          <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+            <CardTitle className='font-medium text-sm'>Actifs</CardTitle>
+            <Mail className='h-4 w-4 text-muted-foreground' />
+          </CardHeader>
+          <CardContent>
+            <div className='font-bold text-2xl text-green-600'>{stats.active}</div>
+            <p className='text-muted-foreground text-xs'>
+              {((stats.active / stats.total) * 100 || 0).toFixed(0)}% du total
             </p>
           </CardContent>
         </Card>
-      ) : (
-        <div className='space-y-3'>
-          {filteredSubscribers.map((subscriber) => (
-            <Card
-              className='transition-shadow hover:shadow-md'
-              key={subscriber.id}>
-              <CardContent className='p-4'>
-                <div className='flex items-center justify-between'>
-                  <div className='flex items-center space-x-4'>
-                    <Users className='h-5 w-5 text-gray-400' />
-                    <div>
-                      <div className='font-medium'>{subscriber.email}</div>
-                      <div className='text-gray-600 text-sm'>
-                        Inscrit le {formatDate(subscriber.created_at)}
-                      </div>
-                    </div>
-                  </div>
-                  <div className='flex items-center space-x-3'>
-                    {getStatusBadge(subscriber.status)}
-                    <div className='text-gray-500 text-xs'>
-                      MAJ: {formatDate(subscriber.updated_at)}
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
-
-      <div className='mt-6 text-center text-gray-500 text-sm'>
-        {filteredSubscribers.length} abonné
-        {filteredSubscribers.length !== 1 ? 's' : ''} affiché
-        {filteredSubscribers.length !== 1 ? 's' : ''}
-        {(searchQuery || statusFilter !== 'all') &&
-          ` sur ${stats.total} au total`}
+        <Card>
+          <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+            <CardTitle className='font-medium text-sm'>Désabonnés</CardTitle>
+            <X className='h-4 w-4 text-muted-foreground' />
+          </CardHeader>
+          <CardContent>
+            <div className='font-bold text-2xl text-gray-600'>
+              {stats.unsubscribed}
+            </div>
+            <p className='text-muted-foreground text-xs'>
+              {((stats.unsubscribed / stats.total) * 100 || 0).toFixed(0)}% du total
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+            <CardTitle className='font-medium text-sm'>Rejetés</CardTitle>
+            <TrendingUp className='h-4 w-4 text-muted-foreground' />
+          </CardHeader>
+          <CardContent>
+            <div className='font-bold text-2xl text-red-600'>{stats.bounced}</div>
+            <p className='text-muted-foreground text-xs'>emails invalides</p>
+          </CardContent>
+        </Card>
       </div>
+
+      {/* Table */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Liste des abonnés</CardTitle>
+          <CardDescription>
+            {stats.total} abonné{stats.total !== 1 ? 's' : ''} enregistré
+            {stats.total !== 1 ? 's' : ''}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <SubscribersTable
+            data={subscribers}
+            navigate={navigate}
+            onDelete={handleDeleteClick}
+            onBulkDelete={handleBulkDelete}
+            search={search}
+          />
+        </CardContent>
+      </Card>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog onOpenChange={setDeleteDialogOpen} open={deleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmer la suppression</AlertDialogTitle>
+            <AlertDialogDescription>
+              Êtes-vous sûr de vouloir supprimer l'abonné{' '}
+              <strong>{subscriberToDelete?.email}</strong> ?<br />
+              Cette action est irréversible.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleting}>Annuler</AlertDialogCancel>
+            <AlertDialogAction
+              className='bg-red-600 hover:bg-red-700'
+              disabled={deleting}
+              onClick={handleDeleteConfirm}>
+              {deleting ? 'Suppression...' : 'Supprimer'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }

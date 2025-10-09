@@ -3,6 +3,7 @@
 import {
   BookPlus,
   CalendarCheck2,
+  CheckCheck,
   Crown,
   GraduationCap,
   HandHeart,
@@ -18,6 +19,7 @@ import {
   Tickets,
   UserStar,
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import TeamCard, { type TeamCardProps } from '@/components/team-card'
 
 const categories = [
@@ -32,7 +34,17 @@ const categories = [
         icon: Crown,
         styles: { backgroundPosition: '45% 10%', backgroundSize: '150%' },
         description:
-          "Porte la vision du Bureau Des Étudiants, représente l'association auprès de l'administration etdes partenaires, arbitre les grandes décisions",
+          "Porte la vision du Bureau Des Étudiants, représente l'association auprès de l'administration et des partenaires, arbitre les grandes décisions",
+        specs: [
+          {
+            name: "Assurer le pilotage de l'association et la coordination des pôles",
+            icon: CheckCheck,
+          },
+          {
+            name: 'Gestion des partenariats et des partenaires',
+            icon: UserStar,
+          },
+        ],
       },
       {
         name: 'Abdenour BOUGHZA',
@@ -73,11 +85,11 @@ const categories = [
         styles: { backgroundPosition: '46% 33%', backgroundSize: '350%' },
         description:
           "Encadre les membres, gère le recrutement interne, le suivi des compétences etla dynamique d'équipe",
-      }
+      },
     ],
   },
   {
-    name: 'communication', // Communication & Rayonnement
+    name: 'communication',
     description:
       'Faire briller Apollo 9.0 et toucher efficacement la communauté étudiante',
     members: [
@@ -122,7 +134,7 @@ const categories = [
     ],
   },
   {
-    name: 'evenementiel', // Événementiel & Vie Etudiante
+    name: 'evenementiel',
     description:
       'Créer des expériences inoubliables et responsables pour les étudiants',
     members: [
@@ -153,11 +165,11 @@ const categories = [
     ],
   },
   {
-    name: 'formation', // Formation & Développement
+    name: 'formation',
     description: "Aider les étudiants à grandir, apprendre et s'épanouir",
     members: [
       {
-        name: 'Nasserallah MAHBOUBY',
+        name: 'Nasser Allah MAHBOUBY',
         poste: 'Responsable Formation',
         icon: BookPlus,
         styles: { backgroundPosition: '62.5% 35%', backgroundSize: '200%' },
@@ -183,14 +195,18 @@ const categories = [
 >
 
 export default function Page() {
+  const t = useTranslations('team')
+
   return (
     <section
       aria-label='team-members'
-      className='@container/main mx-auto mt-10 max-w-[1440px] space-y-10'>
+      className='@container/main mx-auto max-w-[1440px] space-y-10'>
       {categories.map((category) => (
         <ul key={category.name}>
-          <h1 className='mb-6 px-6'>{category.name}</h1>
-          <ul className='grid grid-cols-4 place-items-center gap-y-16'>
+          <div className='my-14 grid select-none place-items-center rounded-lg border border-black bg-gradient-to-t from-[#e6e6e6] via-[#f7f7f7] to-white py-5 font-semibold text-xl uppercase tracking-widest shadow-[0_6px_0_0_rgb(0,0,0)] transition-all hover:translate-y-1.5 hover:shadow-none'>
+            {t(`categories.${category.name}`)}
+          </div>
+          <ul className='flex flex-wrap justify-center gap-x-20 gap-y-12'>
             {category.members.map((member) => (
               <TeamCard
                 key={member.name}

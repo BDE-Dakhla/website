@@ -225,7 +225,7 @@ export default function TeamCard({
               />
               <CodeXml className='!size-4 text-white' />
               <hr className='mx-3 h-4 w-px shrink-0 bg-white/30' />
-              <AnimatedGradientText className='font-medium text-sm uppercase'>
+              <AnimatedGradientText className='font-bold text-sm uppercase'>
                 Développeur du site
               </AnimatedGradientText>
             </div>

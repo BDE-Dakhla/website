@@ -47,7 +47,7 @@
     "users": {
       "table": {
         "columns": {
-"fullName": "Full Name",
+          "fullName": "Full Name",
           "email": "Email Address",
           "cdm": "Massar Code",
           "permissions": "Permissions",
@@ -93,6 +93,15 @@
       "watch_video": "Watch video",
       "visit_school_website": "Visit school's website",
       "amphitheater": "Anfiteatro"
+    }
+  },
+
+  "team": {
+    "categories": {
+      "formation": "Pôle Formation & Développement",
+      "evenementiel": "Pôle Événementiel & Vie Etudiante",
+      "communication": "Pôle Communication & Rayonnement",
+      "pilotage": "Pôle Pilotage & Stratégie"
     }
   }
 }

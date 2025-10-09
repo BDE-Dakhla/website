@@ -6,7 +6,7 @@ export default function TeamHero() {
       aria-label='hero'
       className='@container/main mx-auto flex max-w-[1440px] items-center justify-between space-y-10 px-6'>
       <div className='space-y-8'>
-        <h1 className='max-w-3xl bg-gradient-to-l from-black to-[#656565] bg-clip-text font-bold text-4xl text-transparent md:text-6xl'>
+        <h1 className='max-w-3xl bg-gradient-to-l from-black to-[#656565] bg-clip-text font-bold text-4xl text-transparent md:text-6xl dark:from-white dark:to-[#979797]'>
           Découvrez l'équipe derrière Apollo 9.0
         </h1>
         <p className='max-w-xl'>

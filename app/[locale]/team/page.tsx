@@ -53,6 +53,16 @@ const categories = [
         styles: { backgroundPosition: '43% 18%', backgroundSize: '260%' },
         description:
           'Bras droit du président, garant de la coordination entre pôles, suivi des projets en cours',
+        specs: [
+          {
+            name: 'Coordonner les différents pôles et assurer leur synergie',
+            icon: Handshake,
+          },
+          {
+            name: "Suivre l'avancement des projets et résoudre les blocages",
+            icon: SquareChartGantt,
+          },
+        ],
       },
       {
         name: 'Anas ELMARRABI',
@@ -61,6 +71,16 @@ const categories = [
         styles: { backgroundPositionY: '20%', backgroundSize: '120%' },
         description:
           "Apporte une vision externe, conseille sur la stratégie et l'amélioration continue",
+        specs: [
+          {
+            name: 'Conseiller le bureau sur les orientations stratégiques',
+            icon: HandHelping,
+          },
+          {
+            name: "Proposer des axes d'amélioration et d'innovation",
+            icon: CheckCheck,
+          },
+        ],
       },
       {
         name: 'Wissal EL HAZAL',
@@ -69,6 +89,16 @@ const categories = [
         styles: { backgroundPosition: '60%', backgroundSize: '150%' },
         description:
           'Assure la rédaction, le suivi administratif et juridique, garde la mémoire du BDE (compte-rendus, convocations, dossiers)',
+        specs: [
+          {
+            name: 'Rédiger les comptes-rendus et convoquer les réunions',
+            icon: Scroll,
+          },
+          {
+            name: 'Gérer les dossiers administratifs et archives du BDE',
+            icon: BookPlus,
+          },
+        ],
       },
       {
         name: 'Abdelilah IDADAR',
@@ -77,6 +107,16 @@ const categories = [
         styles: { backgroundPosition: '26% 64%', backgroundSize: '200%' },
         description:
           'Supervise les finances (budget, subventions, bilans), garantit la transparence etla bonne gestion des ressources',
+        specs: [
+          {
+            name: 'Élaborer et suivre le budget annuel du BDE',
+            icon: Tickets,
+          },
+          {
+            name: 'Gérer les subventions et produire les bilans financiers',
+            icon: CheckCheck,
+          },
+        ],
       },
       {
         name: 'Kawtar EL ARBAOUI',
@@ -85,6 +125,16 @@ const categories = [
         styles: { backgroundPosition: '46% 33%', backgroundSize: '350%' },
         description:
           "Encadre les membres, gère le recrutement interne, le suivi des compétences etla dynamique d'équipe",
+        specs: [
+          {
+            name: "Organiser le recrutement et l'intégration des nouveaux membres",
+            icon: UserStar,
+          },
+          {
+            name: "Développer les compétences et maintenir la cohésion d'équipe",
+            icon: HandHeart,
+          },
+        ],
       },
     ],
   },
@@ -103,6 +153,10 @@ const categories = [
           'Supervise la stratégie de communication et les relations presse',
         specs: [
           {
+            icon: RadioTower,
+            name: 'Définir et piloter la stratégie de communication globale',
+          },
+          {
             icon: GraduationCap,
             name: 'Maintenir le développement globale du site et du Syllabus',
           },
@@ -115,6 +169,16 @@ const categories = [
         styles: { backgroundPositionY: '25%', backgroundSize: '200%' },
         description:
           "Porte la vision du Bureau Des Étudiants, représente l'association auprès de l'administration etdes partenaires, arbitre les grandes décisions",
+        specs: [
+          {
+            name: 'Produire les contenus de communication (articles, vidéos, podcasts)',
+            icon: Podcast,
+          },
+          {
+            name: "Gérer les relations avec l'administration et les partenaires",
+            icon: Handshake,
+          },
+        ],
       },
       {
         name: 'Mohamed MRIHI',
@@ -123,6 +187,16 @@ const categories = [
         styles: { backgroundPosition: '60% 52.5%', backgroundSize: '240%' },
         description:
           'Anime les réseaux sociaux, crée du lien en ligne avec la communauté',
+        specs: [
+          {
+            name: 'Animer les réseaux sociaux et interagir avec la communauté',
+            icon: Megaphone,
+          },
+          {
+            name: 'Créer et publier des contenus engageants et viraux',
+            icon: RadioTower,
+          },
+        ],
       },
       {
         name: 'Hamza RAMZI',
@@ -130,6 +204,16 @@ const categories = [
         poste: 'Infographiste',
         description: "Assure l'identité visuelle et la créativité graphique",
         icon: Palette,
+        specs: [
+          {
+            name: "Concevoir l'identité visuelle et la charte graphique",
+            icon: Palette,
+          },
+          {
+            name: 'Créer les supports graphiques pour les événements et campagnes',
+            icon: CalendarCheck2,
+          },
+        ],
       },
     ],
   },
@@ -145,6 +229,16 @@ const categories = [
         icon: CalendarCheck2,
         description:
           'Coordonne la programmation, la logistique et la sécurité des événements',
+        specs: [
+          {
+            name: 'Planifier et coordonner le calendrier des événements',
+            icon: CalendarCheck2,
+          },
+          {
+            name: 'Gérer la logistique, les prestataires et la sécurité',
+            icon: SquareChartGantt,
+          },
+        ],
       },
       {
         name: 'Paul Smith MASDIRTH',
@@ -153,6 +247,16 @@ const categories = [
         styles: { backgroundPosition: '40% 40%', backgroundSize: '110%' },
         description:
           'Soutient la préparation et le bon déroulement des activités (concerts, galas, forums)',
+        specs: [
+          {
+            name: 'Assister la préparation des événements majeurs',
+            icon: SquareChartGantt,
+          },
+          {
+            name: 'Superviser le jour J et coordonner les équipes terrain',
+            icon: CheckCheck,
+          },
+        ],
       },
       {
         name: 'Zouheir YOUSSEFI',
@@ -161,6 +265,16 @@ const categories = [
         styles: { backgroundPosition: '50% 0%', backgroundSize: '170%' },
         description:
           'Conçoit des animations ludiques et créatives pour renforcer la cohésion étudiante',
+        specs: [
+          {
+            name: 'Concevoir des animations originales et ludiques',
+            icon: PartyPopper,
+          },
+          {
+            name: 'Organiser des activités de team building et de cohésion',
+            icon: HandHeart,
+          },
+        ],
       },
     ],
   },
@@ -175,6 +289,16 @@ const categories = [
         styles: { backgroundPosition: '62.5% 35%', backgroundSize: '200%' },
         description:
           'Met en place des ateliers, formations soft skills et programmes de mentorat',
+        specs: [
+          {
+            name: 'Concevoir et organiser des ateliers de formation',
+            icon: BookPlus,
+          },
+          {
+            name: 'Piloter les programmes de mentorat et de développement',
+            icon: GraduationCap,
+          },
+        ],
       },
       {
         name: 'Ez-Zouine Chaimae',
@@ -183,6 +307,16 @@ const categories = [
         icon: HandHeart,
         description:
           'Développe les contenus pédagogiques, coordonne les ateliers pratiques et accompagne les étudiants dans leur montée en compétences',
+        specs: [
+          {
+            name: 'Créer les contenus pédagogiques des formations',
+            icon: BookPlus,
+          },
+          {
+            name: 'Accompagner individuellement les étudiants dans leur parcours',
+            icon: HandHeart,
+          },
+        ],
       },
     ],
   },
@@ -203,7 +337,7 @@ export default function Page() {
       className='@container/main mx-auto max-w-[1440px] space-y-10'>
       {categories.map((category) => (
         <ul key={category.name}>
-          <div className='my-14 grid select-none place-items-center rounded-lg border border-black bg-gradient-to-t from-[#e6e6e6] via-[#f7f7f7] to-white py-5 font-semibold text-xl uppercase tracking-widest shadow-[0_6px_0_0_rgb(0,0,0)] transition-all hover:translate-y-1.5 hover:shadow-none'>
+          <div className='my-14 grid select-none place-items-center rounded-lg border border-black bg-gradient-to-t from-[#e6e6e6] via-[#f7f7f7] to-white py-5 font-semibold text-xl uppercase tracking-widest shadow-[0_6px_0_0_rgb(0,0,0)] transition-all hover:translate-y-1.5 hover:shadow-none dark:border-white dark:from-[#3d3d3d] dark:via-[#000] dark:to-black dark:shadow-[0_6px_0_0_rgb(255,255,255)] dark:hover:shadow-none'>
             {t(`categories.${category.name}`)}
           </div>
           <ul className='flex flex-wrap justify-center gap-x-20 gap-y-12'>

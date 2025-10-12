@@ -28,7 +28,7 @@ export default async function Image() {
         }}>
         <img
           alt={alt}
-          src={`${baseUrl}/og.png`}
+          src={`${baseUrl}/icons/logo.png`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </div>,

@@ -1,11 +1,14 @@
 'use client'
 
 import type { User } from '@/components/schema'
+import type { PermissionMap } from '@/types/schema'
 import type { DialogContext } from './confirm-dialog'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { roles } from '@/components/data'
+import { PermissionManager } from '@/components/permission-manager'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -24,6 +27,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { showSubmittedData } from '@/lib/utils'
 import { PasswordInput } from './password-input'
 import { SelectDropdown } from './select-dropdown'
@@ -102,6 +106,10 @@ export function UsersActionDialog({
   onOpenChange,
 }: UserActionDialogProps) {
   const isEdit = !!currentRow
+  const [permissions, setPermissions] = useState<PermissionMap>(
+    currentRow?.permissions || {},
+  )
+
   const form = useForm<UserForm>({
     resolver: zodResolver(formSchema),
     defaultValues: isEdit
@@ -123,8 +131,13 @@ export function UsersActionDialog({
   })
 
   const onSubmit = (values: UserForm) => {
+    const userData = {
+      ...values,
+      permissions,
+    }
     form.reset()
-    showSubmittedData(values)
+    setPermissions({})
+    showSubmittedData(userData)
     onOpenChange(false)
   }
 
@@ -134,152 +147,192 @@ export function UsersActionDialog({
     <Dialog
       onOpenChange={(state) => {
         form.reset()
+        setPermissions(currentRow?.permissions || {})
         onOpenChange(state)
       }}
       open={open}>
-      <DialogContent className='sm:max-w-lg'>
+      <DialogContent className='max-h-[90vh] sm:max-w-4xl'>
         <DialogHeader className='text-start'>
           <DialogTitle>
             {isEdit ? "Mettez à jour les données de l'" : 'Créer un nouveau'}{' '}
             utilisateur
           </DialogTitle>
           <DialogDescription>
-            Cliquez sur le bouton Sauvegarder lorsque vous avez fini.
+            Configurez les informations de base et les permissions de
+            l'utilisateur.
           </DialogDescription>
         </DialogHeader>
-        <div className='h-[26.25rem] w-[calc(100%+0.75rem)] overflow-y-auto py-1 pe-3'>
-          <Form {...form}>
-            <form
-              className='space-y-4 px-0.5'
-              id='user-form'
-              onSubmit={form.handleSubmit(onSubmit)}>
-              <FormField
-                control={form.control}
-                name='username'
-                render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
-                    <FormLabel className='col-span-2 text-end'>
-                      Nom complet
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        autoComplete='off'
-                        className='col-span-4'
-                        placeholder='John'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
-                  </FormItem>
-                )}
-              />
 
-              <FormField
-                control={form.control}
-                name='email'
-                render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
-                    <FormLabel className='col-span-2 text-end'>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        className='col-span-4'
-                        placeholder='john.doe@gmail.com'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
-                  </FormItem>
-                )}
-              />
+        <Tabs className='w-full' defaultValue='basic'>
+          <TabsList className='grid w-full grid-cols-2'>
+            <TabsTrigger value='basic'>Informations de base</TabsTrigger>
+            <TabsTrigger value='permissions'>Permissions</TabsTrigger>
+          </TabsList>
 
-              <FormField
-                control={form.control}
-                name='phoneNumber'
-                render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
-                    <FormLabel className='col-span-2 text-end'>
-                      Phone Number
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        className='col-span-4'
-                        placeholder='+123456789'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
-                  </FormItem>
-                )}
-              />
+          <TabsContent className='mt-4' value='basic'>
+            <div className='h-[400px] overflow-y-auto pr-3'>
+              <Form {...form}>
+                <form
+                  className='space-y-4 px-0.5'
+                  id='user-form'
+                  onSubmit={form.handleSubmit(onSubmit)}>
+                  <FormField
+                    control={form.control}
+                    name='username'
+                    render={({ field }) => (
+                      <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
+                        <FormLabel className='col-span-2 text-end'>
+                          Nom complet
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            autoComplete='off'
+                            className='col-span-4'
+                            placeholder='John Doe'
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className='col-span-4 col-start-3' />
+                      </FormItem>
+                    )}
+                  />
 
-              <FormField
-                control={form.control}
-                name='role'
-                render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
-                    <FormLabel className='col-span-2 text-end'>Role</FormLabel>
-                    <SelectDropdown
-                      className='col-span-4'
-                      defaultValue={field.value}
-                      items={roles.map(({ label, value }) => ({
-                        label,
-                        value,
-                      }))}
-                      onValueChange={field.onChange}
-                      placeholder='Select a role'
-                    />
-                    <FormMessage className='col-span-4 col-start-3' />
-                  </FormItem>
-                )}
-              />
+                  <FormField
+                    control={form.control}
+                    name='email'
+                    render={({ field }) => (
+                      <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
+                        <FormLabel className='col-span-2 text-end'>
+                          Email
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className='col-span-4'
+                            placeholder='john.doe@gmail.com'
+                            type='email'
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className='col-span-4 col-start-3' />
+                      </FormItem>
+                    )}
+                  />
 
-              <FormField
-                control={form.control}
-                name='password'
-                render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
-                    <FormLabel className='col-span-2 text-end'>
-                      Password
-                    </FormLabel>
-                    <FormControl>
-                      <PasswordInput
-                        className='col-span-4'
-                        placeholder='e.g., S3cur3P@ssw0rd'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
-                  </FormItem>
-                )}
-              />
+                  <FormField
+                    control={form.control}
+                    name='phoneNumber'
+                    render={({ field }) => (
+                      <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
+                        <FormLabel className='col-span-2 text-end'>
+                          Téléphone
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className='col-span-4'
+                            placeholder='+212 6 12 34 56 78'
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className='col-span-4 col-start-3' />
+                      </FormItem>
+                    )}
+                  />
 
-              <FormField
-                control={form.control}
-                name='confirmPassword'
-                render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
-                    <FormLabel className='col-span-2 text-end'>
-                      Confirm Password
-                    </FormLabel>
-                    <FormControl>
-                      <PasswordInput
-                        className='col-span-4'
-                        disabled={!isPasswordTouched}
-                        placeholder='e.g., S3cur3P@ssw0rd'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
-                  </FormItem>
-                )}
-              />
-            </form>
-          </Form>
-        </div>
+                  <FormField
+                    control={form.control}
+                    name='role'
+                    render={({ field }) => (
+                      <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
+                        <FormLabel className='col-span-2 text-end'>
+                          Rôle
+                        </FormLabel>
+                        <SelectDropdown
+                          className='col-span-4'
+                          defaultValue={field.value}
+                          items={roles.map(({ label, value }) => ({
+                            label,
+                            value,
+                          }))}
+                          onValueChange={field.onChange}
+                          placeholder='Sélectionner un rôle'
+                        />
+                        <FormMessage className='col-span-4 col-start-3' />
+                      </FormItem>
+                    )}
+                  />
 
-        <DialogFooter>
+                  <FormField
+                    control={form.control}
+                    name='password'
+                    render={({ field }) => (
+                      <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
+                        <FormLabel className='col-span-2 text-end'>
+                          Mot de passe
+                        </FormLabel>
+                        <FormControl>
+                          <PasswordInput
+                            className='col-span-4'
+                            placeholder={
+                              isEdit
+                                ? 'Laissez vide pour conserver'
+                                : 'e.g., S3cur3P@ssw0rd'
+                            }
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className='col-span-4 col-start-3' />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name='confirmPassword'
+                    render={({ field }) => (
+                      <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
+                        <FormLabel className='col-span-2 text-end'>
+                          Confirmer mot de passe
+                        </FormLabel>
+                        <FormControl>
+                          <PasswordInput
+                            className='col-span-4'
+                            disabled={!isPasswordTouched}
+                            placeholder='Confirmez le mot de passe'
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className='col-span-4 col-start-3' />
+                      </FormItem>
+                    )}
+                  />
+                </form>
+              </Form>
+            </div>
+          </TabsContent>
+
+          <TabsContent className='mt-4' value='permissions'>
+            <div className='h-[400px]'>
+              <PermissionManager
+                className='h-full'
+                currentPermissions={permissions}
+                onPermissionsChange={setPermissions}
+              />
+            </div>
+          </TabsContent>
+        </Tabs>
+
+        <DialogFooter className='pt-4'>
+          <Button
+            onClick={() => {
+              form.reset()
+              setPermissions(currentRow?.permissions || {})
+              onOpenChange(false)
+            }}
+            variant='outline'>
+            Annuler
+          </Button>
           <Button form='user-form' type='submit'>
-            Sauvegarder
+            {isEdit ? 'Mettre à jour' : 'Créer'} l'utilisateur
           </Button>
         </DialogFooter>
       </DialogContent>

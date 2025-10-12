@@ -95,5 +95,14 @@
       "visit_school_website": "Відвідати сайт школи",
       "amphitheater": "Anfiteatro"
     }
+  },
+
+  "team": {
+    "categories": {
+      "formation": "Відділ навчання та розвитку",
+      "evenementiel": "Відділ подій та студентського життя",
+      "communication": "Відділ комунікації та зв'язків з громадськістю",
+      "pilotage": "Відділ управління та стратегії"
+    }
   }
 }

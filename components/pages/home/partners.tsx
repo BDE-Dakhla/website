@@ -10,6 +10,16 @@ import {
 import { SparklesCore } from '@/components/ui/sparkles'
 import { cn } from '@/lib/utils'
 
+// Helper function to get logo URL from MinIO or fallback to static
+function getLogoUrl(logoUrl: string): string {
+  // If logo_url doesn't contain sponsors/ prefix, it's likely a legacy filename
+  if (!logoUrl.includes('sponsors/')) {
+    return `/partners/${logoUrl}.svg`
+  }
+  // For new uploads, construct MinIO URL
+  return `${process.env.NEXT_PUBLIC_S3_ENDPOINT || 'http://localhost:9000'}/${process.env.NEXT_PUBLIC_S3_BUCKET || 'bde-bucket'}/sponsors/${logoUrl}.svg`
+}
+
 export function Partners() {
   const { data: sponsors = [] } = useSWR<Sponsor[]>(
     '/api/sponsors',
@@ -38,7 +48,7 @@ export function Partners() {
                   className='h-9 w-auto translate-y-0.5 text-white dark:text-neutral-200'
                   height={80}
                   key={sp.name}
-                  src={`/partners/${sp.logo_url}.svg`}
+                  src={getLogoUrl(sp.logo_url)}
                   width={80}
                 />
               </MarqueeItem>

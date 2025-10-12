@@ -2,6 +2,7 @@
 
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion'
 import { ArrowRight, CodeXml, type LucideIcon } from 'lucide-react'
+import { useTheme } from 'next-themes'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { tv } from 'tailwind-variants'
 import { cn } from '@/lib/utils'
@@ -44,7 +45,7 @@ const specBgColor = {
 
 const gradientSize = 200
 const gradientColor = '#262626'
-const gradientOpacity = 0.8
+const gradientOpacity = 0.4
 const gradientFrom = '#9E7AFF'
 const gradientTo = '#FE8BBB'
 
@@ -269,13 +270,16 @@ export default function TeamCard({
             }}
           />
           <div className='absolute inset-px rounded-[inherit] bg-background' />
-          <motion.div
-            className='pointer-events-none absolute inset-px rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100'
-            style={{
-              background: useMotionTemplate`radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientColor}, transparent 100%)`,
-              opacity: gradientOpacity,
-            }}
-          />
+
+          {useTheme().theme === 'dark' && (
+            <motion.div
+              className='pointer-events-none absolute inset-px rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100'
+              style={{
+                background: useMotionTemplate`radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientColor}, transparent 100%)`,
+                opacity: gradientOpacity,
+              }}
+            />
+          )}
 
           <div className='relative z-10 flex-1 space-y-5'>
             <div className='space-y-2'>
@@ -320,36 +324,6 @@ export default function TeamCard({
                   <span className='font-medium'>{spec.name}</span>
                 </div>
               ))}
-            </div>
-          </div>
-
-          <div className='relative z-10 mt-auto border-slate-200 border-t pt-4 dark:border-zinc-800'>
-            <div
-              className={cn(
-                'group/start relative',
-                'flex items-center justify-between',
-                'rounded-lg p-2.5',
-                'transition-all duration-300',
-                'bg-gradient-to-r from-slate-100 via-slate-100 to-slate-100',
-                'dark:from-zinc-800 dark:via-zinc-800 dark:to-zinc-800',
-                'hover:from-primary/10 hover:via-primary/5 hover:to-transparent',
-                'dark:hover:from-primary/20 dark:hover:via-primary/10 dark:hover:to-transparent',
-                'hover:scale-[1.02] hover:cursor-pointer',
-                'border border-transparent hover:border-primary/20',
-              )}>
-              <span className='font-semibold text-sm text-zinc-900 transition-colors duration-300 group-hover/start:text-primary dark:text-white'>
-                Start Building
-              </span>
-              <div className='group/icon relative'>
-                <div
-                  className={cn(
-                    'absolute inset-[-6px] rounded-lg transition-all duration-300',
-                    'bg-gradient-to-br from-primary/20 via-primary/10 to-transparent',
-                    'scale-90 opacity-0 group-hover/start:scale-100 group-hover/start:opacity-100',
-                  )}
-                />
-                <ArrowRight className='relative z-10 h-4 w-4 text-primary transition-all duration-300 group-hover/start:translate-x-1 group-hover/start:scale-110' />
-              </div>
             </div>
           </div>
         </div>

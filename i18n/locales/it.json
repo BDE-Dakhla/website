@@ -95,5 +95,14 @@
       "visit_school_website": "Visita il sito della scuola",
       "amphitheater": "Anfiteatro"
     }
+  },
+
+  "team": {
+    "categories": {
+      "formation": "Divisione Formazione e Sviluppo",
+      "evenementiel": "Unità Eventi e vita studentesca",
+      "communication": "Divisione Comunicazione e divulgazione",
+      "pilotage": "Divisione Direzione e Strategia"
+    }
   }
 }

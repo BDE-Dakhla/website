@@ -95,5 +95,14 @@
       "visit_school_website": "زيارة موقع المدرسة",
       "amphitheater": "مَدرّج"
     }
+  },
+
+  "team": {
+    "categories": {
+      "formation": "قسم التدريب والتطوير",
+      "evenementiel": "وحدة الفعاليات والحياة الطلابية",
+      "communication": "قسم الاتصالات والتوعية",
+      "pilotage": "قسم التوجيه والاستراتيجية"
+    }
   }
 }

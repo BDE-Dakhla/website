@@ -98,10 +98,10 @@
 
   "team": {
     "categories": {
-      "formation": "Pôle Formation & Développement",
-      "evenementiel": "Pôle Événementiel & Vie Etudiante",
-      "communication": "Pôle Communication & Rayonnement",
-      "pilotage": "Pôle Pilotage & Stratégie"
+      "formation": "Training & Development Division",
+      "evenementiel": "Events & Student Life Division",
+      "communication": "Communication & Outreach Department",
+      "pilotage": "Steering & Strategy Division"
     }
   }
 }

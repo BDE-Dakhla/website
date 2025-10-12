@@ -1,5 +1,30 @@
 'use client'
 
+/**
+ * TODO: Full Internationalization
+ * 
+ * Currently, only category names are translated via i18n JSON files.
+ * To fully internationalize this page, the following hardcoded French content
+ * should be moved to the i18n locale files:
+ * 
+ * 1. Category descriptions (e.g., "Cette cellule assure la vision globale...")
+ * 2. Member roles/positions (e.g., "Président", "Vice-Président")
+ * 3. Member descriptions
+ * 4. Member specifications (specs.name fields)
+ * 
+ * Recommended structure in locale JSON files:
+ * "team": {
+ *   "categories": {...},
+ *   "members": {
+ *     "[memberName]": {
+ *       "poste": "...",
+ *       "description": "...",
+ *       "specs": ["...", "...", "..."]
+ *     }
+ *   }
+ * }
+ */
+
 import {
   BookPlus,
   CalendarCheck2,
@@ -44,6 +69,10 @@ const categories = [
             name: 'Gestion des partenariats et des partenaires',
             icon: UserStar,
           },
+          {
+            name: "Représenter le BDE auprès de l'administration et des instances",
+            icon: Crown,
+          },
         ],
       },
       {
@@ -59,8 +88,12 @@ const categories = [
             icon: Handshake,
           },
           {
-            name: "Suivre l'avancement des projets et résoudre les blocages",
+            name: 'Suivre l\'avancement des projets et résoudre les blocages',
             icon: SquareChartGantt,
+          },
+          {
+            name: 'Suppléer le président en cas d\'absence ou de besoin',
+            icon: Crown,
           },
         ],
       },
@@ -77,8 +110,12 @@ const categories = [
             icon: HandHelping,
           },
           {
-            name: "Proposer des axes d'amélioration et d'innovation",
+            name: 'Proposer des axes d\'amélioration et d\'innovation',
             icon: CheckCheck,
+          },
+          {
+            name: 'Apporter un regard externe et faciliter la prise de décision',
+            icon: Handshake,
           },
         ],
       },
@@ -98,6 +135,10 @@ const categories = [
             name: 'Gérer les dossiers administratifs et archives du BDE',
             icon: BookPlus,
           },
+          {
+            name: 'Assurer la conformité juridique et le suivi des obligations',
+            icon: CheckCheck,
+          },
         ],
       },
       {
@@ -116,6 +157,10 @@ const categories = [
             name: 'Gérer les subventions et produire les bilans financiers',
             icon: CheckCheck,
           },
+          {
+            name: 'Garantir la transparence financière auprès des membres',
+            icon: UserStar,
+          },
         ],
       },
       {
@@ -127,12 +172,16 @@ const categories = [
           "Encadre les membres, gère le recrutement interne, le suivi des compétences etla dynamique d'équipe",
         specs: [
           {
-            name: "Organiser le recrutement et l'intégration des nouveaux membres",
+            name: 'Organiser le recrutement et l\'intégration des nouveaux membres',
             icon: UserStar,
           },
           {
-            name: "Développer les compétences et maintenir la cohésion d'équipe",
+            name: 'Développer les compétences et maintenir la cohésion d\'équipe',
             icon: HandHeart,
+          },
+          {
+            name: 'Gérer les conflits et favoriser le bien-être des membres',
+            icon: Handshake,
           },
         ],
       },
@@ -160,6 +209,10 @@ const categories = [
             icon: GraduationCap,
             name: 'Maintenir le développement globale du site et du Syllabus',
           },
+          {
+            icon: Megaphone,
+            name: 'Coordonner les relations presse et la visibilité médiatique',
+          },
         ],
       },
       {
@@ -175,8 +228,12 @@ const categories = [
             icon: Podcast,
           },
           {
-            name: "Gérer les relations avec l'administration et les partenaires",
+            name: 'Gérer les relations avec l\'administration et les partenaires',
             icon: Handshake,
+          },
+          {
+            name: 'Planifier et mettre en œuvre les campagnes de communication',
+            icon: CalendarCheck2,
           },
         ],
       },
@@ -196,6 +253,10 @@ const categories = [
             name: 'Créer et publier des contenus engageants et viraux',
             icon: RadioTower,
           },
+          {
+            name: 'Analyser les statistiques et optimiser la portée des publications',
+            icon: SquareChartGantt,
+          },
         ],
       },
       {
@@ -206,12 +267,16 @@ const categories = [
         icon: Palette,
         specs: [
           {
-            name: "Concevoir l'identité visuelle et la charte graphique",
+            name: 'Concevoir l\'identité visuelle et la charte graphique',
             icon: Palette,
           },
           {
             name: 'Créer les supports graphiques pour les événements et campagnes',
             icon: CalendarCheck2,
+          },
+          {
+            name: 'Assurer la cohérence visuelle sur tous les supports',
+            icon: CheckCheck,
           },
         ],
       },
@@ -238,6 +303,10 @@ const categories = [
             name: 'Gérer la logistique, les prestataires et la sécurité',
             icon: SquareChartGantt,
           },
+          {
+            name: 'Assurer le respect du budget et des normes de sécurité',
+            icon: CheckCheck,
+          },
         ],
       },
       {
@@ -256,6 +325,10 @@ const categories = [
             name: 'Superviser le jour J et coordonner les équipes terrain',
             icon: CheckCheck,
           },
+          {
+            name: 'Gérer les imprévus et garantir le bon déroulement',
+            icon: HandHelping,
+          },
         ],
       },
       {
@@ -273,6 +346,10 @@ const categories = [
           {
             name: 'Organiser des activités de team building et de cohésion',
             icon: HandHeart,
+          },
+          {
+            name: 'Créer des moments conviviaux et renforcer l\'esprit étudiant',
+            icon: Tickets,
           },
         ],
       },
@@ -298,6 +375,10 @@ const categories = [
             name: 'Piloter les programmes de mentorat et de développement',
             icon: GraduationCap,
           },
+          {
+            name: 'Identifier les besoins en compétences et créer des partenariats',
+            icon: Handshake,
+          },
         ],
       },
       {
@@ -315,6 +396,10 @@ const categories = [
           {
             name: 'Accompagner individuellement les étudiants dans leur parcours',
             icon: HandHeart,
+          },
+          {
+            name: 'Évaluer l\'impact des formations et collecter les retours',
+            icon: CheckCheck,
           },
         ],
       },

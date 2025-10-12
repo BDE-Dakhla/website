@@ -95,5 +95,14 @@
       "visit_school_website": "Schulwebsite besuchen",
       "amphitheater": "Amphitheater"
     }
+  },
+
+  "team": {
+    "categories": {
+      "formation": "Bereich Bildung & Entwicklung",
+      "evenementiel": "Bereich Veranstaltungen & Studentenleben",
+      "communication": "Bereich Kommunikation & Öffentlichkeitsarbeit",
+      "pilotage": "Bereich Steuerung & Strategie"
+    }
   }
 }

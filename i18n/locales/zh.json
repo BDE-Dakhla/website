@@ -95,5 +95,14 @@
       "visit_school_website": "访问学校网站",
       "amphitheater": "圆形剧场"
     }
+  },
+
+  "team": {
+    "categories": {
+      "formation": "培训与发展部",
+      "evenementiel": "活动与学生生活部",
+      "communication": "传播与外联司",
+      "pilotage": "指导与战略处"
+    }
   }
 }

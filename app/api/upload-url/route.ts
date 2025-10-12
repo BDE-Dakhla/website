@@ -1,11 +1,74 @@
+import { auth } from '@/auth'
+import { SPONSOR_LOGO_CONSTRAINTS } from '@/lib/file-validation'
+import { hasPermission } from '@/lib/permission'
 import { getUploadUrl } from '@/lib/storage'
 
 export async function POST(req: Request) {
-  const { key, contentType } = await req.json()
+  try {
+    const { key, contentType, uploadType, fileSize } = await req.json()
 
-  if (/!\/\/^image\//.test(contentType)) {
-    return new Response('Unsupported type', { status: 400 })
+    // Basic validation
+    if (!key || !contentType) {
+      return Response.json(
+        { error: 'Missing required fields' },
+        { status: 400 },
+      )
+    }
+
+    // Handle different upload types
+    if (uploadType === 'sponsor-logo') {
+      // Check authentication and permissions for sponsor logos
+      const session = await auth()
+      if (!session?.user) {
+        return Response.json({ error: 'Unauthorized' }, { status: 401 })
+      }
+
+      const canManageSponsors = hasPermission(
+        session.user.permissions,
+        'MANAGE_SPONSORS',
+      )
+      if (!canManageSponsors) {
+        return Response.json({ error: 'Forbidden' }, { status: 403 })
+      }
+
+      // Validate sponsor logo constraints
+      if (!SPONSOR_LOGO_CONSTRAINTS.allowedTypes.includes(contentType)) {
+        return Response.json(
+          {
+            error:
+              'Invalid file type. Only SVG files are allowed for sponsor logos.',
+          },
+          { status: 400 },
+        )
+      }
+
+      if (fileSize && fileSize > SPONSOR_LOGO_CONSTRAINTS.maxSize) {
+        return Response.json(
+          {
+            error: `File size too large. Maximum size is ${Math.round(SPONSOR_LOGO_CONSTRAINTS.maxSize / 1024 / 1024)}MB.`,
+          },
+          { status: 400 },
+        )
+      }
+
+      // Ensure the key is in the sponsors directory
+      if (!key.startsWith('sponsors/')) {
+        return Response.json(
+          { error: 'Invalid key for sponsor logo' },
+          { status: 400 },
+        )
+      }
+    } else {
+      // Default validation for other upload types
+      if (!/^image\//.test(contentType)) {
+        return Response.json({ error: 'Unsupported type' }, { status: 400 })
+      }
+    }
+
+    const uploadUrl = await getUploadUrl(key, contentType)
+    return Response.json({ url: uploadUrl })
+  } catch (error) {
+    console.error('Upload URL generation error:', error)
+    return Response.json({ error: 'Internal server error' }, { status: 500 })
   }
-
-  return Response.json({ url: await getUploadUrl(key, contentType) })
 }

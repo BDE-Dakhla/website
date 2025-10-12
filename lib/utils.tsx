@@ -81,3 +81,17 @@ export function showSubmittedData(
     ),
   })
 }
+
+export function getLogoUrl(logoUrl: string): string {
+  const endpoint =
+    process.env.NEXT_PUBLIC_S3_ENDPOINT || 'http://127.0.0.1:9000'
+  const bucket = process.env.NEXT_PUBLIC_S3_BUCKET || 'assets'
+
+  // New format: just the filename without path or extension
+  // Construct full MinIO URL
+  return `${endpoint}/${bucket}/sponsors/${logoUrl}.svg`
+}
+
+export async function fetcher<T>(url: string): Promise<T> {
+  return fetch(url, { cache: 'no-store' }).then((r) => r.json())
+}

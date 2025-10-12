@@ -9,6 +9,7 @@ import {
   Plus,
   Star,
   Trash2,
+  ZoomIn,
 } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -21,6 +22,13 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,18 +43,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-
-const fetcher = (url: string) => fetch(url).then((r) => r.json())
-
-// Helper function to get logo URL from MinIO
-function getLogoUrl(logoUrl: string): string {
-  const endpoint = process.env.NEXT_PUBLIC_S3_ENDPOINT || 'http://127.0.0.1:9000'
-  const bucket = process.env.NEXT_PUBLIC_S3_BUCKET || 'assets'
-  
-  // New format: just the filename without path or extension
-  // Construct full MinIO URL
-  return `${endpoint}/${bucket}/sponsors/${logoUrl}.svg`
-}
+import { fetcher, getLogoUrl } from '@/lib/utils'
 
 type SponsorFormData = {
   name: string
@@ -61,6 +58,7 @@ type SponsorFormData = {
 export default function SponsorsPage() {
   const [editingSponsor, setEditingSponsor] = useState<Sponsor | undefined>()
   const [deletingSponsor, setDeletingSponsor] = useState<Sponsor | undefined>()
+  const [previewSponsor, setPreviewSponsor] = useState<Sponsor | undefined>()
   const [formDialogOpen, setFormDialogOpen] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
@@ -215,7 +213,10 @@ export default function SponsorsPage() {
                 {sponsors.map((sponsor) => (
                   <TableRow key={sponsor.id}>
                     <TableCell>
-                      <div className='flex h-10 w-10 items-center justify-center rounded border'>
+                      <button
+                        className='group relative flex h-10 w-10 items-center justify-center rounded border transition-all hover:border-primary hover:shadow-sm'
+                        onClick={() => setPreviewSponsor(sponsor)}
+                        type='button'>
                         <Image
                           alt={sponsor.name}
                           className='h-8 w-8 object-contain'
@@ -223,7 +224,10 @@ export default function SponsorsPage() {
                           src={getLogoUrl(sponsor.logo_url)}
                           width={32}
                         />
-                      </div>
+                        <div className='absolute inset-0 flex items-center justify-center rounded bg-black/50 opacity-0 transition-opacity group-hover:opacity-100'>
+                          <ZoomIn className='h-4 w-4 text-white' />
+                        </div>
+                      </button>
                     </TableCell>
                     <TableCell>
                       <div>
@@ -348,6 +352,48 @@ export default function SponsorsPage() {
         open={deleteDialogOpen}
         sponsor={deletingSponsor}
       />
+
+      {/* Logo Preview Dialog */}
+      <Dialog
+        onOpenChange={(open) => {
+          if (!open) {
+            setPreviewSponsor(undefined)
+          }
+        }}
+        open={!!previewSponsor}>
+        <DialogContent className='max-w-2xl'>
+          <DialogHeader>
+            <DialogTitle>{previewSponsor?.name}</DialogTitle>
+            <DialogDescription>
+              {previewSponsor?.description || 'Sponsor logo preview'}
+            </DialogDescription>
+          </DialogHeader>
+          <div className='flex items-center justify-center rounded-lg border bg-muted/50 p-8'>
+            {previewSponsor && (
+              <div className='relative flex max-h-[60vh] w-full items-center justify-center'>
+                <Image
+                  alt={previewSponsor.name}
+                  className='h-auto max-h-[60vh] w-auto max-w-full object-contain'
+                  height={600}
+                  src={getLogoUrl(previewSponsor.logo_url)}
+                  width={600}
+                />
+              </div>
+            )}
+          </div>
+          {previewSponsor?.website_url && (
+            <div className='flex justify-center'>
+              <a
+                className='text-primary text-sm hover:underline'
+                href={previewSponsor.website_url}
+                rel='noopener noreferrer'
+                target='_blank'>
+                Visit Website →
+              </a>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

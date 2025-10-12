@@ -4,10 +4,8 @@ import useSWR from 'swr'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { browserIconUrl, deviceIconUrl, osIconUrl } from '@/lib/brand-icons'
+import { fetcher } from '@/lib/utils'
 import Image from '../layout/image'
-
-const fetcher = (url: string) =>
-  fetch(url, { cache: 'no-store' }).then((r) => r.json())
 
 type Kind = 'browsers' | 'os' | 'devices'
 export type Range =

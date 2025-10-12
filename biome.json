@@ -70,6 +70,12 @@
           "fix": "safe",
           "level": "warn",
           "options": {}
+        },
+        "noUnusedVariables": {
+          "level": "warn",
+          "options": {
+            "ignoreRestSiblings": true
+          }
         }
       },
       "nursery": {

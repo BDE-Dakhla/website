@@ -18,17 +18,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/stateful-button'
-import { SponsorForm } from './sponsor-form'
-
-type SponsorFormData = {
-  name: string
-  slug: string
-  description?: string | null
-  website_url?: string | null
-  logo_url: string
-  priority: number
-  is_featured: boolean
-}
+import { SponsorForm, type SponsorFormData } from './sponsor-form'
 
 interface SponsorFormDialogProps {
   open: boolean

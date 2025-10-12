@@ -42,7 +42,7 @@ async function ensureBucketExists(): Promise<void> {
   try {
     await s3.send(new HeadBucketCommand({ Bucket: S3_BUCKET }))
     bucketInitialized = true
-  } catch (error) {
+  } catch {
     try {
       await s3.send(new CreateBucketCommand({ Bucket: S3_BUCKET }))
       console.log(`Bucket "${S3_BUCKET}" created successfully`)

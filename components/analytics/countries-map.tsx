@@ -10,8 +10,8 @@ import {
 import useSWR from 'swr'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { fetcher } from '@/lib/utils'
 
-// Local copy served from public/
 const GEO_URL = '/geo/countries-110m.json'
 
 export type Range =
@@ -32,9 +32,6 @@ type ApiCountryItem = {
   percent: number
 }
 
-const fetcher = (url: string) =>
-  fetch(url, { cache: 'no-store' }).then((r) => r.json())
-
 function colorFor(value: number, max: number) {
   if (!max || max <= 0 || !value) return 'hsl(210 20% 90%)' // muted
   const t = Math.max(0, Math.min(1, value / max))
@@ -49,9 +46,7 @@ export function VisitorsByCountry({ range }: { range: Range }) {
   const { data } = useSWR<{ items: ApiCountryItem[] }>(
     `/api/analytics/countries?range=${range}`,
     fetcher,
-    {
-      refreshInterval: 60_000,
-    },
+    { refreshInterval: 60_000 },
   )
   const [tooltip, setTooltip] = useState<string | null>(null)
 
@@ -132,7 +127,7 @@ export function VisitorsByCountry({ range }: { range: Range }) {
       by[key] = (by[key] || 0) + it.count
     }
     return by
-  }, [items]) as Record<string, number>
+  }, [items])
 
   return (
     <Card className='@container/card'>
@@ -158,26 +153,31 @@ export function VisitorsByCountry({ range }: { range: Range }) {
         ) : (
           <div className='grid grid-cols-1 gap-4 md:grid-cols-4'>
             <div className='relative h-[360px] overflow-hidden rounded border md:col-span-3'>
-              <div ref={mapContainerRef} className='absolute inset-0'>
+              <div className='absolute inset-0' ref={mapContainerRef}>
                 <ComposableMap
-                  width={size.w}
                   height={size.h}
-                  projection="geoMercator"
+                  projection='geoMercator'
                   projectionConfig={{ scale: computedScale, center: [0, 20] }}
-                  style={{ width: '100%', height: '100%' }}>
+                  style={{ width: '100%', height: '100%' }}
+                  width={size.w}>
                   <ZoomableGroup maxZoom={8} minZoom={1}>
                     <Geographies geography={GEO_URL}>
                       {({ geographies }) =>
                         geographies.map((geo) => {
                           const props: any = geo.properties || {}
-                          const gname: string = props.name || props.NAME || props.ADMIN || ''
+                          const gname: string =
+                            props.name || props.NAME || props.ADMIN || ''
                           const count = countByName[alt(gname)] || 0
                           return (
                             <Geography
                               geography={geo}
                               key={geo.rsmKey}
                               onMouseEnter={() => {
-                                const name = props.NAME || props.name || props.ADMIN || 'Unknown'
+                                const name =
+                                  props.NAME ||
+                                  props.name ||
+                                  props.ADMIN ||
+                                  'Unknown'
                                 const label = `${name}: ${count} ${count === 1 ? 'visitor' : 'visitors'}`
                                 setTooltip(label)
                               }}

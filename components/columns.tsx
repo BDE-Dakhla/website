@@ -15,6 +15,12 @@ import {
 import { useTranslations } from 'next-intl'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 import { formatMoroccanPhone } from '@/lib/validation/phone'
 import { DataTableColumnHeader } from './column-header'
@@ -257,9 +263,14 @@ export function useUsersColumns(): ColumnDef<User>[] {
           )
         }
 
+        const MAX_VISIBLE = 1
+        const visiblePermissions = activePermissions.slice(0, MAX_VISIBLE)
+        const remainingPermissions = activePermissions.slice(MAX_VISIBLE)
+        const hasMore = remainingPermissions.length > 0
+
         return (
           <div className='flex max-w-48 flex-wrap gap-1'>
-            {activePermissions.map(([key, _]) => {
+            {visiblePermissions.map(([key, _]) => {
               // Get the translated permission name, fallback to formatted key
               const translatedPermission = t(`permissions.${key}`, {
                 fallback: key
@@ -278,6 +289,44 @@ export function useUsersColumns(): ColumnDef<User>[] {
                 </Badge>
               )
             })}
+            {hasMore && (
+              <TooltipProvider delayDuration={200}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Badge
+                      className='cursor-help px-2 py-0.5 text-xs'
+                      variant='outline'>
+                      +{remainingPermissions.length}
+                    </Badge>
+                  </TooltipTrigger>
+                  <TooltipContent className='max-w-xs' side='top'>
+                    <div className='space-y-1'>
+                      <p className='font-semibold text-xs'>
+                        Remaining permissions:
+                      </p>
+                      <div className='flex flex-wrap gap-1'>
+                        {remainingPermissions.map(([key, _]) => {
+                          const translatedPermission = t(`permissions.${key}`, {
+                            fallback: key
+                              .replace(/_/g, ' ')
+                              .toLowerCase()
+                              .replace(/\b\w/g, (l) => l.toUpperCase()),
+                          })
+                          return (
+                            <Badge
+                              className='px-1.5 py-0.5 text-xs'
+                              key={key}
+                              variant='secondary'>
+                              {translatedPermission}
+                            </Badge>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
           </div>
         )
       },

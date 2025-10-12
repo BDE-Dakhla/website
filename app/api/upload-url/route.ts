@@ -1,6 +1,5 @@
 import { auth } from '@/auth'
 import { SPONSOR_LOGO_CONSTRAINTS } from '@/lib/file-validation'
-import { hasPermission } from '@/lib/permission'
 import { getUploadUrl } from '@/lib/storage'
 
 export async function POST(req: Request) {
@@ -21,14 +20,6 @@ export async function POST(req: Request) {
       const session = await auth()
       if (!session?.user) {
         return Response.json({ error: 'Unauthorized' }, { status: 401 })
-      }
-
-      const canManageSponsors = hasPermission(
-        session.user.permissions,
-        'MANAGE_SPONSORS',
-      )
-      if (!canManageSponsors) {
-        return Response.json({ error: 'Forbidden' }, { status: 403 })
       }
 
       // Validate sponsor logo constraints

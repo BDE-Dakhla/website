@@ -82,6 +82,8 @@ export function SponsorLogoUpload({
           },
         })
 
+        console.log(uploadResponse)
+
         if (!uploadResponse.ok) {
           throw new Error('Failed to upload file')
         }

@@ -9,7 +9,7 @@ declare module 'next-auth' {
       role?: Role
       username?: string | null
       email?: string | null
-      perms?: PermissionMap
+      permissions?: PermissionMap
     }
   }
 }
@@ -21,6 +21,6 @@ declare module 'next-auth/jwt' {
     name?: string | null
     image?: string | null
     email?: string | null
-    perms?: PermissionMap
+    permissions?: PermissionMap
   }
 }

@@ -53,7 +53,7 @@
           "email": "Adresse mail",
           "cdm": "CODE MASSAR",
           "permissions": "Permissions",
-          "phoneNumber": "Numéro de téléphone",
+          "phoneNumber": "№ Téléphone",
           "status": "Statut",
           "role": "Rôle",
           "signupDate": "Date d'inscription"
@@ -76,7 +76,10 @@
       "CAN_ADMIN": "Administration",
       "CAN_MANAGE_CONTENT": "Gestion contenu",
       "CAN_VIEW_ANALYTICS": "Voir analyses",
-      "CAN_MANAGE_SETTINGS": "Paramètres système"
+      "CAN_MANAGE_SETTINGS": "Paramètres système",
+      "MANAGE_SPONSORS": "Gérer les partenaires",
+      "MANAGE_ANNOUNCEMENTS": "Gérer les annonces",
+      "MANAGE_NEWSLETTER": "Gérer la newsletter"
     }
   },
 

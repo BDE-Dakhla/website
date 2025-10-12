@@ -81,8 +81,8 @@ export default async function middleware(req: NextRequest) {
     )
   }
 
-  const perms = token.perms as PermissionMap | undefined
-  if (!hasPermission(perms, requiredKey)) {
+  const permissions = token.permissions as PermissionMap | undefined
+  if (!hasPermission(permissions, requiredKey)) {
     return NextResponse.redirect(new URL(`/${finalLocale}/not-found`, origin))
   }
 

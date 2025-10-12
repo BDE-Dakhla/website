@@ -125,7 +125,7 @@ export function DashboardSideBar({
 }: React.ComponentProps<typeof Sidebar>) {
   const { data: session } = useSession()
   const canSeeDashboard = hasPermission(
-    session?.user?.perms,
+    session?.user?.permissions,
     'HAS_ACCESS_TO_DASHBOARD',
   )
 

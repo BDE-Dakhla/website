@@ -38,15 +38,14 @@ import {
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
-// Helper function to get logo URL from MinIO or fallback to static
+// Helper function to get logo URL from MinIO
 function getLogoUrl(logoUrl: string): string {
-  // If logo_url doesn't contain sponsors/ prefix, it's likely a legacy filename
-  if (!logoUrl.includes('sponsors/')) {
-    return `/partners/${logoUrl}.svg`
-  }
-  // For new uploads, construct MinIO URL
-  // In production, you'd want to use your MinIO public endpoint
-  return `${process.env.NEXT_PUBLIC_S3_ENDPOINT || 'http://localhost:9000'}/${process.env.NEXT_PUBLIC_S3_BUCKET || 'bde-bucket'}/sponsors/${logoUrl}.svg`
+  const endpoint = process.env.NEXT_PUBLIC_S3_ENDPOINT || 'http://127.0.0.1:9000'
+  const bucket = process.env.NEXT_PUBLIC_S3_BUCKET || 'assets'
+  
+  // New format: just the filename without path or extension
+  // Construct full MinIO URL
+  return `${endpoint}/${bucket}/sponsors/${logoUrl}.svg`
 }
 
 type SponsorFormData = {

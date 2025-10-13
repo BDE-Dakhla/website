@@ -1,20 +1,17 @@
 'use client'
 
-import { useTranslations } from 'next-intl'
 import { Footer } from '@/components/layout/footer'
 import { NavBar } from '@/components/layout/navbar'
 import { Partners } from '@/components/pages/home/partners'
 import { SchoolSection } from '@/components/pages/home/school-section'
 
 export default function Page() {
-  const t = useTranslations('')
-
-  const statistics = [
+  /* const statistics = [
     { count: 824, label: t('common.students') },
     { count: 3, label: 'schools' },
     { count: 1, label: 'university' },
     { count: 1, label: 'high school' },
-  ]
+  ] */
 
   return (
     <main>

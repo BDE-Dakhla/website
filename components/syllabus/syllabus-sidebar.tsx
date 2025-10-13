@@ -18,10 +18,10 @@ import {
   Inbox,
   Loader2,
 } from 'lucide-react'
-import { NavMain } from '@/components/nav-main'
-import { NavSecondary } from '@/components/nav-secondary'
-import { NavUser } from '@/components/nav-user'
-import { SyllabusNavDocuments } from '@/components/syllabus-nav-documents'
+import { NavMain } from '@/components/navigation/nav-main'
+import { NavSecondary } from '@/components/navigation/nav-secondary'
+import { NavUser } from '@/components/navigation/nav-user'
+import { SyllabusNavDocuments } from '@/components/syllabus/syllabus-nav-documents'
 import {
   Sidebar,
   SidebarContent,
@@ -32,9 +32,9 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
 import { useSyllabusNavigation } from '@/contexts/syllabus-navigation'
-import { NavLinks } from './nav-links'
-import { Button } from './ui/button'
-import { ViewTransition } from './ui/view-transition'
+import { NavLinks } from '../navigation/nav-links'
+import { Button } from '../ui/button'
+import { ViewTransition } from '../ui/view-transition'
 
 const data = {
   navMain: [],

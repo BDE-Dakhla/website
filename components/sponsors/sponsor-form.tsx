@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { SponsorLogoUpload } from '@/components/sponsor-logo-upload'
+import { SponsorLogoUpload } from '@/components/sponsors/sponsor-logo-upload'
 import { Button as StaticButton } from '@/components/ui/button'
 import {
   Form,

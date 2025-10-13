@@ -1,78 +1,22 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { getDb } from '@/lib/db'
 import { sql } from 'kysely'
+import { type NextRequest, NextResponse } from 'next/server'
+import { getDb } from '@/lib/db'
+import {
+  assertNumber,
+  type Filter,
+  type MetricsSeriesPoint,
+  type MetricsSeriesRow,
+  type MetricsTotals,
+  type MetricsTotalsRow,
+  parseFilters,
+  previousWindow,
+  resolveWindow,
+} from '../types'
 
-function resolveWindow(range?: string) {
-  const now = new Date()
-  const end = now
-  let start: Date
-  let unit: 'hour' | 'day' = 'hour'
-  switch (range) {
-    case '3h':
-      start = new Date(end.getTime() - 3 * 3600 * 1000)
-      unit = 'hour'
-      break
-    case '6h':
-      start = new Date(end.getTime() - 6 * 3600 * 1000)
-      unit = 'hour'
-      break
-    case '12h':
-      start = new Date(end.getTime() - 12 * 3600 * 1000)
-      unit = 'hour'
-      break
-    case '24h':
-      start = new Date(end.getTime() - 24 * 3600 * 1000)
-      unit = 'hour'
-      break
-    case '7d':
-      start = new Date(end.getTime() - 7 * 24 * 3600 * 1000)
-      unit = 'day'
-      break
-    case '30d':
-      start = new Date(end.getTime() - 30 * 24 * 3600 * 1000)
-      unit = 'day'
-      break
-    case '90d':
-      start = new Date(end.getTime() - 90 * 24 * 3600 * 1000)
-      unit = 'day'
-      break
-    case '6mo':
-      start = new Date(end.getTime() - 182 * 24 * 3600 * 1000) // approx 6 months
-      unit = 'day'
-      break
-    case '1y':
-      start = new Date(end.getTime() - 365 * 24 * 3600 * 1000)
-      unit = 'day'
-      break
-    default:
-      start = new Date(end.getTime() - 24 * 3600 * 1000)
-      unit = 'hour'
-  }
-  return { start, end, unit }
-}
-
-function previousWindow(start: Date, end: Date) {
-  const duration = end.getTime() - start.getTime()
-  const prevEnd = start
-  const prevStart = new Date(start.getTime() - duration)
-  return { start: prevStart, end: prevEnd }
-}
-
-type FilterOp = 'is' | 'is_not' | 'contains' | 'not_contains'
-
-function parseFilters(param: string | null): { field: 'url' | 'referrer' | 'browser' | 'os' | 'device'; op: FilterOp; value: string }[] {
-  if (!param) return []
-  try {
-    const arr = JSON.parse(param)
-    if (Array.isArray(arr)) return arr.filter((r) => r && r.field && r.value)
-  } catch {}
-  return []
-}
-
-function buildWhereForFilters(filters: ReturnType<typeof parseFilters>) {
-  const whereE: string[] = [] // conditions that apply to analytics_events e
-  const whereS: string[] = [] // conditions that apply to analytics_sessions s
-  const whereV: string[] = [] // conditions that apply to analytics_visitors v
+function buildWhereForFilters(filters: Filter[]) {
+  const whereE: string[] = []
+  const whereS: string[] = []
+  const whereV: string[] = []
 
   const val = (s: string) => s.replace(/'/g, "''")
   const like = (s: string) => `%${s.replace(/%/g, '\\%').replace(/_/g, '\\_')}%`
@@ -84,14 +28,20 @@ function buildWhereForFilters(filters: ReturnType<typeof parseFilters>) {
         if (f.op === 'is') whereE.push(`e.path = '${v}'`)
         else if (f.op === 'is_not') whereE.push(`e.path <> '${v}'`)
         else if (f.op === 'contains') whereE.push(`e.path ILIKE '${like(v)}'`)
-        else if (f.op === 'not_contains') whereE.push(`e.path NOT ILIKE '${like(v)}'`)
+        else if (f.op === 'not_contains')
+          whereE.push(`e.path NOT ILIKE '${like(v)}'`)
         break
       }
       case 'referrer': {
         if (f.op === 'is') whereS.push(`s.referrer = '${v}'`)
-        else if (f.op === 'is_not') whereS.push(`(s.referrer is null or s.referrer <> '${v}')`)
-        else if (f.op === 'contains') whereS.push(`s.referrer ILIKE '${like(v)}'`)
-        else if (f.op === 'not_contains') whereS.push(`(s.referrer is null or s.referrer NOT ILIKE '${like(v)}')`)
+        else if (f.op === 'is_not')
+          whereS.push(`(s.referrer is null or s.referrer <> '${v}')`)
+        else if (f.op === 'contains')
+          whereS.push(`s.referrer ILIKE '${like(v)}'`)
+        else if (f.op === 'not_contains')
+          whereS.push(
+            `(s.referrer is null or s.referrer NOT ILIKE '${like(v)}')`,
+          )
         break
       }
       case 'browser': {
@@ -129,7 +79,7 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const range = searchParams.get('range') ?? '24h'
   const filters = parseFilters(searchParams.get('filters'))
-  const { start, end, unit } = resolveWindow(range)
+  const { start, end, unit } = resolveWindow(range, true)
   const { start: prevStart, end: prevEnd } = previousWindow(start, end)
 
   const { whereE, whereS, whereV } = buildWhereForFilters(filters)
@@ -139,10 +89,13 @@ export async function GET(req: NextRequest) {
   const whereEClause = whereE.length ? `and ${whereE.join(' and ')}` : ''
   const whereSClause = whereS.length ? `and ${whereS.join(' and ')}` : ''
   const joinV = needV ? 'join analytics_visitors v on v.id = s.visitor_id' : ''
-  const joinE = needE ? "join analytics_events efilter on efilter.session_id = s.id and efilter.type = 'pageview'" + (whereE.length ? ` and ${whereE.join(' and ')}` : '') : ''
+  const joinE = needE
+    ? "join analytics_events efilter on efilter.session_id = s.id and efilter.type = 'pageview'" +
+      (whereE.length ? ` and ${whereE.join(' and ')}` : '')
+    : ''
 
   // Totals for current window (sessions filtered by rules)
-  const totalsSql = sql<any>`
+  const totalsSql = sql<MetricsTotalsRow>`
     with s as (
       select s.* from analytics_sessions s ${sql.raw(joinV)} ${sql.raw(joinE)} where s.started_at >= ${start} and s.started_at < ${end} ${sql.raw(whereSClause)}
     ),
@@ -163,7 +116,7 @@ export async function GET(req: NextRequest) {
       (select case when (select count(*) from s) = 0 then 0 else round((select count(*) from pv where pageviews = 1) * 100.0 / (select count(*) from s), 2) end) as bounce_rate
   `
 
-  const prevTotalsSql = sql<any>`
+  const prevTotalsSql = sql<MetricsTotalsRow>`
     with s as (
       select s.* from analytics_sessions s ${sql.raw(joinV)} ${sql.raw(joinE.replaceAll('efilter', 'efilterp'))} where s.started_at >= ${prevStart} and s.started_at < ${prevEnd} ${sql.raw(whereSClause)}
     ),
@@ -184,31 +137,39 @@ export async function GET(req: NextRequest) {
       (select case when (select count(*) from s) = 0 then 0 else round((select count(*) from pv where pageviews = 1) * 100.0 / (select count(*) from s), 2) end) as bounce_rate
   `
 
-  const [totals, prevTotals] = await Promise.all([totalsSql.execute(db), prevTotalsSql.execute(db)])
-  const tRaw = totals.rows?.[0] ?? { views: 0, visits: 0, visitors: 0, bounce_rate: 0, avg_visit_duration_seconds: 0 }
-  const pRaw = prevTotals.rows?.[0] ?? { views: 0, visits: 0, visitors: 0, bounce_rate: 0, avg_visit_duration_seconds: 0 }
+  const [totals, prevTotals] = await Promise.all([
+    totalsSql.execute(db),
+    prevTotalsSql.execute(db),
+  ])
 
-  const toNumber = (v: any) => (v === null || v === undefined || Number.isNaN(Number(v)) ? 0 : Number(v))
-  const t = {
-    views: toNumber(tRaw.views),
-    visits: toNumber(tRaw.visits),
-    visitors: toNumber(tRaw.visitors),
-    bounce_rate: toNumber(tRaw.bounce_rate),
-    avg_visit_duration_seconds: toNumber(tRaw.avg_visit_duration_seconds),
-  }
-  const p = {
-    views: toNumber(pRaw.views),
-    visits: toNumber(pRaw.visits),
-    visitors: toNumber(pRaw.visitors),
-    bounce_rate: toNumber(pRaw.bounce_rate),
-    avg_visit_duration_seconds: toNumber(pRaw.avg_visit_duration_seconds),
+  const defaultTotals: MetricsTotalsRow = {
+    views: 0,
+    visits: 0,
+    visitors: 0,
+    bounce_rate: 0,
+    avg_visit_duration_seconds: 0,
   }
 
-  // Time series
-  const truncUnit = unit === 'hour' ? sql`hour` : sql`day`
+  const tRaw = totals.rows?.[0] ?? defaultTotals
+  const pRaw = prevTotals.rows?.[0] ?? defaultTotals
+
+  const t: MetricsTotals = {
+    views: assertNumber(tRaw.views),
+    visits: assertNumber(tRaw.visits),
+    visitors: assertNumber(tRaw.visitors),
+    bounce_rate: assertNumber(tRaw.bounce_rate),
+    avg_visit_duration_seconds: assertNumber(tRaw.avg_visit_duration_seconds),
+  }
+  const p: MetricsTotals = {
+    views: assertNumber(pRaw.views),
+    visits: assertNumber(pRaw.visits),
+    visitors: assertNumber(pRaw.visitors),
+    bounce_rate: assertNumber(pRaw.bounce_rate),
+    avg_visit_duration_seconds: assertNumber(pRaw.avg_visit_duration_seconds),
+  }
+
   const stepLiteral = unit === 'hour' ? '1 hour' : '1 day'
-
-  const seriesSql = sql<any>`
+  const seriesSql = sql<MetricsSeriesRow>`
     with series as (
       select generate_series(
         date_trunc(${unit}, ${start}::timestamptz),
@@ -254,7 +215,10 @@ export async function GET(req: NextRequest) {
     visits: pctChange(t.visits, p.visits),
     visitors: pctChange(t.visitors, p.visitors),
     bounce_rate: pctChange(t.bounce_rate, p.bounce_rate),
-    avg_visit_duration_seconds: pctChange(t.avg_visit_duration_seconds, p.avg_visit_duration_seconds),
+    avg_visit_duration_seconds: pctChange(
+      t.avg_visit_duration_seconds,
+      p.avg_visit_duration_seconds,
+    ),
   }
 
   return NextResponse.json({
@@ -265,12 +229,14 @@ export async function GET(req: NextRequest) {
     totals: t,
     previous: p,
     deltas,
-    series: series.rows.map((r: any) => ({
-      time: r.bucket,
-      views: Number(r.views),
-      visits: Number(r.visits),
-      visitors: Number(r.visitors),
-    })),
+    series: series.rows.map(
+      (r): MetricsSeriesPoint => ({
+        time: r.bucket,
+        views: assertNumber(r.views),
+        visits: assertNumber(r.visits),
+        visitors: assertNumber(r.visitors),
+      }),
+    ),
   })
 }
 

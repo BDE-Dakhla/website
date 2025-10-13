@@ -1,20 +1,17 @@
 import '../styles/globals.css'
 
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Poppins } from 'next/font/google'
 import { getLocale } from 'next-intl/server'
+import NextTopLoader from 'nextjs-toploader'
 import { Toaster } from 'sonner'
 import { SEO } from '@/lib/seo'
 import { Providers } from './providers'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const poppins = Poppins({
+  variable: '--font-poppins',
   subsets: ['latin'],
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
 })
 
 export const viewport: Viewport = {
@@ -38,13 +35,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const locale = await getLocale() // comes from next-intl middleware
+  const locale = await getLocale()
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${poppins.variable} antialiased`}
         suppressHydrationWarning>
+        <NextTopLoader showSpinner={false} />
         <Providers>{children}</Providers>
         <Toaster />
       </body>

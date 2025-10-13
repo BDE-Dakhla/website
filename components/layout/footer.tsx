@@ -8,9 +8,9 @@ import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Link } from '@/i18n/routing'
-import { LanguageSwitcher } from '../design/lang-switcher'
-import { ThemeSwitcher } from '../design/theme-switcher'
-import { Paragraph, Title } from '../design/typography'
+import { LanguageSwitcher } from '../shared/lang-switcher'
+import { ThemeSwitcher } from '../shared/theme-switcher'
+import { Paragraph, Title } from '../shared/typography'
 import {
   SubscriptionDialog,
   type SubscriptionStatus,

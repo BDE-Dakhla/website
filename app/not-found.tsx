@@ -1,6 +1,6 @@
 import { ArrowLeftToLine, LifeBuoy } from 'lucide-react'
 import Link from 'next/link'
-import { Paragraph, Title } from '@/components/design/typography'
+import { Paragraph, Title } from '@/components/shared/typography'
 import { Button } from '@/components/ui/button'
 
 export default function NotFound() {
@@ -21,7 +21,7 @@ export default function NotFound() {
               </Link>
             </Button>
             <Button asChild className='w-40' variant='glow'>
-              <Link href='/support'>
+              <Link href='/contact'>
                 <LifeBuoy />
                 Contact support
               </Link>

@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { MailPlus, Send } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { roles } from '@/components/data'
+import { roles } from '@/components/common/data'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,

@@ -4,6 +4,7 @@ import {
   GraduationCap,
   Handshake,
   Home,
+  LayoutDashboard,
   type LucideIcon,
   Menu,
   Newspaper,
@@ -12,8 +13,9 @@ import {
   University,
   Users,
 } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
-import { trackEvent } from '@/components/analytics-tracker'
+import { trackEvent } from '@/components/common/analytics-tracker'
 import {
   Accordion,
   AccordionContent,
@@ -37,6 +39,9 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { Link, usePathname } from '@/i18n/routing'
+import { hasPermission } from '@/lib/permission'
+import { cn } from '@/lib/utils'
+import { RainbowButton } from '../ui/rainbow-button'
 import { Logo } from './logo'
 
 interface MenuItem {
@@ -58,10 +63,12 @@ interface NavBarProps {
 export const NavBar = (props: NavBarProps): React.ReactElement => {
   const t = useTranslations()
   const pathname = usePathname()
+  const { data: session } = useSession()
+
   const isActive = (href: string) => {
     const path = pathname ?? '/'
     if (href === '/') return path === '/'
-    return path === href || path.startsWith(href + '/')
+    return path === href || path.startsWith(`${href}/`)
   }
 
   const {
@@ -128,7 +135,10 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
               Nous contacter
             </Link>
           </Button>
-          <Button asChild size='sm'>
+          <Button
+            asChild
+            className='!px-4 bg-gradient-to-t from-green-700/60 to-green-400/60 text-white shadow-[inset_0px_1px_0px_0px_rgba(255,255,255,0.3)] hover:bg-gradient'
+            size='sm'>
             <Link
               className='flex items-center gap-x-2'
               href='/syllabus'
@@ -137,6 +147,16 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
               {t('common.syllabus')}
             </Link>
           </Button>
+          {hasPermission(
+            session?.user.permissions,
+            'HAS_ACCESS_TO_DASHBOARD',
+          ) && (
+            <RainbowButton asChild size='icon' variant='outline'>
+              <Link href='/dashboard'>
+                <LayoutDashboard />
+              </Link>
+            </RainbowButton>
+          )}
         </div>
       </nav>
 
@@ -165,29 +185,25 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
                 type='single'>
                 {menu.map((item) => renderMobileMenuItem(item, isActive))}
               </Accordion>
-              <div className='border-t py-4'>
-                <div className='grid grid-cols-2 justify-start'>
-                  {props.mobileExtraLinks?.map((link) => (
-                    <Link
-                      className='inline-flex h-10 items-center gap-2 whitespace-nowrap rounded-md px-4 py-2 font-medium text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-accent-foreground'
-                      href={link.url}
-                      key={link.name}>
-                      {link.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-              <div className='flex flex-col gap-3'>
-                <Button asChild size='sm'>
+              <div className='grid grid-cols-2 justify-start border-t py-4'>
+                {props.mobileExtraLinks?.map((link) => (
                   <Link
-                    className='flex items-center gap-x-2'
-                    href='/syllabus'
-                    onClick={() => trackEvent('syllabus-button-header-mobile')}>
-                    <GraduationCap />
-                    {t('common.syllabus')}
+                    className='inline-flex h-10 items-center gap-2 whitespace-nowrap rounded-md px-4 py-2 font-medium text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-accent-foreground'
+                    href={link.url}
+                    key={link.name}>
+                    {link.name}
                   </Link>
-                </Button>
+                ))}
               </div>
+              <Button asChild size='sm'>
+                <Link
+                  className='flex items-center gap-x-2'
+                  href='/syllabus'
+                  onClick={() => trackEvent('syllabus-button-header-mobile')}>
+                  <GraduationCap />
+                  {t('common.syllabus')}
+                </Link>
+              </Button>
             </div>
           </SheetContent>
         </Sheet>
@@ -196,54 +212,66 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
   )
 }
 
+const isGroupActive = (item: MenuItem, isActive: (href: string) => boolean) =>
+  isActive(item.url) || item.items?.some((sub) => isActive(sub.url)) || false
+
+const getNavEventName = (title: string) =>
+  `nav-${title.toLowerCase().replace(/\s+/g, '-')}`
+
+const MenuItemContent = ({ item }: { item: MenuItem }) => (
+  <>
+    {item.icon && <item.icon />}
+    <div>
+      <div className='font-semibold text-sm'>{item.title}</div>
+      {item.description && (
+        <p className='text-muted-foreground text-sm leading-snug'>
+          {item.description}
+        </p>
+      )}
+    </div>
+  </>
+)
+
 const renderMenuItem = (
   item: MenuItem,
   isActive: (href: string) => boolean,
 ) => {
   if (item.items) {
-    const groupActive =
-      isActive(item.url) || item.items.some((sub) => isActive(sub.url))
+    const groupActive = isGroupActive(item, isActive)
 
     return (
       <NavigationMenuItem className='text-muted-foreground' key={item.title}>
         <NavigationMenuTrigger
-          className={
-            groupActive
-              ? 'bg-muted text-accent-foreground'
-              : 'text-muted-foreground'
-          }>
+          className={cn(
+            'text-muted-foreground',
+            groupActive && 'bg-muted text-accent-foreground',
+          )}>
           {item.icon && <item.icon className='mr-3' />}
           {item.title}
         </NavigationMenuTrigger>
         <NavigationMenuContent>
           <ul className='w-80 p-3'>
-            {item.items.map((subItem) => (
-              <li key={subItem.title}>
-                <NavigationMenuLink asChild>
-                  <Link
-                    aria-current={isActive(subItem.url) ? 'page' : undefined}
-                    className={`flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-muted hover:text-accent-foreground ${isActive(subItem.url) ? 'bg-muted text-accent-foreground' : ''}`}
-                    href={subItem.url}
-                    onClick={() =>
-                      trackEvent(
-                        `nav-${subItem.title.toLowerCase().replace(/\s+/g, '-')}`,
-                      )
-                    }>
-                    {subItem.icon && <subItem.icon />}
-                    <span className='w-full'>
-                      <span className='w-full font-semibold text-sm'>
-                        {subItem.title}
-                      </span>
-                      {subItem.description && (
-                        <p className='text-muted-foreground text-sm leading-snug'>
-                          {subItem.description}
-                        </p>
+            {item.items.map((subItem) => {
+              const active = isActive(subItem.url)
+              return (
+                <li key={subItem.title}>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      aria-current={active ? 'page' : undefined}
+                      className={cn(
+                        'flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-muted hover:text-accent-foreground',
+                        active && 'bg-muted text-accent-foreground',
                       )}
-                    </span>
-                  </Link>
-                </NavigationMenuLink>
-              </li>
-            ))}
+                      href={subItem.url}
+                      onClick={() =>
+                        trackEvent(getNavEventName(subItem.title))
+                      }>
+                      <MenuItemContent item={subItem} />
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
+              )
+            })}
           </ul>
         </NavigationMenuContent>
       </NavigationMenuItem>
@@ -255,50 +283,52 @@ const renderMenuItem = (
   return (
     <Link
       aria-current={active ? 'page' : undefined}
-      className={`flex w-max items-center justify-center rounded-md bg-background px-4 py-2 font-medium text-sm transition-colors hover:bg-muted hover:text-accent-foreground ${active ? 'bg-muted text-accent-foreground' : 'text-muted-foreground'}`}
+      className={cn(
+        'flex w-max items-center justify-center rounded-md bg-background px-4 py-2 font-medium text-sm transition-colors hover:bg-muted hover:text-accent-foreground',
+        active ? 'bg-muted text-accent-foreground' : 'text-muted-foreground',
+      )}
       href={item.url}
       key={item.title}
-      onClick={() =>
-        trackEvent(`nav-${item.title.toLowerCase().replace(/\s+/g, '-')}`)
-      }>
+      onClick={() => trackEvent(getNavEventName(item.title))}>
       {item.icon && <item.icon className='mr-3' />}
       <span>{item.title}</span>
     </Link>
   )
 }
+
 const renderMobileMenuItem = (
   item: MenuItem,
   isActive: (href: string) => boolean,
 ) => {
   if (item.items) {
-    const groupActive =
-      isActive(item.url) || item.items.some((sub) => isActive(sub.url))
+    const groupActive = isGroupActive(item, isActive)
 
     return (
       <AccordionItem className='border-b-0' key={item.title} value={item.title}>
         <AccordionTrigger
-          className={`py-0 font-semibold hover:no-underline ${groupActive ? 'text-accent-foreground' : ''}`}>
+          className={cn(
+            'py-0 font-semibold hover:no-underline',
+            groupActive && 'text-accent-foreground',
+          )}>
           {item.icon && <item.icon />}
           {item.title}
         </AccordionTrigger>
         <AccordionContent className='mt-2'>
-          {item.items.map((subItem) => (
-            <Link
-              aria-current={isActive(subItem.url) ? 'page' : undefined}
-              className={`flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-muted hover:text-accent-foreground ${isActive(subItem.url) ? 'bg-muted text-accent-foreground' : ''}`}
-              href={subItem.url}
-              key={subItem.title}>
-              {subItem.icon && <subItem.icon />}
-              <div>
-                <div className='font-semibold text-sm'>{subItem.title}</div>
-                {subItem.description && (
-                  <p className='text-muted-foreground text-sm leading-snug'>
-                    {subItem.description}
-                  </p>
+          {item.items.map((subItem) => {
+            const active = isActive(subItem.url)
+            return (
+              <Link
+                aria-current={active ? 'page' : undefined}
+                className={cn(
+                  'flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-muted hover:text-accent-foreground',
+                  active && 'bg-muted text-accent-foreground',
                 )}
-              </div>
-            </Link>
-          ))}
+                href={subItem.url}
+                key={subItem.title}>
+                <MenuItemContent item={subItem} />
+              </Link>
+            )
+          })}
         </AccordionContent>
       </AccordionItem>
     )
@@ -309,7 +339,7 @@ const renderMobileMenuItem = (
   return (
     <Link
       aria-current={active ? 'page' : undefined}
-      className={`font-semibold ${active ? 'text-accent-foreground' : ''}`}
+      className={cn('font-semibold', active && 'text-accent-foreground')}
       href={item.url}
       key={item.title}>
       {item.icon && <item.icon />}

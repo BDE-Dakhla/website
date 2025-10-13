@@ -1,25 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { getDb } from '@/lib/db'
 import { sql } from 'kysely'
-
-function resolveWindow(range?: string) {
-  const now = new Date()
-  const end = now
-  let start: Date
-  switch (range) {
-    case '3h': start = new Date(end.getTime() - 3 * 3600 * 1000); break
-    case '6h': start = new Date(end.getTime() - 6 * 3600 * 1000); break
-    case '12h': start = new Date(end.getTime() - 12 * 3600 * 1000); break
-    case '24h': start = new Date(end.getTime() - 24 * 3600 * 1000); break
-    case '7d': start = new Date(end.getTime() - 7 * 24 * 3600 * 1000); break
-    case '30d': start = new Date(end.getTime() - 30 * 24 * 3600 * 1000); break
-    case '90d': start = new Date(end.getTime() - 90 * 24 * 3600 * 1000); break
-    case '6mo': start = new Date(end.getTime() - 182 * 24 * 3600 * 1000); break
-    case '1y': start = new Date(end.getTime() - 365 * 24 * 3600 * 1000); break
-    default: start = new Date(end.getTime() - 24 * 3600 * 1000)
-  }
-  return { start, end }
-}
+import { type NextRequest, NextResponse } from 'next/server'
+import { resolveWindow } from '@/lib/analytics/utils'
+import { getDb } from '@/lib/db'
 
 export async function GET(req: NextRequest) {
   const db = getDb()
@@ -41,7 +23,7 @@ export async function GET(req: NextRequest) {
   for (const r of rows.rows) {
     const code = r.country_code || 'ZZ'
     if (!countryVisitors.has(code)) countryVisitors.set(code, new Set())
-    countryVisitors.get(code)!.add(r.visitor_id)
+    countryVisitors.get(code)?.add(r.visitor_id)
   }
 
   const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
@@ -49,7 +31,9 @@ export async function GET(req: NextRequest) {
   const items = Array.from(countryVisitors.entries())
     .map(([code, set]) => {
       const count = set.size
-      const percent = totalVisitors ? Math.round((count / totalVisitors) * 100) : 0
+      const percent = totalVisitors
+        ? Math.round((count / totalVisitors) * 100)
+        : 0
       const name = code === 'ZZ' ? 'Unknown' : regionNames.of(code) || code
       return { code, name, count, percent }
     })

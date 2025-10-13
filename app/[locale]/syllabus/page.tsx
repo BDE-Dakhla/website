@@ -1,4 +1,4 @@
-import { SyllabusContentFadeIn } from '@/components/syllabus-page-transition'
+import { SyllabusContentFadeIn } from '@/components/syllabus/syllabus-page-transition'
 import { Greetings } from './greetings'
 
 export default function Page() {

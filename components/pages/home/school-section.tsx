@@ -3,8 +3,8 @@
 import { ExternalLink, Video } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { useLocale, useTranslations } from 'use-intl'
-import { trackEvent } from '@/components/analytics-tracker'
-import { Paragraph, Title } from '@/components/design/typography'
+import { trackEvent } from '@/components/common/analytics-tracker'
+import { Paragraph, Title } from '@/components/shared/typography'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -121,7 +121,13 @@ export function SchoolSection() {
             {t('watch_video')}
           </RainbowButton>
 
-          <Button asChild size='lg' variant='outline'>
+          <Button
+            asChild
+            onClick={async (): Promise<void> =>
+              await trackEvent('visit-school-website')
+            }
+            size='lg'
+            variant='outline'>
             <Link
               aria-label={t('visit_school_website')}
               href='https://encgd.uiz.ac.ma'

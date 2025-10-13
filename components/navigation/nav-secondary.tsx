@@ -9,7 +9,7 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
 import { cn } from '@/lib/utils'
-import { Badge } from './ui/badge'
+import { Badge } from '../ui/badge'
 
 export function NavSecondary({
   items,

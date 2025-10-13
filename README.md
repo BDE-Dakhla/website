@@ -1,6 +1,14 @@
 # 🐬 Getting Started
 
 - [🐬 Getting Started](#-getting-started)
+  - [📦 Setup \& Installation](#-setup--installation)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [Environment Configuration](#environment-configuration)
+    - [Database Setup](#database-setup)
+    - [S3 Storage Setup](#s3-storage-setup)
+    - [Running the Application](#running-the-application)
+    - [Database Management](#database-management)
   - [✨ Features](#-features)
     - [Public Features](#public-features)
     - [Student Portal (Syllabus)](#student-portal-syllabus)
@@ -12,6 +20,201 @@
     - [Technical Features](#technical-features)
   - [🎨 UI Resources](#-ui-resources)
   - [📜 License](#-license)
+
+## 📦 Setup & Installation
+
+### Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js**: Version 20 or higher
+- **Bun**: Latest version (recommended) or npm/yarn
+- **Docker & Docker Compose**: For running PostgreSQL, MinIO, and email services
+- **Git**: For version control
+
+### Installation
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/BDE-Dakhla/bde-dakhla.git
+cd bde-dakhla
+```
+
+2. **Install dependencies**
+
+```bash
+bun install
+```
+
+### Environment Configuration
+
+1. **Copy the example environment file**
+
+```bash
+cp .env.example .env
+```
+
+2. **Configure environment variables**
+
+Open `.env` and update the following variables:
+
+```env
+# Database (default works with Docker setup)
+DATABASE_URL="postgres://postgres:bdedakhlapwd@localhost:5433/bde-dakhla-db"
+APP_BASE_URL="http://localhost:3000"
+
+# Newsletter (for production, use postfix; for dev, use mailhog)
+SMTP_HOST="localhost"
+SMTP_PORT="1025"
+SMTP_SECURE="false"
+SMTP_FROM_EMAIL="no-reply@example.com"
+SMTP_FROM_NAME="BDE Dakhla"
+CRON_SECRET="your-secret-here"
+APP_HMAC_SECRET="generate-a-random-secret"
+
+# Next Auth - Configure OAuth providers
+AUTH_GOOGLE_ID="your-google-client-id"
+AUTH_GOOGLE_SECRET="your-google-client-secret"
+AUTH_NEXT_SECRET="generate-with: openssl rand -base64 32"
+
+# S3 Storage (works with Docker MinIO setup)
+S3_ENDPOINT="http://127.0.0.1:9000"
+S3_ACCESS_KEY="minio"
+S3_SECRET_KEY="minio12345"
+S3_BUCKET="assets"
+
+NEXT_PUBLIC_S3_ENDPOINT="http://127.0.0.1:9000"
+NEXT_PUBLIC_S3_BUCKET="assets"
+
+# Admin seed email (for initial setup)
+SEED_ADMIN_EMAIL="your-email@example.com"
+```
+
+**Important secrets to generate:**
+
+- `AUTH_NEXT_SECRET`: Run `openssl rand -base64 32`
+- `APP_HMAC_SECRET`: Run `openssl rand -base64 32`
+- `CRON_SECRET`: Run `openssl rand -base64 32`
+
+**Google OAuth Setup:**
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select existing one
+3. Enable Google+ API
+4. Create OAuth 2.0 credentials
+5. Add authorized redirect URI: `http://localhost:3000/api/auth/callback/google`
+6. Copy Client ID and Client Secret to your `.env`
+
+### Database Setup
+
+1. **Start PostgreSQL with Docker**
+
+```bash
+docker compose up -d database
+```
+
+This will start a PostgreSQL database with pgvector extension on port 5433.
+
+2. **Run migrations**
+
+```bash
+bun run migrate
+```
+
+3. **Seed the database (optional)**
+
+```bash
+bun run seed
+```
+
+This will create an admin user with the email specified in `SEED_ADMIN_EMAIL`.
+
+### S3 Storage Setup
+
+1. **Start MinIO (local S3-compatible storage)**
+
+```bash
+docker compose up -d minio
+```
+
+2. **Access MinIO Console**
+
+- URL: `http://localhost:9001`
+- Username: `minio`
+- Password: `minio12345`
+
+3. **Create the bucket**
+
+- Login to MinIO console
+- Create a new bucket named `assets` (or the name specified in `.env`)
+- Set bucket policy to allow public read access for images
+
+### Running the Application
+
+**Development mode:**
+
+```bash
+bun run dev
+```
+
+The application will be available at `http://localhost:3000`
+
+**Development with email testing (MailHog):**
+
+```bash
+docker compose --profile dev up -d
+bun run dev
+```
+
+Access MailHog UI at `http://localhost:8025` to view captured emails.
+
+**Production build:**
+
+```bash
+bun run build
+bun run start
+```
+
+**Production with email service:**
+
+```bash
+docker compose --profile production up -d
+bun run build
+bun run start
+```
+
+### Database Management
+
+**Run migrations:**
+
+```bash
+bun run migrate
+```
+
+**Seed the database:**
+
+```bash
+bun run seed
+```
+
+**Connect to PostgreSQL:**
+
+```bash
+docker compose exec database psql -U postgres -d bde-dakhla-db
+```
+
+**Stop all services:**
+
+```bash
+docker compose down
+```
+
+**Stop and remove volumes (⚠️ deletes all data):**
+
+```bash
+docker compose down -v
+```
 
 ## ✨ Features
 

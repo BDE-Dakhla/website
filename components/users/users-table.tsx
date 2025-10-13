@@ -1,5 +1,6 @@
 'use client'
 
+import type { User } from '../schema'
 import {
   flexRender,
   getCoreRowModel,
@@ -12,8 +13,9 @@ import {
   useReactTable,
   type VisibilityState,
 } from '@tanstack/react-table'
-import { UserLock, UserRoundX, UserStar } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
+import { useUsersColumns } from '@/components/data-table/columns'
 import {
   Table,
   TableBody,
@@ -24,42 +26,38 @@ import {
 } from '@/components/ui/table'
 import { type NavigateFn, useTableUrlState } from '@/hooks/use-table-url-state'
 import { cn } from '@/lib/utils'
-import { DataTablePagination, DataTableToolbar } from './data-table'
-import { SubscribersBulkActions } from './subscribers-bulk-actions'
-import { useSubscribersColumns } from './subscribers-columns'
+import { roles } from '../common/data'
+import { DataTablePagination, DataTableToolbar } from '../data-table'
+import { DataTableBulkActions } from '../data-table/data-table-bulk-actions'
 
-export interface Subscriber {
-  id: string
-  email: string
-  status: 'active' | 'unsubscribed' | 'bounced'
-  created_at: string
-  updated_at: string
-  unsubscribed_at: string | null
+declare module '@tanstack/react-table' {
+  // @ts-expect-error
+  interface ColumnMeta {
+    className: string
+  }
 }
 
-interface SubscribersTableProps {
-  data: Subscriber[]
+interface DataTableProps {
+  data: User[]
   search: Record<string, unknown>
   navigate: NavigateFn
-  onDelete: (subscriber: Subscriber) => void
-  onBulkDelete: (subscriberIds: string[]) => Promise<void>
 }
 
-export function SubscribersTable({
-  data,
-  search,
-  navigate,
-  onDelete,
-  onBulkDelete,
-}: SubscribersTableProps) {
-  const columns = useSubscribersColumns({ onDelete })
+export function UsersTable({ data, search, navigate }: DataTableProps) {
+  const t = useTranslations('dashboard')
 
+  const columns = useUsersColumns()
+
+  // Local UI-only states
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: 'created_at', desc: true },
-  ])
+  const [sorting, setSorting] = useState<SortingState>([])
 
+  // Local state management for table (uncomment to use local-only state, not synced with URL)
+  // const [columnFilters, onColumnFiltersChange] = useState<ColumnFiltersState>([])
+  // const [pagination, onPaginationChange] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 })
+
+  // Synced with URL states (keys/defaults mirror users route search schema)
   const {
     columnFilters,
     onColumnFiltersChange,
@@ -72,8 +70,10 @@ export function SubscribersTable({
     pagination: { defaultPage: 1, defaultPageSize: 10 },
     globalFilter: { enabled: false },
     columnFilters: [
-      { columnId: 'email', searchKey: 'email', type: 'string' },
+      // username per-column text filter
+      { columnId: 'username', searchKey: 'username', type: 'string' },
       { columnId: 'status', searchKey: 'status', type: 'array' },
+      { columnId: 'role', searchKey: 'role', type: 'array' },
     ],
   })
 
@@ -106,21 +106,27 @@ export function SubscribersTable({
   }, [table, ensurePageInRange])
 
   return (
-    <div className='space-y-4'>
+    <div className='space-y-4 max-sm:has-[div[role="toolbar"]]:mb-16'>
       <DataTableToolbar
         filters={[
           {
             columnId: 'status',
-            title: 'Statut',
+            title: 'Status',
             options: [
-              { label: 'Actif', value: 'active', icon: UserStar },
-              { label: 'Désabonné', value: 'unsubscribed', icon: UserLock },
-              { label: 'Rejeté', value: 'bounced', icon: UserRoundX },
+              { label: 'Active', value: 'active' },
+              { label: 'Inactive', value: 'inactive' },
+              { label: 'Invited', value: 'invited' },
+              { label: 'Suspended', value: 'suspended' },
             ],
           },
+          {
+            columnId: 'role',
+            title: 'Role',
+            options: roles.map((role) => ({ ...role })),
+          },
         ]}
-        searchKey='email'
-        searchPlaceholder='Rechercher par email...'
+        searchKey='username'
+        searchPlaceholder='Filter users...'
         table={table}
       />
       <div className='overflow-hidden rounded-md border'>
@@ -132,7 +138,7 @@ export function SubscribersTable({
                   return (
                     <TableHead
                       className={cn(
-                        'bg-background group-hover/row:bg-muted',
+                        'bg-background group-hover/row:bg-muted group-data-[state=selected]/row:bg-muted',
                         header.column.columnDef.meta?.className ?? '',
                       )}
                       colSpan={header.colSpan}
@@ -176,7 +182,7 @@ export function SubscribersTable({
                 <TableCell
                   className='h-24 text-center'
                   colSpan={columns.length}>
-                  Aucun abonné trouvé
+                  {t('users.table.emptyState')}
                 </TableCell>
               </TableRow>
             )}
@@ -184,7 +190,7 @@ export function SubscribersTable({
         </Table>
       </div>
       <DataTablePagination table={table} />
-      <SubscribersBulkActions onBulkDelete={onBulkDelete} table={table} />
+      <DataTableBulkActions table={table} />
     </div>
   )
 }

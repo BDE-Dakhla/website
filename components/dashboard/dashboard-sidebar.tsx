@@ -17,9 +17,9 @@ import {
   UsersRound,
 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
-import { type NavItem, NavMain } from '@/components/nav-main'
-import { NavSecondary } from '@/components/nav-secondary'
-import { NavUser } from '@/components/nav-user'
+import { type NavItem, NavMain } from '@/components/navigation/nav-main'
+import { NavSecondary } from '@/components/navigation/nav-secondary'
+import { NavUser } from '@/components/navigation/nav-user'
 import {
   Sidebar,
   SidebarContent,
@@ -29,7 +29,7 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
 import { hasPermission } from '@/lib/permission'
-import { NavLinks } from './nav-links'
+import { NavLinks } from '../navigation/nav-links'
 
 const data = {
   // Core Dashboard Overview

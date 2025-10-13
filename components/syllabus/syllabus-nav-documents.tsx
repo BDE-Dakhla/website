@@ -6,14 +6,14 @@ import { usePathname } from 'next/navigation'
 import { useSyllabusNavigation } from '@/contexts/syllabus-navigation'
 import { Link } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
-import { Badge } from './ui/badge'
+import { Badge } from '../ui/badge'
 import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from './ui/sidebar'
+} from '../ui/sidebar'
 
 interface SyllabusNavDocumentsProps {
   items: Array<NavItem>

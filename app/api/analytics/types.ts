@@ -1,11 +1,29 @@
-export type FilterField = 'url' | 'referrer' | 'browser' | 'os' | 'device'
-export type FilterOp = 'is' | 'is_not' | 'contains' | 'not_contains'
+/**
+ * Re-export shared analytics types and utilities from lib
+ */
+import type { VisitorData as LibVisitorData } from '@/lib/analytics/types'
+export type {
+  Filter,
+  FilterField,
+  FilterOp,
+  VisitorData,
+} from '@/lib/analytics/types'
+export type { TimeRange, TimeUnit, TimeWindow } from '@/lib/analytics/utils'
+export {
+  isValidFilterField,
+  isValidFilterOp,
+  parseFilters,
+} from '@/lib/analytics/types'
+export {
+  assertNumber,
+  assertString,
+  previousWindow,
+  resolveWindow,
+} from '@/lib/analytics/utils'
 
-export interface Filter {
-  field: FilterField
-  op: FilterOp
-  value: string
-}
+/**
+ * Route-specific types below
+ */
 
 export interface MetricsTotals {
   views: number
@@ -37,11 +55,7 @@ export interface MetricsSeriesPoint {
   visitors: number
 }
 
-export interface VisitorRow {
-  user_agent: string | null
-  ua_brands: unknown
-  ua_platform: string | null
-  ua_mobile: boolean | null
+export interface VisitorRow extends LibVisitorData {
   device_category: string | null
 }
 
@@ -51,25 +65,6 @@ export interface PathRow {
 
 export interface ReferrerRow {
   value: string
-}
-
-export function isValidFilterField(field: string): field is FilterField {
-  return ['url', 'referrer', 'browser', 'os', 'device'].includes(field)
-}
-
-export function isValidFilterOp(op: string): op is FilterOp {
-  return ['is', 'is_not', 'contains', 'not_contains'].includes(op)
-}
-
-export function assertNumber(value: unknown, fallback = 0): number {
-  if (value === null || value === undefined) return fallback
-  const num = Number(value)
-  return Number.isNaN(num) ? fallback : num
-}
-
-export function assertString(value: unknown): string {
-  if (typeof value === 'string') return value
-  return ''
 }
 
 export type EventType = 'pageview' | 'heartbeat' | 'event'

@@ -10,9 +10,10 @@ export function parseSecChUaBrands(
   if (!header) return []
   const out: { brand: string; version?: string }[] = []
   const re = /"([^"]+)"\s*;\s*v="([^"]+)"/g
-  let m: RegExpExecArray | null
-  while ((m = re.exec(header))) {
+  let m = re.exec(header)
+  while (m !== null) {
     out.push({ brand: m[1], version: m[2] })
+    m = re.exec(header)
   }
   return out
 }
@@ -106,7 +107,7 @@ export function parseUserAgent(
 
 export function detectFromVisitor(input: {
   user_agent: string | null
-  ua_brands?: any
+  ua_brands?: unknown
   ua_platform?: string | null
   ua_mobile?: boolean | null
 }): UAInfo {

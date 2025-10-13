@@ -1,47 +1,11 @@
+import type { VisitorData } from '@/lib/analytics/types'
 import { sql } from 'kysely'
 import { type NextRequest, NextResponse } from 'next/server'
 import { parseUserAgent } from '@/lib/analytics/ua'
+import { resolveWindow } from '@/lib/analytics/utils'
 import { getDb } from '@/lib/db'
 
 type Kind = 'browsers' | 'os' | 'devices'
-
-function resolveWindow(range?: string) {
-  const now = new Date()
-  const end = now
-  let start: Date
-  switch (range) {
-    case '3h':
-      start = new Date(end.getTime() - 3 * 3600 * 1000)
-      break
-    case '6h':
-      start = new Date(end.getTime() - 6 * 3600 * 1000)
-      break
-    case '12h':
-      start = new Date(end.getTime() - 12 * 3600 * 1000)
-      break
-    case '24h':
-      start = new Date(end.getTime() - 24 * 3600 * 1000)
-      break
-    case '7d':
-      start = new Date(end.getTime() - 7 * 24 * 3600 * 1000)
-      break
-    case '30d':
-      start = new Date(end.getTime() - 30 * 24 * 3600 * 1000)
-      break
-    case '90d':
-      start = new Date(end.getTime() - 90 * 24 * 3600 * 1000)
-      break
-    case '6mo':
-      start = new Date(end.getTime() - 182 * 24 * 3600 * 1000)
-      break
-    case '1y':
-      start = new Date(end.getTime() - 365 * 24 * 3600 * 1000)
-      break
-    default:
-      start = new Date(end.getTime() - 24 * 3600 * 1000)
-  }
-  return { start, end }
-}
 
 export async function GET(req: NextRequest) {
   const db = getDb()
@@ -52,13 +16,11 @@ export async function GET(req: NextRequest) {
   const { start, end } = resolveWindow(range)
 
   // Get unique visitors that had a session in the window and their UA
-  const rows = await sql<{
-    visitor_id: string
-    user_agent: string | null
-    ua_brands: any
-    ua_platform: string | null
-    ua_mobile: boolean | null
-  }>`
+  const rows = await sql<
+    VisitorData & {
+      visitor_id: string
+    }
+  >`
     select distinct s.visitor_id, v.user_agent, v.ua_brands, v.ua_platform, v.ua_mobile
     from analytics_sessions s
     join analytics_visitors v on v.id = s.visitor_id

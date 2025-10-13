@@ -4,89 +4,14 @@ import { getDb } from '@/lib/db'
 import {
   assertNumber,
   type Filter,
-  isValidFilterField,
-  isValidFilterOp,
   type MetricsSeriesPoint,
   type MetricsSeriesRow,
   type MetricsTotals,
   type MetricsTotalsRow,
+  parseFilters,
+  previousWindow,
+  resolveWindow,
 } from '../types'
-
-function resolveWindow(range?: string) {
-  const now = new Date()
-  const end = now
-  let start: Date
-  let unit: 'hour' | 'day' = 'hour'
-  switch (range) {
-    case '3h':
-      start = new Date(end.getTime() - 3 * 3600 * 1000)
-      unit = 'hour'
-      break
-    case '6h':
-      start = new Date(end.getTime() - 6 * 3600 * 1000)
-      unit = 'hour'
-      break
-    case '12h':
-      start = new Date(end.getTime() - 12 * 3600 * 1000)
-      unit = 'hour'
-      break
-    case '24h':
-      start = new Date(end.getTime() - 24 * 3600 * 1000)
-      unit = 'hour'
-      break
-    case '7d':
-      start = new Date(end.getTime() - 7 * 24 * 3600 * 1000)
-      unit = 'day'
-      break
-    case '30d':
-      start = new Date(end.getTime() - 30 * 24 * 3600 * 1000)
-      unit = 'day'
-      break
-    case '90d':
-      start = new Date(end.getTime() - 90 * 24 * 3600 * 1000)
-      unit = 'day'
-      break
-    case '6mo':
-      start = new Date(end.getTime() - 182 * 24 * 3600 * 1000) // approx 6 months
-      unit = 'day'
-      break
-    case '1y':
-      start = new Date(end.getTime() - 365 * 24 * 3600 * 1000)
-      unit = 'day'
-      break
-    default:
-      start = new Date(end.getTime() - 24 * 3600 * 1000)
-      unit = 'hour'
-  }
-  return { start, end, unit }
-}
-
-function previousWindow(start: Date, end: Date) {
-  const duration = end.getTime() - start.getTime()
-  const prevEnd = start
-  const prevStart = new Date(start.getTime() - duration)
-  return { start: prevStart, end: prevEnd }
-}
-
-function parseFilters(param: string | null): Filter[] {
-  if (!param) return []
-  try {
-    const parsed = JSON.parse(param)
-    if (!Array.isArray(parsed)) return []
-    return parsed.filter((item): item is Filter => {
-      if (!item || typeof item !== 'object') return false
-      if (!('field' in item) || !('op' in item) || !('value' in item))
-        return false
-      return (
-        isValidFilterField(item.field) &&
-        isValidFilterOp(item.op) &&
-        typeof item.value === 'string'
-      )
-    })
-  } catch {
-    return []
-  }
-}
 
 function buildWhereForFilters(filters: Filter[]) {
   const whereE: string[] = []
@@ -154,7 +79,7 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const range = searchParams.get('range') ?? '24h'
   const filters = parseFilters(searchParams.get('filters'))
-  const { start, end, unit } = resolveWindow(range)
+  const { start, end, unit } = resolveWindow(range, true)
   const { start: prevStart, end: prevEnd } = previousWindow(start, end)
 
   const { whereE, whereS, whereV } = buildWhereForFilters(filters)

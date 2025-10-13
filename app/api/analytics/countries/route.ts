@@ -1,44 +1,7 @@
 import { sql } from 'kysely'
 import { type NextRequest, NextResponse } from 'next/server'
+import { resolveWindow } from '@/lib/analytics/utils'
 import { getDb } from '@/lib/db'
-
-function resolveWindow(range?: string) {
-  const now = new Date()
-  const end = now
-  let start: Date
-  switch (range) {
-    case '3h':
-      start = new Date(end.getTime() - 3 * 3600 * 1000)
-      break
-    case '6h':
-      start = new Date(end.getTime() - 6 * 3600 * 1000)
-      break
-    case '12h':
-      start = new Date(end.getTime() - 12 * 3600 * 1000)
-      break
-    case '24h':
-      start = new Date(end.getTime() - 24 * 3600 * 1000)
-      break
-    case '7d':
-      start = new Date(end.getTime() - 7 * 24 * 3600 * 1000)
-      break
-    case '30d':
-      start = new Date(end.getTime() - 30 * 24 * 3600 * 1000)
-      break
-    case '90d':
-      start = new Date(end.getTime() - 90 * 24 * 3600 * 1000)
-      break
-    case '6mo':
-      start = new Date(end.getTime() - 182 * 24 * 3600 * 1000)
-      break
-    case '1y':
-      start = new Date(end.getTime() - 365 * 24 * 3600 * 1000)
-      break
-    default:
-      start = new Date(end.getTime() - 24 * 3600 * 1000)
-  }
-  return { start, end }
-}
 
 export async function GET(req: NextRequest) {
   const db = getDb()

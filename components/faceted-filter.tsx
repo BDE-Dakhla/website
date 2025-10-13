@@ -9,26 +9,30 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator
+  CommandSeparator,
 } from '@/components/ui/command'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 
-type DataTableFacetedFilterProps<TData, TValue> = {
+interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>
   title?: string
-  options: {
+  options: Array<{
     label: string
     value: string
     icon?: React.ComponentType<{ className?: string }>
-  }[]
+  }>
 }
 
 export function DataTableFacetedFilter<TData, TValue>({
   column,
   title,
-  options
+  options,
 }: DataTableFacetedFilterProps<TData, TValue>) {
   const facets = column?.getFacetedUniqueValues()
   const selectedValues = new Set(column?.getFilterValue() as string[])
@@ -42,19 +46,26 @@ export function DataTableFacetedFilter<TData, TValue>({
           {selectedValues?.size > 0 && (
             <>
               <Separator className='mx-2 h-4' orientation='vertical' />
-              <Badge className='rounded-sm px-1 font-normal lg:hidden' variant='secondary'>
+              <Badge
+                className='rounded-sm px-1 font-normal lg:hidden'
+                variant='secondary'>
                 {selectedValues.size}
               </Badge>
               <div className='hidden space-x-1 lg:flex'>
                 {selectedValues.size > 2 ? (
-                  <Badge className='rounded-sm px-1 font-normal' variant='secondary'>
+                  <Badge
+                    className='rounded-sm px-1 font-normal'
+                    variant='secondary'>
                     {selectedValues.size} selected
                   </Badge>
                 ) : (
                   options
                     .filter((option) => selectedValues.has(option.value))
                     .map((option) => (
-                      <Badge className='rounded-sm px-1 font-normal' key={option.value} variant='secondary'>
+                      <Badge
+                        className='rounded-sm px-1 font-normal'
+                        key={option.value}
+                        variant='secondary'>
                         {option.label}
                       </Badge>
                     ))
@@ -82,16 +93,22 @@ export function DataTableFacetedFilter<TData, TValue>({
                         selectedValues.add(option.value)
                       }
                       const filterValues = Array.from(selectedValues)
-                      column?.setFilterValue(filterValues.length ? filterValues : undefined)
+                      column?.setFilterValue(
+                        filterValues.length ? filterValues : undefined,
+                      )
                     }}>
                     <div
                       className={cn(
                         'flex size-4 items-center justify-center rounded-sm border border-primary',
-                        isSelected ? 'bg-primary text-primary-foreground' : 'opacity-50 [&_svg]:invisible'
+                        isSelected
+                          ? 'bg-primary text-primary-foreground'
+                          : 'opacity-50 [&_svg]:invisible',
                       )}>
                       <CheckIcon className={cn('h-4 w-4 text-background')} />
                     </div>
-                    {option.icon && <option.icon className='size-4 text-muted-foreground' />}
+                    {option.icon && (
+                      <option.icon className='size-4 text-muted-foreground' />
+                    )}
                     <span>{option.label}</span>
                     {facets?.get(option.value) && (
                       <span className='ms-auto flex h-4 w-4 items-center justify-center font-mono text-xs'>

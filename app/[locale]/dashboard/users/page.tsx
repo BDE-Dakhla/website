@@ -8,8 +8,6 @@ export default async function Page() {
   const db = getDb()
   const users = await db.selectFrom('User').selectAll().execute()
 
-  console.log(users)
-
   return (
     <UsersProvider>
       <SubHeader />

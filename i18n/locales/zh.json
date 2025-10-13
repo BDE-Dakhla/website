@@ -1,4 +1,91 @@
 {
+  "common": {
+    "email": "电子邮件",
+    "emailAddress": "电子邮件地址",
+    "students": "学生",
+    "subscribe": "订阅",
+    "syllabus": "学生区"
+  },
+  "footer": {
+    "aboutUs": "关于我们",
+    "bdeTitle": "Apolo 9.0 - Dakhla ENCG 学生办公室",
+    "bdeDescription": "阿波罗 9 号是达赫拉国立高等师范学院的任务中心，通过一站式服务，提供从创意到影响的各种机会，推动项目和职业发展。",
+    "team": "团队",
+    "partners": "合作伙伴",
+    "privacy": "隐私",
+    "clubs": "俱乐部",
+    "news": "新闻",
+    "fastLinks": "快速链接",
+    "newsletter": {
+      "title": "随时随地收到通知",
+      "description": "获取大学和课外活动的最新通知，直接发送到您的收件箱。",
+      "invalidEmail": "电子邮件格式必须有效",
+      "success": {
+        "title": "成功注册！",
+        "description": "现在，您的邮箱将直接收到 BDE 的所有新闻和通知。",
+        "close": "太完美了"
+      },
+      "alreadySubscribed": {
+        "title": "已经注册！",
+        "description": "此电子邮件地址已订阅我们的新闻通讯。您已经收到我们的新闻。",
+        "close": "包括"
+      },
+      "error": {
+        "title": "订阅错误",
+        "description": "注册时发生错误。请稍后再试。",
+        "close": "关闭"
+      }
+    },
+    "homepage": "主页",
+    "tos": {
+      "short": "GTC",
+      "long": "使用条款和条件"
+    },
+    "copyright": {
+      "short": "版权",
+      "long": "保留所有权利"
+    }
+  },
+  "dashboard": {
+    "users": {
+      "table": {
+        "columns": {
+          "fullName": "全称",
+          "email": "电子邮件地址",
+          "cdm": "马萨尔代码",
+          "permissions": "权限",
+          "phoneNumber": "电话号码",
+          "status": "状态",
+          "role": "角色",
+          "signupDate": "注册日期"
+        },
+        "emptyState": "未找到结果",
+        "noData": {
+          "fullName": "未找到结果",
+          "phoneNumber": "未找到",
+          "cdm": "未提供",
+          "permissions": "无",
+          "signupDate": "未说明"
+        }
+      }
+    },
+    "permissions": {
+      "HAS_ACCESS_TO_DASHBOARD": "仪表板访问",
+      "CAN_READ_DOCS": "阅读文件",
+      "CAN_WRITE_DOCS": "写入文件",
+      "CAN_MANAGE_USERS": "用户管理",
+      "CAN_ADMIN": "行政管理",
+      "CAN_MANAGE_CONTENT": "内容管理",
+      "CAN_VIEW_ANALYTICS": "查看分析",
+      "CAN_MANAGE_SETTINGS": "系统设置"
+    }
+  },
+  "validation": {
+    "phone": {
+      "invalid": "电话号码必须是有效的摩洛哥号码（+212 6XX XXX XXX、+212 7XX XXX XXX 或 +212 5XX XXX XXX）",
+      "required": "电话号码是必填项\n"
+    }
+  },
   "home": {
     "school-section": {
       "title": "探索我们珍贵的学校",
@@ -6,7 +93,37 @@
       "description_2": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
       "watch_video": "观看视频",
       "visit_school_website": "访问学校网站",
-      "amphitheater": "圆形剧场"
+      "cards": {
+        "amphitheater": {
+          "title": "现代化的圆形剧场，与雄心相匹配",
+          "description": "弧形座位层，酒红色座椅，宽敞的舞台配有讲台和投影，经过声学处理的天花板和墙壁：专为讲座、会议和答辩设计的空间。ENCG Dakhla因其优质的管理培训而在摩洛哥获得认可，接待专家和网络活动——这个环境反映了其声誉并创造了机会。",
+          "alt": "ENCG Dakhla现代化圆形剧场"
+        },
+        "sports_club": {
+          "title": "水上运动俱乐部，校园生活在运动中",
+          "description": "浅色木质亭子，大型落地窗和蓝色标牌：专门用于水上运动和学生活动的社团空间。在ENCG网络成员ENCG Dakhla，以其严格的培训而闻名，这些地方通过项目、会议和具体机会扩展了课程。",
+          "alt": "ENCG Dakhla水上运动俱乐部"
+        },
+        "cafeteria": {
+          "title": "小卖部和庭院，连接的休息时光",
+          "description": "阴凉的庭院，\"Buvette\"标牌，镂空墙壁和多肉植物：一个清新友好的咖啡和午餐空间。ENCG Dakhla因其在ENCG网络内的管理培训而获得认可，将其打造成交流和项目的场所——网络在这里每天编织。",
+          "alt": "ENCG Dakhla小卖部和庭院"
+        },
+        "classroom": {
+          "title": "明亮的教室，准备好学习",
+          "description": "木质排列，白板和投影屏，通过大蓝色窗帘过滤的光线：安静实用的课程、案例研究和研讨会环境。作为摩洛哥商业和管理领域的公共参考，ENCG Dakhla将理论与项目、实习和真实机会联系起来。",
+          "alt": "ENCG Dakhla教室"
+        }
+      }
+    }
+  },
+
+  "team": {
+    "categories": {
+      "formation": "培训与发展部",
+      "evenementiel": "活动与学生生活部",
+      "communication": "传播与外联司",
+      "pilotage": "指导与战略处"
     }
   }
 }

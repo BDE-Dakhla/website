@@ -1,4 +1,91 @@
 {
+  "common": {
+    "email": "E-Mail",
+    "emailAddress": "E-Mail-Adresse",
+    "students": "Studierende",
+    "subscribe": "Abonnieren",
+    "syllabus": "Bereich für Studierende"
+  },
+  "footer": {
+    "aboutUs": "Über uns",
+    "bdeTitle": "Apolo 9.0 - Büro der Studenten der ENCG in Dakhla.",
+    "bdeDescription": "Als Missionszentrum der ENCG Dakhla treibt Apollo 9 Projekte und Karrieren über eine einzige Anlaufstelle für Möglichkeiten von der Idee bis zur Wirkung voran.",
+    "team": "Team",
+    "partners": "Partner",
+    "privacy": "Datenschutz",
+    "clubs": "Clubs",
+    "news": "Nachrichten",
+    "fastLinks": "Quick Links",
+    "newsletter": {
+      "title": "Lassen Sie sich benachrichtigen, wo immer Sie sind.",
+      "description": "Lassen Sie sich in Sekundenschnelle über universitäre und außeruniversitäre Aktivitäten benachrichtigen, direkt in Ihrem E-Mail-Postfach.",
+      "invalidEmail": "Die E-Mail muss ein gültiges Format haben.",
+      "success": {
+        "title": "Anmeldung erfolgreich abgeschlossen!",
+        "description": "Sie erhalten nun alle Nachrichten und Benachrichtigungen des BDE direkt in Ihre Mailbox.",
+        "close": "Perfekt!"
+      },
+      "alreadySubscribed": {
+        "title": "Bereits angemeldet!",
+        "description": "Diese E-Mail-Adresse ist bereits für unseren Newsletter registriert. Sie erhalten bereits unsere Neuigkeiten.",
+        "close": "Verstanden"
+      },
+      "error": {
+        "title": "Fehler bei der Anmeldung",
+        "description": "Bei Ihrer Anmeldung ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.",
+        "close": "Schließen"
+      }
+    },
+    "homepage": "Startseite",
+    "tos": {
+      "short": "AGB",
+      "long": "Allgemeine Nutzungsbedingungen"
+    },
+    "copyright": {
+      "short": "Urheberrechte",
+      "long": "Alle Rechte sind vorbehalten."
+    }
+  },
+  "dashboard": {
+    "users": {
+      "table": {
+        "columns": {
+          "fullName": "Vollständiger Name",
+          "email": "E-Mail-Adresse",
+          "cdm": "MASSAR CODE",
+          "permissions": "Berechtigungen",
+          "phoneNumber": "Telefonnummer",
+          "status": "Status",
+          "role": "Rolle",
+          "signupDate": "Datum der Registrierung"
+        },
+        "emptyState": "Keine Ergebnisse gefunden",
+        "noData": {
+          "fullName": "Nicht ausgefüllt",
+          "phoneNumber": "Nicht ausgefüllt",
+          "cdm": "Nicht angegeben",
+          "permissions": "Keine",
+          "signupDate": "Nicht angegeben"
+        }
+      }
+    },
+    "permissions": {
+      "HAS_ACCESS_TO_DASHBOARD": "Zugang zum Dashboard",
+      "CAN_READ_DOCS": "Lesen von Dokumenten",
+      "CAN_WRITE_DOCS": "Dokumente schreiben",
+      "CAN_MANAGE_USERS": "Benutzerverwaltung",
+      "CAN_ADMIN": "Verwaltung",
+      "CAN_MANAGE_CONTENT": "Verwaltung von Inhalten",
+      "CAN_VIEW_ANALYTICS": "Analysen ansehen",
+      "CAN_MANAGE_SETTINGS": "Systemeinstellungen"
+    }
+  },
+  "validation": {
+    "phone": {
+      "invalid": "Die Telefonnummer muss eine gültige marokkanische Nummer sein (+212 6XX XXX XXX, +212 7XX XXX XXX, oder +212 5XX XXX XXX).",
+      "required": "Die Telefonnummer ist erforderlich\n"
+    }
+  },
   "home": {
     "school-section": {
       "title": "Entdecken Sie unsere besondere Schule",
@@ -6,7 +93,37 @@
       "description_2": "Daher ist es äußerst schwierig, wahre Freundschaften unter denen zu finden, die in Ämtern und Staatsgeschäften tätig sind; denn wo fände man jemanden, der die Ehre eines Freundes wirklich achtet?",
       "watch_video": "Video ansehen",
       "visit_school_website": "Schulwebsite besuchen",
-      "amphitheater": "Amphitheater"
+      "cards": {
+        "amphitheater": {
+          "title": "Modernes Amphitheater, Ambitionen entsprechend",
+          "description": "Geschwungene Sitzreihen mit bordeauxfarbenen Sesseln, große Bühne mit Pult und Projektion, akustisch behandelte Decken und Wände: ein Raum für Vorlesungen, Konferenzen und Verteidigungen. Die ENCG Dakhla ist in Marokko für die Qualität ihrer Managementausbildung anerkannt und empfängt Experten und Networking-Veranstaltungen — ein Rahmen, der ihren Ruf widerspiegelt und Chancen schafft.",
+          "alt": "Modernes Amphitheater der ENCG Dakhla"
+        },
+        "sports_club": {
+          "title": "Wassersportclub, Campusleben in Bewegung",
+          "description": "Pavillon aus hellem Holz, große Panoramafenster und blaues Schild: ein Vereinsraum für Wassersport und Studentenveranstaltungen. An der ENCG Dakhla, Mitglied des ENCG-Netzwerks und anerkannt für ihre anspruchsvolle Ausbildung, erweitern diese Orte den Unterricht durch Projekte, Begegnungen und konkrete Möglichkeiten.",
+          "alt": "Wassersportclub der ENCG Dakhla"
+        },
+        "cafeteria": {
+          "title": "Cafeteria und Patio, die verbindende Pause",
+          "description": "Schattiger Patio, Schild \"Buvette\", durchbrochene Wände und Sukkulenten: ein frischer und freundlicher Raum für Kaffee und Mittagessen. Anerkannt für ihre Managementausbildung innerhalb des ENCG-Netzwerks macht die ENCG Dakhla daraus einen Ort des Austauschs und der Projekte — wo sich das Netzwerk täglich webt.",
+          "alt": "Cafeteria und Patio der ENCG Dakhla"
+        },
+        "classroom": {
+          "title": "Ein heller Raum, bereit zum Lernen",
+          "description": "Holzreihen, Whiteboard und Projektionsleinwand, durch große blaue Vorhänge gefiltertes Licht: ein ruhiges und funktionales Umfeld für Kurse, Fallstudien und Workshops. Als öffentliche Referenz für Handel und Management in Marokko verbindet die ENCG Dakhla Theorie mit Projekten, Praktika und echten Chancen.",
+          "alt": "Klassenzimmer der ENCG Dakhla"
+        }
+      }
+    }
+  },
+
+  "team": {
+    "categories": {
+      "formation": "Bereich Bildung & Entwicklung",
+      "evenementiel": "Bereich Veranstaltungen & Studentenleben",
+      "communication": "Bereich Kommunikation & Öffentlichkeitsarbeit",
+      "pilotage": "Bereich Steuerung & Strategie"
     }
   }
 }

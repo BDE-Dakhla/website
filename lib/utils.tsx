@@ -10,7 +10,7 @@ export const formatDate = (date: Date): string => {
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
   })
 }
 
@@ -68,13 +68,30 @@ export function getPageNumbers(currentPage: number, totalPages: number) {
   return rangeWithDots
 }
 
-export function showSubmittedData(data: unknown, title: string = 'You submitted the following values:') {
+export function showSubmittedData(
+  data: unknown,
+  title: string = 'You submitted the following values:',
+) {
   toast.message(title, {
     description: (
       // w-[340px]
       <pre className='mt-2 w-full overflow-x-auto rounded-md bg-slate-950 p-4'>
         <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
       </pre>
-    )
+    ),
   })
+}
+
+export function getLogoUrl(logoUrl: string): string {
+  const endpoint =
+    process.env.NEXT_PUBLIC_S3_ENDPOINT || 'http://127.0.0.1:9000'
+  const bucket = process.env.NEXT_PUBLIC_S3_BUCKET || 'assets'
+
+  // New format: just the filename without path or extension
+  // Construct full MinIO URL
+  return `${endpoint}/${bucket}/sponsors/${logoUrl}.svg`
+}
+
+export async function fetcher<T>(url: string): Promise<T> {
+  return fetch(url, { cache: 'no-store' }).then((r) => r.json())
 }

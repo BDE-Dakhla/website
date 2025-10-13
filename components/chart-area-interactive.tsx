@@ -49,6 +49,7 @@ import {
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useIsMobile } from '@/hooks/use-mobile'
+import { fetcher } from '@/lib/utils'
 
 export const description = 'An interactive area chart'
 
@@ -64,9 +65,6 @@ const chartConfig = {
     color: 'hsl(var(--muted-foreground))',
   },
 } satisfies ChartConfig
-
-const fetcher = (url: string) =>
-  fetch(url, { cache: 'no-store' }).then((r) => r.json())
 
 interface Props {
   range?: Range
@@ -132,15 +130,12 @@ export function ChartAreaInteractive({
   const { data } = useSWR(
     `/api/analytics/metrics?range=${range}&filters=${filtersParam}`,
     fetcher,
-    {
-      refreshInterval: 60_000,
-    },
+    { refreshInterval: 60_000 },
   )
 
   const series = useMemo(
     () =>
-      // biome-ignore lint/suspicious/noExplicitAny: todo fix type
-      (data?.series ?? []).map((d: any) => ({
+      (data?.series ?? []).map((d) => ({
         date: d.time,
         views: Number(d.views),
         visitors: Number(d.visitors),

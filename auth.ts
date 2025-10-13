@@ -100,7 +100,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           image: row?.image,
           name: row?.name ?? null,
           email: row?.email ?? null,
-          perms: row?.permissions ?? {},
+          permissions: row?.permissions ?? {},
         }
       }
 
@@ -110,7 +110,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       let role = token.role
       let username = token.username
       let email = token.email
-      let perms = token.perms
+      let permissions = token.permissions
 
       const needsBackfill =
         (role === undefined ||
@@ -118,7 +118,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           name === undefined ||
           image === undefined ||
           email === undefined ||
-          perms === undefined) &&
+          permissions === undefined) &&
         sub
 
       if (needsBackfill && sub) {
@@ -131,7 +131,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         role = role ?? row?.role ?? 'student'
         username = username ?? row?.username ?? null
         email = email ?? row?.email ?? null
-        perms = perms ?? row?.permissions ?? {}
+        permissions = permissions ?? row?.permissions ?? {}
         image = image ?? row?.image ?? null
         name = name ?? row?.name ?? null
       }
@@ -144,7 +144,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         image: image ?? null,
         name: name ?? null,
         email: email ?? null,
-        perms: perms ?? {},
+        permissions: permissions ?? {},
       }
     },
 
@@ -156,7 +156,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       session.user.email = token.email ?? null
       session.user.name = token.name ?? null
       session.user.image = token.image ?? null
-      session.user.perms = token.perms ?? {}
+      session.user.permissions = token.permissions ?? {}
       return session
     },
 

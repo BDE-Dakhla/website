@@ -42,22 +42,33 @@ export function LanguageSwitcher({ className }: Props) {
     }
   }
 
+  const Content = (lang: typeof current) => {
+    return (
+      <>
+        <Flag className='mr-1 rounded-xs' code={lang.flag} />
+        {lang.label}
+      </>
+    )
+  }
+
   return (
     <Select onValueChange={selectLang} value={locale}>
-      <SelectTrigger aria-label='Language' className={cn?.('w-38', className)}>
+      <SelectTrigger
+        aria-label='Language'
+        className={cn?.('w-38 select-none', className)}>
         <SelectValue placeholder='Language'>
-          <Flag className='rounded-xs' code={current.flag} />
-          {current?.label}
+          <Content {...current} />
         </SelectValue>
       </SelectTrigger>
 
       <SelectContent className='w-56'>
         {LANGS.map((l) => (
-          <SelectItem disabled={l.disabled} key={l.locale} value={l.locale}>
-            <span className='flex items-center gap-2'>
-              <Flag className='rounded-[4px]' code={l.flag} />
-              <span className='truncate'>{l.label}</span>
-            </span>
+          <SelectItem
+            className='flex items-center gap-2'
+            disabled={l.disabled}
+            key={l.locale}
+            value={l.locale}>
+            <Content {...l} />
           </SelectItem>
         ))}
       </SelectContent>

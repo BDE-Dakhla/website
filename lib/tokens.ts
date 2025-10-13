@@ -22,6 +22,9 @@ export function verifyUnsubToken(token: string, email: string) {
     .createHmac('sha256', APP_HMAC_SECRET())
     .update(data)
     .digest('base64url')
-  if (crypto.timingSafeEqual(Buffer.from(h), Buffer.from(sig))) return id
+  const sigBuf = Buffer.from(sig)
+  const hBuf = Buffer.from(h)
+  if (sigBuf.length !== hBuf.length) return null
+  if (crypto.timingSafeEqual(hBuf, sigBuf)) return id
   return null
 }

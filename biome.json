@@ -60,15 +60,26 @@
     },
     "rules": {
       "recommended": true,
+      "suspicious": {
+        "noArrayIndexKey": "off"
+      },
       "a11y": {
+        "useMediaCaption": "off",
         "useKeyWithClickEvents": "off",
-        "noStaticElementInteractions": "off"
+        "noStaticElementInteractions": "off",
+        "noNoninteractiveTabindex": "off"
       },
       "correctness": {
         "noUnusedImports": {
           "fix": "safe",
           "level": "warn",
           "options": {}
+        },
+        "noUnusedVariables": {
+          "level": "warn",
+          "options": {
+            "ignoreRestSiblings": true
+          }
         }
       },
       "nursery": {

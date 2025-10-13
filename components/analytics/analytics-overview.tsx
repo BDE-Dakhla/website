@@ -11,9 +11,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-
-const fetcher = (url: string) =>
-  fetch(url, { cache: 'no-store' }).then((r) => r.json())
+import { fetcher } from '@/lib/utils'
 
 type Range = '3h' | '6h' | '12h' | '24h' | '7d' | '30d' | '90d' | '6mo' | '1y'
 

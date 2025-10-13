@@ -1,24 +1,43 @@
 {
   "common": {
     "email": "E-mail",
+    "emailAddress": "Adresse mail",
     "students": "Étudiants",
     "subscribe": "S'abonner",
     "syllabus": "Espace étudiant"
   },
 
   "footer": {
+    "aboutUs": "À propos de nous",
+    "bdeTitle": "Apolo 9.0 — Bureau Des Étudiants de l'ENCG de Dakhla",
+    "bdeDescription": "Centre de mission de l'ENCG Dakhla, Apollo 9 propulse projets et carrières via un guichet unique d'opportunités, de l'idée à l'impact.",
+    "team": "Équipe",
+    "partners": "Partenaires",
+    "privacy": "Confidentialité",
+    "clubs": "Clubs",
+    "news": "Actualités",
     "fastLinks": "Liens rapides",
     "newsletter": {
       "title": "Soyez notifier où que vous soyez",
       "description": "Restez notifier à la seconde prêt des activités universitaires et parascolaires, directement dans votre boîte mail.",
-      "invalidEmail": "L'email doit avoir un format valide"
+      "invalidEmail": "L'email doit avoir un format valide",
+      "success": {
+        "title": "Inscription réussie !",
+        "description": "Vous recevrez désormais toutes les actualités et notifications du BDE directement dans votre boîte mail.",
+        "close": "Parfait !"
+      },
+      "alreadySubscribed": {
+        "title": "Déjà inscrit !",
+        "description": "Cette adresse email est déjà inscrite à notre newsletter. Vous recevez déjà nos actualités.",
+        "close": "Compris"
+      },
+      "error": {
+        "title": "Erreur d'inscription",
+        "description": "Une erreur s'est produite lors de votre inscription. Veuillez réessayer dans quelques instants. Si le problème persiste, contactez un administrateur ou le développeur du site.",
+        "close": "Fermer"
+      }
     },
-    "partners": "Partenaires",
-    "clubs": "Clubs",
-    "news": "Actualités",
-    "team": "Équipe",
     "homepage": "Page d'accueil",
-    "privacy": "Confidentialité",
     "tos": { "short": "CGU", "long": "Conditions générales d'utilisation" },
     "copyright": {
       "short": "Droits d'auteurs",
@@ -32,16 +51,20 @@
         "columns": {
           "fullName": "Nom complet",
           "email": "Adresse mail",
+          "cdm": "CODE MASSAR",
           "permissions": "Permissions",
-          "phoneNumber": "Numéro de téléphone",
+          "phoneNumber": "№ Téléphone",
           "status": "Statut",
-          "role": "Rôle"
+          "role": "Rôle",
+          "signupDate": "Date d'inscription"
         },
         "emptyState": "Aucun résultat trouvé",
         "noData": {
           "fullName": "Non renseigné",
           "phoneNumber": "Non renseigné",
-          "permissions": "Aucune"
+          "cdm": "Non renseigné",
+          "permissions": "Aucune",
+          "signupDate": "Non renseigné"
         }
       }
     },
@@ -53,7 +76,10 @@
       "CAN_ADMIN": "Administration",
       "CAN_MANAGE_CONTENT": "Gestion contenu",
       "CAN_VIEW_ANALYTICS": "Voir analyses",
-      "CAN_MANAGE_SETTINGS": "Paramètres système"
+      "CAN_MANAGE_SETTINGS": "Paramètres système",
+      "MANAGE_SPONSORS": "Gérer les partenaires",
+      "MANAGE_ANNOUNCEMENTS": "Gérer les annonces",
+      "MANAGE_NEWSLETTER": "Gérer la newsletter"
     }
   },
 
@@ -71,7 +97,37 @@
       "description_2": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
       "watch_video": "Regarder la vidéo",
       "visit_school_website": "Visiter le site de l'école",
-      "amphitheater": "Amphithéâtre"
+      "cards": {
+        "amphitheater": {
+          "title": "Amphithéâtre moderne, à la hauteur des ambitions",
+          "description": "Gradins courbes de fauteuils bordeaux, large scène avec bureau et projection, plafond et parois traités pour l'acoustique: un espace pensé pour cours magistraux, conférences et soutenances. Reconnue au Maroc pour la qualité de sa formation en management, l'ENCG Dakhla y accueille experts et événements de réseau — un cadre qui reflète sa notoriété et crée des opportunités.",
+          "alt": "Amphithéâtre moderne de l'ENCG Dakhla"
+        },
+        "sports_club": {
+          "title": "Club Sports Nautiques, vie de campus en mouvement",
+          "description": "Pavillon en bois clair, grandes baies vitrées et enseigne bleue: un espace associatif dédié aux activités nautiques et aux événements étudiants. À l'ENCG Dakhla, membre du réseau ENCG et reconnue pour sa formation exigeante, ces lieux prolongent les cours par des projets, des rencontres et des opportunités concrètes.",
+          "alt": "Club des sports nautiques de l'ENCG Dakhla"
+        },
+        "cafeteria": {
+          "title": "Buvette et patio, la pause qui relie",
+          "description": "Patio ombragé, enseigne \"Buvette\", murs ajourés et plantes succulentes: un espace frais et convivial pour cafés et déjeuners. Reconnue pour sa formation en management au sein du réseau ENCG, l'ENCG Dakhla en fait un lieu d'échanges et de projets — là où le réseau se tisse au quotidien.",
+          "alt": "Buvette et patio de l'ENCG Dakhla"
+        },
+        "classroom": {
+          "title": "Une salle lumineuse, prête à apprendre",
+          "description": "Rangées en bois, tableau blanc et écran de projection, lumière filtrée par de grands rideaux bleus: un cadre calme et fonctionnel pour cours, cas pratiques et ateliers. Référence publique en commerce et gestion au Maroc, l'ENCG Dakhla y relie la théorie à des projets, des stages et de vraies opportunités.",
+          "alt": "Salle de classe de l'ENCG Dakhla"
+        }
+      }
+    }
+  },
+
+  "team": {
+    "categories": {
+      "formation": "Pôle Formation & Développement",
+      "evenementiel": "Pôle Événementiel & Vie Etudiante",
+      "communication": "Pôle Communication & Rayonnement",
+      "pilotage": "Pôle Pilotage & Stratégie"
     }
   }
 }

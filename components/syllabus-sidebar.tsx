@@ -48,7 +48,7 @@ const data = {
       title: 'Emploi du temps',
       url: '/syllabus/schedule',
       icon: Clock,
-      disabled: true,
+      disabled: false,
       tooltip: 'Bientôt',
     },
     {
@@ -127,7 +127,7 @@ export function SyllabusSidebar({
   const { isNavigating } = useSyllabusNavigation()
 
   return (
-    <Sidebar collapsible='offcanvas' {...props}>
+    <Sidebar variant='inset' {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem className='relative flex w-full items-center space-x-3 p-2 pl-4'>

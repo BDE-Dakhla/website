@@ -2,7 +2,11 @@
 
 import { useSearchParams } from 'next/navigation'
 import { usePathname, useRouter } from '@/i18n/routing'
-import { parseUsersSearch, serializeUsersSearch, type UsersSearch } from '@/lib/search'
+import {
+  parseUsersSearch,
+  serializeUsersSearch,
+  type UsersSearch,
+} from '@/lib/search'
 
 export function useUsersUrlState() {
   const router = useRouter()
@@ -14,10 +18,12 @@ export function useUsersUrlState() {
     pageSize: sp.get('pageSize') ?? undefined,
     status: sp.getAll('status'),
     role: sp.getAll('role'),
-    username: sp.get('username') ?? undefined
+    username: sp.get('username') ?? undefined,
   })
 
-  function setSearch(patch: Partial<UsersSearch> | ((prev: UsersSearch) => Partial<UsersSearch>)) {
+  function setSearch(
+    patch: Partial<UsersSearch> | ((prev: UsersSearch) => Partial<UsersSearch>),
+  ) {
     const nextPatch = typeof patch === 'function' ? patch(search) : patch
     const next = { ...search, ...nextPatch }
     const q = serializeUsersSearch(next)

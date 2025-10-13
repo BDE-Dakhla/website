@@ -1,9 +1,10 @@
 import { randomUUID } from 'node:crypto'
 import { type NextRequest, NextResponse } from 'next/server'
 import { getDb } from '@/lib/db'
+import { generateWelcomeEmail } from '@/lib/email-templates'
 import { APP_BASE_URL, SMTP_FROM_EMAIL, SMTP_FROM_NAME } from '@/lib/env'
 import { sendSmtpMail } from '@/lib/smtp'
-import { makeUnsubToken, randomToken } from '@/lib/tokens'
+import { makeUnsubToken } from '@/lib/tokens'
 
 export const runtime = 'nodejs'
 
@@ -25,7 +26,7 @@ export async function POST(req: NextRequest) {
       .values({
         id,
         email: lower,
-        status: 'pending',
+        status: 'active',
         created_at: now,
         updated_at: now,
         unsubscribed_at: null,
@@ -40,45 +41,55 @@ export async function POST(req: NextRequest) {
         .executeTakeFirst()
       if (!existing) throw e
       subscriberId = existing.id as typeof id
+      
       if (existing.status === 'unsubscribed') {
+        // Réactiver l'abonnement si désabonné - continuer pour envoyer l'email de bienvenue
         await db
           .updateTable('subscribers')
-          .set({ status: 'pending', updated_at: now, unsubscribed_at: null })
+          .set({ status: 'active', updated_at: now, unsubscribed_at: null })
           .where('id', '=', existing.id)
           .execute()
+        // On continue pour envoyer l'email de bienvenue
+      } else if (existing.status === 'active' || existing.status === 'pending') {
+        // L'utilisateur est déjà inscrit (actif ou en attente), on retourne juste un message
+        return NextResponse.json({ ok: true, message: 'already_subscribed' })
+      } else if (existing.status === 'bounced') {
+        // Email rejeté par le serveur, ne pas réessayer
+        return NextResponse.json({ ok: false, message: 'email_bounced' }, { status: 400 })
       }
     } else {
       throw e
     }
   }
 
-  const token = randomToken(32)
-  const expires = new Date(Date.now() + 1000 * 60 * 60 * 48)
-  await db
-    .insertInto('subscription_tokens')
-    .values({
-      token,
-      subscriber_id: subscriberId,
-      type: 'confirm',
-      expires_at: expires,
-      used_at: null,
+  try {
+    const unsubToken = makeUnsubToken(subscriberId, lower)
+    const unsubscribeUrl = `${APP_BASE_URL()}/api/newsletter/unsubscribe?token=${unsubToken}`
+
+    const { html, text } = generateWelcomeEmail({
+      email: lower,
+      unsubscribeUrl,
     })
-    .execute()
 
-  const confirmUrl = `${APP_BASE_URL()}/api/confirm?token=${encodeURIComponent(token)}`
-  const unsubToken = makeUnsubToken(subscriberId, lower)
-  const listUnsub = `<mailto:${SMTP_FROM_EMAIL()}?subject=unsubscribe>, <${APP_BASE_URL()}/api/unsubscribe?token=${encodeURIComponent(unsubToken)}&email=${encodeURIComponent(lower)}>`
+    await sendSmtpMail({
+      from: {
+        name: SMTP_FROM_NAME(),
+        email: SMTP_FROM_EMAIL(),
+      },
+      to: lower,
+      subject: '🚀 Bienvenue à la newsletter Apollo 9.0 !',
+      html,
+      text,
+    })
 
-  await sendSmtpMail({
-    from: { name: SMTP_FROM_NAME(), email: SMTP_FROM_EMAIL() },
-    to: lower,
-    subject: 'Confirm your subscription',
-    text: `Please confirm your subscription: ${confirmUrl}`,
-    html: `<p>Please confirm your subscription:</p><p><a href="${confirmUrl}">Confirm</a></p>`,
-    headers: {
-      'List-Unsubscribe': listUnsub,
-    },
-  })
+    console.log(`✅ Email de bienvenue envoyé à ${lower}`)
+  } catch (emailError) {
+    // L'échec d'envoi d'email ne doit pas empêcher l'inscription
+    console.error(
+      "❌ Erreur lors de l'envoi de l'email de bienvenue:",
+      emailError,
+    )
+  }
 
-  return NextResponse.json({ ok: true })
+  return NextResponse.json({ ok: true, message: 'subscribed' })
 }

@@ -79,8 +79,11 @@ export async function sendSmtpMail(e: Email) {
   const raw = buildMessage(e, messageId)
 
   const socket = await new Promise<net.Socket>((resolve, reject) => {
-    const s = net.createConnection({ host, port }, () => resolve(s))
+    const s = net.createConnection({ host, port, timeout: 10000 }, () => resolve(s))
     s.on('error', reject)
+    s.on('timeout', () => reject(new Error(`SMTP connection timeout to ${host}:${port}`)))
+    // Overall timeout for connection
+    setTimeout(() => reject(new Error(`SMTP connection timeout to ${host}:${port}`)), 10000)
   })
 
   let tlsSocket: tls.TLSSocket | null = null
@@ -92,6 +95,20 @@ export async function sendSmtpMail(e: Email) {
   }
   function readLine(): Promise<string> {
     return new Promise((resolve, reject) => {
+      // Check if there's already a complete line in the buffer
+      const idx = buffer.indexOf('\r\n')
+      if (idx !== -1) {
+        const line = buffer.slice(0, idx)
+        buffer = buffer.slice(idx + 2)
+        resolve(line)
+        return
+      }
+      
+      const timeout = setTimeout(() => {
+        cleanup()
+        reject(new Error('SMTP read timeout'))
+      }, 10000)
+      
       const onData = (chunk: Buffer) => {
         buffer += chunk.toString('utf8')
         const idx = buffer.indexOf('\r\n')
@@ -107,6 +124,7 @@ export async function sendSmtpMail(e: Email) {
         reject(err)
       }
       function cleanup() {
+        clearTimeout(timeout)
         writer.off('data', onData)
         writer.off('error', onError)
       }
@@ -120,28 +138,44 @@ export async function sendSmtpMail(e: Email) {
 
   send(`EHLO localhost`)
   let line = await readLine()
+  let starttlsAvailable = false
   // consume EHLO multi-line if any
   while (line.startsWith('250-')) {
+    if (line.toUpperCase().includes('STARTTLS')) {
+      starttlsAvailable = true
+    }
     line = await readLine()
   }
 
-  if (!secure) {
+  if (!secure && starttlsAvailable) {
     // try STARTTLS if server supports it (best effort)
-    send('STARTTLS')
-    const res = await readLine()
-    if (res.startsWith('220')) {
-      tlsSocket = tls.connect({ socket, servername: host })
-      await new Promise<void>((resolve, reject) => {
-        tlsSocket?.once('secureConnect', resolve)
-        tlsSocket?.once('error', reject)
-      })
-      writer = tlsSocket
-      // re-EHLO
-      send('EHLO localhost')
-      line = await readLine()
-      while (line.startsWith('250-')) {
+    try {
+      send('STARTTLS')
+      const res = await readLine()
+      if (res.startsWith('220')) {
+        tlsSocket = tls.connect({ socket, servername: host, timeout: 5000 })
+        await new Promise<void>((resolve, reject) => {
+          const timeout = setTimeout(() => reject(new Error('TLS handshake timeout')), 5000)
+          tlsSocket?.once('secureConnect', () => {
+            clearTimeout(timeout)
+            resolve()
+          })
+          tlsSocket?.once('error', (err) => {
+            clearTimeout(timeout)
+            reject(err)
+          })
+        })
+        writer = tlsSocket
+        // re-EHLO
+        send('EHLO localhost')
         line = await readLine()
+        while (line.startsWith('250-')) {
+          line = await readLine()
+        }
       }
+    } catch (err) {
+      console.warn('STARTTLS failed, continuing without TLS:', err)
+      // Continue without TLS
     }
   }
 
@@ -166,7 +200,8 @@ export async function sendSmtpMail(e: Email) {
   res = await readLine()
   if (!res.startsWith('354')) throw new Error(`DATA not accepted: ${res}`)
 
-  writer.write(raw.replace(/\n/g, '\r\n'))
+  // Message is already properly formatted with \r\n, just send it
+  writer.write(raw)
   writer.write('\r\n.\r\n')
   res = await readLine()
   if (!res.startsWith('250')) throw new Error(`Message not accepted: ${res}`)

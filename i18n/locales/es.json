@@ -1,4 +1,91 @@
 {
+  "common": {
+    "email": "Correo electrónico",
+    "emailAddress": "Correo electrónico",
+    "students": "Estudiantes",
+    "subscribe": "Suscribirse",
+    "syllabus": "Área de estudiantes"
+  },
+  "footer": {
+    "aboutUs": "Quiénes somos",
+    "bdeTitle": "Apolo 9.0 - Oficina de estudiantes de Dakhla ENCG",
+    "bdeDescription": "El centro de misiones de ENCG Dakhla, Apolo 9 impulsa proyectos y carreras a través de una ventanilla única de oportunidades, desde la idea hasta el impacto.",
+    "team": "Equipo",
+    "partners": "Socios",
+    "privacy": "Privacidad",
+    "clubs": "Clubes",
+    "news": "Noticias",
+    "fastLinks": "Enlaces rápidos",
+    "newsletter": {
+      "title": "Recibe notificaciones estés donde estés",
+      "description": "Recibe notificaciones al minuto sobre actividades universitarias y extracurriculares, directamente en tu bandeja de entrada.",
+      "invalidEmail": "El correo electrónico debe tener un formato válido",
+      "success": {
+        "title": "¡Inscripción realizada con éxito!",
+        "description": "Ahora recibirá todas las noticias y notificaciones del BDE directamente en su buzón de correo electrónico.",
+        "close": "¡Perfecto!"
+      },
+      "alreadySubscribed": {
+        "title": "¡Ya estoy registrado!",
+        "description": "Esta dirección de correo electrónico ya está suscrita a nuestro boletín. Ya recibe nuestras noticias.",
+        "close": "Incluido"
+      },
+      "error": {
+        "title": "Error de suscripción",
+        "description": "Se ha producido un error durante el registro. Vuelva a intentarlo más tarde.",
+        "close": "Cerrar"
+      }
+    },
+    "homepage": "Página de inicio",
+    "tos": {
+      "short": "GTC",
+      "long": "Condiciones de uso"
+    },
+    "copyright": {
+      "short": "Derechos de autor",
+      "long": "Todos los derechos reservados"
+    }
+  },
+  "dashboard": {
+    "users": {
+      "table": {
+        "columns": {
+          "fullName": "Nombre completo",
+          "email": "Dirección de correo electrónico",
+          "cdm": "CÓDIGO MASSAR",
+          "permissions": "Permisos",
+          "phoneNumber": "Número de teléfono",
+          "status": "Estado",
+          "role": "Función",
+          "signupDate": "Fecha de registro"
+        },
+        "emptyState": "No se han encontrado resultados",
+        "noData": {
+          "fullName": "No se han encontrado resultados",
+          "phoneNumber": "No encontrado",
+          "cdm": "No dado",
+          "permissions": "Ninguno",
+          "signupDate": "No especificado"
+        }
+      }
+    },
+    "permissions": {
+      "HAS_ACCESS_TO_DASHBOARD": "Acceso al tablero",
+      "CAN_READ_DOCS": "Leer documentos",
+      "CAN_WRITE_DOCS": "Escribir documentos",
+      "CAN_MANAGE_USERS": "Gestión de usuarios",
+      "CAN_ADMIN": "Administración",
+      "CAN_MANAGE_CONTENT": "Gestión de contenidos",
+      "CAN_VIEW_ANALYTICS": "Ver análisis",
+      "CAN_MANAGE_SETTINGS": "Configuración del sistema"
+    }
+  },
+  "validation": {
+    "phone": {
+      "invalid": "El número de teléfono debe ser un número marroquí válido (+212 6XX XXX XXX, +212 7XX XXX XXX, o +212 5XX XXX XXX)",
+      "required": "El número de teléfono es obligatorio\n"
+    }
+  },
   "home": {
     "school-section": {
       "title": "Descubra nuestra valiosa escuela",
@@ -6,7 +93,37 @@
       "description_2": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
       "watch_video": "Ver el vídeo",
       "visit_school_website": "Visitar la página web de la escuela",
-      "amphitheater": "Anfiteatro"
+      "cards": {
+        "amphitheater": {
+          "title": "Anfiteatro moderno, a la altura de las ambiciones",
+          "description": "Gradas curvas con asientos burdeos, amplio escenario con escritorio y proyección, techo y paredes tratados acústicamente: un espacio diseñado para clases magistrales, conferencias y defensas. Reconocida en Marruecos por la calidad de su formación en gestión, la ENCG Dakhla acoge expertos y eventos de networking — un entorno que refleja su reputación y crea oportunidades.",
+          "alt": "Anfiteatro moderno de la ENCG Dakhla"
+        },
+        "sports_club": {
+          "title": "Club de deportes acuáticos, vida del campus en movimiento",
+          "description": "Pabellón de madera clara, grandes ventanales y cartel azul: un espacio asociativo dedicado a deportes acuáticos y eventos estudiantiles. En la ENCG Dakhla, miembro de la red ENCG y reconocida por su exigente formación, estos lugares amplían las clases con proyectos, encuentros y oportunidades concretas.",
+          "alt": "Club de deportes acuáticos de la ENCG Dakhla"
+        },
+        "cafeteria": {
+          "title": "Cafetería y patio, la pausa que conecta",
+          "description": "Patio sombreado, cartel \"Buvette\", paredes caladas y plantas suculentas: un espacio fresco y acogedor para cafés y almuerzos. Reconocida por su formación en gestión dentro de la red ENCG, la ENCG Dakhla lo convierte en un lugar de intercambios y proyectos — donde la red se teje diariamente.",
+          "alt": "Cafetería y patio de la ENCG Dakhla"
+        },
+        "classroom": {
+          "title": "Un aula luminosa, lista para aprender",
+          "description": "Filas de madera, pizarra blanca y pantalla de proyección, luz filtrada por grandes cortinas azules: un ambiente tranquilo y funcional para clases, casos prácticos y talleres. Referencia pública en comercio y gestión en Marruecos, la ENCG Dakhla conecta la teoría con proyectos, prácticas y oportunidades reales.",
+          "alt": "Aula de la ENCG Dakhla"
+        }
+      }
+    }
+  },
+
+  "team": {
+    "categories": {
+      "formation": "División de Formación y Desarrollo",
+      "evenementiel": "Unidad de Eventos y Vida Estudiantil",
+      "communication": "División de Comunicación y Difusión",
+      "pilotage": "División de Dirección y Estrategia"
     }
   }
 }

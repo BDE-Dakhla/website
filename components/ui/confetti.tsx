@@ -5,7 +5,6 @@ import type {
   CreateTypes as ConfettiInstance,
   Options as ConfettiOptions,
 } from 'canvas-confetti'
-import type React from 'react'
 import type { ReactNode } from 'react'
 import confetti from 'canvas-confetti'
 import {
@@ -34,7 +33,6 @@ export type ConfettiRef = Api | null
 
 const ConfettiContext = createContext<Api>({} as Api)
 
-// Define component first
 const ConfettiComponent = forwardRef<ConfettiRef, Props>((props, ref) => {
   const {
     options,
@@ -103,10 +101,8 @@ const ConfettiComponent = forwardRef<ConfettiRef, Props>((props, ref) => {
   )
 })
 
-// Set display name immediately
 ConfettiComponent.displayName = 'Confetti'
 
-// Export as Confetti
 export const Confetti = ConfettiComponent
 
 interface ConfettiButtonProps extends React.ComponentProps<'button'> {

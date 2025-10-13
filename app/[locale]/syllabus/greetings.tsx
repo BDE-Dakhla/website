@@ -1,9 +1,9 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Image from 'next/image'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import Image from '@/components/layout/image'
 import { SyllabusTransitionItem } from '@/components/syllabus-page-transition'
 import { Button } from '@/components/ui/button'
 import { ViewTransition } from '@/components/ui/view-transition'
@@ -68,7 +68,6 @@ export function Greetings() {
               alt='Illustration'
               className='block w-full dark:hidden'
               decoding='async'
-              draggable={false}
               height={50}
               loading='lazy'
               src={`/academy-dashboard-${mounted ? theme || 'light' : 'light'}.svg`}
@@ -77,12 +76,11 @@ export function Greetings() {
           </motion.div>
         </div>
 
-        <ViewTransition keyedBy='decoration' preset="fade" >
+        <ViewTransition keyedBy='decoration' preset='fade'>
           <Image
             alt='decoration'
-            className='pointer-events-none absolute inset-0 aspect-auto select-none'
+            className='pointer-events-none absolute inset-0 aspect-auto'
             decoding='async'
-            draggable={false}
             height={300}
             loading='lazy'
             src='/star-shape.png'

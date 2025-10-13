@@ -1,35 +1,60 @@
 import type { Column } from '@tanstack/react-table'
-import { ArrowDownIcon, ArrowUpIcon, CaretSortIcon, EyeNoneIcon } from '@radix-ui/react-icons'
+import type { LucideIcon } from 'lucide-react'
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  CaretSortIcon,
+  EyeNoneIcon,
+} from '@radix-ui/react-icons'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
 
-type DataTableColumnHeaderProps<TData, TValue> = React.HTMLAttributes<HTMLDivElement> & {
+type DataTableColumnHeaderProps<TData, TValue> = Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'title'
+> & {
   column: Column<TData, TValue>
-  title: string
+  title: React.ReactNode
+  icon: LucideIcon
 }
 
 export function DataTableColumnHeader<TData, TValue>({
   column,
   title,
-  className
+  icon: Icon,
+  className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) {
-    return <div className={cn(className)}>{title}</div>
+    return (
+      <div
+        className={cn(className, {
+          'inline-flex items-center gap-2': Icon != null,
+        })}>
+        <Icon className='text-muted-foreground' size={14} />
+        {title}
+      </div>
+    )
   }
 
   return (
     <div className={cn('flex items-center space-x-2', className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button className='-ms-3 h-8 data-[state=open]:bg-accent' size='sm' variant='ghost'>
-            <span>{title}</span>
+          <Button
+            className='-ms-3 h-8 data-[state=open]:bg-accent'
+            size='sm'
+            variant='ghost'>
+            <span className='inline-flex items-center gap-2'>
+              <Icon className='text-muted-foreground' size={14} />
+              {title}
+            </span>
             {column.getIsSorted() === 'desc' ? (
               <ArrowDownIcon className='ms-2 h-4 w-4' />
             ) : column.getIsSorted() === 'asc' ? (

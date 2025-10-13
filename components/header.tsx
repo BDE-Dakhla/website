@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { cn } from '@/lib/utils'
 
-type HeaderProps = React.HTMLAttributes<HTMLElement> & {
+interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
   fixed?: boolean
   ref?: React.Ref<HTMLElement>
 }
@@ -18,10 +18,7 @@ export function Header({ className, fixed, children, ...props }: HeaderProps) {
       setOffset(document.body.scrollTop || document.documentElement.scrollTop)
     }
 
-    // Add scroll listener to the body
     document.addEventListener('scroll', onScroll, { passive: true })
-
-    // Clean up the event listener on unmount
     return () => document.removeEventListener('scroll', onScroll)
   }, [])
 

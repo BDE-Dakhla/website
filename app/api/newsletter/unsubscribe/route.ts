@@ -18,11 +18,7 @@ export async function GET(req: NextRequest) {
 
   await db
     .updateTable('subscribers')
-    .set({
-      status: 'unsubscribed',
-      unsubscribed_at: new Date(),
-      updated_at: new Date(),
-    })
+    .set({ status: 'unsubscribed', unsubscribed_at: new Date() })
     .where('id', '=', id)
     .where('email', '=', email)
     .execute()

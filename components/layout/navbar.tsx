@@ -13,6 +13,7 @@ import {
   Users,
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { trackEvent } from '@/components/analytics-tracker'
 import {
   Accordion,
   AccordionContent,
@@ -37,7 +38,6 @@ import {
 } from '@/components/ui/sheet'
 import { Link, usePathname } from '@/i18n/routing'
 import { Logo } from './logo'
-import { trackEvent } from '@/components/analytics-tracker'
 
 interface MenuItem {
   title: string
@@ -112,7 +112,7 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
           </Link>
           <div className='flex items-center'>
             <NavigationMenu viewport={false}>
-              <NavigationMenuList>
+              <NavigationMenuList className='gap-x-2'>
                 {menu.map((item) => renderMenuItem(item, isActive))}
               </NavigationMenuList>
             </NavigationMenu>
@@ -129,7 +129,10 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
             </Link>
           </Button>
           <Button asChild size='sm'>
-            <Link className='flex items-center gap-x-2' href='/syllabus' onClick={() => trackEvent('syllabus-button-header')}>
+            <Link
+              className='flex items-center gap-x-2'
+              href='/syllabus'
+              onClick={() => trackEvent('syllabus-button-header')}>
               <GraduationCap />
               {t('common.syllabus')}
             </Link>
@@ -164,19 +167,22 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
               </Accordion>
               <div className='border-t py-4'>
                 <div className='grid grid-cols-2 justify-start'>
-                  {/* {mobileExtraLinks.map((link) => (
+                  {props.mobileExtraLinks?.map((link) => (
                     <Link
-                      className='inline-flex h-10 items-center gap-2 whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-accent-foreground'
+                      className='inline-flex h-10 items-center gap-2 whitespace-nowrap rounded-md px-4 py-2 font-medium text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-accent-foreground'
                       href={link.url}
                       key={link.name}>
                       {link.name}
                     </Link>
-                  ))} */}
+                  ))}
                 </div>
               </div>
               <div className='flex flex-col gap-3'>
                 <Button asChild size='sm'>
-                  <Link className='flex items-center gap-x-2' href='/syllabus' onClick={() => trackEvent('syllabus-button-header-mobile')}>
+                  <Link
+                    className='flex items-center gap-x-2'
+                    href='/syllabus'
+                    onClick={() => trackEvent('syllabus-button-header-mobile')}>
                     <GraduationCap />
                     {t('common.syllabus')}
                   </Link>
@@ -218,7 +224,11 @@ const renderMenuItem = (
                     aria-current={isActive(subItem.url) ? 'page' : undefined}
                     className={`flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-muted hover:text-accent-foreground ${isActive(subItem.url) ? 'bg-muted text-accent-foreground' : ''}`}
                     href={subItem.url}
-                    onClick={() => trackEvent(`nav-${subItem.title.toLowerCase().replace(/\s+/g,'-')}`)}>
+                    onClick={() =>
+                      trackEvent(
+                        `nav-${subItem.title.toLowerCase().replace(/\s+/g, '-')}`,
+                      )
+                    }>
                     {subItem.icon && <subItem.icon />}
                     <span className='w-full'>
                       <span className='w-full font-semibold text-sm'>
@@ -248,7 +258,9 @@ const renderMenuItem = (
       className={`flex w-max items-center justify-center rounded-md bg-background px-4 py-2 font-medium text-sm transition-colors hover:bg-muted hover:text-accent-foreground ${active ? 'bg-muted text-accent-foreground' : 'text-muted-foreground'}`}
       href={item.url}
       key={item.title}
-      onClick={() => trackEvent(`nav-${item.title.toLowerCase().replace(/\s+/g,'-')}`)}>
+      onClick={() =>
+        trackEvent(`nav-${item.title.toLowerCase().replace(/\s+/g, '-')}`)
+      }>
       {item.icon && <item.icon className='mr-3' />}
       <span>{item.title}</span>
     </Link>

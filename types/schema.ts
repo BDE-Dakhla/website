@@ -9,10 +9,10 @@ import type {
 import z from 'zod'
 
 interface AppDatabase {
-  Subscribers: Subscribers
-  SubscriptionTokens: SubscriptionTokens
-  Campaigns: Campaigns
-  CampaignRecipients: CampaignRecipients
+  subscribers: Subscribers
+  subscriptionTokens: SubscriptionTokens
+  campaigns: Campaigns
+  campaignRecipients: CampaignRecipients
   sponsors: SponsorTable
   analytics_visitors: AnalyticsVisitor
   analytics_sessions: AnalyticsSession
@@ -41,7 +41,11 @@ export type PermissionValue = 0 | 1
 export type PermissionMap = Record<string, PermissionValue>
 
 export type Database = Omit<AuthDb, 'User'> & {
-  User: AuthDb['User'] & UserExtra
+  User: AuthDb['User'] &
+    UserExtra & {
+      created_at: Date
+      updated_at: Date
+    }
 } & AppDatabase
 
 export type SubscriberStatus = 'pending' | 'active' | 'unsubscribed' | 'bounced'
@@ -127,7 +131,11 @@ interface AnalyticsVisitor {
   created_at: ColumnType<Date, Date | undefined, never>
   ua_brands: unknown | null
   ua_platform: string | null
-  ua_mobile: ColumnType<boolean | null, boolean | null | undefined, boolean | null>
+  ua_mobile: ColumnType<
+    boolean | null,
+    boolean | null | undefined,
+    boolean | null
+  >
   device_category: string | null
 }
 

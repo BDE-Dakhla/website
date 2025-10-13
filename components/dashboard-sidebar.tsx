@@ -3,15 +3,20 @@
 import {
   BadgeQuestionMark,
   BookOpen,
+  Calendar,
   ChartPie,
   ContactRound,
+  FileText,
   Handshake,
+  Inbox,
   LayoutDashboard,
-  Newspaper,
+  Mail,
+  Megaphone,
+  Send,
   TicketsIcon,
-  Users,
   UsersRound,
 } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 import { type NavItem, NavMain } from '@/components/nav-main'
 import { NavSecondary } from '@/components/nav-secondary'
 import { NavUser } from '@/components/nav-user'
@@ -24,27 +29,30 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
 import { hasPermission } from '@/lib/permission'
-import { useSession } from 'next-auth/react'
 import { NavLinks } from './nav-links'
 
 const data = {
-  navMain: [
+  // Core Dashboard Overview
+  navOverview: [
     { title: 'Statistiques', url: '/dashboard/analytics', icon: ChartPie },
+  ],
+
+  // User & Member Management
+  navUserManagement: [
     {
       title: 'Utilisateurs',
       url: '/dashboard/users',
       icon: ContactRound,
     },
   ],
-  navWebApp: [
-    { title: "Member de l'équipage", url: '/dashboard/members', icon: Users },
-    {
-      title: 'Sponsors & Partenaires',
-      url: '/dashboard/partners',
-      icon: Handshake,
-    },
-  ],
+
+  // Events & Activities
   navEvents: [
+    {
+      title: 'Événements',
+      url: '/dashboard/events',
+      icon: Calendar,
+    },
     {
       title: 'Tickets',
       url: '/dashboard/tickets',
@@ -52,15 +60,17 @@ const data = {
     },
     {
       title: 'Annonces',
-      url: '/dashboard/events',
-      icon: Newspaper,
+      url: '/dashboard/announcements',
+      icon: Megaphone,
     },
   ],
-  navAcademic: [
+
+  // Content & Resources
+  navContent: [
     {
       title: 'Documents',
       url: '/dashboard/files',
-      icon: Newspaper,
+      icon: FileText,
     },
     {
       title: 'Contacts',
@@ -68,6 +78,38 @@ const data = {
       icon: UsersRound,
     },
   ],
+
+  // Partnerships
+  navPartnerships: [
+    {
+      title: 'Sponsors & Partenaires',
+      url: '/dashboard/partners',
+      icon: Handshake,
+    },
+  ],
+
+  // Newsletter & Communications
+  navNewsletter: [
+    {
+      title: 'Boîte de Réception',
+      url: '/dashboard/newsletter/inbox',
+      icon: Inbox,
+    },
+    {
+      title: 'Abonnés',
+      url: '/dashboard/newsletter/subscribers',
+      icon: Mail,
+    },
+    {
+      title: 'Campagnes',
+      url: '/dashboard/newsletter/campaigns',
+      disabled: true,
+      tooltip: 'Bientôt',
+      icon: Send,
+    },
+  ],
+
+  // Support & Documentation
   navSecondary: [
     { title: 'Documentation', url: '/dashboard/docs', icon: BookOpen },
     {
@@ -83,7 +125,7 @@ export function DashboardSideBar({
 }: React.ComponentProps<typeof Sidebar>) {
   const { data: session } = useSession()
   const canSeeDashboard = hasPermission(
-    session?.user?.perms,
+    session?.user?.permissions,
     'HAS_ACCESS_TO_DASHBOARD',
   )
 
@@ -94,11 +136,11 @@ export function DashboardSideBar({
       icon: LayoutDashboard,
       visible: canSeeDashboard,
     },
-    ...data.navMain,
+    ...data.navOverview,
   ]
 
   return (
-    <Sidebar collapsible='offcanvas' {...props}>
+    <Sidebar variant='inset' {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem className='flex items-center space-x-3 p-1.5'>
@@ -121,11 +163,19 @@ export function DashboardSideBar({
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className='sidebar-scroll'>
         <NavMain items={navMain} />
-        <NavLinks items={data.navEvents} title='Événementiel' />
-        <NavLinks items={data.navWebApp} title='Plateforme' />
-        <NavLinks items={data.navAcademic} title='Académique' />
+        <NavLinks
+          items={data.navUserManagement}
+          title='Gestion des utilisateurs'
+        />
+        <NavLinks items={data.navEvents} title='Événements & Activités' />
+        <NavLinks items={data.navContent} title='Contenu & Ressources' />
+        <NavLinks items={data.navPartnerships} title='Partenariats' />
+        <NavLinks
+          items={data.navNewsletter}
+          title='Newsletter & Communications'
+        />
         <NavSecondary className='mt-auto' items={data.navSecondary} />
       </SidebarContent>
       <SidebarFooter>

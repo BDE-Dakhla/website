@@ -1,6 +1,5 @@
 'use client'
 
-import type { ReactNode } from 'react'
 import type { LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 import {
@@ -17,9 +16,10 @@ export interface NavItem {
   url: string
   icon?: LucideIcon
   disabled?: boolean
-  tooltip?: ReactNode
+  tooltip?: React.ReactNode
   items?: Array<NavItem>
-  visible?: boolean // when false, the item will not render
+  /** If false, the item will be hidden @default true */
+  visible?: boolean
 }
 
 export function NavMain({

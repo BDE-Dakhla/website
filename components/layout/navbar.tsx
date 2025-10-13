@@ -88,7 +88,7 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
         items: [
           {
             title: 'Notre Campus',
-            url: '/campus',
+            url: '/news/campus',
             description:
               "Consultez tout ce qui s'est passé les années précédentes à notre campus.",
             icon: School,

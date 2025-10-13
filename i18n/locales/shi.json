@@ -116,5 +116,30 @@
         }
       }
     }
+  },
+
+  "contact": {
+    "title": "Contact Us",
+    "description": "Contact the support team at Asme.",
+    "email": {
+      "title": "Email",
+      "description": "We respond to all emails within 24 hours."
+    },
+    "office": {
+      "title": "Office",
+      "description": "Drop by our office for a chat.",
+      "address": "Office # 100, 101 Second Floor Kohinoor 1, Faisalabad, Pakistan"
+    },
+    "phone": {
+      "title": "Phone",
+      "description": "We're available Mon-Fri, 9am-5pm."
+    },
+    "findOnline": {
+      "title": "Find us online"
+    },
+    "copy": {
+      "copied": "Copied",
+      "copyToClipboard": "Copy to clipboard"
+    }
   }
 }

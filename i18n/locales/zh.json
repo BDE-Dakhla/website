@@ -125,5 +125,30 @@
       "communication": "传播与外联司",
       "pilotage": "指导与战略处"
     }
+  },
+
+  "contact": {
+    "title": "联系我们",
+    "description": "联系Asme的支持团队。",
+    "email": {
+      "title": "电子邮件",
+      "description": "我们在24小时内回复所有电子邮件。"
+    },
+    "office": {
+      "title": "办公室",
+      "description": "欢迎到我们的办公室聊天。",
+      "address": "办公室＃100，101 Kohinoor 1二楼，费萨拉巴德，巴基斯坦"
+    },
+    "phone": {
+      "title": "电话",
+      "description": "我们周一至周五上午9点至下午5点提供服务。"
+    },
+    "findOnline": {
+      "title": "在线找到我们"
+    },
+    "copy": {
+      "copied": "已复制",
+      "copyToClipboard": "复制到剪贴板"
+    }
   }
 }

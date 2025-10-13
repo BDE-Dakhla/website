@@ -8,13 +8,13 @@ import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Link } from '@/i18n/routing'
-import { LanguageSwitcher } from '../shared/lang-switcher'
-import { ThemeSwitcher } from '../shared/theme-switcher'
-import { Paragraph, Title } from '../shared/typography'
 import {
   SubscriptionDialog,
   type SubscriptionStatus,
 } from '../newsletter/subscription-dialog'
+import { LanguageSwitcher } from '../shared/lang-switcher'
+import { ThemeSwitcher } from '../shared/theme-switcher'
+import { Paragraph, Title } from '../shared/typography'
 import { Button } from '../ui/button'
 import {
   Form,
@@ -27,7 +27,7 @@ import {
 import { Input } from '../ui/input'
 import { Logo } from './logo'
 
-const socials = (locale: string) =>
+export const socials = (locale: string) =>
   [
     {
       name: 'Instagram',
@@ -262,7 +262,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className='flex flex-col-reverse items-center md:items-start lg:items-center justify-between py-4 text-[15px] text-gray-500/90 max-md:gap-2.5 md:flex-row dark:text-slate-300'>
+      <div className='flex flex-col-reverse items-center justify-between py-4 text-[15px] text-gray-500/90 max-md:gap-2.5 md:flex-row md:items-start lg:items-center dark:text-slate-300'>
         <p className='text-center md:text-left'>
           {t('footer.copyright.short')} {new Date().getFullYear()} &copy;{' '}
           {t('footer.copyright.long')}.

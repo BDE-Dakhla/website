@@ -125,5 +125,30 @@
       "communication": "División de Comunicación y Difusión",
       "pilotage": "División de Dirección y Estrategia"
     }
+  },
+
+  "contact": {
+    "title": "Contáctenos",
+    "description": "Póngase en contacto con el equipo de soporte en Asme.",
+    "email": {
+      "title": "Correo electrónico",
+      "description": "Respondemos a todos los correos electrónicos en 24 horas."
+    },
+    "office": {
+      "title": "Oficina",
+      "description": "Visítenos en nuestra oficina para charlar.",
+      "address": "Oficina # 100, 101 Segundo piso Kohinoor 1, Faisalabad, Pakistán"
+    },
+    "phone": {
+      "title": "Teléfono",
+      "description": "Estamos disponibles de lunes a viernes, de 9 a.m. a 5 p.m."
+    },
+    "findOnline": {
+      "title": "Encuéntrenos en línea"
+    },
+    "copy": {
+      "copied": "Copiado",
+      "copyToClipboard": "Copiar al portapapeles"
+    }
   }
 }

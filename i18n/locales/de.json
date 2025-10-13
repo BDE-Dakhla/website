@@ -125,5 +125,30 @@
       "communication": "Bereich Kommunikation & Öffentlichkeitsarbeit",
       "pilotage": "Bereich Steuerung & Strategie"
     }
+  },
+
+  "contact": {
+    "title": "Kontaktieren Sie uns",
+    "description": "Kontaktieren Sie das Support-Team bei Asme.",
+    "email": {
+      "title": "E-Mail",
+      "description": "Wir antworten auf alle E-Mails innerhalb von 24 Stunden."
+    },
+    "office": {
+      "title": "Büro",
+      "description": "Besuchen Sie unser Büro für ein Gespräch.",
+      "address": "Büro # 100, 101 Zweiter Stock Kohinoor 1, Faisalabad, Pakistan"
+    },
+    "phone": {
+      "title": "Telefon",
+      "description": "Wir sind Mo-Fr von 9:00 bis 17:00 Uhr erreichbar."
+    },
+    "findOnline": {
+      "title": "Finden Sie uns online"
+    },
+    "copy": {
+      "copied": "Kopiert",
+      "copyToClipboard": "In die Zwischenablage kopieren"
+    }
   }
 }

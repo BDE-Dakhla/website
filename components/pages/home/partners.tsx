@@ -7,16 +7,17 @@ import {
   MarqueeFade,
   MarqueeItem,
 } from '@/components/ui/marquee'
+import { Skeleton } from '@/components/ui/skeleton'
 import { SparklesCore } from '@/components/ui/sparkles'
 import { cn, getLogoUrl } from '@/lib/utils'
 
 export function Partners() {
-  const { data: sponsors = [] } = useSWR<Sponsor[]>(
+  const { data: sponsors = [], isLoading } = useSWR<Sponsor[]>(
     '/api/sponsors',
     (url: string) => fetch(url).then((r) => r.json()),
   )
 
-  if (sponsors.length === 0) return null
+  if (!isLoading && sponsors.length === 0) return null
 
   return (
     <section aria-label='partners' className='mt-28 mb-8 overflow-hidden'>
@@ -31,18 +32,24 @@ export function Partners() {
           <MarqueeFade side='left' />
           <MarqueeFade side='right' />
           <MarqueeContent>
-            {sponsors.map((sp) => (
-              <MarqueeItem className='h-32 w-32' key={sp.name}>
-                <Image
-                  alt={sp.name}
-                  className='h-9 w-auto translate-y-0.5 text-white dark:text-neutral-200'
-                  height={80}
-                  key={sp.name}
-                  src={getLogoUrl(sp.logo_url)}
-                  width={80}
-                />
-              </MarqueeItem>
-            ))}
+            {isLoading
+              ? Array.from({ length: 8 }).map((_, i) => (
+                  <MarqueeItem className='h-32 w-32' key={`skeleton-${i}`}>
+                    <Skeleton className='h-9 w-20' />
+                  </MarqueeItem>
+                ))
+              : sponsors.map((sp) => (
+                  <MarqueeItem className='h-32 w-32' key={sp.name}>
+                    <Image
+                      alt={sp.name}
+                      className='h-9 w-auto translate-y-0.5 text-white dark:text-neutral-200'
+                      height={80}
+                      key={sp.name}
+                      src={getLogoUrl(sp.logo_url)}
+                      width={80}
+                    />
+                  </MarqueeItem>
+                ))}
           </MarqueeContent>
         </Marquee>
       </div>

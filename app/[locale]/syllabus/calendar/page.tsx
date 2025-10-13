@@ -143,7 +143,6 @@ function DateTimePicker({
               onChange={(e) => setHour(parseInt(e.target.value, 10))}
               value={hour}>
               {Array.from({ length: 24 }, (_, h) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: h refers to index
                 <option key={h} value={h}>
                   {String(h).padStart(2, '0')}
                 </option>

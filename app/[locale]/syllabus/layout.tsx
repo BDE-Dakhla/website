@@ -14,8 +14,6 @@ export default async function Layout({
 }) {
   const session = await auth()
 
-  console.log(session)
-
   return (
     <div className='syllabus-theme'>
       <SyllabusNavigationProvider>

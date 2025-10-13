@@ -60,6 +60,9 @@
     },
     "rules": {
       "recommended": true,
+      "suspicious": {
+        "noArrayIndexKey": "off"
+      },
       "a11y": {
         "useMediaCaption": "off",
         "useKeyWithClickEvents": "off",

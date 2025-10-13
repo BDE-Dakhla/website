@@ -60,8 +60,14 @@ export default function TeamCard({
   styles,
 }: TeamCardProps) {
   const [isFlipped, setIsFlipped] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const { theme } = useTheme()
   const mouseX = useMotionValue(-gradientSize)
   const mouseY = useMotionValue(-gradientSize)
+
+  const borderGradient = useMotionTemplate`radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientFrom}, ${gradientTo}, var(--border) 100%)`
+  const darkGradient = useMotionTemplate`radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientColor}, transparent 100%)`
+
   const reset = useCallback(() => {
     mouseX.set(-gradientSize)
     mouseY.set(-gradientSize)
@@ -69,6 +75,10 @@ export default function TeamCard({
 
   const containerRef = useRef<HTMLLIElement>(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     if (!isCreator) return
@@ -266,16 +276,16 @@ export default function TeamCard({
           <motion.div
             className='pointer-events-none absolute inset-0 rounded-[inherit] bg-border duration-300 group-hover:opacity-100'
             style={{
-              background: useMotionTemplate`radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientFrom}, ${gradientTo}, var(--border) 100%)`,
+              background: borderGradient,
             }}
           />
           <div className='absolute inset-px rounded-[inherit] bg-background' />
 
-          {useTheme().theme === 'dark' && (
+          {mounted && theme === 'dark' && (
             <motion.div
               className='pointer-events-none absolute inset-px rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100'
               style={{
-                background: useMotionTemplate`radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientColor}, transparent 100%)`,
+                background: darkGradient,
                 opacity: gradientOpacity,
               }}
             />

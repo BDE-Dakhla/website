@@ -7,7 +7,7 @@ import {
 import { ChevronDown } from 'lucide-react'
 import { Link } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
-import { Badge } from './ui/badge'
+import { Badge } from '../ui/badge'
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -17,7 +17,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from './ui/sidebar'
+} from '../ui/sidebar'
 
 interface NavLinksProps {
   items: Array<NavItem>

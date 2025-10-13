@@ -18,7 +18,7 @@ import Image from '@/components/layout/image'
 import {
   DeleteSponsorDialog,
   SponsorFormDialog,
-} from '@/components/sponsor-dialogs'
+} from '@/components/sponsors/sponsor-dialogs'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'

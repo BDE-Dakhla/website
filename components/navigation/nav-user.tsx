@@ -27,7 +27,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
-import { Avatar } from './avatar'
+import { Avatar } from '../common/avatar'
 
 export function NavUser() {
   const { isMobile } = useSidebar()

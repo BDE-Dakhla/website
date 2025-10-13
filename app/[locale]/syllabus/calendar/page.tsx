@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { Calendar as CalendarIcon, CalendarPlus, Clock } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
-import { SyllabusContentFadeIn } from '@/components/syllabus-page-transition'
+import { SyllabusContentFadeIn } from '@/components/syllabus/syllabus-page-transition'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Calendar as MiniCalendar } from '@/components/ui/calendar'

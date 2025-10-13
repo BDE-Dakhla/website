@@ -9,8 +9,8 @@ import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
-import { roles } from '@/components/data'
-import { PermissionManager } from '@/components/permission-manager'
+import { roles } from '@/components/common/data'
+import { PermissionManager } from '@/components/dashboard/permission-manager'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,

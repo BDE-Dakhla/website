@@ -2,7 +2,7 @@
 
 import { SessionProvider } from 'next-auth/react'
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
-import { AnalyticsTracker } from '@/components/analytics-tracker'
+import { AnalyticsTracker } from '@/components/common/analytics-tracker'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (

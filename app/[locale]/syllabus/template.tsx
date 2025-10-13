@@ -1,6 +1,6 @@
 'use client'
 
-import { SyllabusPageTransition } from '@/components/syllabus-page-transition'
+import { SyllabusPageTransition } from '@/components/syllabus/syllabus-page-transition'
 import { ReactNode } from 'react'
 
 interface TemplateProps {

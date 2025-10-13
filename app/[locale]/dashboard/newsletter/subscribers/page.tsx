@@ -19,7 +19,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { SubscribersTable, type Subscriber } from '@/components/subscribers-table'
+import { SubscribersTable, type Subscriber } from '@/components/subscribers/subscribers-table'
 
 export default function SubscribersPage() {
   const [subscribers, setSubscribers] = useState<Subscriber[]>([])

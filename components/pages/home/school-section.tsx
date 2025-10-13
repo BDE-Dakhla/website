@@ -3,8 +3,8 @@
 import { ExternalLink, Video } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { useLocale, useTranslations } from 'use-intl'
-import { trackEvent } from '@/components/analytics-tracker'
-import { Paragraph, Title } from '@/components/design/typography'
+import { trackEvent } from '@/components/common/analytics-tracker'
+import { Paragraph, Title } from '@/components/shared/typography'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,

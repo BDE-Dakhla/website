@@ -13,7 +13,7 @@ import {
   Users,
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { trackEvent } from '@/components/analytics-tracker'
+import { trackEvent } from '@/components/common/analytics-tracker'
 import {
   Accordion,
   AccordionContent,

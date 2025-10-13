@@ -1,5 +1,5 @@
 import z from 'zod'
-import { roles } from '@/components/data'
+import { roles } from '@/components/common/data'
 
 const asArrayOf = <T extends z.ZodTypeAny>(item: T) =>
   z.preprocess((v) => {

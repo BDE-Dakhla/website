@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { cn } from '@/lib/utils'
-import { DataTableColumnHeader } from './column-header'
+import { DataTableColumnHeader } from '../data-table/column-header'
 
 interface UseSubscribersColumnsProps {
   onDelete: (subscriber: Subscriber) => void

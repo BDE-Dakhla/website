@@ -1,7 +1,7 @@
 'use client'
 
 import type { Database } from '@/types/schema'
-import { UsersTable } from '@/components/users-table'
+import { UsersTable } from '@/components/users/users-table'
 import { useUsersUrlState } from '@/hooks/use-users-url-state'
 
 export function Hi({ users }: { users: Array<Database['User']> }) {

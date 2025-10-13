@@ -6,7 +6,7 @@ import { useTheme } from 'next-themes'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { tv } from 'tailwind-variants'
 import { cn } from '@/lib/utils'
-import { AnimatedGradientText } from './ui/animated-gradient-text'
+import { AnimatedGradientText } from '../ui/animated-gradient-text'
 
 export interface TeamCardProps {
   name: string

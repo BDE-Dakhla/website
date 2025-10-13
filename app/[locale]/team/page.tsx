@@ -45,7 +45,7 @@ import {
   UserStar,
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import TeamCard, { type TeamCardProps } from '@/components/team-card'
+import TeamCard, { type TeamCardProps } from '@/components/common/team-card'
 
 const categories = [
   {

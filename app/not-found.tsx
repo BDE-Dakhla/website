@@ -1,6 +1,6 @@
 import { ArrowLeftToLine, LifeBuoy } from 'lucide-react'
 import Link from 'next/link'
-import { Paragraph, Title } from '@/components/design/typography'
+import { Paragraph, Title } from '@/components/shared/typography'
 import { Button } from '@/components/ui/button'
 
 export default function NotFound() {

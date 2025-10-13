@@ -1,7 +1,7 @@
 'use client'
 
 import type { ColumnDef } from '@tanstack/react-table'
-import type { User } from './schema'
+import type { User } from '../schema'
 import {
   Activity,
   BriefcaseBusiness,
@@ -24,9 +24,9 @@ import {
 import { cn } from '@/lib/utils'
 import { formatMoroccanPhone } from '@/lib/validation/phone'
 import { DataTableColumnHeader } from './column-header'
-import { callTypes, roles } from './data'
+import { callTypes, roles } from '../common/data'
 import { DataTableRowActions } from './data-table-row-actions'
-import { LongText } from './layout/long-text'
+import { LongText } from '../layout/long-text'
 
 export function useUsersColumns(): ColumnDef<User>[] {
   const t = useTranslations('dashboard')

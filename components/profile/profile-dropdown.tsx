@@ -18,7 +18,7 @@ import {
 import useDialogState from '@/hooks/use-dialog-state'
 import { Link } from '@/i18n/routing'
 import { mod, useShortcuts } from '@/lib/shortcuts'
-import { Avatar } from './avatar'
+import { Avatar } from '../common/avatar'
 
 interface Profile {
   name?: string | null

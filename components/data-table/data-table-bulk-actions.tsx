@@ -1,7 +1,7 @@
 'use client'
 
 import type { Table } from '@tanstack/react-table'
-import type { User } from './schema'
+import type { User } from '../schema'
 import { Mail, Trash2, UserCheck, UserX } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -9,7 +9,7 @@ import { DataTableBulkActions as BulkActionsToolbar } from '@/components/data-ta
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { sleep } from '@/lib/utils'
-import { UsersMultiDeleteDialog } from './users-multi-delete-dialog'
+import { UsersMultiDeleteDialog } from '../users/users-multi-delete-dialog'
 
 type DataTableBulkActionsProps<TData> = {
   table: Table<TData>

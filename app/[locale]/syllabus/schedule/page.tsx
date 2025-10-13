@@ -1,7 +1,7 @@
 'use client'
 
 import { ROOMS, SAMPLE_EVENTS, Timetable } from './schedule'
-import { SyllabusContentFadeIn } from '@/components/syllabus-page-transition'
+import { SyllabusContentFadeIn } from '@/components/syllabus/syllabus-page-transition'
 
 export default function Page() {
   return (

@@ -1,7 +1,7 @@
 import { Calendar } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
-import { CookieConsent } from '@/components/design/cookie-consent'
+import { CookieConsent } from '@/components/shared/cookie-consent'
 import { StickyBanner } from '@/components/ui/sticky-banner'
 import { routing } from '@/i18n/routing'
 

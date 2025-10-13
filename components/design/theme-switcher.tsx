@@ -1,37 +1,37 @@
 'use client'
 
 import { Moon, SunDim } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useTheme } from 'next-themes'
+import { useEffect, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
-import { cn } from '@/lib/utils'
 import { Button } from '../ui/button'
 
-type props = {
-  className?: string
-}
-
-export const ThemeSwitcher = ({ className }: props) => {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false)
+export const ThemeSwitcher = () => {
+  const { resolvedTheme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
   const buttonRef = useRef<HTMLButtonElement | null>(null)
 
-  const changeTheme = async () => {
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const changeTheme = async (): Promise<void> => {
     if (!buttonRef.current) return
 
-    await document.startViewTransition(() => {
-      flushSync(() => {
-        const dark = document.documentElement.classList.toggle('dark')
-        setIsDarkMode(dark)
-      })
+    const newTheme = resolvedTheme === 'dark' ? 'light' : 'dark'
+
+    await document.startViewTransition((): void => {
+      flushSync((): void => setTheme(newTheme))
     }).ready
 
     const { top, left, width, height } =
       buttonRef.current.getBoundingClientRect()
     const y = top + height / 2
     const x = left + width / 2
-
-    const right = window.innerWidth - left
-    const bottom = window.innerHeight - top
-    const maxRad = Math.hypot(Math.max(left, right), Math.max(top, bottom))
+    const maxRad = Math.hypot(
+      Math.max(left, window.innerWidth - left),
+      Math.max(top, window.innerHeight - top),
+    )
 
     document.documentElement.animate(
       {
@@ -47,14 +47,14 @@ export const ThemeSwitcher = ({ className }: props) => {
       },
     )
   }
+
   return (
     <Button
-      className={cn(className)}
       onClick={changeTheme}
       ref={buttonRef}
       size='icon'
       variant='outline'>
-      {isDarkMode ? <SunDim /> : <Moon />}
+      {mounted && (resolvedTheme === 'dark' ? <SunDim /> : <Moon />)}
     </Button>
   )
 }

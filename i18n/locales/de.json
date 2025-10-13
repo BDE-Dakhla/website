@@ -93,7 +93,28 @@
       "description_2": "Daher ist es äußerst schwierig, wahre Freundschaften unter denen zu finden, die in Ämtern und Staatsgeschäften tätig sind; denn wo fände man jemanden, der die Ehre eines Freundes wirklich achtet?",
       "watch_video": "Video ansehen",
       "visit_school_website": "Schulwebsite besuchen",
-      "amphitheater": "Amphitheater"
+      "cards": {
+        "amphitheater": {
+          "title": "Modernes Amphitheater, Ambitionen entsprechend",
+          "description": "Geschwungene Sitzreihen mit bordeauxfarbenen Sesseln, große Bühne mit Pult und Projektion, akustisch behandelte Decken und Wände: ein Raum für Vorlesungen, Konferenzen und Verteidigungen. Die ENCG Dakhla ist in Marokko für die Qualität ihrer Managementausbildung anerkannt und empfängt Experten und Networking-Veranstaltungen — ein Rahmen, der ihren Ruf widerspiegelt und Chancen schafft.",
+          "alt": "Modernes Amphitheater der ENCG Dakhla"
+        },
+        "sports_club": {
+          "title": "Wassersportclub, Campusleben in Bewegung",
+          "description": "Pavillon aus hellem Holz, große Panoramafenster und blaues Schild: ein Vereinsraum für Wassersport und Studentenveranstaltungen. An der ENCG Dakhla, Mitglied des ENCG-Netzwerks und anerkannt für ihre anspruchsvolle Ausbildung, erweitern diese Orte den Unterricht durch Projekte, Begegnungen und konkrete Möglichkeiten.",
+          "alt": "Wassersportclub der ENCG Dakhla"
+        },
+        "cafeteria": {
+          "title": "Cafeteria und Patio, die verbindende Pause",
+          "description": "Schattiger Patio, Schild \"Buvette\", durchbrochene Wände und Sukkulenten: ein frischer und freundlicher Raum für Kaffee und Mittagessen. Anerkannt für ihre Managementausbildung innerhalb des ENCG-Netzwerks macht die ENCG Dakhla daraus einen Ort des Austauschs und der Projekte — wo sich das Netzwerk täglich webt.",
+          "alt": "Cafeteria und Patio der ENCG Dakhla"
+        },
+        "classroom": {
+          "title": "Ein heller Raum, bereit zum Lernen",
+          "description": "Holzreihen, Whiteboard und Projektionsleinwand, durch große blaue Vorhänge gefiltertes Licht: ein ruhiges und funktionales Umfeld für Kurse, Fallstudien und Workshops. Als öffentliche Referenz für Handel und Management in Marokko verbindet die ENCG Dakhla Theorie mit Projekten, Praktika und echten Chancen.",
+          "alt": "Klassenzimmer der ENCG Dakhla"
+        }
+      }
     }
   },
 

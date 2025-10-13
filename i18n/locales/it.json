@@ -93,7 +93,28 @@
       "description_2": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
       "watch_video": "Guarda il video",
       "visit_school_website": "Visita il sito della scuola",
-      "amphitheater": "Anfiteatro"
+      "cards": {
+        "amphitheater": {
+          "title": "Anfiteatro moderno, all'altezza delle ambizioni",
+          "description": "Gradinate curve con sedili bordeaux, ampio palco con scrivania e proiezione, soffitto e pareti trattati acusticamente: uno spazio progettato per lezioni magistrali, conferenze e difese. Riconosciuta in Marocco per la qualità della formazione manageriale, l'ENCG Dakhla accoglie esperti ed eventi di networking — un ambiente che riflette la sua reputazione e crea opportunità.",
+          "alt": "Anfiteatro moderno dell'ENCG Dakhla"
+        },
+        "sports_club": {
+          "title": "Club di sport acquatici, vita del campus in movimento",
+          "description": "Padiglione in legno chiaro, grandi vetrate e insegna blu: uno spazio associativo dedicato agli sport acquatici ed eventi studenteschi. All'ENCG Dakhla, membro della rete ENCG e riconosciuta per la sua formazione esigente, questi luoghi estendono le lezioni attraverso progetti, incontri e opportunità concrete.",
+          "alt": "Club di sport acquatici dell'ENCG Dakhla"
+        },
+        "cafeteria": {
+          "title": "Caffetteria e patio, la pausa che connette",
+          "description": "Patio ombreggiato, insegna \"Buvette\", pareti traforate e piante grasse: uno spazio fresco e accogliente per caffè e pranzi. Riconosciuta per la sua formazione manageriale all'interno della rete ENCG, l'ENCG Dakhla ne fa un luogo di scambi e progetti — dove la rete si tesse quotidianamente.",
+          "alt": "Caffetteria e patio dell'ENCG Dakhla"
+        },
+        "classroom": {
+          "title": "Un'aula luminosa, pronta per imparare",
+          "description": "File in legno, lavagna bianca e schermo di proiezione, luce filtrata da grandi tende blu: un ambiente calmo e funzionale per lezioni, casi pratici e workshop. Riferimento pubblico in commercio e gestione in Marocco, l'ENCG Dakhla collega la teoria a progetti, stage e opportunità reali.",
+          "alt": "Aula dell'ENCG Dakhla"
+        }
+      }
     }
   },
 

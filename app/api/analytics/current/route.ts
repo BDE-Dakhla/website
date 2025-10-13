@@ -1,8 +1,7 @@
+import { sql } from 'kysely'
 import { NextResponse } from 'next/server'
 import { getDb } from '@/lib/db'
-import { sql } from 'kysely'
 
-// Active in last 5 minutes
 const ACTIVE_WINDOW_MINUTES = 5
 
 export async function GET() {

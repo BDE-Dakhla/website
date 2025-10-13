@@ -57,7 +57,6 @@ export function SponsorForm({ sponsor, onSubmit, onCancel }: SponsorFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const form = useForm<SponsorFormSchemaType>({
-    // @ts-expect-error - React Hook Form type inference limitation with Zod
     resolver: zodResolver(sponsorFormSchema),
     defaultValues: {
       name: sponsor?.name || '',
@@ -87,10 +86,8 @@ export function SponsorForm({ sponsor, onSubmit, onCancel }: SponsorFormProps) {
     }
   }
 
-  // Auto-generate slug from name
-  const handleNameChange = (name: string) => {
+  const genSlugForNewSponsors = (name: string) => {
     if (!sponsor) {
-      // Only auto-generate slug for new sponsors
       const slug = name
         .toLowerCase()
         .replace(/[^a-z0-9\s-]/g, '')
@@ -103,10 +100,9 @@ export function SponsorForm({ sponsor, onSubmit, onCancel }: SponsorFormProps) {
 
   return (
     <Form {...form}>
-      {/* @ts-expect-error - React Hook Form type inference limitation with Zod */}
       <form className='space-y-6' onSubmit={form.handleSubmit(handleSubmit)}>
         <FormField
-          control={form.control as any}
+          control={form.control}
           name='name'
           render={({ field }) => (
             <FormItem>
@@ -117,7 +113,7 @@ export function SponsorForm({ sponsor, onSubmit, onCancel }: SponsorFormProps) {
                   {...field}
                   onChange={(e) => {
                     field.onChange(e)
-                    handleNameChange(e.target.value)
+                    genSlugForNewSponsors(e.target.value)
                   }}
                 />
               </FormControl>
@@ -127,7 +123,7 @@ export function SponsorForm({ sponsor, onSubmit, onCancel }: SponsorFormProps) {
         />
 
         <FormField
-          control={form.control as any}
+          control={form.control}
           name='slug'
           render={({ field }) => (
             <FormItem>
@@ -145,7 +141,7 @@ export function SponsorForm({ sponsor, onSubmit, onCancel }: SponsorFormProps) {
         />
 
         <FormField
-          control={form.control as any}
+          control={form.control}
           name='description'
           render={({ field }) => (
             <FormItem>
@@ -163,7 +159,7 @@ export function SponsorForm({ sponsor, onSubmit, onCancel }: SponsorFormProps) {
         />
 
         <FormField
-          control={form.control as any}
+          control={form.control}
           name='website_url'
           render={({ field }) => (
             <FormItem>
@@ -181,7 +177,7 @@ export function SponsorForm({ sponsor, onSubmit, onCancel }: SponsorFormProps) {
         />
 
         <FormField
-          control={form.control as any}
+          control={form.control}
           name='logo_url'
           render={({ field }) => (
             <FormItem>
@@ -203,7 +199,7 @@ export function SponsorForm({ sponsor, onSubmit, onCancel }: SponsorFormProps) {
         />
 
         <FormField
-          control={form.control as any}
+          control={form.control}
           name='priority'
           render={({ field }) => (
             <FormItem>
@@ -220,7 +216,7 @@ export function SponsorForm({ sponsor, onSubmit, onCancel }: SponsorFormProps) {
         />
 
         <FormField
-          control={form.control as any}
+          control={form.control}
           name='is_featured'
           render={({ field }) => (
             <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>

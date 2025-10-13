@@ -92,7 +92,28 @@
       "description_2": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
       "watch_video": "Watch video",
       "visit_school_website": "Visit school's website",
-      "amphitheater": "Anfiteatro"
+      "cards": {
+        "amphitheater": {
+          "title": "Modern amphitheater, matching ambitions",
+          "description": "Curved tiers of burgundy seats, wide stage with desk and projection, ceiling and walls treated for acoustics: a space designed for lectures, conferences and defenses. Recognized in Morocco for the quality of its management training, ENCG Dakhla welcomes experts and networking events — a setting that reflects its reputation and creates opportunities.",
+          "alt": "Modern amphitheater at ENCG Dakhla"
+        },
+        "sports_club": {
+          "title": "Water Sports Club, campus life in motion",
+          "description": "Light wood pavilion, large bay windows and blue signage: an associative space dedicated to water sports and student events. At ENCG Dakhla, member of the ENCG network and recognized for its demanding training, these places extend courses through projects, meetings and concrete opportunities.",
+          "alt": "Water sports club at ENCG Dakhla"
+        },
+        "cafeteria": {
+          "title": "Cafeteria and patio, the break that connects",
+          "description": "Shaded patio, \"Buvette\" sign, openwork walls and succulent plants: a fresh and friendly space for coffee and lunch. Recognized for its management training within the ENCG network, ENCG Dakhla makes it a place for exchanges and projects — where the network is woven daily.",
+          "alt": "Cafeteria and patio at ENCG Dakhla"
+        },
+        "classroom": {
+          "title": "A bright room, ready to learn",
+          "description": "Wooden rows, whiteboard and projection screen, light filtered by large blue curtains: a calm and functional setting for courses, case studies and workshops. A public reference in commerce and management in Morocco, ENCG Dakhla connects theory to projects, internships and real opportunities.",
+          "alt": "Classroom at ENCG Dakhla"
+        }
+      }
     }
   },
 

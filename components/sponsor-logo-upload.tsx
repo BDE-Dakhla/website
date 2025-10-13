@@ -51,10 +51,7 @@ export function SponsorLogoUpload({
         setUploadState('uploading')
         setProgress(0)
 
-        // Generate a unique key for the file
         const key = generateSponsorLogoKey(file.name)
-
-        // Get upload URL
         const uploadUrlResponse = await fetch('/api/upload-url', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -73,16 +70,11 @@ export function SponsorLogoUpload({
 
         const { url } = await uploadUrlResponse.json()
 
-        // Upload file to MinIO using the pre-signed URL
         const uploadResponse = await fetch(url, {
           method: 'PUT',
           body: file,
-          headers: {
-            'Content-Type': file.type,
-          },
+          headers: { 'Content-Type': file.type },
         })
-
-        console.log(uploadResponse)
 
         if (!uploadResponse.ok) {
           throw new Error('Failed to upload file')
@@ -112,11 +104,8 @@ export function SponsorLogoUpload({
 
       setSelectedFile(file)
 
-      if (handleFileValidation(file)) {
-        await uploadFile(file)
-      } else {
-        setUploadState('error')
-      }
+      if (handleFileValidation(file)) await uploadFile(file)
+      else setUploadState('error')
     },
     [handleFileValidation, uploadFile],
   )

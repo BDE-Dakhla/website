@@ -135,7 +135,7 @@ export function ChartAreaInteractive({
 
   const series = useMemo(
     () =>
-      (data?.series ?? []).map((d: any) => ({
+      (data?.series ?? []).map((d) => ({
         date: d.time,
         views: Number(d.views),
         visitors: Number(d.visitors),

@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 import { roles } from '@/components/data'
 import { PermissionManager } from '@/components/permission-manager'
@@ -29,7 +30,6 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { toast } from 'sonner'
 import { PasswordInput } from './password-input'
 import { SelectDropdown } from './select-dropdown'
 
@@ -182,8 +182,6 @@ export function UsersActionDialog({
       form.reset()
       setPermissions({})
       onOpenChange(false)
-      
-      // Refresh the page to get updated user list
       router.refresh()
     } catch (error) {
       console.error('Error saving user:', error)
@@ -197,10 +195,8 @@ export function UsersActionDialog({
 
   const isPasswordTouched = !!form.formState.dirtyFields.password
 
-  // Watch form values to detect changes
   const formValues = form.watch()
 
-  // Check if there are any changes for edit mode
   const hasChanges = useMemo(() => {
     if (!isEdit || !currentRow) return true
 
@@ -219,7 +215,8 @@ export function UsersActionDialog({
     return hasBasicChanges || hasPasswordChange || hasPermissionChanges
   }, [isEdit, currentRow, formValues, permissions])
 
-  const isSaveDisabled = isSubmitting || !form.formState.isValid || (isEdit && !hasChanges)
+  const isSaveDisabled =
+    isSubmitting || !form.formState.isValid || (isEdit && !hasChanges)
 
   return (
     <Dialog
@@ -243,155 +240,155 @@ export function UsersActionDialog({
 
         <Form {...form}>
           <Tabs className='w-full' defaultValue='basic'>
-              <TabsList className='grid w-full grid-cols-2'>
-                <TabsTrigger value='basic'>Informations de base</TabsTrigger>
-                <TabsTrigger value='permissions'>Permissions</TabsTrigger>
-              </TabsList>
+            <TabsList className='grid w-full grid-cols-2'>
+              <TabsTrigger value='basic'>Informations de base</TabsTrigger>
+              <TabsTrigger value='permissions'>Permissions</TabsTrigger>
+            </TabsList>
 
-              <TabsContent className='mt-4' value='basic'>
-                <div className='h-[400px] overflow-y-auto pr-3'>
-                  <div className='space-y-4 px-0.5'>
-                    <FormField
-                      control={form.control}
-                      name='username'
-                      render={({ field }) => (
-                        <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
-                          <FormLabel className='col-span-2 text-end'>
-                            Nom complet
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              autoComplete='off'
-                              className='col-span-4'
-                              placeholder='John Doe'
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage className='col-span-4 col-start-3' />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name='email'
-                      render={({ field }) => (
-                        <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
-                          <FormLabel className='col-span-2 text-end'>
-                            Email
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              className='col-span-4'
-                              placeholder='john.doe@gmail.com'
-                              type='email'
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage className='col-span-4 col-start-3' />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name='phoneNumber'
-                      render={({ field }) => (
-                        <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
-                          <FormLabel className='col-span-2 text-end'>
-                            Téléphone
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              className='col-span-4'
-                              placeholder='+212 6 12 34 56 78'
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage className='col-span-4 col-start-3' />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name='role'
-                      render={({ field }) => (
-                        <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
-                          <FormLabel className='col-span-2 text-end'>
-                            Rôle
-                          </FormLabel>
-                          <SelectDropdown
+            <TabsContent className='mt-4' value='basic'>
+              <div className='h-[400px] overflow-y-auto pr-3'>
+                <div className='space-y-4 px-0.5'>
+                  <FormField
+                    control={form.control}
+                    name='username'
+                    render={({ field }) => (
+                      <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
+                        <FormLabel className='col-span-2 text-end'>
+                          Nom complet
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            autoComplete='off'
                             className='col-span-4'
-                            defaultValue={field.value}
-                            items={roles.map(({ label, value }) => ({
-                              label,
-                              value,
-                            }))}
-                            onValueChange={field.onChange}
-                            placeholder='Sélectionner un rôle'
+                            placeholder='John Doe'
+                            {...field}
                           />
-                          <FormMessage className='col-span-4 col-start-3' />
-                        </FormItem>
-                      )}
-                    />
+                        </FormControl>
+                        <FormMessage className='col-span-4 col-start-3' />
+                      </FormItem>
+                    )}
+                  />
 
-                    <FormField
-                      control={form.control}
-                      name='password'
-                      render={({ field }) => (
-                        <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
-                          <FormLabel className='col-span-2 text-end'>
-                            Mot de passe
-                          </FormLabel>
-                          <FormControl>
-                            <PasswordInput
-                              className='col-span-4'
-                              placeholder={
-                                isEdit
-                                  ? 'Laissez vide pour conserver'
-                                  : 'e.g., S3cur3P@ssw0rd'
-                              }
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage className='col-span-4 col-start-3' />
-                        </FormItem>
-                      )}
-                    />
+                  <FormField
+                    control={form.control}
+                    name='email'
+                    render={({ field }) => (
+                      <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
+                        <FormLabel className='col-span-2 text-end'>
+                          Email
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className='col-span-4'
+                            placeholder='john.doe@gmail.com'
+                            type='email'
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className='col-span-4 col-start-3' />
+                      </FormItem>
+                    )}
+                  />
 
-                    <FormField
-                      control={form.control}
-                      name='confirmPassword'
-                      render={({ field }) => (
-                        <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
-                          <FormLabel className='col-span-2 text-end'>
-                            Confirmer mot de passe
-                          </FormLabel>
-                          <FormControl>
-                            <PasswordInput
-                              className='col-span-4'
-                              disabled={!isPasswordTouched}
-                              placeholder='Confirmez le mot de passe'
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage className='col-span-4 col-start-3' />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                  <FormField
+                    control={form.control}
+                    name='phoneNumber'
+                    render={({ field }) => (
+                      <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
+                        <FormLabel className='col-span-2 text-end'>
+                          Téléphone
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className='col-span-4'
+                            placeholder='+212 6 12 34 56 78'
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className='col-span-4 col-start-3' />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name='role'
+                    render={({ field }) => (
+                      <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
+                        <FormLabel className='col-span-2 text-end'>
+                          Rôle
+                        </FormLabel>
+                        <SelectDropdown
+                          className='col-span-4'
+                          defaultValue={field.value}
+                          items={roles.map(({ label, value }) => ({
+                            label,
+                            value,
+                          }))}
+                          onValueChange={field.onChange}
+                          placeholder='Sélectionner un rôle'
+                        />
+                        <FormMessage className='col-span-4 col-start-3' />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name='password'
+                    render={({ field }) => (
+                      <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
+                        <FormLabel className='col-span-2 text-end'>
+                          Mot de passe
+                        </FormLabel>
+                        <FormControl>
+                          <PasswordInput
+                            className='col-span-4'
+                            placeholder={
+                              isEdit
+                                ? 'Laissez vide pour conserver'
+                                : 'e.g., S3cur3P@ssw0rd'
+                            }
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className='col-span-4 col-start-3' />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name='confirmPassword'
+                    render={({ field }) => (
+                      <FormItem className='grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0'>
+                        <FormLabel className='col-span-2 text-end'>
+                          Confirmer mot de passe
+                        </FormLabel>
+                        <FormControl>
+                          <PasswordInput
+                            className='col-span-4'
+                            disabled={!isPasswordTouched}
+                            placeholder='Confirmez le mot de passe'
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className='col-span-4 col-start-3' />
+                      </FormItem>
+                    )}
+                  />
                 </div>
-              </TabsContent>
+              </div>
+            </TabsContent>
 
-              <TabsContent className='mt-4' value='permissions'>
-                <PermissionManager
-                  className='h-full'
-                  currentPermissions={permissions}
-                  onPermissionsChange={setPermissions}
-                />
-              </TabsContent>
-            </Tabs>
+            <TabsContent className='mt-4' value='permissions'>
+              <PermissionManager
+                className='h-full'
+                currentPermissions={permissions}
+                onPermissionsChange={setPermissions}
+              />
+            </TabsContent>
+          </Tabs>
         </Form>
 
         <DialogFooter className='pt-4'>

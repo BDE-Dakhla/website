@@ -14,7 +14,7 @@ let uaChCache: {
 async function getUaCh() {
   if (uaChCache) return uaChCache
   try {
-    const ua = (navigator as any).userAgentData
+    const ua = navigator.userAgentData
     if (ua) {
       const high = await ua.getHighEntropyValues?.(['fullVersionList'])
       uaChCache = {
@@ -74,7 +74,7 @@ export function AnalyticsTracker() {
   const lastPathRef = useRef<string>('')
 
   useEffect(() => {
-    const path = `${pathname}${searchParams?.toString() ? '?' + searchParams.toString() : ''}`
+    const path = `${pathname}${searchParams?.toString() ? `?${searchParams.toString()}` : ''}`
     const locale =
       typeof document !== 'undefined'
         ? document.documentElement.lang

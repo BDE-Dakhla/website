@@ -35,14 +35,13 @@ export function SubscribersBulkActions({
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const selectedRows = table.getFilteredSelectedRowModel().rows
-  
-  // Filter only active subscribers for deletion
+
   const activeSubscribers = selectedRows
-    .map(row => row.original as Subscriber)
-    .filter(sub => sub.status === 'active')
+    .map((row) => row.original as Subscriber)
+    .filter((sub) => sub.status === 'active')
 
   const handleBulkDelete = async () => {
-    const subscriberIds = activeSubscribers.map(sub => sub.id)
+    const subscriberIds = activeSubscribers.map((sub) => sub.id)
 
     if (subscriberIds.length === 0) {
       toast.error('Aucun abonné actif sélectionné')

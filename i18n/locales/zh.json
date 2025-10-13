@@ -93,7 +93,28 @@
       "description_2": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
       "watch_video": "观看视频",
       "visit_school_website": "访问学校网站",
-      "amphitheater": "圆形剧场"
+      "cards": {
+        "amphitheater": {
+          "title": "现代化的圆形剧场，与雄心相匹配",
+          "description": "弧形座位层，酒红色座椅，宽敞的舞台配有讲台和投影，经过声学处理的天花板和墙壁：专为讲座、会议和答辩设计的空间。ENCG Dakhla因其优质的管理培训而在摩洛哥获得认可，接待专家和网络活动——这个环境反映了其声誉并创造了机会。",
+          "alt": "ENCG Dakhla现代化圆形剧场"
+        },
+        "sports_club": {
+          "title": "水上运动俱乐部，校园生活在运动中",
+          "description": "浅色木质亭子，大型落地窗和蓝色标牌：专门用于水上运动和学生活动的社团空间。在ENCG网络成员ENCG Dakhla，以其严格的培训而闻名，这些地方通过项目、会议和具体机会扩展了课程。",
+          "alt": "ENCG Dakhla水上运动俱乐部"
+        },
+        "cafeteria": {
+          "title": "小卖部和庭院，连接的休息时光",
+          "description": "阴凉的庭院，\"Buvette\"标牌，镂空墙壁和多肉植物：一个清新友好的咖啡和午餐空间。ENCG Dakhla因其在ENCG网络内的管理培训而获得认可，将其打造成交流和项目的场所——网络在这里每天编织。",
+          "alt": "ENCG Dakhla小卖部和庭院"
+        },
+        "classroom": {
+          "title": "明亮的教室，准备好学习",
+          "description": "木质排列，白板和投影屏，通过大蓝色窗帘过滤的光线：安静实用的课程、案例研究和研讨会环境。作为摩洛哥商业和管理领域的公共参考，ENCG Dakhla将理论与项目、实习和真实机会联系起来。",
+          "alt": "ENCG Dakhla教室"
+        }
+      }
     }
   },
 

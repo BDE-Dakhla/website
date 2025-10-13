@@ -4,7 +4,6 @@ import createNextIntlPlugin from 'next-intl/plugin'
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ['pg', 'kysely'],
-  transpilePackages: ['geist'],
   images: {
     remotePatterns: [
       {

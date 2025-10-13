@@ -21,7 +21,7 @@ export default function NotFound() {
               </Link>
             </Button>
             <Button asChild className='w-40' variant='glow'>
-              <Link href='/support'>
+              <Link href='/contact'>
                 <LifeBuoy />
                 Contact support
               </Link>

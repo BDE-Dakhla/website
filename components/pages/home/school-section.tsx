@@ -121,7 +121,13 @@ export function SchoolSection() {
             {t('watch_video')}
           </RainbowButton>
 
-          <Button asChild size='lg' variant='outline'>
+          <Button
+            asChild
+            onClick={async (): Promise<void> =>
+              await trackEvent('visit-school-website')
+            }
+            size='lg'
+            variant='outline'>
             <Link
               aria-label={t('visit_school_website')}
               href='https://encgd.uiz.ac.ma'

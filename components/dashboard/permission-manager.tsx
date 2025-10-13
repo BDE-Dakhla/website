@@ -21,10 +21,7 @@ import {
 } from '@/components/ui/collapsible'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
-import {
-  getAllPermissions,
-  PERMISSION_CATEGORIES,
-} from '@/lib/permissions-constants'
+import { getAllPermissions, PERMISSION_CATEGORIES } from '@/lib/permission'
 import { cn } from '@/lib/utils'
 
 interface PermissionManagerProps {

@@ -31,7 +31,7 @@ export function sleep(ms: number = 1000) {
  * - Near end: [1, '...', 7, 8, 9, 10]
  */
 export function getPageNumbers(currentPage: number, totalPages: number) {
-  const maxVisiblePages = 5 // Maximum number of page buttons to show
+  const maxVisiblePages = 5
   const rangeWithDots = []
 
   if (totalPages <= maxVisiblePages) {
@@ -74,7 +74,6 @@ export function showSubmittedData(
 ) {
   toast.message(title, {
     description: (
-      // w-[340px]
       <pre className='mt-2 w-full overflow-x-auto rounded-md bg-slate-950 p-4'>
         <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
       </pre>
@@ -86,9 +85,6 @@ export function getLogoUrl(logoUrl: string): string {
   const endpoint =
     process.env.NEXT_PUBLIC_S3_ENDPOINT || 'http://127.0.0.1:9000'
   const bucket = process.env.NEXT_PUBLIC_S3_BUCKET || 'assets'
-
-  // New format: just the filename without path or extension
-  // Construct full MinIO URL
   return `${endpoint}/${bucket}/sponsors/${logoUrl}.svg`
 }
 

@@ -6,7 +6,6 @@ import {
 } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 
-// Validate S3 credentials
 const S3_ACCESS_KEY = process.env.S3_ACCESS_KEY
 const S3_SECRET_KEY = process.env.S3_SECRET_KEY
 const S3_ENDPOINT = process.env.S3_ENDPOINT
@@ -27,7 +26,7 @@ if (!S3_ENDPOINT || !S3_BUCKET) {
 export const s3 = new S3Client({
   region: 'us-east-1',
   endpoint: S3_ENDPOINT,
-  forcePathStyle: true, // required for MinIO
+  forcePathStyle: true,
   credentials: {
     accessKeyId: S3_ACCESS_KEY,
     secretAccessKey: S3_SECRET_KEY,

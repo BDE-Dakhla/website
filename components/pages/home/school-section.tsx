@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dialog'
 import { LayoutGrid } from '@/components/ui/layout-grid'
 import { RainbowButton } from '@/components/ui/rainbow-button'
-import { LANGS } from '@/i18n/routing'
+import { LANGS, Link } from '@/i18n/routing'
 
 const SkeletonOne = () => {
   return (
@@ -140,14 +140,14 @@ export function SchoolSection() {
           </RainbowButton>
 
           <Button asChild size='lg' variant='outline'>
-            <a
+            <Link
               aria-label={t('visit_school_website')}
               href='https://encgd.uiz.ac.ma'
               rel='noopener noreferrer'
               target='_blank'>
               {t('visit_school_website')}
               <ExternalLink className='size-4' />
-            </a>
+            </Link>
           </Button>
         </div>
       </div>
@@ -160,7 +160,6 @@ export function SchoolSection() {
             <DialogTitle>{t('watch_video')}</DialogTitle>
           </DialogHeader>
           <div className='relative aspect-video w-full bg-black'>
-            {/** biome-ignore lint/a11y/useMediaCaption: track is already defined inside iteration */}
             <video
               className='absolute inset-0 h-full w-full'
               controls

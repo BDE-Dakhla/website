@@ -21,8 +21,8 @@ const rainbowButtonVariants = tv({
     },
     size: {
       default: 'h-9 px-4 py-2',
-      sm: 'h-8 rounded-xl px-3 text-xs',
-      lg: 'h-11 rounded-xl px-8',
+      sm: 'h-8 rounded-md px-3 text-xs',
+      lg: 'h-10 rounded-lg px-6',
       icon: 'size-9',
     },
   },
@@ -43,7 +43,7 @@ const RainbowButton = forwardRef<HTMLButtonElement, RainbowButtonProps>(
     const Comp = asChild ? Slot : 'button'
     return (
       <Comp
-        className={cn(rainbowButtonVariants({ variant, size, className }))}
+        className={rainbowButtonVariants({ variant, size, className })}
         data-slot='button'
         ref={ref}
         {...props}

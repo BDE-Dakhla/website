@@ -61,6 +61,7 @@
     "rules": {
       "recommended": true,
       "a11y": {
+        "useMediaCaption": "off",
         "useKeyWithClickEvents": "off",
         "noStaticElementInteractions": "off",
         "noNoninteractiveTabindex": "off"

@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { getDb } from '@/lib/db'
 import { sql } from 'kysely'
+import { type NextRequest, NextResponse } from 'next/server'
 import { parseUserAgent } from '@/lib/analytics/ua'
+import { getDb } from '@/lib/db'
 
 type Kind = 'browsers' | 'os' | 'devices'
 
@@ -52,7 +52,13 @@ export async function GET(req: NextRequest) {
   const { start, end } = resolveWindow(range)
 
   // Get unique visitors that had a session in the window and their UA
-  const rows = await sql<{ visitor_id: string; user_agent: string | null; ua_brands: any; ua_platform: string | null; ua_mobile: boolean | null }>`
+  const rows = await sql<{
+    visitor_id: string
+    user_agent: string | null
+    ua_brands: any
+    ua_platform: string | null
+    ua_mobile: boolean | null
+  }>`
     select distinct s.visitor_id, v.user_agent, v.ua_brands, v.ua_platform, v.ua_mobile
     from analytics_sessions s
     join analytics_visitors v on v.id = s.visitor_id
@@ -63,7 +69,11 @@ export async function GET(req: NextRequest) {
   const counts = new Map<string, number>()
 
   for (const r of rows.rows) {
-    const ua = parseUserAgent(r.user_agent, { ua_brands: Array.isArray(r.ua_brands) ? r.ua_brands : null, ua_platform: r.ua_platform, ua_mobile: r.ua_mobile })
+    const ua = parseUserAgent(r.user_agent, {
+      ua_brands: Array.isArray(r.ua_brands) ? r.ua_brands : null,
+      ua_platform: r.ua_platform,
+      ua_mobile: r.ua_mobile,
+    })
     let key = 'Unknown'
     if (kind === 'browsers') key = ua.browser
     else if (kind === 'os') key = ua.os
@@ -73,7 +83,11 @@ export async function GET(req: NextRequest) {
   }
 
   const items = Array.from(counts.entries())
-    .map(([name, count]) => ({ name, count, percent: total ? Math.round((count / total) * 100) : 0 }))
+    .map(([name, count]) => ({
+      name,
+      count,
+      percent: total ? Math.round((count / total) * 100) : 0,
+    }))
     .sort((a, b) => b.count - a.count)
 
   return NextResponse.json({ range, total, kind, items })

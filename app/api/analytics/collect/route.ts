@@ -3,6 +3,7 @@ import { sql } from 'kysely'
 import { type NextRequest, NextResponse } from 'next/server'
 import { parseSecChUaBrands, parseUserAgent } from '@/lib/analytics/ua'
 import { getDb } from '@/lib/db'
+import { parseCollectBody } from '../types'
 
 const VISITOR_COOKIE = 'ba_vid'
 const SESSION_COOKIE = 'ba_sid'
@@ -10,8 +11,11 @@ const SESSION_IDLE_MS = 30 * 60 * 1000 // 30 minutes
 
 function getClientIp(req: NextRequest) {
   const xff = req.headers.get('x-forwarded-for')
-  if (xff) return xff.split(',')[0]?.trim()
-  return req.ip ?? '0.0.0.0'
+  if (xff) {
+    const firstIp = xff.split(',')[0]?.trim()
+    if (firstIp) return firstIp
+  }
+  return '0.0.0.0'
 }
 
 function hashIp(ip: string) {
@@ -59,36 +63,34 @@ export async function POST(req: NextRequest) {
   // Fallback: infer region from Accept-Language (e.g., en-US -> US)
   if (!countryCode) {
     const al = req.headers.get('accept-language')
-    const m = al?.match(/[A-Za-z]{2,8}[-_](?<cc>[A-Za-z]{2})/)
-    if (m?.groups?.cc) countryCode = m.groups.cc.toUpperCase()
+    const m = al?.match(/[A-Za-z]{2,8}[-_]([A-Za-z]{2})/)
+    if (m?.[1]) countryCode = m[1].toUpperCase()
   }
 
-  let body: any
+  let rawBody: unknown
   try {
-    body = await req.json()
+    rawBody = await req.json()
   } catch {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
   }
 
-  const { type, path, title, referrer, locale, ua_ch, event } = body as {
-    type: 'pageview' | 'heartbeat' | 'event'
-    path: string
-    title?: string
-    referrer?: string
-    locale?: string
-    ua_ch?: {
-      brands?: { brand: string; version?: string }[]
-      platform?: string
-      mobile?: boolean
-    }
-    event?: string
+  const body = parseCollectBody(rawBody)
+  if (!body) {
+    return NextResponse.json({ error: 'Invalid payload' }, { status: 400 })
   }
 
+  const { type, path, title, referrer, locale, ua_ch, event } = body
+
   if (ua_ch) {
-    if (Array.isArray(ua_ch.brands) && ua_ch.brands.length)
+    if (ua_ch.brands && ua_ch.brands.length > 0) {
       uaBrands = ua_ch.brands
-    if (typeof ua_ch.platform === 'string') uaPlatform = ua_ch.platform
-    if (typeof ua_ch.mobile === 'boolean') uaMobile = ua_ch.mobile
+    }
+    if (ua_ch.platform) {
+      uaPlatform = ua_ch.platform
+    }
+    if (ua_ch.mobile !== undefined) {
+      uaMobile = ua_ch.mobile
+    }
   }
   const uaParsed = parseUserAgent(ua, {
     ua_brands: uaBrands,
@@ -96,10 +98,7 @@ export async function POST(req: NextRequest) {
     ua_mobile: uaMobile,
   })
 
-  if (!type || !path) {
-    return NextResponse.json({ error: 'Invalid payload' }, { status: 400 })
-  }
-  if (type === 'event' && (!event || typeof event !== 'string')) {
+  if (type === 'event' && !event) {
     return NextResponse.json({ error: 'Missing event name' }, { status: 400 })
   }
 
@@ -114,7 +113,7 @@ export async function POST(req: NextRequest) {
 
   const jsonBrands = uaBrands.length ? JSON.stringify(uaBrands) : null
 
-  const [visitor] = await db
+  const visitorResult = await db
     .insertInto('analytics_visitors')
     .values({
       visitor_key: vid,
@@ -137,6 +136,14 @@ export async function POST(req: NextRequest) {
     )
     .returningAll()
     .execute()
+
+  const visitor = visitorResult[0]
+  if (!visitor) {
+    return NextResponse.json(
+      { error: 'Failed to create visitor' },
+      { status: 500 },
+    )
+  }
 
   // Find or create session by cookie
   const sid = cookies.get(SESSION_COOKIE)?.value
@@ -185,9 +192,16 @@ export async function POST(req: NextRequest) {
   } else {
     await db
       .updateTable('analytics_sessions')
-      .set({ last_activity_at: now })
+      .set({ last_activity_at: sql`${now}` })
       .where('id', '=', session.id)
       .execute()
+  }
+
+  if (!session) {
+    return NextResponse.json(
+      { error: 'Failed to create session' },
+      { status: 500 },
+    )
   }
 
   // Insert event
@@ -199,7 +213,7 @@ export async function POST(req: NextRequest) {
       type,
       path,
       title: title ?? null,
-      event_name: type === 'event' ? event : null,
+      event_name: type === 'event' ? (event ?? null) : null,
     })
     .execute()
 

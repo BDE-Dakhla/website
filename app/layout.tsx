@@ -3,6 +3,7 @@ import '../styles/globals.css'
 import type { Metadata, Viewport } from 'next'
 import { Poppins } from 'next/font/google'
 import { getLocale } from 'next-intl/server'
+import NextTopLoader from 'nextjs-toploader'
 import { Toaster } from 'sonner'
 import { SEO } from '@/lib/seo'
 import { Providers } from './providers'
@@ -41,6 +42,7 @@ export default async function RootLayout({
       <body
         className={`${poppins.variable} antialiased`}
         suppressHydrationWarning>
+        <NextTopLoader showSpinner={false} />
         <Providers>{children}</Providers>
         <Toaster />
       </body>

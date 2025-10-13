@@ -20,8 +20,7 @@ export default async function Layout({
     <NextIntlClientProvider locale={locale} messages={messages}>
       <StickyBanner
         className='gap-x-4 border-white/5 border-b bg-black/5 backdrop-blur-3xl'
-        disabledRoutes={['/connexion', '/syllabus', '/dashboard']}
-        hideOnScroll>
+        disabledRoutes={['/connexion', '/syllabus', '/dashboard']}>
         🎉 Cérémonie d'ouverture
         <hr className='h-4 w-px shrink-0 bg-primary/30' />
         <span className='flex items-center text-sm'>

@@ -18,6 +18,10 @@
       - [👤 User Management](#-user-management)
       - [🤝 Sponsors Management](#-sponsors-management)
     - [Technical Features](#technical-features)
+  - [� Mock Strategies](#-mock-strategies)
+    - [Database Mocking (Kysely)](#database-mocking-kysely)
+    - [Authentication Mocking](#authentication-mocking)
+    - [SMTP Mocking](#smtp-mocking)
   - [🎨 UI Resources](#-ui-resources)
   - [📜 License](#-license)
 
@@ -186,34 +190,12 @@ bun run start
 
 ### Database Management
 
-**Run migrations:**
-
 ```bash
-bun run migrate
-```
-
-**Seed the database:**
-
-```bash
-bun run seed
-```
-
-**Connect to PostgreSQL:**
-
-```bash
-docker compose exec database psql -U postgres -d bde-dakhla-db
-```
-
-**Stop all services:**
-
-```bash
-docker compose down
-```
-
-**Stop and remove volumes (⚠️ deletes all data):**
-
-```bash
-docker compose down -v
+bun run migrate          # Run migration
+bun run seed             # Seed the database
+docker compose exec database psql -U postgres -d bde-dakhla-db  # Connect to PostgreSQL
+docker compose down      # Stop all services
+docker compose down -v   # Stop and remove volumes (⚠️ deletes all data)
 ```
 
 ## ✨ Features
@@ -283,6 +265,47 @@ docker compose down -v
 - 🎭 **Animations**: Smooth transitions with Framer Motion
 - 📝 **MDX Documentation**: Content management with Fumadocs
 - 🎯 **TypeScript**: Full type safety across the stack
+
+## 🎯 Mock Strategies
+
+### Database Mocking (Kysely)
+
+The project uses **Kysely** (type-safe SQL query builder). The mock strategy was specifically designed for Kysely's chainable API:
+
+```typescript
+const mockQuery = createMockKyselyQuery()
+mockQuery.selectFrom.mockReturnThis()
+mockQuery.where.mockReturnThis()
+mockQuery.execute.mockResolvedValue([mockData])
+
+const mockDb = createMockDb()
+mockDb.selectFrom('table')
+  .select(['col1', 'col2'])
+  .where('id', '=', 123)
+  .execute() // All chainable!
+```
+
+### Authentication Mocking
+
+NextAuth sessions are mocked with configurable user roles and permissions:
+
+```typescript
+vi.mocked(auth).mockResolvedValue(createMockSession({
+  permissions: { MANAGE_SPONSORS: 1 }
+}))
+```
+
+### SMTP Mocking
+
+Email sending is mocked to avoid real network calls:
+
+```typescript
+vi.mock('@/lib/smtp', () => ({
+  sendSmtpMail: vi.fn().mockResolvedValue({
+    messageId: 'test-message-id@localhost'
+  })
+}))
+```
 
 ## 🎨 UI Resources
 

@@ -1,6 +1,7 @@
 import { type LucideIcon, Mail, MapPin, Phone } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import { CopyButton } from '@/components/contact/copy-button'
+import { LocationMap } from '@/components/contact/location-map'
 import { SocialsSection } from '@/components/contact/socials-section'
 import { Link } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
@@ -53,9 +54,9 @@ export default async function ContactPage() {
             description={t('office.description')}
             icon={MapPin}
             title={t('office.title')}>
-            <span className='font-medium font-mono text-base tracking-wide'>
-              {t('office.address')}
-            </span>
+            <div className='flex w-full flex-col items-center'>
+              <LocationMap />
+            </div>
           </Box>
           <Box
             className='border-b-0 md:border-r-0'
@@ -129,7 +130,7 @@ function Box({
           {title}
         </h2>
       </div>
-      <div className='flex items-center justify-center gap-x-2 p-4 py-12 text-center'>
+      <div className='flex items-center justify-center gap-x-2 p-4 text-center'>
         {children}
       </div>
       <p className='border-t p-4 text-center text-muted-foreground text-sm'>

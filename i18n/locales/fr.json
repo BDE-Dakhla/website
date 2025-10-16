@@ -132,16 +132,15 @@
   },
 
   "contact": {
-    "title": "Contactez-nous",
-    "description": "Contactez l'équipe de support chez Asme.",
+    "title": "Nous serions ravis d'entrer en contact avec vous !",
+    "description": "Contactez notre équipe de support directement au Bureau Des Étudiants à l'ENCG Dakhla.",
     "email": {
       "title": "E-mail",
       "description": "Nous répondons en moins de 24 heures."
     },
     "office": {
       "title": "Bureau",
-      "description": "Passez à notre bureau pour vous rencontrer directement.",
-      "address": "Bureau # 100, 101 Deuxième étage Kohinoor 1, Faisalabad, Pakistan"
+      "description": "Passez à notre bureau pour nous rencontrer directement."
     },
     "phone": {
       "title": "Téléphone",

@@ -128,15 +128,14 @@
 
   "contact": {
     "title": "We would love to hear from you !",
-    "description": "Contact the support team at ENCG Dakhla.",
+    "description": "Contact our lovely support team in the Student Office at ENCG Dakhla.",
     "email": {
       "title": "Email",
       "description": "We respond to all emails within 24 hours."
     },
     "office": {
       "title": "Office",
-      "description": "Drop by our office for a chat.",
-      "address": "On Campus - Student Office"
+      "description": "Drop by our office for a chat."
     },
     "phone": {
       "title": "Phone",

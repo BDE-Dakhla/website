@@ -1,7 +1,6 @@
 'use client'
 
 import type { LucideIcon } from 'lucide-react'
-import Link from 'next/link'
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -9,7 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
-import { usePathname } from '@/i18n/routing'
+import { Link, usePathname } from '@/i18n/routing'
 
 export interface NavItem {
   title: string

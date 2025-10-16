@@ -9,7 +9,6 @@ import {
   Sun,
   UserCircle,
 } from 'lucide-react'
-import Link from 'next/link'
 import { signOut, useSession } from 'next-auth/react'
 import { useTheme } from 'next-themes'
 import {
@@ -27,6 +26,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
+import { Link } from '@/i18n/routing'
 import { Avatar } from '../common/avatar'
 
 export function NavUser() {

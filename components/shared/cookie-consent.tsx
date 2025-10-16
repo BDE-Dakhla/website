@@ -2,10 +2,10 @@
 
 import Cookies from 'js-cookie'
 import { Cookie } from 'lucide-react'
-import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription } from '@/components/ui/card'
+import { Link } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 
 const CookieConsent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({

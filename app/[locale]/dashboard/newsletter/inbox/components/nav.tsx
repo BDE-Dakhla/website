@@ -1,23 +1,23 @@
 'use client'
 
 import type { LucideIcon } from 'lucide-react'
-import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { Link } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 
 interface NavProps {
   isCollapsed: boolean
-  links: {
+  links: Array<{
     title: string
     label?: string
     icon: LucideIcon
     variant: 'default' | 'ghost'
-  }[]
+  }>
 }
 
 export function Nav({ links, isCollapsed }: NavProps) {

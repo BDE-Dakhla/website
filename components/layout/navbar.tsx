@@ -50,6 +50,8 @@ interface MenuItem {
   description?: string
   icon?: LucideIcon
   items?: MenuItem[]
+  featured?: boolean
+  image?: string
 }
 
 interface NavBarProps {
@@ -92,6 +94,22 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
             description:
               "Consultez tout ce qui s'est passé les années précédentes à notre campus.",
             icon: School,
+            featured: true,
+            image: '/campus.png',
+          },
+          {
+            title: 'Notre Campus2',
+            url: '/news',
+            description:
+              "Consultez tout ce qui s'est passé les années précédentes à notre campus.",
+            icon: School,
+          },
+          {
+            title: 'Notre Campus3',
+            url: '/news',
+            description:
+              "Consultez tout ce qui s'est passé les années précédentes à notre campus.",
+            icon: School,
           },
         ],
       },
@@ -118,7 +136,7 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
             <Logo />
           </Link>
           <div className='flex items-center'>
-            <NavigationMenu viewport={false}>
+            <NavigationMenu>
               <NavigationMenuList className='gap-x-2'>
                 {menu.map((item) => renderMenuItem(item, isActive))}
               </NavigationMenuList>
@@ -213,7 +231,7 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
 }
 
 const isGroupActive = (item: MenuItem, isActive: (href: string) => boolean) =>
-  isActive(item.url) || item.items?.some((sub) => isActive(sub.url)) || false
+  item.items?.some((sub) => isActive(sub.url)) || false
 
 const getNavEventName = (title: string) =>
   `nav-${title.toLowerCase().replace(/\s+/g, '-')}`
@@ -238,6 +256,9 @@ const renderMenuItem = (
 ) => {
   if (item.items) {
     const groupActive = isGroupActive(item, isActive)
+    const featuredItems = item.items.filter((i) => i.featured)
+    const regularItems = item.items.filter((i) => !i.featured)
+    const hasFeatures = featuredItems.length > 0
 
     return (
       <NavigationMenuItem className='text-muted-foreground' key={item.title}>
@@ -250,12 +271,69 @@ const renderMenuItem = (
           {item.title}
         </NavigationMenuTrigger>
         <NavigationMenuContent>
-          <ul className='w-80 p-3'>
-            {item.items.map((subItem) => {
-              const active = isActive(subItem.url)
-              return (
-                <li key={subItem.title}>
-                  <NavigationMenuLink asChild>
+          <ul
+            className={cn(
+              'p-3',
+              hasFeatures
+                ? 'grid w-[600px] grid-cols-[250px_1fr] gap-3'
+                : 'w-80',
+            )}>
+            {hasFeatures && (
+              <li className='row-span-full'>
+                {featuredItems.map((featuredItem) => {
+                  const active = isActive(featuredItem.url)
+                  return (
+                    <NavigationMenuLink asChild key={featuredItem.title}>
+                      <Link
+                        aria-current={active ? 'page' : undefined}
+                        className={cn(
+                          'flex h-full w-full select-none flex-col justify-end gap-2 rounded-md p-6 no-underline outline-none transition-colors',
+                          featuredItem.image
+                            ? 'bg-center bg-cover text-white hover:opacity-90'
+                            : 'bg-muted/50 hover:bg-muted',
+                          active &&
+                            !featuredItem.image &&
+                            'bg-muted text-accent-foreground',
+                        )}
+                        href={featuredItem.url}
+                        onClick={() =>
+                          trackEvent(getNavEventName(featuredItem.title))
+                        }
+                        style={
+                          featuredItem.image
+                            ? {
+                                backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)), url(${featuredItem.image})`,
+                              }
+                            : undefined
+                        }>
+                        {featuredItem.icon && (
+                          <featuredItem.icon className='size-6' />
+                        )}
+                        <div className='mt-4 mb-2 font-semibold text-lg'>
+                          {featuredItem.title}
+                        </div>
+                        {featuredItem.description && (
+                          <p
+                            className={cn(
+                              'text-sm leading-snug',
+                              featuredItem.image
+                                ? 'text-white/90'
+                                : 'text-muted-foreground',
+                            )}>
+                            {featuredItem.description}
+                          </p>
+                        )}
+                      </Link>
+                    </NavigationMenuLink>
+                  )
+                })}
+              </li>
+            )}
+            <li className='flex flex-col gap-1'>
+              {(hasFeatures ? regularItems : item.items).map((subItem) => {
+                const active = isActive(subItem.url)
+                return (
+                  <NavigationMenuLink asChild key={subItem.title}>
                     <Link
                       aria-current={active ? 'page' : undefined}
                       className={cn(
@@ -269,9 +347,9 @@ const renderMenuItem = (
                       <MenuItemContent item={subItem} />
                     </Link>
                   </NavigationMenuLink>
-                </li>
-              )
-            })}
+                )
+              })}
+            </li>
           </ul>
         </NavigationMenuContent>
       </NavigationMenuItem>
@@ -284,7 +362,7 @@ const renderMenuItem = (
     <Link
       aria-current={active ? 'page' : undefined}
       className={cn(
-        'flex w-max items-center justify-center rounded-md bg-background px-4 py-2 font-medium text-sm transition-colors hover:bg-muted hover:text-accent-foreground',
+        'flex w-max items-center justify-center rounded-md px-4 py-2 font-medium text-sm transition-colors hover:bg-muted hover:text-accent-foreground',
         active ? 'bg-muted text-accent-foreground' : 'text-muted-foreground',
       )}
       href={item.url}

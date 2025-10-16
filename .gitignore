@@ -12,5 +12,7 @@ next-env.d.ts
 # monio s3
 data
 
-# vitest
+# testing
 coverage
+playwright-report
+test-results

@@ -44,6 +44,10 @@ bun run test             # Run all tests
 bun run test:watch       # Watch mode
 bun run test:ui          # Visual UI
 bun run test:coverage    # Coverage report
+bun run test:e2e         # Run all E2E tests
+bun run test:e2e:ui      # Run in UI mode (interactive)
+bun run test:e2e:headed  # Run in headed mode (see browser)
+bun run test:all         # Run all tests (unit + integration + e2e)
 ```
 
 ### Development

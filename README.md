@@ -1,333 +1,63 @@
-# 🐬 Getting Started
+# BDE Dakhla
 
-- [🐬 Getting Started](#-getting-started)
-  - [📦 Setup \& Installation](#-setup--installation)
-    - [Prerequisites](#prerequisites)
-    - [Installation](#installation)
-    - [Environment Configuration](#environment-configuration)
-    - [Database Setup](#database-setup)
-    - [S3 Storage Setup](#s3-storage-setup)
-    - [Running the Application](#running-the-application)
-    - [Database Management](#database-management)
-  - [✨ Features](#-features)
-    - [Public Features](#public-features)
-    - [Student Portal (Syllabus)](#student-portal-syllabus)
-    - [Admin Dashboard](#admin-dashboard)
-      - [📊 Analytics](#-analytics)
-      - [📬 Newsletter Management](#-newsletter-management)
-      - [👤 User Management](#-user-management)
-      - [🤝 Sponsors Management](#-sponsors-management)
-    - [Technical Features](#technical-features)
-  - [� Mock Strategies](#-mock-strategies)
-    - [Database Mocking (Kysely)](#database-mocking-kysely)
-    - [Authentication Mocking](#authentication-mocking)
-    - [SMTP Mocking](#smtp-mocking)
-  - [🎨 UI Resources](#-ui-resources)
-  - [📜 License](#-license)
+Official website of the Student Office of Dakhla - a modern web platform for campus life management.
 
-## 📦 Setup & Installation
+## Quick Start
 
-### Prerequisites
-
-Before you begin, ensure you have the following installed:
-
-- **Node.js**: Version 20 or higher
-- **Bun**: Latest version (recommended) or npm/yarn
-- **Docker & Docker Compose**: For running PostgreSQL, MinIO, and email services
-- **Git**: For version control
-
-### Installation
-
-1. **Clone the repository**
+**Prerequisites:** Node.js 20+, Bun, Docker
 
 ```bash
+# Clone and install
 git clone https://github.com/BDE-Dakhla/bde-dakhla.git
 cd bde-dakhla
-```
-
-2. **Install dependencies**
-
-```bash
 bun install
-```
 
-### Environment Configuration
-
-1. **Copy the example environment file**
-
-```bash
+# Setup environment
 cp .env.example .env
-```
+# Generate secrets: openssl rand -base64 32
 
-2. **Configure environment variables**
-
-Open `.env` and update the following variables:
-
-```env
-# Database (default works with Docker setup)
-DATABASE_URL="postgres://postgres:bdedakhlapwd@localhost:5433/bde-dakhla-db"
-APP_BASE_URL="http://localhost:3000"
-
-# Newsletter (for production, use postfix; for dev, use mailhog)
-SMTP_HOST="localhost"
-SMTP_PORT="1025"
-SMTP_SECURE="false"
-SMTP_FROM_EMAIL="no-reply@example.com"
-SMTP_FROM_NAME="BDE Dakhla"
-CRON_SECRET="your-secret-here"
-APP_HMAC_SECRET="generate-a-random-secret"
-
-# Next Auth - Configure OAuth providers
-AUTH_GOOGLE_ID="your-google-client-id"
-AUTH_GOOGLE_SECRET="your-google-client-secret"
-AUTH_NEXT_SECRET="generate-with: openssl rand -base64 32"
-
-# S3 Storage (works with Docker MinIO setup)
-S3_ENDPOINT="http://127.0.0.1:9000"
-S3_ACCESS_KEY="minio"
-S3_SECRET_KEY="minio12345"
-S3_BUCKET="assets"
-
-NEXT_PUBLIC_S3_ENDPOINT="http://127.0.0.1:9000"
-NEXT_PUBLIC_S3_BUCKET="assets"
-
-# Admin seed email (for initial setup)
-SEED_ADMIN_EMAIL="your-email@example.com"
-```
-
-**Important secrets to generate:**
-
-- `AUTH_NEXT_SECRET`: Run `openssl rand -base64 32`
-- `APP_HMAC_SECRET`: Run `openssl rand -base64 32`
-- `CRON_SECRET`: Run `openssl rand -base64 32`
-
-**Google OAuth Setup:**
-
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select existing one
-3. Enable Google+ API
-4. Create OAuth 2.0 credentials
-5. Add authorized redirect URI: `http://localhost:3000/api/auth/callback/google`
-6. Copy Client ID and Client Secret to your `.env`
-
-### Database Setup
-
-1. **Start PostgreSQL with Docker**
-
-```bash
-docker compose up -d database
-```
-
-This will start a PostgreSQL database with pgvector extension on port 5433.
-
-2. **Run migrations**
-
-```bash
+# Start services and database
+docker compose up -d
 bun run migrate
-```
-
-3. **Seed the database (optional)**
-
-```bash
 bun run seed
-```
 
-This will create an admin user with the email specified in `SEED_ADMIN_EMAIL`.
-
-### S3 Storage Setup
-
-1. **Start MinIO (local S3-compatible storage)**
-
-```bash
-docker compose up -d minio
-```
-
-2. **Access MinIO Console**
-
-- URL: `http://localhost:9001`
-- Username: `minio`
-- Password: `minio12345`
-
-3. **Create the bucket**
-
-- Login to MinIO console
-- Create a new bucket named `assets` (or the name specified in `.env`)
-- Set bucket policy to allow public read access for images
-
-### Running the Application
-
-**Development mode:**
-
-```bash
+# Run development server
 bun run dev
 ```
 
-The application will be available at `http://localhost:3000`
+Visit `http://localhost:3000`
 
-**Development with email testing (MailHog):**
-
-```bash
-docker compose --profile dev up -d
-bun run dev
-```
-
-Access MailHog UI at `http://localhost:8025` to view captured emails.
-
-**Production build:**
+## Key Commands
 
 ```bash
-bun run build
-bun run start
+bun run dev              # Development server
+bun run build            # Production build
+bun run test             # Run tests
+bun run migrate          # Database migrations
+docker compose up -d     # Start all services
 ```
 
-**Production with email service:**
+## Features
 
-```bash
-docker compose --profile production up -d
-bun run build
-bun run start
-```
+**Public Portal:** i18n support • News & updates • Team directory • Sponsors showcase • Newsletter subscription • Google OAuth & Code Massar authentication
 
-### Database Management
+**Student Portal:** Class schedules • Academic calendar • Contacts directory • Account settings
 
-```bash
-bun run migrate          # Run migration
-bun run seed             # Seed the database
-docker compose exec database psql -U postgres -d bde-dakhla-db  # Connect to PostgreSQL
-docker compose down      # Stop all services
-docker compose down -v   # Stop and remove volumes (⚠️ deletes all data)
-```
+**Admin Dashboard:** Real-time analytics with geo visualization • Newsletter management • User management with RBAC • Sponsors management with S3 storage
 
-## ✨ Features
+**Tech Stack:** Next.js 15 + Turbopack • TypeScript • PostgreSQL + Kysely • NextAuth • shadcn/ui • Framer Motion • Fumadocs
 
-### Public Features
+## Contributing
 
-- 🌐 **Internationalization**: Multi-language support (French, Arabic, English)
-- 🏠 **Home Page**: Dynamic landing page with school info and animated partners marquee
-- 📰 **News Section**: Campus news and updates
-- 👥 **Team Directory**: Meet the BDE team members
-- 🤝 **Partners Showcase**: Sponsors and partners with animated logo carousel
-- 🏛️ **Clubs Section**: Student clubs and organizations
-- 📧 **Newsletter**: Email subscription with double opt-in confirmation
-- 🔐 **Authentication**: Secure login with Google OAuth and Code Massar credentials
-- 🌓 **Theme Switcher**: Dark/Light mode support
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines and how to submit contributions.
 
-### Student Portal (Syllabus)
+## Security
 
-- 📅 **Class Schedule**: Interactive timetable with room management
-- 🗓️ **Academic Calendar**: Important dates and events
-- 📞 **Contacts Directory**: Student and faculty contacts
-- ⚙️ **Account Settings**: Profile management and preferences
+Report security vulnerabilities to <walid.korchi@edu.uiz.ac.ma>. See [SECURITY.md](SECURITY.md) for details.
 
-### Admin Dashboard
+## License
 
-#### 📊 Analytics
+**Code:** [PolyForm Noncommercial 1.0.0](LICENSE) © 2025 Walid Korchi  
+**Content:** [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) © 2025 Walid Korchi
 
-- Real-time visitor tracking with live counter
-- Interactive charts with multiple time ranges (24h, 7d, 30d, 90d)
-- Browser, OS, and device statistics
-- Geographic data visualization with interactive world map
-- Custom events tracking and metrics
-
-#### 📬 Newsletter Management
-
-- Subscribers management with advanced data table
-- Bulk actions (export, delete, email)
-- Newsletter inbox for managing incoming messages
-- Campaign creation and scheduling (API)
-- Automated email sending with cron jobs
-- Email open tracking
-- Unsubscribe management
-
-#### 👤 User Management
-
-- User data table with sorting and filtering
-- Bulk delete operations
-- Role-based access control (Admin, Moderator, User)
-- Granular permission system
-- Profile editing and avatar management
-
-#### 🤝 Sponsors Management
-
-- CRUD operations for sponsors/partners
-- Logo upload with S3 integration
-- Drag-and-drop logo reordering
-- Visibility controls
-
-### Technical Features
-
-- ⚡ **Next.js 15**: Server-side rendering with Turbopack
-- 🎨 **Modern UI**: Built with shadcn/ui and Radix UI primitives
-- 🗄️ **PostgreSQL**: Type-safe database with Kysely ORM
-- ☁️ **S3 Integration**: Cloud storage for media files
-- 🔒 **NextAuth**: Secure authentication with multiple providers
-- 📱 **Responsive Design**: Mobile-first approach
-- 🎭 **Animations**: Smooth transitions with Framer Motion
-- 📝 **MDX Documentation**: Content management with Fumadocs
-- 🎯 **TypeScript**: Full type safety across the stack
-
-## 🎯 Mock Strategies
-
-### Database Mocking (Kysely)
-
-The project uses **Kysely** (type-safe SQL query builder). The mock strategy was specifically designed for Kysely's chainable API:
-
-```typescript
-const mockQuery = createMockKyselyQuery()
-mockQuery.selectFrom.mockReturnThis()
-mockQuery.where.mockReturnThis()
-mockQuery.execute.mockResolvedValue([mockData])
-
-const mockDb = createMockDb()
-mockDb.selectFrom('table')
-  .select(['col1', 'col2'])
-  .where('id', '=', 123)
-  .execute() // All chainable!
-```
-
-### Authentication Mocking
-
-NextAuth sessions are mocked with configurable user roles and permissions:
-
-```typescript
-vi.mocked(auth).mockResolvedValue(createMockSession({
-  permissions: { MANAGE_SPONSORS: 1 }
-}))
-```
-
-### SMTP Mocking
-
-Email sending is mocked to avoid real network calls:
-
-```typescript
-vi.mock('@/lib/smtp', () => ({
-  sendSmtpMail: vi.fn().mockResolvedValue({
-    messageId: 'test-message-id@localhost'
-  })
-}))
-```
-
-## 🎨 UI Resources
-
-- <https://mynaui.com/>
-- <https://ui.aceternity.com/>
-- <https://magicui.design/>
-- <https://shadcnuikit.com/>
-- <https://ui.shadcn.com/>
-- <https://blocks.mvp-subha.me/>
-- <https://www.launchuicomponents.com/>
-
-## 📜 License
-
-- Code: PolyForm Noncommercial License 1.0.0 © 2025 Walid Korchi  
-  <https://polyformproject.org/licenses/noncommercial/1.0.0/>
-
-- Content (text, images, media): CC BY-NC 4.0 © 2025 Walid Korchi  
-  <https://creativecommons.org/licenses/by-nc/4.0/>
-
-- Trademarks/branding: School names, logos, and trademarks are not covered by these licenses and remain the property of their respective owners.
-
-Preferred credit:
-
-- Content: “© 2025 Walid Korchi — used under CC BY-NC 4.0”
-- Code: “Includes code by Walid Korchi (PolyForm Noncommercial 1.0.0)”
+Noncommercial use only. See [LICENSE](LICENSE) for full terms. School trademarks remain property of respective owners.

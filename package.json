@@ -1,12 +1,12 @@
 {
   "name": "bde-dakhla",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "author": {
     "email": "walid.korchi@edu.uiz.ac.ma",
     "name": "Walid Korchi"
   },
   "version": "0.0.0",
-  "description": "Site officiel du Bureau des étudiants de l'ENCG Dakhla",
+  "description": "Official website of Student Office of Dakhla",
   "private": true,
   "scripts": {
     "dev": "fumadocs-mdx && next dev --turbopack",
@@ -18,7 +18,11 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:all": "vitest run && playwright test"
   },
   "dependencies": {
     "@auth/kysely-adapter": "^1.10.0",
@@ -95,6 +99,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.4",
     "@faker-js/faker": "^10.1.0",
+    "@playwright/test": "^1.56.0",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",

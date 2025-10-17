@@ -33,7 +33,7 @@ const sponsorFormSchema = z.object({
   description: z.string().optional(),
   website_url: z.string().url('Invalid URL').optional().or(z.literal('')),
   logo_url: z.string().min(1, 'Logo URL is required'),
-  priority: z.coerce.number().int().min(0).default(100),
+  priority: z.number().int().min(0).default(100),
   is_featured: z.boolean().default(false),
 })
 

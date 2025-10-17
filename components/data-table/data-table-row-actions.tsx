@@ -1,5 +1,5 @@
 import type { Row } from '@tanstack/react-table'
-import type { User } from 'next-auth'
+import type { User } from '../schema'
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { Trash2, UserPen } from 'lucide-react'
 import { Button } from '@/components/ui/button'

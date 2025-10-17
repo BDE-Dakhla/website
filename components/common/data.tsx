@@ -1,5 +1,5 @@
 import type { Role } from '@/types/schema'
-import type { UserStatus } from './schema'
+import type { UserStatus } from '../schema'
 import {
   Award,
   Glasses,

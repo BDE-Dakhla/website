@@ -4,6 +4,7 @@ import { FilterIcon, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 import useSWR from 'swr'
+import type { MetricsTotals, MetricsSeriesPoint } from '@/app/api/analytics/types'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -94,23 +95,23 @@ export function ChartAreaInteractive({
     }[]
   >([])
 
-  const urlOpts = useSWR(
+  const urlOpts = useSWR<{ kind: string; items: string[] }>(
     `/api/analytics/options?kind=url&range=${range}`,
     fetcher,
   )
-  const refOpts = useSWR(
+  const refOpts = useSWR<{ kind: string; items: string[] }>(
     `/api/analytics/options?kind=referrer&range=${range}`,
     fetcher,
   )
-  const brOpts = useSWR(
+  const brOpts = useSWR<{ kind: string; items: string[] }>(
     `/api/analytics/options?kind=browser&range=${range}`,
     fetcher,
   )
-  const osOpts = useSWR(
+  const osOpts = useSWR<{ kind: string; items: string[] }>(
     `/api/analytics/options?kind=os&range=${range}`,
     fetcher,
   )
-  const devOpts = useSWR(
+  const devOpts = useSWR<{ kind: string; items: string[] }>(
     `/api/analytics/options?kind=device&range=${range}`,
     fetcher,
   )
@@ -127,7 +128,16 @@ export function ChartAreaInteractive({
     [filters],
   )
 
-  const { data } = useSWR(
+  const { data } = useSWR<{
+    range: string
+    unit: string
+    start: string
+    end: string
+    totals: MetricsTotals
+    previous: MetricsTotals
+    deltas: MetricsTotals
+    series: MetricsSeriesPoint[]
+  }>(
     `/api/analytics/metrics?range=${range}&filters=${filtersParam}`,
     fetcher,
     { refreshInterval: 60_000 },

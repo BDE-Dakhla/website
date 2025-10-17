@@ -1,0 +1,132 @@
+name: Production Deploy
+
+# Trigger on push to main branch only
+on:
+  push:
+    branches: [main]
+
+# Only one deployment at a time
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  # Run all tests before deployment
+  tests:
+    name: Run All Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        
+      - name: Install dependencies
+        run: bun install
+        
+      # Unit tests
+      - name: Run unit tests
+        run: bun run test
+        
+      # Install Playwright for E2E tests
+      - name: Install Playwright browsers
+        run: bunx playwright install --with-deps
+        
+      # E2E tests
+      - name: Run E2E tests
+        run: bun run test:e2e
+        
+      # Build application
+      - name: Build application
+        run: bun run build
+        
+      # Lint code
+      - name: Run linter
+        run: bun run lint:fix
+        
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            coverage/
+            playwright-report/
+          retention-days: 30
+
+  # Deploy to production only if tests pass
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: tests
+    timeout-minutes: 30
+    
+    # Add production environment for additional protection
+    environment:
+      name: production
+      url: https://bde-encgd.org
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        
+      - name: Install dependencies
+        run: bun install
+        
+      - name: Build for production
+        run: bun run build
+        
+      # ============================================
+      # DEPLOYMENT PLACEHOLDER
+      # ============================================
+      # Add your deployment steps here based on your hosting provider:
+      #
+      # For Vercel:
+      # - name: Deploy to Vercel
+      #   run: bunx vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
+      #
+      # For Netlify:
+      # - name: Deploy to Netlify
+      #   uses: netlify/actions/cli@master
+      #   with:
+      #     args: deploy --prod
+      #   env:
+      #     NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      #     NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      #
+      # For custom server via SSH:
+      # - name: Deploy via SSH
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.HOST }}
+      #     username: ${{ secrets.USERNAME }}
+      #     key: ${{ secrets.SSH_KEY }}
+      #     script: |
+      #       cd /var/www/bde-website
+      #       git pull origin main
+      #       bun install
+      #       bun run build
+      #       pm2 restart bde-website
+      #
+      # For Docker deployment:
+      # - name: Build and push Docker image
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     push: true
+      #     tags: user/app:latest
+      #
+      # Remember to add required secrets in GitHub repository settings:
+      # Settings -> Secrets and variables -> Actions -> New repository secret
+      # ============================================
+      
+      - name: Deployment placeholder
+        run: |
+          echo "🚀 Deployment step placeholder"
+          echo "Add your deployment commands in this workflow file"
+          echo "See comments above for examples based on your hosting provider"

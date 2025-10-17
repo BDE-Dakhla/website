@@ -13,6 +13,7 @@ import {
   Mail,
   Megaphone,
   Send,
+  Settings,
   TicketsIcon,
   UsersRound,
 } from 'lucide-react'
@@ -109,6 +110,15 @@ const data = {
     },
   ],
 
+  // System Administration
+  navAdministration: [
+    {
+      title: 'Mode Maintenance',
+      url: '/dashboard/settings/maintenance',
+      icon: Settings,
+    },
+  ],
+
   // Support & Documentation
   navSecondary: [
     { title: 'Documentation', url: '/dashboard/docs', icon: BookOpen },
@@ -127,6 +137,10 @@ export function DashboardSideBar({
   const canSeeDashboard = hasPermission(
     session?.user?.permissions,
     'HAS_ACCESS_TO_DASHBOARD',
+  )
+  const canAccessSystemAdmin = hasPermission(
+    session?.user?.permissions,
+    'SYSTEM_ADMIN',
   )
 
   const navMain: NavItem[] = [
@@ -176,6 +190,9 @@ export function DashboardSideBar({
           items={data.navNewsletter}
           title='Newsletter & Communications'
         />
+        {canAccessSystemAdmin && (
+          <NavLinks items={data.navAdministration} title='Administration' />
+        )}
         <NavSecondary className='mt-auto' items={data.navSecondary} />
       </SidebarContent>
       <SidebarFooter>

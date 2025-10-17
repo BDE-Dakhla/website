@@ -6,7 +6,7 @@ export const runtime = 'nodejs'
 export async function GET() {
   try {
     const db = getDb()
-    
+
     const subscribers = await db
       .selectFrom('subscribers')
       .selectAll()
@@ -18,7 +18,7 @@ export async function GET() {
     console.error('Error fetching subscribers:', error)
     return NextResponse.json(
       { error: 'Failed to fetch subscribers' },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }
@@ -31,12 +31,12 @@ export async function DELETE(req: NextRequest) {
     if (!id) {
       return NextResponse.json(
         { error: 'Subscriber ID is required' },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
     const db = getDb()
-    
+
     // Vérifier que l'abonné existe
     const subscriber = await db
       .selectFrom('subscribers')
@@ -47,25 +47,22 @@ export async function DELETE(req: NextRequest) {
     if (!subscriber) {
       return NextResponse.json(
         { error: 'Subscriber not found' },
-        { status: 404 }
+        { status: 404 },
       )
     }
 
     // Supprimer l'abonné
-    await db
-      .deleteFrom('subscribers')
-      .where('id', '=', id)
-      .execute()
+    await db.deleteFrom('subscribers').where('id', '=', id).execute()
 
-    return NextResponse.json({ 
-      success: true, 
-      message: 'Subscriber deleted successfully' 
+    return NextResponse.json({
+      success: true,
+      message: 'Subscriber deleted successfully',
     })
   } catch (error) {
     console.error('Error deleting subscriber:', error)
     return NextResponse.json(
       { error: 'Failed to delete subscriber' },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }

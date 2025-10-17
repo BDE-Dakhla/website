@@ -10,8 +10,16 @@ export function UsersDialogs() {
 
   return (
     <>
-      <UsersActionDialog key='user-add' onOpenChange={() => setOpen('add')} open={open === 'add'} />
-      <UsersInviteDialog key='user-invite' onOpenChange={() => setOpen('invite')} open={open === 'invite'} />
+      <UsersActionDialog
+        key='user-add'
+        onOpenChange={() => setOpen('add')}
+        open={open === 'add'}
+      />
+      <UsersInviteDialog
+        key='user-invite'
+        onOpenChange={() => setOpen('invite')}
+        open={open === 'invite'}
+      />
 
       {currentRow && (
         <>

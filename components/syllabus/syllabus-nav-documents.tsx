@@ -90,7 +90,7 @@ export const SyllabusNavDocuments = ({
                           !item.disabled && !pathname.includes(item.url),
                         'bg-primary/5':
                           isNavigating && activeRoute === item.url,
-                        'opacity-50 cursor-not-allowed': item.disabled,
+                        'cursor-not-allowed opacity-50': item.disabled,
                       },
                     )}
                     disabled={item.disabled || pathname.includes(item.url)}

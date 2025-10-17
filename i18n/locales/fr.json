@@ -80,7 +80,56 @@
       "MANAGE_SPONSORS": "Gérer les partenaires",
       "MANAGE_ANNOUNCEMENTS": "Gérer les annonces",
       "MANAGE_NEWSLETTER": "Gérer la newsletter"
+    },
+    "settings": {
+      "maintenance": {
+        "pageTitle": "Mode Maintenance",
+        "pageDescription": "Contrôlez le mode maintenance du site pour effectuer des mises à jour et des opérations de maintenance.",
+        "alert": {
+          "activeTitle": "Le mode maintenance est actif",
+          "activeDescription": "Le site est actuellement en mode maintenance. Seuls les administrateurs système peuvent accéder au site.",
+          "inactiveTitle": "Le site est opérationnel",
+          "inactiveDescription": "Le site est actuellement accessible à tous les utilisateurs."
+        },
+        "cardTitle": "Contrôle du Mode Maintenance",
+        "cardDescription": "Activez ou désactivez le mode maintenance pour l'ensemble du site.",
+        "toggleLabel": "Activer le Mode Maintenance",
+        "toggleDescription": "Lorsqu'il est activé, seuls les administrateurs système peuvent accéder au site.",
+        "warningTitle": "Important",
+        "warningDescription": "L'activation du mode maintenance redirigera immédiatement tous les utilisateurs non-administrateurs vers la page de maintenance.",
+        "dialog": {
+          "enableTitle": "Activer le Mode Maintenance ?",
+          "enableDescription": "Cela empêchera immédiatement tous les utilisateurs non-administrateurs d'accéder au site. Ils seront redirigés vers une page de maintenance.",
+          "disableTitle": "Désactiver le Mode Maintenance ?",
+          "disableDescription": "Cela restaurera l'accès normal au site pour tous les utilisateurs.",
+          "cancel": "Annuler",
+          "confirm": "Confirmer",
+          "confirming": "Traitement..."
+        },
+        "success": {
+          "title": "Succès",
+          "enabledDescription": "Le mode maintenance a été activé. Les utilisateurs non-administrateurs verront maintenant la page de maintenance.",
+          "disabledDescription": "Le mode maintenance a été désactivé. Le site est maintenant accessible à tous les utilisateurs."
+        },
+        "error": {
+          "fetchTitle": "Erreur de chargement",
+          "fetchDescription": "Impossible de charger l'état actuel du mode maintenance. Veuillez actualiser la page.",
+          "updateTitle": "Erreur de mise à jour",
+          "updateDescription": "Impossible de mettre à jour le mode maintenance. Veuillez réessayer."
+        }
+      }
     }
+  },
+
+  "maintenance": {
+    "title": "Maintenance en Cours",
+    "description": "Notre site est actuellement en maintenance",
+    "imageAlt": "Illustration de maintenance",
+    "badge": "Mode Maintenance",
+    "heading": "Nous reviendrons bientôt !",
+    "message": "Nous effectuons actuellement une maintenance programmée pour améliorer votre expérience. Nous serons de retour en ligne sous peu.",
+    "info": "Maintenance en cours",
+    "thankYou": "Merci pour votre patience et votre compréhension."
   },
 
   "validation": {

@@ -6,7 +6,11 @@ import { useEffect, useRef, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 
 type DataTableBulkActionsProps<TData> = {
@@ -28,7 +32,7 @@ type DataTableBulkActionsProps<TData> = {
 export function DataTableBulkActions<TData>({
   table,
   entityName,
-  children
+  children,
 }: DataTableBulkActionsProps<TData>): React.ReactNode | null {
   const selectedRows = table.getFilteredSelectedRowModel().rows
   const selectedCount = selectedRows.length
@@ -57,7 +61,9 @@ export function DataTableBulkActions<TData>({
     const buttons = toolbarRef.current?.querySelectorAll('button')
     if (!buttons) return
 
-    const currentIndex = Array.from(buttons).findIndex((button) => button === document.activeElement)
+    const currentIndex = Array.from(buttons).findIndex(
+      (button) => button === document.activeElement,
+    )
 
     switch (event.key) {
       case 'ArrowRight': {
@@ -68,7 +74,8 @@ export function DataTableBulkActions<TData>({
       }
       case 'ArrowLeft': {
         event.preventDefault()
-        const prevIndex = currentIndex === 0 ? buttons.length - 1 : currentIndex - 1
+        const prevIndex =
+          currentIndex === 0 ? buttons.length - 1 : currentIndex - 1
         buttons[prevIndex]?.focus()
         break
       }
@@ -89,7 +96,8 @@ export function DataTableBulkActions<TData>({
         // Check if the event target or currently focused element is a dropdown trigger
         const isFromDropdownTrigger =
           target?.getAttribute('data-slot') === 'dropdown-menu-trigger' ||
-          activeElement?.getAttribute('data-slot') === 'dropdown-menu-trigger' ||
+          activeElement?.getAttribute('data-slot') ===
+            'dropdown-menu-trigger' ||
           target?.closest('[data-slot="dropdown-menu-trigger"]') ||
           activeElement?.closest('[data-slot="dropdown-menu-trigger"]')
 
@@ -118,7 +126,11 @@ export function DataTableBulkActions<TData>({
   return (
     <>
       {/* Live region for screen reader announcements */}
-      <div aria-atomic='true' aria-live='polite' className='sr-only' role='status'>
+      <div
+        aria-atomic='true'
+        aria-live='polite'
+        className='sr-only'
+        role='status'>
         {announcement}
       </div>
 
@@ -128,7 +140,7 @@ export function DataTableBulkActions<TData>({
         className={cn(
           '-translate-x-1/2 fixed bottom-6 left-1/2 z-50 rounded-xl',
           'transition-all delay-100 duration-300 ease-out hover:scale-105',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50'
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50',
         )}
         onKeyDown={handleKeyDown}
         ref={toolbarRef}
@@ -139,7 +151,7 @@ export function DataTableBulkActions<TData>({
             'p-2 shadow-xl',
             'rounded-xl border',
             'bg-background/95 backdrop-blur-lg supports-[backdrop-filter]:bg-background/60',
-            'flex items-center gap-x-2'
+            'flex items-center gap-x-2',
           )}>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -159,10 +171,19 @@ export function DataTableBulkActions<TData>({
             </TooltipContent>
           </Tooltip>
 
-          <Separator aria-hidden='true' className='h-5' orientation='vertical' />
+          <Separator
+            aria-hidden='true'
+            className='h-5'
+            orientation='vertical'
+          />
 
-          <div className='flex items-center gap-x-1 text-sm' id='bulk-actions-description'>
-            <Badge aria-label={`${selectedCount} selected`} className='min-w-8 rounded-lg' variant='default'>
+          <div
+            className='flex items-center gap-x-1 text-sm'
+            id='bulk-actions-description'>
+            <Badge
+              aria-label={`${selectedCount} selected`}
+              className='min-w-8 rounded-lg'
+              variant='default'>
               {selectedCount}
             </Badge>{' '}
             <span className='hidden sm:inline'>
@@ -172,7 +193,11 @@ export function DataTableBulkActions<TData>({
             selected
           </div>
 
-          <Separator aria-hidden='true' className='h-5' orientation='vertical' />
+          <Separator
+            aria-hidden='true'
+            className='h-5'
+            orientation='vertical'
+          />
 
           {children}
         </div>

@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server'
-import { getMockInboxEmails, markEmailAsRead, toggleEmailImportant } from '@/lib/inbox-mock'
+import {
+  getMockInboxEmails,
+  markEmailAsRead,
+  toggleEmailImportant,
+} from '@/lib/inbox-mock'
 
 export const runtime = 'nodejs'
 
@@ -11,7 +15,7 @@ export async function GET() {
     console.error('Error fetching inbox emails:', error)
     return NextResponse.json(
       { error: 'Failed to fetch inbox emails' },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }
@@ -24,7 +28,7 @@ export async function PATCH(request: Request) {
     if (!emailId || !action) {
       return NextResponse.json(
         { error: 'Missing emailId or action' },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
@@ -37,25 +41,19 @@ export async function PATCH(request: Request) {
         result = toggleEmailImportant(emailId)
         break
       default:
-        return NextResponse.json(
-          { error: 'Invalid action' },
-          { status: 400 }
-        )
+        return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
     }
 
     if (result !== false) {
       return NextResponse.json({ success: true, result })
     } else {
-      return NextResponse.json(
-        { error: 'Email not found' },
-        { status: 404 }
-      )
+      return NextResponse.json({ error: 'Email not found' }, { status: 404 })
     }
   } catch (error) {
     console.error('Error updating email:', error)
     return NextResponse.json(
       { error: 'Failed to update email' },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }

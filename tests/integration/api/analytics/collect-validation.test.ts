@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest'
-
 import { POST } from '@/app/api/analytics/collect/route'
 
 describe('POST /api/analytics/collect - Input Validation', () => {

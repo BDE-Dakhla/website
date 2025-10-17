@@ -79,11 +79,18 @@ export async function sendSmtpMail(e: Email) {
   const raw = buildMessage(e, messageId)
 
   const socket = await new Promise<net.Socket>((resolve, reject) => {
-    const s = net.createConnection({ host, port, timeout: 10000 }, () => resolve(s))
+    const s = net.createConnection({ host, port, timeout: 10000 }, () =>
+      resolve(s),
+    )
     s.on('error', reject)
-    s.on('timeout', () => reject(new Error(`SMTP connection timeout to ${host}:${port}`)))
+    s.on('timeout', () =>
+      reject(new Error(`SMTP connection timeout to ${host}:${port}`)),
+    )
     // Overall timeout for connection
-    setTimeout(() => reject(new Error(`SMTP connection timeout to ${host}:${port}`)), 10000)
+    setTimeout(
+      () => reject(new Error(`SMTP connection timeout to ${host}:${port}`)),
+      10000,
+    )
   })
 
   let tlsSocket: tls.TLSSocket | null = null
@@ -103,12 +110,12 @@ export async function sendSmtpMail(e: Email) {
         resolve(line)
         return
       }
-      
+
       const timeout = setTimeout(() => {
         cleanup()
         reject(new Error('SMTP read timeout'))
       }, 10000)
-      
+
       const onData = (chunk: Buffer) => {
         buffer += chunk.toString('utf8')
         const idx = buffer.indexOf('\r\n')
@@ -155,7 +162,10 @@ export async function sendSmtpMail(e: Email) {
       if (res.startsWith('220')) {
         tlsSocket = tls.connect({ socket, servername: host, timeout: 5000 })
         await new Promise<void>((resolve, reject) => {
-          const timeout = setTimeout(() => reject(new Error('TLS handshake timeout')), 5000)
+          const timeout = setTimeout(
+            () => reject(new Error('TLS handshake timeout')),
+            5000,
+          )
           tlsSocket?.once('secureConnect', () => {
             clearTimeout(timeout)
             resolve()

@@ -4,7 +4,10 @@ import type { Table } from '@tanstack/react-table'
 import { AlertTriangle } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
-import { ConfirmDialog, type DialogContext } from '@/app/[locale]/dashboard/users/confirm-dialog'
+import {
+  ConfirmDialog,
+  type DialogContext,
+} from '@/app/[locale]/dashboard/users/confirm-dialog'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -16,7 +19,11 @@ interface UserMultiDeleteDialogProps<TData> extends DialogContext {
 
 const CONFIRM_WORD = 'SUPPRIMER'
 
-export function UsersMultiDeleteDialog<TData>({ open, onOpenChange, table }: UserMultiDeleteDialogProps<TData>) {
+export function UsersMultiDeleteDialog<TData>({
+  open,
+  onOpenChange,
+  table,
+}: UserMultiDeleteDialogProps<TData>) {
   const [value, setValue] = useState('')
   const selectedRows = table.getFilteredSelectedRowModel().rows
 
@@ -34,7 +41,7 @@ export function UsersMultiDeleteDialog<TData>({ open, onOpenChange, table }: Use
         table.resetRowSelection()
         return `Deleted ${selectedRows.length} ${selectedRows.length > 1 ? 'users' : 'user'}`
       },
-      error: 'Error'
+      error: 'Error',
     })
   }
 
@@ -45,7 +52,8 @@ export function UsersMultiDeleteDialog<TData>({ open, onOpenChange, table }: Use
         <div className='space-y-4'>
           <p className='mb-2'>
             Êtes-vous certain de vouloir supprimer les {selectedRows.length}{' '}
-            {selectedRows.length > 1 ? 'utilisateurs' : 'utilisateur'} sélectionnés ? <br />
+            {selectedRows.length > 1 ? 'utilisateurs' : 'utilisateur'}{' '}
+            sélectionnés ? <br />
           </p>
 
           <Label className='my-4 flex flex-col items-start gap-1.5'>
@@ -59,7 +67,9 @@ export function UsersMultiDeleteDialog<TData>({ open, onOpenChange, table }: Use
 
           <Alert variant='destructive'>
             <AlertTitle>Attention !</AlertTitle>
-            <AlertDescription>Soyez prudent, cette action est irréversible.</AlertDescription>
+            <AlertDescription>
+              Soyez prudent, cette action est irréversible.
+            </AlertDescription>
           </Alert>
         </div>
       }
@@ -70,7 +80,11 @@ export function UsersMultiDeleteDialog<TData>({ open, onOpenChange, table }: Use
       open={open}
       title={
         <span className='text-destructive'>
-          <AlertTriangle className='me-1 inline-block stroke-destructive' size={18} /> Supprimer {selectedRows.length}{' '}
+          <AlertTriangle
+            className='me-1 inline-block stroke-destructive'
+            size={18}
+          />{' '}
+          Supprimer {selectedRows.length}{' '}
           {selectedRows.length > 1 ? 'users' : 'user'}
         </span>
       }

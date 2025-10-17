@@ -2,16 +2,16 @@
 
 /**
  * TODO: Full Internationalization
- * 
+ *
  * Currently, only category names are translated via i18n JSON files.
  * To fully internationalize this page, the following hardcoded French content
  * should be moved to the i18n locale files:
- * 
+ *
  * 1. Category descriptions (e.g., "Cette cellule assure la vision globale...")
  * 2. Member roles/positions (e.g., "Président", "Vice-Président")
  * 3. Member descriptions
  * 4. Member specifications (specs.name fields)
- * 
+ *
  * Recommended structure in locale JSON files:
  * "team": {
  *   "categories": {...},
@@ -88,11 +88,11 @@ const categories = [
             icon: Handshake,
           },
           {
-            name: 'Suivre l\'avancement des projets et résoudre les blocages',
+            name: "Suivre l'avancement des projets et résoudre les blocages",
             icon: SquareChartGantt,
           },
           {
-            name: 'Suppléer le président en cas d\'absence ou de besoin',
+            name: "Suppléer le président en cas d'absence ou de besoin",
             icon: Crown,
           },
         ],
@@ -110,7 +110,7 @@ const categories = [
             icon: HandHelping,
           },
           {
-            name: 'Proposer des axes d\'amélioration et d\'innovation',
+            name: "Proposer des axes d'amélioration et d'innovation",
             icon: CheckCheck,
           },
           {
@@ -172,11 +172,11 @@ const categories = [
           "Encadre les membres, gère le recrutement interne, le suivi des compétences etla dynamique d'équipe",
         specs: [
           {
-            name: 'Organiser le recrutement et l\'intégration des nouveaux membres',
+            name: "Organiser le recrutement et l'intégration des nouveaux membres",
             icon: UserStar,
           },
           {
-            name: 'Développer les compétences et maintenir la cohésion d\'équipe',
+            name: "Développer les compétences et maintenir la cohésion d'équipe",
             icon: HandHeart,
           },
           {
@@ -228,7 +228,7 @@ const categories = [
             icon: Podcast,
           },
           {
-            name: 'Gérer les relations avec l\'administration et les partenaires',
+            name: "Gérer les relations avec l'administration et les partenaires",
             icon: Handshake,
           },
           {
@@ -267,7 +267,7 @@ const categories = [
         icon: Palette,
         specs: [
           {
-            name: 'Concevoir l\'identité visuelle et la charte graphique',
+            name: "Concevoir l'identité visuelle et la charte graphique",
             icon: Palette,
           },
           {
@@ -348,7 +348,7 @@ const categories = [
             icon: HandHeart,
           },
           {
-            name: 'Créer des moments conviviaux et renforcer l\'esprit étudiant',
+            name: "Créer des moments conviviaux et renforcer l'esprit étudiant",
             icon: Tickets,
           },
         ],
@@ -398,7 +398,7 @@ const categories = [
             icon: HandHeart,
           },
           {
-            name: 'Évaluer l\'impact des formations et collecter les retours',
+            name: "Évaluer l'impact des formations et collecter les retours",
             icon: CheckCheck,
           },
         ],

@@ -3,12 +3,9 @@
 import { Mail, TrendingUp, Users, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+  type Subscriber,
+  SubscribersTable,
+} from '@/components/subscribers/subscribers-table'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,15 +16,20 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { SubscribersTable, type Subscriber } from '@/components/subscribers/subscribers-table'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 
 export default function SubscribersPage() {
   const [subscribers, setSubscribers] = useState<Subscriber[]>([])
   const [loading, setLoading] = useState(true)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const [subscriberToDelete, setSubscriberToDelete] = useState<Subscriber | null>(
-    null,
-  )
+  const [subscriberToDelete, setSubscriberToDelete] =
+    useState<Subscriber | null>(null)
   const [deleting, setDeleting] = useState(false)
 
   // Simple local state for demo
@@ -66,7 +68,9 @@ export default function SubscribersPage() {
       )
 
       if (response.ok) {
-        setSubscribers(subscribers.filter((s) => s.id !== subscriberToDelete.id))
+        setSubscribers(
+          subscribers.filter((s) => s.id !== subscriberToDelete.id),
+        )
         setDeleteDialogOpen(false)
         setSubscriberToDelete(null)
       } else {
@@ -106,7 +110,7 @@ export default function SubscribersPage() {
     return (
       <div className='flex h-[calc(100vh-4rem)] items-center justify-center'>
         <div className='text-center'>
-          <div className='mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent' />
+          <div className='mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-current border-r-transparent border-solid' />
           <p className='text-muted-foreground'>Chargement des abonnés...</p>
         </div>
       </div>
@@ -143,7 +147,9 @@ export default function SubscribersPage() {
             <Mail className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
           <CardContent>
-            <div className='font-bold text-2xl text-green-600'>{stats.active}</div>
+            <div className='font-bold text-2xl text-green-600'>
+              {stats.active}
+            </div>
             <p className='text-muted-foreground text-xs'>
               {((stats.active / stats.total) * 100 || 0).toFixed(0)}% du total
             </p>
@@ -159,7 +165,8 @@ export default function SubscribersPage() {
               {stats.unsubscribed}
             </div>
             <p className='text-muted-foreground text-xs'>
-              {((stats.unsubscribed / stats.total) * 100 || 0).toFixed(0)}% du total
+              {((stats.unsubscribed / stats.total) * 100 || 0).toFixed(0)}% du
+              total
             </p>
           </CardContent>
         </Card>
@@ -169,7 +176,9 @@ export default function SubscribersPage() {
             <TrendingUp className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
           <CardContent>
-            <div className='font-bold text-2xl text-red-600'>{stats.bounced}</div>
+            <div className='font-bold text-2xl text-red-600'>
+              {stats.bounced}
+            </div>
             <p className='text-muted-foreground text-xs'>emails invalides</p>
           </CardContent>
         </Card>
@@ -188,8 +197,8 @@ export default function SubscribersPage() {
           <SubscribersTable
             data={subscribers}
             navigate={navigate}
-            onDelete={handleDeleteClick}
             onBulkDelete={handleBulkDelete}
+            onDelete={handleDeleteClick}
             search={search}
           />
         </CardContent>

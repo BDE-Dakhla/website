@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 @import 'flag-icons/css/flag-icons.min.css';
 
 @custom-variant dark (&:is(.dark *));
@@ -48,43 +48,57 @@
   --color-color-3: var(--color-3);
   --color-color-2: var(--color-2);
   --color-color-1: var(--color-1);
-  @keyframes rainbow {
-  0% {
-    background-position: 0%;
-    }
-  100% {
-    background-position: 200%;
-    }
-  }
-  --animate-gradient: gradient 8s linear infinite
-;
-  @keyframes gradient {
-  to {
-    background-position: var(--bg-size, 300%) 0;}}
+  --animate-gradient: gradient 8s linear infinite;
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
+  @keyframes rainbow {
+    0% {
+      background-position: 0%;
+    }
+    100% {
+      background-position: 200%;
+    }
+  }
+  @keyframes gradient {
+    to {
+      background-position: var(--bg-size, 300%) 0;
+    }
+  }
 
   @keyframes accordion-down {
     from {
-      height: 0;}
+      height: 0;
+    }
     to {
-      height: var(--radix-accordion-content-height);}}
+      height: var(--radix-accordion-content-height);
+    }
+  }
 
   @keyframes accordion-up {
     from {
-      height: var(--radix-accordion-content-height);}
+      height: var(--radix-accordion-content-height);
+    }
     to {
-      height: 0;}}
+      height: 0;
+    }
+  }
   @keyframes accordion-down {
-  from {
-    height: 0;}
-  to {
-    height: var(--radix-accordion-content-height);}}
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
   @keyframes accordion-up {
-  from {
-    height: var(--radix-accordion-content-height);}
-  to {
-    height: 0;}}}
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
 
 :root {
   --radius: 0.625rem;
@@ -147,7 +161,7 @@
   --border: oklch(0.88 0.02 135);
   --input: oklch(0.88 0.02 135);
   --ring: oklch(0.45 0.15 140);
-  
+
   /* Sidebar green theme */
   --sidebar: oklch(0.96 0.015 135);
   --sidebar-foreground: oklch(0.15 0.08 140);
@@ -157,12 +171,12 @@
   --sidebar-accent-foreground: oklch(0.25 0.08 140);
   --sidebar-border: oklch(0.88 0.02 135);
   --sidebar-ring: oklch(0.45 0.15 140);
-  
+
   /* Chart colors with green theme */
   --chart-1: oklch(0.55 0.18 140);
   --chart-2: oklch(0.65 0.12 160);
   --chart-3: oklch(0.48 0.15 120);
-  --chart-4: oklch(0.72 0.10 150);
+  --chart-4: oklch(0.72 0.1 150);
   --chart-5: oklch(0.82 0.08 135);
 }
 
@@ -177,31 +191,31 @@
   --primary: oklch(0.65 0.15 140);
   --primary-foreground: oklch(0.08 0.02 140);
   --secondary: oklch(0.18 0.04 140);
-  --secondary-foreground: oklch(0.90 0.02 135);
+  --secondary-foreground: oklch(0.9 0.02 135);
   --muted: oklch(0.18 0.04 140);
   --muted-foreground: oklch(0.65 0.05 140);
   --accent: oklch(0.18 0.04 140);
-  --accent-foreground: oklch(0.90 0.02 135);
+  --accent-foreground: oklch(0.9 0.02 135);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 15%);
   --input: oklch(1 0 0 / 20%);
   --ring: oklch(0.65 0.15 140);
-  
+
   /* Dark sidebar green theme */
   --sidebar: oklch(0.12 0.03 140);
   --sidebar-foreground: oklch(0.95 0.01 135);
   --sidebar-primary: oklch(0.65 0.15 140);
   --sidebar-primary-foreground: oklch(0.08 0.02 140);
   --sidebar-accent: oklch(0.18 0.04 140);
-  --sidebar-accent-foreground: oklch(0.90 0.02 135);
+  --sidebar-accent-foreground: oklch(0.9 0.02 135);
   --sidebar-border: oklch(1 0 0 / 15%);
   --sidebar-ring: oklch(0.65 0.15 140);
-  
+
   /* Dark chart colors with green theme */
   --chart-1: oklch(0.65 0.18 140);
   --chart-2: oklch(0.72 0.12 160);
   --chart-3: oklch(0.58 0.15 120);
-  --chart-4: oklch(0.80 0.10 150);
+  --chart-4: oklch(0.8 0.1 150);
   --chart-5: oklch(0.85 0.08 135);
 }
 
@@ -218,38 +232,57 @@
   --calendar-selected: oklch(0.65 0.15 140);
   --calendar-selected-foreground: oklch(0.08 0.02 140);
   --calendar-today: oklch(0.18 0.04 140);
-  --calendar-today-foreground: oklch(0.90 0.02 135);
+  --calendar-today-foreground: oklch(0.9 0.02 135);
 }
 
 /* Green theme button variants */
 .syllabus-theme .btn-green {
-  background: linear-gradient(135deg, oklch(0.45 0.15 140), oklch(0.50 0.12 145));
   color: oklch(0.98 0.01 135);
+  background: linear-gradient(
+    135deg,
+    oklch(0.45 0.15 140),
+    oklch(0.5 0.12 145)
+  );
   border: 1px solid oklch(0.45 0.15 140);
   box-shadow: 0 2px 4px oklch(0.45 0.15 140 / 0.2);
 }
 
 .syllabus-theme .btn-green:hover {
-  background: linear-gradient(135deg, oklch(0.40 0.15 140), oklch(0.45 0.12 145));
+  background: linear-gradient(
+    135deg,
+    oklch(0.4 0.15 140),
+    oklch(0.45 0.12 145)
+  );
   box-shadow: 0 4px 8px oklch(0.45 0.15 140 / 0.3);
 }
 
 .syllabus-theme.dark .btn-green {
-  background: linear-gradient(135deg, oklch(0.65 0.15 140), oklch(0.70 0.12 145));
   color: oklch(0.08 0.02 140);
+  background: linear-gradient(
+    135deg,
+    oklch(0.65 0.15 140),
+    oklch(0.7 0.12 145)
+  );
 }
 
 .syllabus-theme.dark .btn-green:hover {
-  background: linear-gradient(135deg, oklch(0.70 0.15 140), oklch(0.75 0.12 145));
+  background: linear-gradient(
+    135deg,
+    oklch(0.7 0.15 140),
+    oklch(0.75 0.12 145)
+  );
 }
 
 /* Green theme animations */
 @keyframes syllabus-glow {
-  0%, 100% { 
+  0%,
+  100% {
     box-shadow: 0 0 5px oklch(0.45 0.15 140 / 0.3);
   }
-  50% { 
-    box-shadow: 0 0 20px oklch(0.45 0.15 140 / 0.5), 0 0 30px oklch(0.45 0.15 140 / 0.2);
+  50% {
+    box-shadow:
+      0 0 20px oklch(0.45 0.15 140 / 0.5),
+      0 0 30px oklch(0.45 0.15 140 / 0.2);
   }
 }
 
@@ -269,14 +302,22 @@
 }
 
 .syllabus-theme ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, oklch(0.45 0.15 140), oklch(0.50 0.12 145));
-  border-radius: 4px;
+  background: linear-gradient(
+    135deg,
+    oklch(0.45 0.15 140),
+    oklch(0.5 0.12 145)
+  );
   border: 1px solid oklch(0.94 0.02 135);
+  border-radius: 4px;
   transition: background-color 0.2s ease-in-out;
 }
 
 .syllabus-theme ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, oklch(0.40 0.15 140), oklch(0.45 0.12 145));
+  background: linear-gradient(
+    135deg,
+    oklch(0.4 0.15 140),
+    oklch(0.45 0.12 145)
+  );
 }
 
 .syllabus-theme.dark ::-webkit-scrollbar-track {
@@ -284,12 +325,20 @@
 }
 
 .syllabus-theme.dark ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, oklch(0.65 0.15 140), oklch(0.70 0.12 145));
+  background: linear-gradient(
+    135deg,
+    oklch(0.65 0.15 140),
+    oklch(0.7 0.12 145)
+  );
   border: 1px solid oklch(0.12 0.03 140);
 }
 
 .syllabus-theme.dark ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, oklch(0.70 0.15 140), oklch(0.75 0.12 145));
+  background: linear-gradient(
+    135deg,
+    oklch(0.7 0.15 140),
+    oklch(0.75 0.12 145)
+  );
 }
 
 .dark {
@@ -342,27 +391,34 @@
 }
 
 .lucide {
-  @apply size-4.5;
   stroke-width: 1.5;
+  @apply size-4.5;
 }
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation: none;
   mix-blend-mode: normal;
+  animation: none;
 }
 
 @theme inline {
   --animate-gradient: gradient 8s linear infinite;
-  --animate-background-position-spin: background-position-spin 3000ms infinite alternate;
+  --animate-background-position-spin: background-position-spin 3000ms infinite
+    alternate;
 
   @keyframes gradient {
-    to { background-position: var(--bg-size, 300%) 0; }
+    to {
+      background-position: var(--bg-size, 300%) 0;
+    }
   }
 
   @keyframes background-position-spin {
-    0% { background-position: top center; }
-    100% { background-position: bottom center; }
+    0% {
+      background-position: top center;
+    }
+    100% {
+      background-position: bottom center;
+    }
   }
 }
 
@@ -374,14 +430,14 @@
 }
 
 .custom-borders::before {
-  @apply pointer-events-none absolute inset-0 rounded-2xl border border-transparent content-[''];
-
-  background: linear-gradient(-20deg, #ffffff50, transparent, #ffffff50) border-box;
+  background: linear-gradient(-20deg, #ffffff50, transparent, #ffffff50)
+    border-box;
   -webkit-mask:
     linear-gradient(#fff 0 0) padding-box,
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
+  @apply pointer-events-none absolute inset-0 rounded-2xl border border-transparent content-[''];
 }
 
 @keyframes marquee {
@@ -447,8 +503,8 @@
 
 ::-webkit-scrollbar-thumb {
   background: hsl(var(--border));
-  border-radius: 4px;
   border: 1px solid hsl(var(--background));
+  border-radius: 4px;
   transition: background-color 0.2s ease-in-out;
 }
 
@@ -500,8 +556,8 @@
 
 /* Custom scrollbar for cards and containers */
 .scrollbar-custom {
-  scrollbar-width: thin;
   scrollbar-color: hsl(var(--border)) hsl(var(--background));
+  scrollbar-width: thin;
 }
 
 .scrollbar-custom::-webkit-scrollbar {
@@ -516,8 +572,8 @@
 
 .scrollbar-custom::-webkit-scrollbar-thumb {
   background: hsl(var(--muted-foreground) / 0.3);
-  border-radius: 4px;
   border: 1px solid hsl(var(--muted) / 0.3);
+  border-radius: 4px;
 }
 
 .scrollbar-custom::-webkit-scrollbar-thumb:hover {
@@ -526,8 +582,8 @@
 
 /* Firefox scrollbar styles */
 * {
-  scrollbar-width: thin;
   scrollbar-color: hsl(var(--border)) hsl(var(--background));
+  scrollbar-width: thin;
 }
 
 .dark * {
@@ -565,8 +621,8 @@
 
 .table-scroll::-webkit-scrollbar-thumb {
   background: hsl(var(--muted-foreground) / 0.2);
-  border-radius: 5px;
   border: 2px solid hsl(var(--muted) / 0.1);
+  border-radius: 5px;
 }
 
 .table-scroll::-webkit-scrollbar-thumb:hover {
@@ -606,23 +662,23 @@ html {
 /* Scrollbar utility classes */
 @layer utilities {
   .scrollbar-default {
-    scrollbar-width: auto;
     scrollbar-color: hsl(var(--border)) hsl(var(--background));
+    scrollbar-width: auto;
   }
-  
+
   .scrollbar-default::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
-  
+
   .scrollbar-default::-webkit-scrollbar-track {
     @apply bg-background rounded;
   }
-  
+
   .scrollbar-default::-webkit-scrollbar-thumb {
     @apply bg-border rounded border border-background;
   }
-  
+
   .scrollbar-default::-webkit-scrollbar-thumb:hover {
     @apply bg-muted-foreground/40;
   }

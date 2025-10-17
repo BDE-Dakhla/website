@@ -1,8 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import {
-  isValidEventType,
-  parseCollectBody,
-} from '@/app/api/analytics/types'
+import { isValidEventType, parseCollectBody } from '@/app/api/analytics/types'
 
 describe('Analytics API Types', () => {
   describe('isValidEventType', () => {

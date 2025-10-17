@@ -2,11 +2,11 @@
 
 import { useState } from 'react'
 import { AnalyticsOverview } from '@/components/analytics/analytics-overview'
+import { VisitorsByCountry } from '@/components/analytics/countries-map'
 import { CurrentVisitorsBadge } from '@/components/analytics/current-visitors'
+import { AnalyticsEvents } from '@/components/analytics/events-metrics'
 import { AnalyticsTopList, type Range } from '@/components/analytics/top-list'
 import { ChartAreaInteractive } from '@/components/common/chart-area-interactive'
-import { VisitorsByCountry } from '@/components/analytics/countries-map'
-import { AnalyticsEvents } from '@/components/analytics/events-metrics'
 
 export default function Page() {
   const [range, setRange] = useState<Range>('24h')

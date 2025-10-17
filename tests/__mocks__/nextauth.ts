@@ -1,5 +1,5 @@
-import { vi } from 'vitest'
 import type { Session } from 'next-auth'
+import { vi } from 'vitest'
 
 export function mockAuth(session: Session | null = null) {
   return vi.fn().mockResolvedValue(session)

@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { hasPermission, getAllPermissions } from '@/lib/permission'
+import { describe, expect, it } from 'vitest'
+import { getAllPermissions, hasPermission } from '@/lib/permission'
 
 describe('Permission Utilities', () => {
   describe('hasPermission', () => {
@@ -32,7 +32,7 @@ describe('Permission Utilities', () => {
         MANAGE_USERS: 0,
         MANAGE_NEWSLETTER: 1,
       }
-      
+
       expect(hasPermission(perms, 'MANAGE_SPONSORS')).toBe(true)
       expect(hasPermission(perms, 'MANAGE_USERS')).toBe(false)
       expect(hasPermission(perms, 'MANAGE_NEWSLETTER')).toBe(true)
@@ -48,14 +48,14 @@ describe('Permission Utilities', () => {
   describe('getAllPermissions', () => {
     it('should return all available permissions', () => {
       const permissions = getAllPermissions()
-      
+
       expect(Array.isArray(permissions)).toBe(true)
       expect(permissions.length).toBeGreaterThan(0)
     })
 
     it('should return permissions with correct structure', () => {
       const permissions = getAllPermissions()
-      
+
       permissions.forEach((perm) => {
         expect(perm).toHaveProperty('key')
         expect(perm).toHaveProperty('name')
@@ -71,7 +71,7 @@ describe('Permission Utilities', () => {
     it('should include expected core permissions', () => {
       const permissions = getAllPermissions()
       const keys = permissions.map((p) => p.key)
-      
+
       expect(keys).toContain('MANAGE_SPONSORS')
       expect(keys).toContain('MANAGE_USERS')
       expect(keys).toContain('MANAGE_NEWSLETTER')

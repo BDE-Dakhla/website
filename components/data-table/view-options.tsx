@@ -7,18 +7,23 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
-  DropdownMenuSeparator
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu'
 
 type DataTableViewOptionsProps<TData> = {
   table: Table<TData>
 }
 
-export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps<TData>) {
+export function DataTableViewOptions<TData>({
+  table,
+}: DataTableViewOptionsProps<TData>) {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <Button className='ms-auto hidden h-8 lg:flex' size='sm' variant='outline'>
+        <Button
+          className='ms-auto hidden h-8 lg:flex'
+          size='sm'
+          variant='outline'>
           <MixerHorizontalIcon className='size-4' />
           View
         </Button>
@@ -28,7 +33,10 @@ export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps
         <DropdownMenuSeparator />
         {table
           .getAllColumns()
-          .filter((column) => typeof column.accessorFn !== 'undefined' && column.getCanHide())
+          .filter(
+            (column) =>
+              typeof column.accessorFn !== 'undefined' && column.getCanHide(),
+          )
           .map((column) => {
             return (
               <DropdownMenuCheckboxItem

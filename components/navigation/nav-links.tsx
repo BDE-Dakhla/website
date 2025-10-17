@@ -70,7 +70,8 @@ export const NavLinks = ({ items, title }: NavLinksProps) => {
                                 aria-disabled={subItem.disabled}
                                 asChild={!subItem.disabled}
                                 className={cn({
-                                  'cursor-not-allowed opacity-50': subItem.disabled,
+                                  'cursor-not-allowed opacity-50':
+                                    subItem.disabled,
                                 })}>
                                 {subItem.disabled ? (
                                   <div className='flex w-full cursor-not-allowed items-center justify-between'>

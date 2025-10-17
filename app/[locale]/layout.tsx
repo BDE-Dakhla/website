@@ -1,9 +1,13 @@
 import { Calendar } from 'lucide-react'
+import { redirect } from 'next/navigation'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
+import { auth } from '@/auth'
 import { CookieConsent } from '@/components/shared/cookie-consent'
 import { StickyBanner } from '@/components/ui/sticky-banner'
 import { routing } from '@/i18n/routing'
+import { checkMaintenanceMode } from '@/lib/maintenance'
+import { hasPermission } from '@/lib/permission'
 
 export default async function Layout({
   children,
@@ -15,6 +19,20 @@ export default async function Layout({
   const { locale } = await params
   if (!hasLocale(routing.locales, locale)) notFound()
   const messages = (await import(`../../i18n/locales/${locale}.json`)).default
+
+  // Check maintenance mode (will be skipped for maintenance page via its own layout)
+  const isMaintenanceMode = await checkMaintenanceMode()
+  if (isMaintenanceMode) {
+    const session = await auth()
+    const isSystemAdmin =
+      session?.user &&
+      hasPermission(session.user.permissions, 'SYSTEM_ADMIN')
+
+    if (!isSystemAdmin) {
+      // This will be caught by maintenance page's own layout
+      redirect(`/${locale}/maintenance`)
+    }
+  }
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>

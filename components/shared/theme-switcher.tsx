@@ -49,11 +49,7 @@ export const ThemeSwitcher = () => {
   }
 
   return (
-    <Button
-      onClick={changeTheme}
-      ref={buttonRef}
-      size='icon'
-      variant='outline'>
+    <Button onClick={changeTheme} ref={buttonRef} size='icon' variant='outline'>
       {mounted && (resolvedTheme === 'dark' ? <SunDim /> : <Moon />)}
     </Button>
   )

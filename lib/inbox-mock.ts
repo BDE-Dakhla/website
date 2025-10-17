@@ -69,7 +69,7 @@ Président AEB Maroc`,
     id: '3',
     from: 'marie.dubois@student.univ-lyon.fr',
     to: 'newsletter@bde-dakhla.com',
-    subject: 'Échange universitaire - Demande d\'information',
+    subject: "Échange universitaire - Demande d'information",
     body: `Bonjour,
 
 Je suis étudiante en Master Management à l'Université de Lyon et je souhaiterais obtenir des informations sur les possibilités d'échange universitaire avec votre établissement.
@@ -141,23 +141,27 @@ Ce rapport est généré automatiquement le 1er de chaque mois.`,
     isImportant: true,
     labels: ['rapport', 'statistiques'],
     attachments: [
-      { name: 'rapport-octobre-2025.pdf', size: 245760, type: 'application/pdf' },
+      {
+        name: 'rapport-octobre-2025.pdf',
+        size: 245760,
+        type: 'application/pdf',
+      },
     ],
   },
 ]
 
 export function getMockInboxEmails(): InboxEmail[] {
-  return sampleEmails.map(email => ({
+  return sampleEmails.map((email) => ({
     ...email,
     // Add some randomness to received times for more realistic data
     receivedAt: new Date(
-      Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000
+      Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000,
     ).toISOString(),
   }))
 }
 
 export function markEmailAsRead(emailId: string): boolean {
-  const email = sampleEmails.find(e => e.id === emailId)
+  const email = sampleEmails.find((e) => e.id === emailId)
   if (email) {
     email.isRead = true
     return true
@@ -166,7 +170,7 @@ export function markEmailAsRead(emailId: string): boolean {
 }
 
 export function toggleEmailImportant(emailId: string): boolean {
-  const email = sampleEmails.find(e => e.id === emailId)
+  const email = sampleEmails.find((e) => e.id === emailId)
   if (email) {
     email.isImportant = !email.isImportant
     return email.isImportant

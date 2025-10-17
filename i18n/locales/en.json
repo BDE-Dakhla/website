@@ -75,7 +75,56 @@
       "CAN_MANAGE_CONTENT": "Manage Content",
       "CAN_VIEW_ANALYTICS": "View Analytics",
       "CAN_MANAGE_SETTINGS": "System Settings"
+    },
+    "settings": {
+      "maintenance": {
+        "pageTitle": "Maintenance Mode",
+        "pageDescription": "Control site-wide maintenance mode to perform updates and system maintenance.",
+        "alert": {
+          "activeTitle": "Maintenance mode is active",
+          "activeDescription": "The site is currently in maintenance mode. Only system administrators can access the site.",
+          "inactiveTitle": "Site is operational",
+          "inactiveDescription": "The site is currently accessible to all users."
+        },
+        "cardTitle": "Maintenance Mode Control",
+        "cardDescription": "Enable or disable maintenance mode for the entire site.",
+        "toggleLabel": "Enable Maintenance Mode",
+        "toggleDescription": "When enabled, only system administrators can access the site.",
+        "warningTitle": "Important",
+        "warningDescription": "Enabling maintenance mode will immediately redirect all non-admin users to the maintenance page.",
+        "dialog": {
+          "enableTitle": "Enable Maintenance Mode?",
+          "enableDescription": "This will immediately prevent all non-administrator users from accessing the site. They will be redirected to a maintenance page.",
+          "disableTitle": "Disable Maintenance Mode?",
+          "disableDescription": "This will restore normal site access for all users.",
+          "cancel": "Cancel",
+          "confirm": "Confirm",
+          "confirming": "Processing..."
+        },
+        "success": {
+          "title": "Success",
+          "enabledDescription": "Maintenance mode has been enabled. Non-admin users will now see the maintenance page.",
+          "disabledDescription": "Maintenance mode has been disabled. The site is now accessible to all users."
+        },
+        "error": {
+          "fetchTitle": "Error loading status",
+          "fetchDescription": "Could not load the current maintenance mode status. Please refresh the page.",
+          "updateTitle": "Error updating",
+          "updateDescription": "Could not update maintenance mode. Please try again."
+        }
+      }
     }
+  },
+
+  "maintenance": {
+    "title": "Maintenance in Progress",
+    "description": "Our site is currently undergoing maintenance",
+    "imageAlt": "Maintenance illustration",
+    "badge": "Maintenance Mode",
+    "heading": "We'll be back soon!",
+    "message": "We're currently performing scheduled maintenance to improve your experience. We'll be back online shortly.",
+    "info": "Maintenance in progress",
+    "thankYou": "Thank you for your patience and understanding."
   },
 
   "validation": {

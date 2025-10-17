@@ -14,9 +14,16 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
 } from '@/components/ui/dialog'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { showSubmittedData } from '@/lib/utils'
@@ -24,10 +31,11 @@ import { SelectDropdown } from './select-dropdown'
 
 const formSchema = z.object({
   email: z.email({
-    error: (iss) => (iss.input === '' ? 'Please enter an email to invite.' : undefined)
+    error: (iss) =>
+      iss.input === '' ? 'Please enter an email to invite.' : undefined,
   }),
   role: z.string().min(1, 'Role is required.'),
-  desc: z.string().optional()
+  desc: z.string().optional(),
 })
 
 type UserInviteForm = z.infer<typeof formSchema>
@@ -35,7 +43,7 @@ type UserInviteForm = z.infer<typeof formSchema>
 export function UsersInviteDialog({ open, onOpenChange }: DialogContext) {
   const form = useForm<UserInviteForm>({
     resolver: zodResolver(formSchema),
-    defaultValues: { email: '', role: '', desc: '' }
+    defaultValues: { email: '', role: '', desc: '' },
   })
 
   const onSubmit = (values: UserInviteForm) => {
@@ -57,12 +65,16 @@ export function UsersInviteDialog({ open, onOpenChange }: DialogContext) {
             <MailPlus /> Inviter un utilisateur
           </DialogTitle>
           <DialogDescription>
-            Inviter un nouveau utilisateur pour rejoindre la plateforme en enovoyant formellement une invitation par
-            email. Spécifier le role de l'utilisateur pour lui donner les accès appropriés.
+            Inviter un nouveau utilisateur pour rejoindre la plateforme en
+            enovoyant formellement une invitation par email. Spécifier le role
+            de l'utilisateur pour lui donner les accès appropriés.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form className='space-y-4' id='user-invite-form' onSubmit={form.handleSubmit(onSubmit)}>
+          <form
+            className='space-y-4'
+            id='user-invite-form'
+            onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
               name='email'
@@ -70,7 +82,11 @@ export function UsersInviteDialog({ open, onOpenChange }: DialogContext) {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder='eg: john.doe@gmail.com' type='email' {...field} />
+                    <Input
+                      placeholder='eg: john.doe@gmail.com'
+                      type='email'
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -86,7 +102,7 @@ export function UsersInviteDialog({ open, onOpenChange }: DialogContext) {
                     defaultValue={field.value}
                     items={roles.map(({ label, value }) => ({
                       label,
-                      value
+                      value,
                     }))}
                     onValueChange={field.onChange}
                     placeholder='Sélectionner un rôle'

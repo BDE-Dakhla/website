@@ -7,7 +7,11 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 import { DataTableBulkActions as BulkActionsToolbar } from '@/components/data-table'
 import { Button } from '@/components/ui/button'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { sleep } from '@/lib/utils'
 import { UsersMultiDeleteDialog } from '../users/users-multi-delete-dialog'
 
@@ -15,7 +19,9 @@ type DataTableBulkActionsProps<TData> = {
   table: Table<TData>
 }
 
-export function DataTableBulkActions<TData>({ table }: DataTableBulkActionsProps<TData>) {
+export function DataTableBulkActions<TData>({
+  table,
+}: DataTableBulkActionsProps<TData>) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const selectedRows = table.getFilteredSelectedRowModel().rows
 
@@ -29,7 +35,7 @@ export function DataTableBulkActions<TData>({ table }: DataTableBulkActionsProps
           selectedUsers.length > 1 ? 's' : ''
         }`
       },
-      error: `Error ${status === 'active' ? 'activating' : 'deactivating'} users`
+      error: `Error ${status === 'active' ? 'activating' : 'deactivating'} users`,
     })
     table.resetRowSelection()
   }
@@ -42,7 +48,7 @@ export function DataTableBulkActions<TData>({ table }: DataTableBulkActionsProps
         table.resetRowSelection()
         return `Invited ${selectedUsers.length} user${selectedUsers.length > 1 ? 's' : ''}`
       },
-      error: 'Error inviting users'
+      error: 'Error inviting users',
     })
     table.resetRowSelection()
   }
@@ -123,7 +129,11 @@ export function DataTableBulkActions<TData>({ table }: DataTableBulkActionsProps
         </Tooltip>
       </BulkActionsToolbar>
 
-      <UsersMultiDeleteDialog onOpenChange={setShowDeleteConfirm} open={showDeleteConfirm} table={table} />
+      <UsersMultiDeleteDialog
+        onOpenChange={setShowDeleteConfirm}
+        open={showDeleteConfirm}
+        table={table}
+      />
     </>
   )
 }

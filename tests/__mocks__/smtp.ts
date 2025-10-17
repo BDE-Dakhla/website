@@ -7,9 +7,5 @@ export function mockSendSmtpMail() {
 }
 
 export function createMockSmtpSocket() {
-  return {
-    write: vi.fn(),
-    on: vi.fn(),
-    destroy: vi.fn(),
-  }
+  return { write: vi.fn(), on: vi.fn(), destroy: vi.fn() }
 }

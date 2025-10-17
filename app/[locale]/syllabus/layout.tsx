@@ -1,7 +1,7 @@
 import { auth } from '@/auth'
 import { Header } from '@/components/common/header'
-import { ProfileDropdown } from '@/components/profile/profile-dropdown'
 import { Search } from '@/components/common/search'
+import { ProfileDropdown } from '@/components/profile/profile-dropdown'
 import { SyllabusSidebar } from '@/components/syllabus/syllabus-sidebar'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { SyllabusNavigationProvider } from '@/contexts/syllabus-navigation'

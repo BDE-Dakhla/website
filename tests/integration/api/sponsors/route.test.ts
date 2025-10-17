@@ -1,7 +1,11 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { createMockRequest, createMockSession, extractJsonFromResponse } from '@/tests/helpers'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createMockDb, createMockKyselyQuery } from '@/tests/__mocks__/kysely'
 import { mockSponsors } from '@/tests/fixtures/sponsors'
+import {
+  createMockRequest,
+  createMockSession,
+  extractJsonFromResponse,
+} from '@/tests/helpers'
 
 // Mock dependencies
 vi.mock('@/auth', () => ({
@@ -24,16 +28,19 @@ describe('GET /api/sponsors', () => {
     vi.clearAllMocks()
     mockQuery = createMockKyselyQuery()
     mockDb = createMockDb()
-    
+
     mockDb.selectFrom = vi.fn().mockReturnValue(mockQuery)
     vi.mocked(getDb).mockReturnValue(mockDb as any)
   })
 
   it('should return only approved sponsors for public users', async () => {
     vi.mocked(auth).mockResolvedValueOnce(null)
-    
-    mockQuery.execute.mockResolvedValueOnce([mockSponsors.approved, mockSponsors.featured])
-    
+
+    mockQuery.execute.mockResolvedValueOnce([
+      mockSponsors.approved,
+      mockSponsors.featured,
+    ])
+
     const request = createMockRequest('http://localhost/api/sponsors', {
       method: 'GET',
     })
@@ -43,7 +50,7 @@ describe('GET /api/sponsors', () => {
 
     expect(response.status).toBe(200)
     expect(Array.isArray(data)).toBe(true)
-    
+
     // Verify where clause was added for approved only
     expect(mockQuery.where).toHaveBeenCalledWith('approved', '=', true)
   })
@@ -54,13 +61,13 @@ describe('GET /api/sponsors', () => {
         permissions: { MANAGE_SPONSORS: 1 },
       }),
     )
-    
+
     mockQuery.execute.mockResolvedValueOnce([
       mockSponsors.approved,
       mockSponsors.unapproved,
       mockSponsors.featured,
     ])
-    
+
     const request = createMockRequest(
       'http://localhost/api/sponsors?include_unapproved=true',
       { method: 'GET' },
@@ -72,16 +79,19 @@ describe('GET /api/sponsors', () => {
     expect(response.status).toBe(200)
     expect(Array.isArray(data)).toBe(true)
     expect(data.length).toBe(3)
-    
+
     // Should not filter by approved status
     expect(mockQuery.where).not.toHaveBeenCalledWith('approved', '=', true)
   })
 
   it('should order sponsors by featured, priority, and created date', async () => {
     vi.mocked(auth).mockResolvedValueOnce(null)
-    
-    mockQuery.execute.mockResolvedValueOnce([mockSponsors.featured, mockSponsors.approved])
-    
+
+    mockQuery.execute.mockResolvedValueOnce([
+      mockSponsors.featured,
+      mockSponsors.approved,
+    ])
+
     const request = createMockRequest('http://localhost/api/sponsors', {
       method: 'GET',
     })
@@ -102,10 +112,10 @@ describe('POST /api/sponsors', () => {
     vi.clearAllMocks()
     mockQuery = createMockKyselyQuery()
     mockDb = createMockDb()
-    
+
     mockDb.selectFrom = vi.fn().mockReturnValue(mockQuery)
     mockDb.insertInto = vi.fn().mockReturnValue(mockQuery)
-    
+
     vi.mocked(getDb).mockReturnValue(mockDb as any)
   })
 
@@ -116,13 +126,13 @@ describe('POST /api/sponsors', () => {
         permissions: { MANAGE_SPONSORS: 1 },
       }),
     )
-    
+
     // Mock no existing sponsor
     mockQuery.executeTakeFirst.mockResolvedValueOnce(undefined)
-    
+
     // Mock successful insert
     mockQuery.execute.mockResolvedValueOnce([mockSponsors.approved])
-    
+
     const sponsorData = {
       name: 'New Sponsor',
       slug: 'new-sponsor',
@@ -143,7 +153,7 @@ describe('POST /api/sponsors', () => {
 
     expect(response.status).toBe(200)
     expect(data).toHaveProperty('id')
-    
+
     // Verify auto-approval for admin
     expect(mockQuery.values).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -155,7 +165,7 @@ describe('POST /api/sponsors', () => {
 
   it('should reject unauthenticated requests', async () => {
     vi.mocked(auth).mockResolvedValueOnce(null)
-    
+
     const sponsorData = {
       name: 'New Sponsor',
       slug: 'new-sponsor',
@@ -184,7 +194,7 @@ describe('POST /api/sponsors', () => {
         permissions: {}, // No permissions
       }),
     )
-    
+
     const sponsorData = {
       name: 'New Sponsor',
       slug: 'new-sponsor',
@@ -213,10 +223,10 @@ describe('POST /api/sponsors', () => {
         permissions: { MANAGE_SPONSORS: 1 },
       }),
     )
-    
+
     // Mock existing sponsor with same slug
     mockQuery.executeTakeFirst.mockResolvedValueOnce(mockSponsors.approved)
-    
+
     const sponsorData = {
       name: 'New Sponsor',
       slug: 'approved-sponsor', // Already exists
@@ -245,7 +255,7 @@ describe('POST /api/sponsors', () => {
         permissions: { MANAGE_SPONSORS: 1 },
       }),
     )
-    
+
     const sponsorData = {
       name: '', // Invalid: empty name
       slug: 'new-sponsor',
@@ -270,7 +280,7 @@ describe('POST /api/sponsors', () => {
         permissions: { MANAGE_SPONSORS: 1 },
       }),
     )
-    
+
     const sponsorData = {
       name: 'New Sponsor',
       slug: 'new-sponsor',

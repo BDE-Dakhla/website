@@ -19,7 +19,7 @@ function stripLocale(pathname: string) {
   const parts = pathname.split('/').filter(Boolean)
   const hasLocale =
     parts.length && (locales as unknown as string[]).includes(parts[0])
-  const rest = hasLocale ? '/' + parts.slice(1).join('/') : pathname
+  const rest = hasLocale ? `/${parts.slice(1).join('/')}` : pathname
   return { basePath: rest || '/', locale: hasLocale ? parts[0] : undefined }
 }
 

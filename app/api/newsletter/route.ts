@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
         .executeTakeFirst()
       if (!existing) throw e
       subscriberId = existing.id as typeof id
-      
+
       if (existing.status === 'unsubscribed') {
         // Réactiver l'abonnement si désabonné - continuer pour envoyer l'email de bienvenue
         await db
@@ -50,12 +50,18 @@ export async function POST(req: NextRequest) {
           .where('id', '=', existing.id)
           .execute()
         // On continue pour envoyer l'email de bienvenue
-      } else if (existing.status === 'active' || existing.status === 'pending') {
+      } else if (
+        existing.status === 'active' ||
+        existing.status === 'pending'
+      ) {
         // L'utilisateur est déjà inscrit (actif ou en attente), on retourne juste un message
         return NextResponse.json({ ok: true, message: 'already_subscribed' })
       } else if (existing.status === 'bounced') {
         // Email rejeté par le serveur, ne pas réessayer
-        return NextResponse.json({ ok: false, message: 'email_bounced' }, { status: 400 })
+        return NextResponse.json(
+          { ok: false, message: 'email_bounced' },
+          { status: 400 },
+        )
       }
     } else {
       throw e

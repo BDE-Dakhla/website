@@ -1,6 +1,12 @@
 import { Loader } from 'lucide-react'
 import { FormControl } from '@/components/ui/form'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { cn } from '@/lib/utils'
 
 type SelectDropdownProps = {
@@ -22,9 +28,11 @@ export function SelectDropdown({
   placeholder,
   disabled,
   className = '',
-  isControlled = false
+  isControlled = false,
 }: SelectDropdownProps) {
-  const defaultState = isControlled ? { value: defaultValue, onValueChange } : { defaultValue, onValueChange }
+  const defaultState = isControlled
+    ? { value: defaultValue, onValueChange }
+    : { defaultValue, onValueChange }
   return (
     <Select {...defaultState}>
       <FormControl>

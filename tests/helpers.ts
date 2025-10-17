@@ -1,4 +1,4 @@
-import type { Role, PermissionMap } from '@/types/schema'
+import type { PermissionMap, Role } from '@/types/schema'
 
 export function createMockRequest(
   url: string,
@@ -30,7 +30,9 @@ export function createMockUser(overrides?: {
   }
 }
 
-export function createMockSession(userOverrides?: Parameters<typeof createMockUser>[0]) {
+export function createMockSession(
+  userOverrides?: Parameters<typeof createMockUser>[0],
+) {
   return {
     user: createMockUser(userOverrides),
     expires: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),

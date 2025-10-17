@@ -98,15 +98,13 @@ describe('Analytics User Agent Parser', () => {
 
   describe('parseUserAgent - OS Detection', () => {
     it('should detect Windows 10/11', () => {
-      const ua =
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+      const ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
       const result = parseUserAgent(ua)
       expect(result.os).toBe('Windows 10/11')
     })
 
     it('should detect Windows 7', () => {
-      const ua =
-        'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36'
+      const ua = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36'
       const result = parseUserAgent(ua)
       expect(result.os).toBe('Windows 7')
     })
@@ -155,8 +153,7 @@ describe('Analytics User Agent Parser', () => {
 
   describe('parseUserAgent - Device Detection', () => {
     it('should detect Desktop by default', () => {
-      const ua =
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+      const ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
       const result = parseUserAgent(ua)
       expect(result.device).toBe('Desktop')
     })

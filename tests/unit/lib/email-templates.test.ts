@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { generateWelcomeEmail } from '@/lib/email-templates'
 
 describe('Email Templates', () => {
@@ -61,6 +61,4 @@ describe('Email Templates', () => {
       expect(hasWelcomeText).toBe(true)
     })
   })
-
-
 })

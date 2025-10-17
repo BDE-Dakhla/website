@@ -1,4 +1,3 @@
-import type { PermissionMap } from '@/types/schema'
 import { randomUUID } from 'node:crypto'
 import { hash } from 'bcryptjs'
 import { NextResponse } from 'next/server'

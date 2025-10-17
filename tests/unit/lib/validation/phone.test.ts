@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import {
-  phoneNumberSchema,
   formatMoroccanPhone,
+  phoneNumberSchema,
   validateAndFormatPhone,
 } from '@/lib/validation/phone'
 
@@ -35,9 +35,7 @@ describe('Phone Validation', () => {
 
     it('should handle numbers with spaces and formatting', () => {
       expect(() => phoneNumberSchema.parse('+212 612 345 678')).not.toThrow()
-      expect(() =>
-        phoneNumberSchema.parse('+212-6-12-34-56-78'),
-      ).not.toThrow()
+      expect(() => phoneNumberSchema.parse('+212-6-12-34-56-78')).not.toThrow()
       expect(() => phoneNumberSchema.parse('(+212) 612345678')).not.toThrow()
     })
   })
@@ -53,12 +51,8 @@ describe('Phone Validation', () => {
       expect(formatMoroccanPhone('+212 6 12 34 56 78')).toBe(
         '+212 6 12 345 678',
       )
-      expect(formatMoroccanPhone('+212-612-345-678')).toBe(
-        '+212 6 12 345 678',
-      )
-      expect(formatMoroccanPhone('(+212) 612345678')).toBe(
-        '+212 6 12 345 678',
-      )
+      expect(formatMoroccanPhone('+212-612-345-678')).toBe('+212 6 12 345 678')
+      expect(formatMoroccanPhone('(+212) 612345678')).toBe('+212 6 12 345 678')
     })
 
     it('should return null for invalid numbers', () => {
@@ -79,7 +73,7 @@ describe('Phone Validation', () => {
   describe('validateAndFormatPhone', () => {
     it('should return valid result for correct numbers', () => {
       const result = validateAndFormatPhone('0612345678')
-      
+
       expect(result.isValid).toBe(true)
       expect(result.formatted).toBe('+212 6 12 345 678')
       expect(result.error).toBeUndefined()
@@ -87,7 +81,7 @@ describe('Phone Validation', () => {
 
     it('should return invalid result for incorrect numbers', () => {
       const result = validateAndFormatPhone('123')
-      
+
       expect(result.isValid).toBe(false)
       expect(result.formatted).toBeNull()
       expect(result.error).toBeDefined()
@@ -95,7 +89,7 @@ describe('Phone Validation', () => {
 
     it('should handle empty strings', () => {
       const result = validateAndFormatPhone('')
-      
+
       expect(result.isValid).toBe(true)
       expect(result.formatted).toBeNull()
     })
@@ -107,10 +101,10 @@ describe('Phone Validation', () => {
 
       expect(mobile1.isValid).toBe(true)
       expect(mobile1.formatted).toBe('+212 6 12 345 678')
-      
+
       expect(mobile2.isValid).toBe(true)
       expect(mobile2.formatted).toBe('+212 7 12 345 678')
-      
+
       expect(fixed.isValid).toBe(true)
       expect(fixed.formatted).toBe('+212 5 12 345 678')
     })

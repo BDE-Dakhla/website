@@ -349,7 +349,6 @@ export function Timetable({
   )
 }
 
-
 export const ROOMS: Room[] = [
   { id: 'r-amphi-1', name: 'Amphi 1', label: 'Amphithéâtre' },
   { id: 'r-salle-1', name: 'Salle 1', label: 'Classe' },

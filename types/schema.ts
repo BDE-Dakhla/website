@@ -17,6 +17,7 @@ interface AppDatabase {
   analytics_visitors: AnalyticsVisitor
   analytics_sessions: AnalyticsSession
   analytics_events: AnalyticsEvent
+  system_settings: SystemSettings
 }
 
 interface UserExtra {
@@ -161,6 +162,17 @@ interface AnalyticsEvent {
   event_name: string | null
 }
 
+interface SystemSettings {
+  key: string
+  value: unknown
+  updated_at: ColumnType<Date, Date | undefined, never>
+  updated_by: string | null
+}
+
 export type Sponsor = Selectable<SponsorTable>
 export type NewSponsor = Insertable<SponsorTable>
 export type SponsorUpdate = Updateable<SponsorTable>
+
+export type MaintenanceModeSettings = {
+  enabled: boolean
+}

@@ -4,7 +4,10 @@ import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import { CheckIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const Animated: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = ({ className, ...props }) => {
+const Animated: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = ({
+  className,
+  ...props
+}) => {
   return (
     <input
       className={cn(
@@ -21,7 +24,7 @@ const Animated: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = ({ class
         'checked:before:opacity-100 checked:before:transition-all checked:before:delay-100 checked:before:duration-200',
         'hover:border-[#1677ff] focus:outline-[#1677ff]',
         '[&:active:not(:checked)]:after:opacity-100 [&:active:not(:checked)]:after:shadow-none [&:active:not(:checked)]:after:transition-none',
-        className
+        className,
       )}
       type='checkbox'
       {...props}
@@ -29,12 +32,15 @@ const Animated: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = ({ class
   )
 }
 
-function Native({ className, ...props }: React.ComponentProps<typeof CheckboxPrimitive.Root>) {
+function Native({
+  className,
+  ...props
+}: React.ComponentProps<typeof CheckboxPrimitive.Root>) {
   return (
     <CheckboxPrimitive.Root
       className={cn(
         'peer size-4 shrink-0 rounded-[4px] border border-input shadow-xs outline-none transition-shadow focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:bg-input/30 dark:data-[state=checked]:bg-primary dark:aria-invalid:ring-destructive/40',
-        className
+        className,
       )}
       data-slot='checkbox'
       {...props}>

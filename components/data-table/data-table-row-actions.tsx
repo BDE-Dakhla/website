@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useUsers } from '@/hooks/users-provider'
 
@@ -23,7 +23,9 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <Button className='flex h-8 w-8 p-0 data-[state=open]:bg-muted' variant='ghost'>
+        <Button
+          className='flex h-8 w-8 p-0 data-[state=open]:bg-muted'
+          variant='ghost'>
           <DotsHorizontalIcon className='h-4 w-4' />
           <span className='sr-only'>Open menu</span>
         </Button>

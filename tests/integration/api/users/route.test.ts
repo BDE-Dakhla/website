@@ -1,7 +1,11 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { createMockRequest, createMockSession, extractJsonFromResponse } from '@/tests/helpers'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createMockDb, createMockKyselyQuery } from '@/tests/__mocks__/kysely'
 import { mockUsers } from '@/tests/fixtures/users'
+import {
+  createMockRequest,
+  createMockSession,
+  extractJsonFromResponse,
+} from '@/tests/helpers'
 
 // Mock dependencies
 vi.mock('@/auth', () => ({
@@ -28,24 +32,24 @@ describe('POST /api/users', () => {
     vi.clearAllMocks()
     mockQuery = createMockKyselyQuery()
     mockDb = createMockDb()
-    
+
     mockDb.insertInto = vi.fn().mockReturnValue(mockQuery)
     mockDb.selectFrom = vi.fn().mockReturnValue(mockQuery)
-    
+
     vi.mocked(getDb).mockReturnValue(mockDb as any)
   })
 
   it('should create user successfully when authenticated', async () => {
     // Mock authenticated session
     vi.mocked(auth).mockResolvedValueOnce(createMockSession())
-    
+
     // Mock no existing user
     mockQuery.executeTakeFirst.mockResolvedValueOnce(undefined)
-    
+
     // Mock successful insert
     const createdUser = { ...mockUsers.student }
     mockQuery.executeTakeFirst.mockResolvedValueOnce(createdUser)
-    
+
     const userData = {
       username: 'newuser',
       email: 'newuser@edu.uiz.ac.ma',
@@ -66,7 +70,7 @@ describe('POST /api/users', () => {
     expect(data.success).toBe(true)
     expect(data.user).toBeDefined()
     expect(data.user.password).toBeUndefined() // Password should be removed
-    
+
     // Verify password was hashed
     expect(mockQuery.values).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -78,7 +82,7 @@ describe('POST /api/users', () => {
   it('should reject unauthenticated requests', async () => {
     // Mock no session
     vi.mocked(auth).mockResolvedValueOnce(null)
-    
+
     const userData = {
       username: 'newuser',
       email: 'newuser@edu.uiz.ac.ma',
@@ -101,7 +105,7 @@ describe('POST /api/users', () => {
 
   it('should reject invalid email format', async () => {
     vi.mocked(auth).mockResolvedValueOnce(createMockSession())
-    
+
     const userData = {
       username: 'newuser',
       email: 'invalid-email',
@@ -124,7 +128,7 @@ describe('POST /api/users', () => {
 
   it('should reject short passwords', async () => {
     vi.mocked(auth).mockResolvedValueOnce(createMockSession())
-    
+
     const userData = {
       username: 'newuser',
       email: 'newuser@edu.uiz.ac.ma',
@@ -148,10 +152,10 @@ describe('POST /api/users', () => {
 
   it('should reject duplicate email addresses', async () => {
     vi.mocked(auth).mockResolvedValueOnce(createMockSession())
-    
+
     // Mock existing user
     mockQuery.executeTakeFirst.mockResolvedValueOnce(mockUsers.student)
-    
+
     const userData = {
       username: 'newuser',
       email: 'student@edu.uiz.ac.ma', // Already exists
@@ -173,17 +177,23 @@ describe('POST /api/users', () => {
   })
 
   it('should accept valid user roles', async () => {
-    const roles = ['student', 'teacher', 'contributor', 'administrator', 'developer']
-    
+    const roles = [
+      'student',
+      'teacher',
+      'contributor',
+      'administrator',
+      'developer',
+    ]
+
     for (const role of roles) {
       // Mock auth for each iteration
       vi.mocked(auth).mockResolvedValueOnce(createMockSession())
-      
+
       // Mock no existing user and successful creation for each iteration
       mockQuery.executeTakeFirst
         .mockResolvedValueOnce(undefined) // No existing user
         .mockResolvedValueOnce({ ...mockUsers.admin, role }) // Created user with role
-      
+
       const userData = {
         username: 'newuser',
         email: 'newuser@edu.uiz.ac.ma',
@@ -204,7 +214,7 @@ describe('POST /api/users', () => {
 
   it('should reject invalid roles', async () => {
     vi.mocked(auth).mockResolvedValueOnce(createMockSession())
-    
+
     const userData = {
       username: 'newuser',
       email: 'newuser@edu.uiz.ac.ma',
@@ -227,11 +237,11 @@ describe('POST /api/users', () => {
 
   it('should accept optional permissions', async () => {
     vi.mocked(auth).mockResolvedValueOnce(createMockSession())
-    
+
     mockQuery.executeTakeFirst
       .mockResolvedValueOnce(undefined)
       .mockResolvedValueOnce({ ...mockUsers.admin })
-    
+
     const userData = {
       username: 'newuser',
       email: 'newuser@edu.uiz.ac.ma',

@@ -23,10 +23,10 @@ import {
 } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 import { formatMoroccanPhone } from '@/lib/validation/phone'
-import { DataTableColumnHeader } from './column-header'
 import { callTypes, roles } from '../common/data'
-import { DataTableRowActions } from './data-table-row-actions'
 import { LongText } from '../layout/long-text'
+import { DataTableColumnHeader } from './column-header'
+import { DataTableRowActions } from './data-table-row-actions'
 
 export function useUsersColumns(): ColumnDef<User>[] {
   const t = useTranslations('dashboard')

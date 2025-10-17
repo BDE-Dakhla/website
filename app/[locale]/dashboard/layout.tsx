@@ -1,7 +1,7 @@
-import { DashboardSideBar } from '@/components/dashboard/dashboard-sidebar'
 import { Header } from '@/components/common/header'
-import { ProfileDropdown } from '@/components/profile/profile-dropdown'
 import { Search } from '@/components/common/search'
+import { DashboardSideBar } from '@/components/dashboard/dashboard-sidebar'
+import { ProfileDropdown } from '@/components/profile/profile-dropdown'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { SearchProvider } from '@/hooks/use-search'
 

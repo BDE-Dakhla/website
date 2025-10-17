@@ -6,5 +6,14 @@
     "source.fixAll.biome": "always",
     "source.biome": "always",
     "source.addMissingImports.ts": "always"
+  },
+
+  "files.exclude": {
+    "playwright-report": true,
+    "coverage": true,
+    "data": true,
+    ".source": true,
+    ".next": true,
+    "next-env.d.ts": true
   }
 }

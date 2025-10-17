@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
+import { defaultLocale, LANGS } from '@/i18n/routing'
 import { SEO } from '@/lib/seo'
-import { LANGS, defaultLocale } from '@/i18n/routing'
 
 const activeLocales = LANGS.filter((l) => !l.disabled).map((l) => l.locale)
 const languageAlternates = Object.fromEntries(

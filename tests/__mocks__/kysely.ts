@@ -28,7 +28,7 @@ export function createMockKyselyQuery() {
 
 export function createMockDb() {
   const mockQuery = createMockKyselyQuery()
-  
+
   return {
     selectFrom: mockQuery.selectFrom,
     insertInto: mockQuery.insertInto,

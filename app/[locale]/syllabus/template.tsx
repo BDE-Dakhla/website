@@ -1,7 +1,7 @@
 'use client'
 
+import type { ReactNode } from 'react'
 import { SyllabusPageTransition } from '@/components/syllabus/syllabus-page-transition'
-import { ReactNode } from 'react'
 
 interface TemplateProps {
   children: ReactNode
@@ -9,7 +9,7 @@ interface TemplateProps {
 
 export default function Template({ children }: TemplateProps) {
   return (
-    <SyllabusPageTransition className="flex flex-col">
+    <SyllabusPageTransition className='flex flex-col'>
       {children}
     </SyllabusPageTransition>
   )

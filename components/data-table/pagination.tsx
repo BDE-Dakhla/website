@@ -1,14 +1,27 @@
 import type { Table } from '@tanstack/react-table'
-import { ChevronLeftIcon, ChevronRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon } from '@radix-ui/react-icons'
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  DoubleArrowLeftIcon,
+  DoubleArrowRightIcon,
+} from '@radix-ui/react-icons'
 import { Button } from '@/components/ui/button'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { cn, getPageNumbers } from '@/lib/utils'
 
 type DataTablePaginationProps<TData> = {
   table: Table<TData>
 }
 
-export function DataTablePagination<TData>({ table }: DataTablePaginationProps<TData>) {
+export function DataTablePagination<TData>({
+  table,
+}: DataTablePaginationProps<TData>) {
   const currentPage = table.getState().pagination.pageIndex + 1
   const totalPages = table.getPageCount()
   const pageNumbers = getPageNumbers(currentPage, totalPages)
@@ -17,7 +30,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
     <div
       className={cn(
         'flex items-center justify-between overflow-clip px-2',
-        '@max-2xl/content:flex-col-reverse @max-2xl/content:gap-4'
+        '@max-2xl/content:flex-col-reverse @max-2xl/content:gap-4',
       )}
       style={{ overflowClipMargin: 1 }}>
       <div className='flex w-full items-center justify-between'>

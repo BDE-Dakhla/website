@@ -110,5 +110,5 @@ jobs:
       - name: Install dependencies
         run: bun install
         
-      - name: Run linter
-        run: bun run lint:fix
+      - name: Run linter (Biome)
+        run: bunx biome check .

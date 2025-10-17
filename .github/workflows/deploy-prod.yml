@@ -44,8 +44,8 @@ jobs:
         run: bun run build
         
       # Lint code
-      - name: Run linter
-        run: bun run lint:fix
+      - name: Run linter (Biome)
+        run: bunx biome check .
         
       - name: Upload test results
         if: failure()

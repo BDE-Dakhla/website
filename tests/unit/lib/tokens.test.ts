@@ -65,7 +65,7 @@ describe('Token Utilities', () => {
 
     it('should reject token with tampered signature', () => {
       const token = makeUnsubToken(subscriberId, email)
-      const tamperedToken = token.slice(0, -5) + 'xxxxx'
+      const tamperedToken = `${token.slice(0, -5)}xxxxx`
       const verified = verifyUnsubToken(tamperedToken, email)
 
       expect(verified).toBeNull()

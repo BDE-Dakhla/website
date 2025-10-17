@@ -1,6 +1,5 @@
 import { Calendar } from 'lucide-react'
-import { redirect } from 'next/navigation'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { auth } from '@/auth'
 import { CookieConsent } from '@/components/shared/cookie-consent'
@@ -25,8 +24,7 @@ export default async function Layout({
   if (isMaintenanceMode) {
     const session = await auth()
     const isSystemAdmin =
-      session?.user &&
-      hasPermission(session.user.permissions, 'SYSTEM_ADMIN')
+      session?.user && hasPermission(session.user.permissions, 'SYSTEM_ADMIN')
 
     if (!isSystemAdmin) {
       // This will be caught by maintenance page's own layout

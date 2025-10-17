@@ -260,7 +260,7 @@ describe('POST /api/users', () => {
     })
 
     const response = await POST(request)
-    const data = await extractJsonFromResponse(response)
+    const _data = await extractJsonFromResponse(response)
 
     expect(response.status).toBe(201)
     expect(mockQuery.values).toHaveBeenCalledWith(

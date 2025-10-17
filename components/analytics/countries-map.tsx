@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   ComposableMap,
   Geographies,
@@ -102,23 +102,26 @@ export function VisitorsByCountry({ range }: { range: Range }) {
     myanmarburma: 'myanmar',
   }
 
-  const alt = (s: string) => {
-    const n = normalize(s)
-    if (ALIAS[n]) return ALIAS[n]
-    if (s.includes(',')) {
-      const swapped = s
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]+/g, '')
-        .toLowerCase()
-        .split(',')
-        .map((p) => p.trim())
-        .reverse()
-        .join(' ')
-      const nn = normalize(swapped)
-      return ALIAS[nn] || nn
-    }
-    return n
-  }
+  const alt = useCallback(
+    (s: string) => {
+      const n = normalize(s)
+      if (ALIAS[n]) return ALIAS[n]
+      if (s.includes(',')) {
+        const swapped = s
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]+/g, '')
+          .toLowerCase()
+          .split(',')
+          .map((p) => p.trim())
+          .reverse()
+          .join(' ')
+        const nn = normalize(swapped)
+        return ALIAS[nn] || nn
+      }
+      return n
+    },
+    [normalize],
+  )
 
   const countByName = useMemo(() => {
     const by: Record<string, number> = {}
@@ -127,7 +130,7 @@ export function VisitorsByCountry({ range }: { range: Range }) {
       by[key] = (by[key] || 0) + it.count
     }
     return by
-  }, [items])
+  }, [items, alt])
 
   return (
     <Card className='@container/card'>
@@ -164,9 +167,13 @@ export function VisitorsByCountry({ range }: { range: Range }) {
                     <Geographies geography={GEO_URL}>
                       {({ geographies }) =>
                         geographies.map((geo) => {
-                          const props: any = geo.properties || {}
+                          const props: Record<string, unknown> =
+                            geo.properties || {}
                           const gname: string =
-                            props.name || props.NAME || props.ADMIN || ''
+                            (props.name as string) ||
+                            (props.NAME as string) ||
+                            (props.ADMIN as string) ||
+                            ''
                           const count = countByName[alt(gname)] || 0
                           return (
                             <Geography
@@ -174,9 +181,9 @@ export function VisitorsByCountry({ range }: { range: Range }) {
                               key={geo.rsmKey}
                               onMouseEnter={() => {
                                 const name =
-                                  props.NAME ||
-                                  props.name ||
-                                  props.ADMIN ||
+                                  (props.NAME as string) ||
+                                  (props.name as string) ||
+                                  (props.ADMIN as string) ||
                                   'Unknown'
                                 const label = `${name}: ${count} ${count === 1 ? 'visitor' : 'visitors'}`
                                 setTooltip(label)

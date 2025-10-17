@@ -64,7 +64,7 @@ export default function AuthErrorPage() {
     }, 1000)
 
     return () => clearInterval(timer)
-  }, [error, errorInfo, router])
+  }, [errorInfo, router])
 
   const handleRetry = () => {
     router.push('/connexion')

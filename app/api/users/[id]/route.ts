@@ -19,7 +19,7 @@ const updateUserSchema = z.object({
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     // Check authentication
@@ -39,11 +39,11 @@ export async function PATCH(
       )
     }
 
-    const { username, email, phoneNumber, role, password, permissions } =
+    const { username, email, role, password, permissions } =
       validationResult.data
 
     const db = getDb()
-    const userId = params.id
+    const { id: userId } = await params
 
     // Check if user exists
     const existingUser = await db

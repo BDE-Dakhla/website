@@ -20,8 +20,7 @@ export async function MaintenanceGuard({
 
   const session = await auth()
   const isSystemAdmin =
-    session?.user &&
-    hasPermission(session.user.permissions, 'SYSTEM_ADMIN')
+    session?.user && hasPermission(session.user.permissions, 'SYSTEM_ADMIN')
 
   if (!isSystemAdmin) {
     redirect(`/${locale}/maintenance`)

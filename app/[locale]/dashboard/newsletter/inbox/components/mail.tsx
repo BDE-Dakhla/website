@@ -1,6 +1,6 @@
 'use client'
 
-import type { Mail } from '../data'
+import type { Mail as MailItem } from '../data'
 import Cookies from 'js-cookie'
 import {
   AlertCircle,
@@ -14,7 +14,7 @@ import {
   Trash2,
   Users2,
 } from 'lucide-react'
-import { useDeferredValue, useMemo, useState } from 'react'
+import { useCallback, useDeferredValue, useMemo, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import {
   ResizableHandle,
@@ -37,7 +37,7 @@ interface MailProps {
     email: string
     icon: React.ReactNode
   }[]
-  mails: Mail[]
+  mails: MailItem[]
   defaultLayout?: number[]
   defaultCollapsed?: boolean
   navCollapsedSize: number
@@ -77,11 +77,14 @@ function MailInner({
   }, [mails])
 
   // Build a normalized search index once per mails change
-  const normalize = (s: string) =>
-    s
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
+  const normalize = useCallback(
+    (s: string) =>
+      s
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, ''),
+    [],
+  )
 
   const searchIndex = useMemo(
     () =>
@@ -93,14 +96,14 @@ function MailInner({
           [m.subject, m.text, m.name, m.email, ...(m.labels || [])].join(' '),
         ),
       })),
-    [mails],
+    [mails, normalize],
   )
 
   // Tokenize the query; require all tokens to match (AND semantics)
   const tokens = useMemo(() => {
     const n = normalize(deferredQuery)
     return n.split(/\s+/).filter(Boolean)
-  }, [deferredQuery])
+  }, [deferredQuery, normalize])
 
   // Fast filter using the precomputed index
   const filteredAll = useMemo(() => {
@@ -205,25 +208,25 @@ function MailInner({
             links={[
               {
                 title: 'Partenariats',
-                label: (labelCounts['partenariat'] || 0).toString(),
+                label: (labelCounts.partenariat || 0).toString(),
                 icon: Users2,
                 variant: 'ghost',
               },
               {
                 title: 'Événements',
-                label: (labelCounts['événement'] || 0).toString(),
+                label: (labelCounts.événement || 0).toString(),
                 icon: AlertCircle,
                 variant: 'ghost',
               },
               {
                 title: 'Communications',
-                label: (labelCounts['notification'] || 0).toString(),
+                label: (labelCounts.notification || 0).toString(),
                 icon: MessagesSquare,
                 variant: 'ghost',
               },
               {
                 title: 'Rapports',
-                label: (labelCounts['rapport'] || 0).toString(),
+                label: (labelCounts.rapport || 0).toString(),
                 icon: Archive,
                 variant: 'ghost',
               },

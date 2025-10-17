@@ -61,9 +61,7 @@ export function DataTableBulkActions<TData>({
     const buttons = toolbarRef.current?.querySelectorAll('button')
     if (!buttons) return
 
-    const currentIndex = Array.from(buttons).findIndex(
-      (button) => button === document.activeElement,
-    )
+    const currentIndex = Array.from(buttons).indexOf(document.activeElement)
 
     switch (event.key) {
       case 'ArrowRight': {

@@ -1,7 +1,7 @@
 'use client'
 
 import type { InboxEmail } from '@/lib/inbox-mock'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Mail } from './components/mail'
 import { accounts, transformInboxEmailToMail } from './data'
 
@@ -9,7 +9,7 @@ export default function InboxPage() {
   const [emails, setEmails] = useState<InboxEmail[]>([])
   const [loading, setLoading] = useState(true)
 
-  const fetchEmails = async () => {
+  const fetchEmails = useCallback(async () => {
     try {
       const response = await fetch('/api/newsletter/inbox')
       const data = await response.json()
@@ -19,11 +19,11 @@ export default function InboxPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
 
   useEffect(() => {
     fetchEmails()
-  }, [])
+  }, [fetchEmails])
 
   // Transform emails to match shadcn mail interface
   const mails = emails.map(transformInboxEmailToMail)

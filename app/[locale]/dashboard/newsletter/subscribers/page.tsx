@@ -1,7 +1,7 @@
 'use client'
 
 import { Mail, TrendingUp, Users, X } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   type Subscriber,
   SubscribersTable,
@@ -36,7 +36,7 @@ export default function SubscribersPage() {
   const [search] = useState<Record<string, unknown>>({})
   const navigate = () => {}
 
-  const fetchSubscribers = async () => {
+  const fetchSubscribers = useCallback(async () => {
     try {
       const response = await fetch('/api/newsletter/subscribers')
       if (response.ok) {
@@ -48,7 +48,7 @@ export default function SubscribersPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
 
   const handleDeleteClick = (subscriber: Subscriber) => {
     setSubscriberToDelete(subscriber)
@@ -97,7 +97,7 @@ export default function SubscribersPage() {
 
   useEffect(() => {
     fetchSubscribers()
-  }, [])
+  }, [fetchSubscribers])
 
   const stats = {
     total: subscribers.length,

@@ -3,6 +3,7 @@
 import { AlertTriangle, CheckCircle2, Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,7 +17,6 @@ import {
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { cn } from '@/lib/utils'
-import { toast } from 'sonner'
 
 export default function MaintenanceSettingsPage() {
   const t = useTranslations('dashboard.settings.maintenance')

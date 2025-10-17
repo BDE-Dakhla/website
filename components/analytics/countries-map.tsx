@@ -77,13 +77,16 @@ export function VisitorsByCountry({ range }: { range: Range }) {
   const computedScale = BASE_SCALE * Math.max(size.w / BASE_W, size.h / BASE_H)
 
   // Normalize names to match dataset naming
-  const normalize = (s: string) =>
-    (s || '')
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]+/g, '')
-      .toLowerCase()
-      .replace(/&/g, 'and')
-      .replace(/[^a-z]+/g, '')
+  const normalize = useCallback(
+    (s: string) =>
+      (s || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]+/g, '')
+        .toLowerCase()
+        .replace(/&/g, 'and')
+        .replace(/[^a-z]+/g, ''),
+    [],
+  )
 
   const ALIAS: Record<string, string> = {
     unitedstatesofamerica: 'unitedstates',

@@ -2,7 +2,7 @@
 
 import { AlertTriangle, CheckCircle2, Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import {
   AlertDialog,

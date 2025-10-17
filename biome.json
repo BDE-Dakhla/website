@@ -7,6 +7,9 @@
       "indentStyle": "space",
       "lineEnding": "lf",
       "quoteStyle": "single"
+    },
+    "linter": {
+      "enabled": false
     }
   },
 
@@ -61,7 +64,11 @@
     "rules": {
       "recommended": true,
       "suspicious": {
-        "noArrayIndexKey": "off"
+        "noArrayIndexKey": "off",
+        "noExplicitAny": "warn"
+      },
+      "complexity": {
+        "noUselessFragments": "warn"
       },
       "a11y": {
         "useMediaCaption": "off",

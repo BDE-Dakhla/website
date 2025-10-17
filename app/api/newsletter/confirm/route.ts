@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
 
   const now = new Date()
   const row = await db
-    .selectFrom('subscription_tokens as t')
+    .selectFrom('subscriptionTokens as t')
     .innerJoin('subscribers as s', 's.id', 't.subscriber_id')
     .select(['t.token', 't.expires_at', 't.used_at', 's.id as sid', 's.status'])
     .where('t.token', '=', token)
@@ -28,11 +28,11 @@ export async function GET(req: NextRequest) {
   await db.transaction().execute(async (trx) => {
     await trx
       .updateTable('subscribers')
-      .set({ status: 'active', updated_at: now })
+      .set({ status: 'active' })
       .where('id', '=', row.sid)
       .execute()
     await trx
-      .updateTable('subscription_tokens')
+      .updateTable('subscriptionTokens')
       .set({ used_at: now })
       .where('token', '=', token)
       .execute()

@@ -19,4 +19,4 @@ export const SEO = {
     'calendrier',
     'inscriptions',
   ],
-} as const
+}

@@ -67,9 +67,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           response_type: 'code',
         },
       },
-      httpOptions: {
-        timeout: 15000,
-      },
     }),
   ],
   callbacks: {

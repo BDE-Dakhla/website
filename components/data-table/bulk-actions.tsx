@@ -124,13 +124,9 @@ export function DataTableBulkActions<TData>({
   return (
     <>
       {/* Live region for screen reader announcements */}
-      <div
-        aria-atomic='true'
-        aria-live='polite'
-        className='sr-only'
-        role='status'>
+      <output aria-atomic='true' aria-live='polite' className='sr-only'>
         {announcement}
-      </div>
+      </output>
 
       <div
         aria-describedby='bulk-actions-description'

@@ -5,6 +5,17 @@ import { useEffect, useRef } from 'react'
 
 const HEARTBEAT_EVERY = 15_000 // 15s
 
+interface NavigatorUAData extends Navigator {
+  userAgentData?: {
+    brands?: { brand: string; version?: string }[]
+    platform?: string
+    mobile?: boolean
+    getHighEntropyValues?: (hints: string[]) => Promise<{
+      fullVersionList?: { brand: string; version?: string }[]
+    }>
+  }
+}
+
 let uaChCache: {
   brands?: { brand: string; version?: string }[]
   platform?: string
@@ -14,7 +25,7 @@ let uaChCache: {
 async function getUaCh() {
   if (uaChCache) return uaChCache
   try {
-    const ua = navigator.userAgentData
+    const ua = (navigator as NavigatorUAData).userAgentData
     if (ua) {
       const high = await ua.getHighEntropyValues?.(['fullVersionList'])
       uaChCache = {

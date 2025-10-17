@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   const rid = new URL(req.url).searchParams.get('rid') || ''
   if (rid) {
     await db
-      .updateTable('campaign_recipients')
+      .updateTable('campaignRecipients')
       .set({ opened_at: new Date() })
       .where('tracking_id', '=', rid)
       .where('opened_at', 'is', null)

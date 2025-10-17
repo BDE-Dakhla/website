@@ -2,10 +2,11 @@
 /node_modules
 .env
 
-# nextjs
+# nextjs & ts
 /out/
 /.next/
 next-env.d.ts
+tsconfig.tsbuildinfo
 
 # fumadocs
 .source

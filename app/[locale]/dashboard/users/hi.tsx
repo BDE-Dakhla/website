@@ -10,7 +10,11 @@ export function Hi({ users }: { users: Array<Database['User']> }) {
   return (
     <UsersTable
       data={users.map((user) => ({ ...user, username: user.name ?? null }))}
-      navigate={({ search: s }) => setSearch(s(search))}
+      navigate={({ search: s }) => {
+        if (s !== true && typeof s !== 'boolean') {
+          setSearch(s)
+        }
+      }}
       search={search}
     />
   )

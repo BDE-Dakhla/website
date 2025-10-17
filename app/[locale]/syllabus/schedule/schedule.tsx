@@ -288,7 +288,9 @@ export function Timetable({
 }) {
   const roomMap = useMemo(() => {
     const m = new Map<string, Room>()
-    rooms.forEach((r) => m.set(r.id, r))
+    for (const r of rooms) {
+      m.set(r.id, r)
+    }
     return m
   }, [rooms])
 

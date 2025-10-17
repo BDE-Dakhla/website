@@ -34,7 +34,7 @@ export function UsersDeleteDialog({
             <br />
             Cette action va supprimer de manière permanente l&apos;utilisateur
             avec le role de{' '}
-            <span className='font-bold'>{currentRow?.role.toUpperCase()}</span>{' '}
+            <span className='font-bold'>{currentRow?.role?.toUpperCase()}</span>{' '}
             du système.
           </p>
 

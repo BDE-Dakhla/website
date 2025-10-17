@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
         // Réactiver l'abonnement si désabonné - continuer pour envoyer l'email de bienvenue
         await db
           .updateTable('subscribers')
-          .set({ status: 'active', updated_at: now, unsubscribed_at: null })
+          .set({ status: 'active', unsubscribed_at: null })
           .where('id', '=', existing.id)
           .execute()
         // On continue pour envoyer l'email de bienvenue

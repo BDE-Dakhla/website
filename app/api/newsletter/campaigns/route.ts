@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
         chunks.push(subs.slice(i, i + size))
       for (const chunk of chunks) {
         await trx
-          .insertInto('campaign_recipients')
+          .insertInto('campaignRecipients')
           .values(
             chunk.map((s) => ({
               id: randomUUID(),

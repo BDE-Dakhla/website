@@ -28,7 +28,8 @@ export function MailList({ items }: MailListProps) {
               setMail({
                 selected: item.id,
               })
-            }}>
+            }}
+            type='button'>
             <div className='flex w-full flex-col gap-1'>
               <div className='flex items-center'>
                 <div className='flex items-center gap-2'>

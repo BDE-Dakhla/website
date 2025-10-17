@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
   }
 
   const recipients = await db
-    .selectFrom('campaign_recipients as r')
+    .selectFrom('campaignRecipients as r')
     .innerJoin('subscribers as s', 's.id', 'r.subscriber_id')
     .select(['r.id as rid', 'r.tracking_id as trid', 's.email as email'])
     .where('r.campaign_id', '=', campaign.id)
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
   if (recipients.length === 0) {
     await db
       .updateTable('campaigns')
-      .set({ status: 'sent', updated_at: now })
+      .set({ status: 'sent' })
       .where('id', '=', campaign.id)
       .execute()
     return NextResponse.json({ ok: true, message: 'Campaign completed' })
@@ -79,14 +79,14 @@ export async function POST(req: NextRequest) {
         headers: { 'List-Unsubscribe': listUnsub },
       })
       await db
-        .updateTable('campaign_recipients')
+        .updateTable('campaignRecipients')
         .set({ status: 'sent', sent_at: new Date(), last_error: null })
         .where('id', '=', r.rid)
         .execute()
       sent++
     } catch (err: any) {
       await db
-        .updateTable('campaign_recipients')
+        .updateTable('campaignRecipients')
         .set({ status: 'failed', last_error: String(err?.message || err) })
         .where('id', '=', r.rid)
         .execute()

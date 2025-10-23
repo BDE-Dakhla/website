@@ -4,6 +4,7 @@ import type { Sponsor } from '@/types/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslations } from 'next-intl'
 import { z } from 'zod'
 import { SponsorLogoUpload } from '@/components/sponsors/sponsor-logo-upload'
 import { Button as StaticButton } from '@/components/ui/button'
@@ -33,11 +34,19 @@ const sponsorFormSchema = z.object({
   description: z.string().optional(),
   website_url: z.string().url('Invalid URL').optional().or(z.literal('')),
   logo_url: z.string().min(1, 'Logo URL is required'),
-  priority: z.number().int().min(0).default(100),
-  is_featured: z.boolean().default(false),
+  priority: z.number().int().min(0),
+  is_featured: z.boolean(),
 })
 
-type SponsorFormSchemaType = z.infer<typeof sponsorFormSchema>
+type SponsorFormSchemaType = {
+  name: string
+  slug: string
+  logo_url: string
+  priority: number
+  is_featured: boolean
+  description?: string
+  website_url?: string
+}
 
 export type SponsorFormData = Omit<
   SponsorFormSchemaType,
@@ -54,6 +63,7 @@ interface SponsorFormProps {
 }
 
 export function SponsorForm({ sponsor, onSubmit, onCancel }: SponsorFormProps) {
+  const t = useTranslations()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const form = useForm<SponsorFormSchemaType>({
@@ -238,10 +248,10 @@ export function SponsorForm({ sponsor, onSubmit, onCancel }: SponsorFormProps) {
 
         <div className='flex justify-end space-x-2'>
           <StaticButton onClick={onCancel} type='button' variant='outline'>
-            Cancel
+            {t('common.actions.cancel')}
           </StaticButton>
           <Button disabled={isSubmitting} loading={isSubmitting} type='submit'>
-            {sponsor ? 'Update Sponsor' : 'Create Sponsor'}
+            {sponsor ? "Modifier un sponsor": "Ajouter un sponsor"}
           </Button>
         </div>
       </form>

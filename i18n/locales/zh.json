@@ -4,12 +4,13 @@
     "emailAddress": "电子邮件地址",
     "students": "学生",
     "subscribe": "订阅",
-    "syllabus": "学生区"
+    "syllabus": "学生区",
+    "organizationName": "阿波罗 9.0"
   },
   "footer": {
     "aboutUs": "关于我们",
-    "bdeTitle": "Apolo 9.0 - Dakhla ENCG 学生办公室",
-    "bdeDescription": "阿波罗 9 号是达赫拉国立高等师范学院的任务中心，通过一站式服务，提供从创意到影响的各种机会，推动项目和职业发展。",
+    "bdeTitle": "{organizationName} - Dakhla ENCG 学生办公室",
+    "bdeDescription": "{organizationName} 是达赫拉国立高等师范学院的任务中心，通过一站式服务，提供从创意到影响的各种机会，推动项目和职业发展。",
     "team": "团队",
     "partners": "合作伙伴",
     "privacy": "隐私",
@@ -78,6 +79,20 @@
       "CAN_MANAGE_CONTENT": "内容管理",
       "CAN_VIEW_ANALYTICS": "查看分析",
       "CAN_MANAGE_SETTINGS": "系统设置"
+    },
+    "sponsors": {
+      "form": {
+        "edit": {
+          "title": "编辑赞助商"
+        },
+        "add": {
+          "title": "添加新赞助商"
+        }
+      },
+      "delete": {
+        "title": "删除赞助商",
+        "button": "删除赞助商"
+      }
     }
   },
   "validation": {
@@ -88,9 +103,9 @@
   },
   "home": {
     "school-section": {
-      "title": "探索我们珍贵的学校",
-      "description_1": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
-      "description_2": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
+      "title": "探索我们著名的学校",
+      "description_1": "达赫拉国立高等商学院（ENCG Dakhla）是摩洛哥一所著名的商科教育机构，为学生提供卓越的商科教育，帮助他们掌握在全球市场中脱颖而出的技能和知识。",
+      "description_2": "我们的综合课程将理论基础与实际应用相结合，培养毕业生在各经济领域的领导力和创新力.",
       "watch_video": "观看视频",
       "visit_school_website": "访问学校网站",
       "cards": {

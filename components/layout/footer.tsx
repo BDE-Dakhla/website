@@ -176,10 +176,16 @@ export function Footer() {
     <footer className='container mx-auto mt-8 px-8'>
       <div className='flex flex-col items-start justify-between gap-10 border-primary/20 border-b py-10 text-[15px] text-slate-500 md:flex-row dark:border-primary/15 dark:text-slate-300'>
         <div>
-          <Logo />
-          <Paragraph className='mt-6'>{t('footer.bdeTitle')}</Paragraph>
+          <Logo className='max-[500px]:mx-auto' />
+          <Paragraph className='mt-6'>
+            {t('footer.bdeTitle', {
+              organizationName: t('common.organizationName'),
+            })}
+          </Paragraph>
           <Paragraph className='max-w-102.5'>
-            {t('footer.bdeDescription')}
+            {t('footer.bdeDescription', {
+              organizationName: t('common.organizationName'),
+            })}
           </Paragraph>
           <div className='mt-4 flex items-center gap-2'>
             <LanguageSwitcher />

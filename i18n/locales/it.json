@@ -4,12 +4,13 @@
     "emailAddress": "Indirizzo e-mail",
     "students": "Studenti",
     "subscribe": "Abbonati",
-    "syllabus": "Area studenti"
+    "syllabus": "Area studenti",
+    "organizationName": "Apollo 9.0"
   },
   "footer": {
     "aboutUs": "Informazioni su di noi",
-    "bdeTitle": "Apolo 9.0 - Ufficio studenti ENCG di Dakhla",
-    "bdeDescription": "Il centro di missione dell'ENCG di Dakhla, Apollo 9 promuove progetti e carriere attraverso uno sportello unico di opportunità, dall'idea all'impatto.",
+    "bdeTitle": "{organizationName} - Ufficio studenti ENCG di Dakhla",
+    "bdeDescription": "Il centro di missione dell'ENCG di Dakhla, {organizationName} promuove progetti e carriere attraverso uno sportello unico di opportunità, dall'idea all'impatto.",
     "team": "Team",
     "partners": "I partner",
     "privacy": "Privacy",
@@ -78,6 +79,20 @@
       "CAN_MANAGE_CONTENT": "Gestione dei contenuti",
       "CAN_VIEW_ANALYTICS": "Vedi analisi",
       "CAN_MANAGE_SETTINGS": "Impostazioni di sistema"
+    },
+    "sponsors": {
+      "form": {
+        "edit": {
+          "title": "Modifica Sponsor"
+        },
+        "add": {
+          "title": "Aggiungi un nuovo sponsor"
+        }
+      },
+      "delete": {
+        "title": "Elimina lo sponsor",
+        "button": "Elimina lo sponsor"
+      }
     }
   },
   "validation": {
@@ -88,9 +103,9 @@
   },
   "home": {
     "school-section": {
-      "title": "Scoprite la nostra preziosa scuola",
-      "description_1": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
-      "description_2": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
+      "title": "Scopri la nostra prestigiosa scuola",
+      "description_1": "L'ENCG di Dakhla è una prestigiosa istituzione che offre un'eccezionale formazione aziendale in Marocco, fornendo agli studenti le competenze e le conoscenze necessarie per eccellere nel mercato globale.",
+      "description_2": "I nostri programmi completi combinano basi teoriche e applicazioni pratiche, preparando i laureati a guidare e innovare in vari settori dell'economia.",
       "watch_video": "Guarda il video",
       "visit_school_website": "Visita il sito della scuola",
       "cards": {

@@ -1,6 +1,7 @@
 'use client'
 
 import type { Sponsor } from '@/types/schema'
+import { useTranslations } from 'next-intl'
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -33,6 +34,8 @@ export function SponsorFormDialog({
   sponsor,
   onSubmit,
 }: SponsorFormDialogProps) {
+  const t = useTranslations('dashboard.sponsors')
+
   const handleSubmit = async (data: SponsorFormData) => {
     await onSubmit(data)
     onOpenChange(false)
@@ -43,12 +46,10 @@ export function SponsorFormDialog({
       <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-[600px]'>
         <DialogHeader>
           <DialogTitle>
-            {sponsor ? 'Edit Sponsor' : 'Add New Sponsor'}
+            {sponsor ? t('form.edit.title') : t('form.add.title')}
           </DialogTitle>
           <DialogDescription>
-            {sponsor
-              ? 'Update the sponsor information below.'
-              : 'Fill in the details to create a new sponsor.'}
+            {sponsor ? "Éditer les informations du sponsor" : "Ajouter un nouveau sponsor"}
           </DialogDescription>
         </DialogHeader>
         <SponsorForm
@@ -76,6 +77,9 @@ export function DeleteSponsorDialog({
   onConfirm,
   loading = false,
 }: DeleteSponsorDialogProps) {
+  const t = useTranslations('dashboard.sponsors')
+  const tCommon = useTranslations()
+
   const handleConfirm = async () => {
     await onConfirm()
     onOpenChange(false)
@@ -85,21 +89,21 @@ export function DeleteSponsorDialog({
     <AlertDialog onOpenChange={onOpenChange} open={open}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Sponsor</AlertDialogTitle>
+          <AlertDialogTitle>{t('delete.title')}</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete "{sponsor?.name}"? This action
-            cannot be undone and will permanently remove the sponsor from your
-            database.
+            Supprimer le parrain
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={loading}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={loading}>
+            {tCommon('common.actions.cancel')}
+          </AlertDialogCancel>
           <Button
             disabled={loading}
             loading={loading}
             onClick={handleConfirm}
             variant='destructive'>
-            Delete Sponsor
+            {t('delete.button')}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

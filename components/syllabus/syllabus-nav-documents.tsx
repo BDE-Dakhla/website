@@ -1,6 +1,6 @@
 'use client'
 
-import type { NavItem } from './nav-main'
+import type { NavItem } from '../navigation/nav-main'
 import { AnimatePresence, motion } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import { useSyllabusNavigation } from '@/contexts/syllabus-navigation'

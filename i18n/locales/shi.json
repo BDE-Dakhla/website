@@ -3,13 +3,14 @@
     "email": "ⵉⵎⴰⵢⵍ",
     "emailAddress": "ⵜⴰⵏⵙⴰ ⵏ ⵉⵎⴰⵢⵍ",
     "students": "ⵉⵏⵍⵎⴰⴷⵏ",
-    "subscribe": "ⵣⵎⵎⵎ",
-    "syllabus": "ⴰⴳⵎⵎⴰⵎ ⵏ ⵉⵏⵍⵎⴰⴷⵏ"
+    "subscribe": "ⵉⵍⵜⵔⴰⵙ",
+    "syllabus": "ⵜⴰⵎⵏⴰⵡⵜ ⵏ ⵉⵏⵍⵎⴰⴷⵏ",
+    "organizationName": "ⴰⴱⵓⵍⵓ 9.0"
   },
   "footer": {
     "aboutUs": "ⵅⴼ ⵏⵖ",
-    "bdeTitle": "ⴰⴱⵓⵍⵓ 9.0 — ⵍⴱⵉⵔⵓ ⵏ ⵉⵏⵍⵎⴰⴷⵏ ⵏ ENCG ⵏ ⴷⴰⵅⵍⴰ",
-    "bdeDescription": "ⴰⵎⵎⴰⵙ ⵏ ⵜⵡⵓⵔⵉ ⵏ ENCG ⴷⴰⵅⵍⴰ, ⴰⴱⵓⵍⵓ 9 ⴰⵔ ⵉⵙⵙⵓⴷⴷⵓ ⵉⵙⵏⴼⴰⵔⵏ ⴷ ⵜⵡⵓⵔⵉⵡⵉⵏ ⵙ ⵢⴰⵏ ⵡⴰⵎⵎⴰⵙ ⵏ ⵜⵔⵓⴱⴱⴰ, ⵙⴳ ⵜⵡⵏⴳⵉⵎⵜ ⴰⵔ ⵓⵙⵎⵔⵙ",
+    "bdeTitle": "{organizationName} — ⵍⴱⵉⵔⵓ ⵏ ⵉⵏⵍⵎⴰⴷⵏ ⵏ ENCG ⵏ ⴷⴰⵅⵍⴰ",
+    "bdeDescription": "ⴰⵎⵎⴰⵙ ⵏ ⵜⵡⵓⵔⵉ ⵏ ENCG ⴷⴰⵅⵍⴰ, {organizationName} ⴰⵔ ⵉⵙⵙⵓⴷⴷⵓ ⵉⵙⵏⴼⴰⵔⵏ ⴷ ⵜⵡⵓⵔⵉⵡⵉⵏ ⵙ ⵢⴰⵏ ⵡⴰⵎⵎⴰⵙ ⵏ ⵜⵔⵓⴱⴱⴰ, ⵙⴳ ⵜⵡⵏⴳⵉⵎⵜ ⴰⵔ ⵓⵙⵎⵔⵙ",
     "team": "ⵜⴰⵔⴰⴱⴱⵓⵜ",
     "partners": "ⵉⵎⴷⵓⴽⴰⵍ",
     "privacy": "ⵜⵓⴷⵔⵜ ⵜⵓⵙⵍⵉⴳⵜ",
@@ -78,6 +79,20 @@
       "CAN_MANAGE_CONTENT": "ⴰⵙⵡⵓⴷⴷⵓ ⵏ ⵓⴳⴷⵓⴷ",
       "CAN_VIEW_ANALYTICS": "ⵥⵕ ⵉⵙⴼⵙⴰⵢⵏ",
       "CAN_MANAGE_SETTINGS": "ⵉⵙⵖⴰⵍⵏ ⵏ ⵓⵏⴰⴳⵔⴰⵡ"
+    },
+    "sponsors": {
+      "form": {
+        "edit": {
+          "title": "تحرير الراعي"
+        },
+        "add": {
+          "title": "إضافة راع جديد"
+        }
+      },
+      "delete": {
+        "title": "حذف الراعي",
+        "button": "حذف الراعي"
+      }
     }
   },
   "validation": {

@@ -1,15 +1,16 @@
 {
   "common": {
-    "email": "Електронна пошта.",
+    "email": "Електронна пошта",
     "emailAddress": "Адреса електронної пошти",
     "students": "Студенти",
-    "subscribe": "Підписатись",
-    "syllabus": "Студентська зона"
+    "subscribe": "Підписатися",
+    "syllabus": "Студентська зона",
+    "organizationName": "Apollo 9.0"
   },
   "footer": {
     "aboutUs": "Про нас",
-    "bdeTitle": "Apolo 9.0 - Студентський офіс Dakhla ENCG",
-    "bdeDescription": "Центр місії ENCG в Дахлі, Apollo 9 сприяє реалізації проектів та кар'єрі через універсальний магазин можливостей, від ідеї до впливу.",
+    "bdeTitle": "{organizationName} - Студентський офіс Dakhla ENCG",
+    "bdeDescription": "Центр місії ENCG в Дахлі, {organizationName} сприяє реалізації проектів та кар'єрі через універсальний магазин можливостей, від ідеї до впливу.",
     "team": "Команда",
     "partners": "Партнери",
     "privacy": "Конфіденційність",
@@ -78,6 +79,20 @@
       "CAN_MANAGE_CONTENT": "Управління контентом",
       "CAN_VIEW_ANALYTICS": "Дивіться аналітику.",
       "CAN_MANAGE_SETTINGS": "Налаштування системи"
+    },
+    "sponsors": {
+      "form": {
+        "edit": {
+          "title": "Редагувати Спонсор"
+        },
+        "add": {
+          "title": "Додати нового спонсора"
+        }
+      },
+      "delete": {
+        "title": "Видалити спонсора",
+        "button": "Видалити спонсора"
+      }
     }
   },
   "validation": {

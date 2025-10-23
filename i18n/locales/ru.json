@@ -1,15 +1,16 @@
 {
   "common": {
-    "email": "E-mail",
+    "email": "Электронная почта",
     "emailAddress": "Адрес электронной почты",
     "students": "Студенты",
     "subscribe": "Подписаться",
-    "syllabus": "Студенческая зона"
+    "syllabus": "Студенческая зона",
+    "organizationName": "Аполло 9.0"
   },
   "footer": {
     "aboutUs": "О нас",
-    "bdeTitle": "Apolo 9.0 - Студенческий офис Dakhla ENCG",
-    "bdeDescription": "Миссионерский центр ENCG в Дахле, \"Аполло 9\" способствует развитию проектов и карьеры, предоставляя все возможности - от идеи до результата.",
+    "bdeTitle": "{organizationName} - Студенческий офис Dakhla ENCG",
+    "bdeDescription": "Миссионерский центр ENCG в Дахле, {organizationName} способствует развитию проектов и карьеры, предоставляя все возможности - от идеи до результата.",
     "team": "Команда",
     "partners": "Партнеры",
     "privacy": "Конфиденциальность",
@@ -78,6 +79,20 @@
       "CAN_MANAGE_CONTENT": "Управление контентом",
       "CAN_VIEW_ANALYTICS": "См. анализы",
       "CAN_MANAGE_SETTINGS": "Системные настройки"
+    },
+    "sponsors": {
+      "form": {
+        "edit": {
+          "title": "Редактировать спонсора"
+        },
+        "add": {
+          "title": "Добавить нового спонсора"
+        }
+      },
+      "delete": {
+        "title": "Удалить спонсора",
+        "button": "Удалить спонсора"
+      }
     }
   },
   "validation": {

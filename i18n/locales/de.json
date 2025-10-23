@@ -4,12 +4,21 @@
     "emailAddress": "E-Mail-Adresse",
     "students": "Studierende",
     "subscribe": "Abonnieren",
-    "syllabus": "Bereich für Studierende"
+    "syllabus": "Bereich für Studierende",
+    "organizationName": "Apollo 9.0",
+    "actions": {
+      "cancel": "Abbrechen",
+      "delete": "Löschen",
+      "edit": "bearbeiten",
+      "save": "Speichern",
+      "confirm": "Bestätigen",
+      "add": "hinzufügen"
+    }
   },
   "footer": {
     "aboutUs": "Über uns",
-    "bdeTitle": "Apolo 9.0 - Büro der Studenten der ENCG in Dakhla.",
-    "bdeDescription": "Als Missionszentrum der ENCG Dakhla treibt Apollo 9 Projekte und Karrieren über eine einzige Anlaufstelle für Möglichkeiten von der Idee bis zur Wirkung voran.",
+    "bdeTitle": "{organizationName} - Büro der Studenten der ENCG in Dakhla.",
+    "bdeDescription": "Als Missionszentrum der ENCG Dakhla treibt {organizationName} Projekte und Karrieren über eine einzige Anlaufstelle für Möglichkeiten von der Idee bis zur Wirkung voran.",
     "team": "Team",
     "partners": "Partner",
     "privacy": "Datenschutz",
@@ -70,14 +79,40 @@
       }
     },
     "permissions": {
-      "HAS_ACCESS_TO_DASHBOARD": "Zugang zum Dashboard",
-      "CAN_READ_DOCS": "Lesen von Dokumenten",
+      "HAS_ACCESS_TO_DASHBOARD": "Dashboard-Zugang",
+      "CAN_READ_DOCS": "Dokumente lesen",
       "CAN_WRITE_DOCS": "Dokumente schreiben",
-      "CAN_MANAGE_USERS": "Benutzerverwaltung",
-      "CAN_ADMIN": "Verwaltung",
-      "CAN_MANAGE_CONTENT": "Verwaltung von Inhalten",
-      "CAN_VIEW_ANALYTICS": "Analysen ansehen",
-      "CAN_MANAGE_SETTINGS": "Systemeinstellungen"
+      "CAN_MANAGE_USERS": "Benutzer verwalten",
+      "CAN_ADMIN": "Administration",
+      "CAN_MANAGE_CONTENT": "Inhalte verwalten",
+      "CAN_VIEW_ANALYTICS": "Analysen anzeigen",
+      "CAN_MANAGE_SETTINGS": "Systemeinstellungen",
+      "MANAGE_SPONSORS": "Sponsoren verwalten",
+      "MANAGE_ANNOUNCEMENTS": "Ankündigungen verwalten",
+      "MANAGE_NEWSLETTER": "Newsletter verwalten"
+    },
+    "sponsors": {
+      "form": {
+        "edit": {
+          "title": "Sponsor bearbeiten",
+          "button": "Sponsor aktualisieren",
+          "description": "Aktualisieren Sie die Sponsoreninformationen unten."
+        },
+        "add": {
+          "title": "Neuen Sponsor hinzufügen",
+          "button": "Sponsor erstellen",
+          "description": "Füllen Sie die Details aus, um einen neuen Sponsor zu erstellen."
+        }
+      },
+      "delete": {
+        "title": "Sponsor löschen",
+        "button": "Sponsor löschen",
+        "description": "Sind Sie sicher, dass Sie \"{name}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden und entfernt den Sponsor dauerhaft aus Ihrer Datenbank."
+      }
+    },
+    "users": {
+      "deletedUsers": "{count} {count, plural, one {Benutzer} other {Benutzer}} gelöscht",
+      "deleteSelectedUsers": "Ausgewählte Benutzer löschen"
     }
   },
   "validation": {
@@ -129,7 +164,7 @@
 
   "contact": {
     "title": "Kontaktieren Sie uns",
-    "description": "Kontaktieren Sie das Support-Team bei Asme.",
+    "description": "Wende dich an unser nettes Support-Team im Studentenbüro der ENCG Dakhla.",
     "email": {
       "title": "E-Mail",
       "description": "Wir antworten auf alle E-Mails innerhalb von 24 Stunden."

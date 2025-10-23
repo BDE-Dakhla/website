@@ -68,7 +68,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
         <DataTableColumnHeader
           column={column}
           icon={UserIcon}
-          title={t('users.table.columns.fullName')}
+          title='Nom complet'
         />
       ),
       cell: ({ row }) => {
@@ -78,11 +78,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
           null
         return (
           <LongText className='max-w-36'>
-            {v || (
-              <span className='text-muted-foreground'>
-                {t('users.table.noData.fullName')}
-              </span>
-            )}
+            {v || <span className='text-muted-foreground'>Non renseigné</span>}
           </LongText>
         )
       },
@@ -103,7 +99,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
         <DataTableColumnHeader
           column={column}
           icon={BriefcaseBusiness}
-          title={t('users.table.columns.role')}
+          title='Rôle'
         />
       ),
       cell: ({ row }) => {
@@ -134,7 +130,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
         <DataTableColumnHeader
           column={column}
           icon={Mail}
-          title={t('users.table.columns.email')}
+          title='Adresse mail'
         />
       ),
       cell: ({ row }) => (
@@ -150,7 +146,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
         <DataTableColumnHeader
           column={column}
           icon={IdCard}
-          title={t('users.table.columns.cdm')}
+          title={'code massar'.toUpperCase()}
         />
       ),
       cell: ({ row }) => {
@@ -159,7 +155,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
           return (
             <div className='text-sm'>
               <span className='text-muted-foreground'>
-                {t('users.table.noData.cdm')}
+                Non renseigné
               </span>
             </div>
           )
@@ -176,7 +172,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
         <DataTableColumnHeader
           column={column}
           icon={Phone}
-          title={t('users.table.columns.phoneNumber')}
+          title='№ Téléphone'
         />
       ),
       cell: ({ row }) => {
@@ -186,7 +182,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
           return (
             <div className='text-sm'>
               <span className='text-muted-foreground'>
-                {t('users.table.noData.phoneNumber')}
+                Non renseigné
               </span>
             </div>
           )
@@ -206,7 +202,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
         <DataTableColumnHeader
           column={column}
           icon={Activity}
-          title={t('users.table.columns.status')}
+          title='Status'
         />
       ),
       cell: ({ row }) => {
@@ -233,7 +229,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
         <DataTableColumnHeader
           column={column}
           icon={KeyRound}
-          title={t('users.table.columns.permissions')}
+          title='Permissions'
         />
       ),
       cell: ({ row }) => {
@@ -245,7 +241,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
         if (!permissions || typeof permissions !== 'object') {
           return (
             <div className='text-muted-foreground text-sm'>
-              {t('users.table.noData.permissions')}
+              Non renseigné
             </div>
           )
         }
@@ -258,7 +254,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
         if (activePermissions.length === 0) {
           return (
             <div className='text-muted-foreground text-sm'>
-              {t('users.table.noData.permissions')}
+              Non renseigné
             </div>
           )
         }
@@ -337,7 +333,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
         <DataTableColumnHeader
           column={column}
           icon={Calendar}
-          title={t('users.table.columns.signupDate')}
+          title="Date d'inscription"
         />
       ),
       cell: ({ row }) => {
@@ -346,7 +342,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
           return (
             <div className='text-sm'>
               <span className='text-muted-foreground'>
-                {t('users.table.noData.signupDate')}
+                Non renseigné
               </span>
             </div>
           )

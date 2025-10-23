@@ -34,7 +34,7 @@ export default async function Layout({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <StickyBanner
+      {/* <StickyBanner
         className='gap-x-4 border-white/5 border-b bg-black/5 backdrop-blur-3xl'
         disabledRoutes={['/connexion', '/syllabus', '/dashboard']}>
         🎉 Cérémonie d'ouverture
@@ -47,7 +47,7 @@ export default async function Layout({
           </span>
           pour la cérémonie d'ouverture de la nouvelle session universitaire
         </span>
-      </StickyBanner>
+      </StickyBanner> */}
 
       <CookieConsent />
 

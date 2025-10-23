@@ -4,12 +4,21 @@
     "emailAddress": "Email address",
     "students": "Students",
     "subscribe": "Subscribe",
-    "syllabus": "Student Portal"
+    "syllabus": "Student Portal",
+    "organizationName": "Apollo 9.0",
+    "actions": {
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "save": "Save",
+      "confirm": "Confirm",
+      "add": "Add"
+    }
   },
   "footer": {
     "aboutUs": "About us",
-    "bdeTitle": "Apollo 9.0 — Student Office of ENCG Dakhla",
-    "bdeDescription": "ENCG Dakhla's mission center, Apollo 9 propels projects and careers through a one-stop shop of opportunities, from idea to impact.",
+    "bdeTitle": "{organizationName} — Student Office of ENCG Dakhla",
+    "bdeDescription": "ENCG Dakhla's mission center, {organizationName} propels projects and careers through a one-stop shop of opportunities, from idea to impact.",
     "team": "Team",
     "partners": "Partners",
     "privacy": "Privacy",
@@ -74,7 +83,10 @@
       "CAN_ADMIN": "Administration",
       "CAN_MANAGE_CONTENT": "Manage Content",
       "CAN_VIEW_ANALYTICS": "View Analytics",
-      "CAN_MANAGE_SETTINGS": "System Settings"
+      "CAN_MANAGE_SETTINGS": "System Settings",
+      "MANAGE_SPONSORS": "Manage Sponsors",
+      "MANAGE_ANNOUNCEMENTS": "Manage Announcements",
+      "MANAGE_NEWSLETTER": "Manage Newsletter"
     },
     "settings": {
       "maintenance": {
@@ -113,6 +125,29 @@
           "updateDescription": "Could not update maintenance mode. Please try again."
         }
       }
+    },
+    "sponsors": {
+      "form": {
+        "edit": {
+          "title": "Edit Sponsor",
+          "button": "Update Sponsor",
+          "description": "Update the sponsor information below."
+        },
+        "add": {
+          "title": "Add New Sponsor",
+          "button": "Create Sponsor",
+          "description": "Fill in the details to create a new sponsor."
+        }
+      },
+      "delete": {
+        "title": "Delete Sponsor",
+        "button": "Delete Sponsor",
+        "description": "Are you sure you want to delete \"{name}\"? This action cannot be undone and will permanently remove the sponsor from your database."
+      }
+    },
+    "users": {
+      "deletedUsers": "Deleted {count} {count, plural, one {user} other {users}}",
+      "deleteSelectedUsers": "Delete selected users"
     }
   },
 
@@ -137,8 +172,8 @@
   "home": {
     "school-section": {
       "title": "Discover our prestigious school",
-      "description_1": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
-      "description_2": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
+      "description_1": "ENCG Dakhla is a prestigious institution offering exceptional business education in Morocco, empowering students with the skills and knowledge to excel in the global marketplace.",
+      "description_2": "Our comprehensive programs combine theoretical foundations with practical applications, preparing graduates to lead and innovate in various sectors of the economy.",
       "watch_video": "Watch video",
       "visit_school_website": "Visit school's website",
       "cards": {

@@ -4,12 +4,13 @@
     "emailAddress": "Correo electrónico",
     "students": "Estudiantes",
     "subscribe": "Suscribirse",
-    "syllabus": "Área de estudiantes"
+    "syllabus": "Área de estudiantes",
+    "organizationName": "Apollo 9.0"
   },
   "footer": {
     "aboutUs": "Quiénes somos",
-    "bdeTitle": "Apolo 9.0 - Oficina de estudiantes de Dakhla ENCG",
-    "bdeDescription": "El centro de misiones de ENCG Dakhla, Apolo 9 impulsa proyectos y carreras a través de una ventanilla única de oportunidades, desde la idea hasta el impacto.",
+    "bdeTitle": "{organizationName} - Oficina de estudiantes de Dakhla ENCG",
+    "bdeDescription": "El centro de misiones de ENCG Dakhla, {organizationName} impulsa proyectos y carreras a través de una ventanilla única de oportunidades, desde la idea hasta el impacto.",
     "team": "Equipo",
     "partners": "Socios",
     "privacy": "Privacidad",
@@ -78,6 +79,20 @@
       "CAN_MANAGE_CONTENT": "Gestión de contenidos",
       "CAN_VIEW_ANALYTICS": "Ver análisis",
       "CAN_MANAGE_SETTINGS": "Configuración del sistema"
+    },
+    "sponsors": {
+      "form": {
+        "edit": {
+          "title": "Editar Patrocinador"
+        },
+        "add": {
+          "title": "Añadir nuevo patrocinador"
+        }
+      },
+      "delete": {
+        "title": "Borrar patrocinador",
+        "button": "Borrar patrocinador"
+      }
     }
   },
   "validation": {
@@ -88,9 +103,9 @@
   },
   "home": {
     "school-section": {
-      "title": "Descubra nuestra valiosa escuela",
-      "description_1": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
-      "description_2": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
+      "title": "Descubre nuestra prestigiosa escuela",
+      "description_1": "ENCG Dakhla es una prestigiosa institución que ofrece una educación empresarial excepcional en Marruecos, dotando a los estudiantes de las habilidades y conocimientos necesarios para sobresalir en el mercado global.",
+      "description_2": "Nuestros completos programas combinan fundamentos teóricos con aplicaciones prácticas, preparando a los graduados para liderar e innovar en diversos sectores de la economía.",
       "watch_video": "Ver el vídeo",
       "visit_school_website": "Visitar la página web de la escuela",
       "cards": {

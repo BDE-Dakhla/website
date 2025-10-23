@@ -4,7 +4,16 @@
     "emailAddress": "Adresse mail",
     "students": "Étudiants",
     "subscribe": "S'abonner",
-    "syllabus": "Espace étudiant"
+    "syllabus": "Espace étudiant",
+    "organizationName": "Apollo 9.0",
+    "actions": {
+      "cancel": "Annuler",
+      "delete": "Supprimer",
+      "edit": "Modifier",
+      "save": "Sauvegarder",
+      "confirm": "Confirmer",
+      "add": "Ajouter"
+    }
   },
 
   "footer": {
@@ -118,6 +127,24 @@
           "updateDescription": "Impossible de mettre à jour le mode maintenance. Veuillez réessayer."
         }
       }
+    },
+    "sponsors": {
+      "form": {
+        "edit": {
+          "title": "Editer le sponsor"
+        },
+        "add": {
+          "title": "Ajouter un nouveau sponsor"
+        }
+      },
+      "delete": {
+        "title": "Supprimer le parrain",
+        "button": "Supprimer le parrain"
+      }
+    },
+    "users": {
+      "deletedUsers": "Supprimé {count} {count, plural, one {utilisateur} other {utilisateurs}}",
+      "deleteSelectedUsers": "Supprimer les utilisateurs sélectionnés"
     }
   },
 
@@ -142,8 +169,8 @@
   "home": {
     "school-section": {
       "title": "Découvrez notre précieuse école",
-      "description_1": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
-      "description_2": "Itaque verae amicitiae difficillime reperiuntur in iis qui in honoribus reque publica versantur; ubi enim istum invenias qui honorem amici.",
+      "description_1": "L'ENCG Dakhla est une institution prestigieuse qui offre une formation commerciale exceptionnelle au Maroc, permettant aux étudiants d'acquérir les compétences et les connaissances nécessaires pour exceller sur le marché mondial.",
+      "description_2": "Nos programmes complets combinent des bases théoriques et des applications pratiques, préparant les diplômés à diriger et à innover dans divers secteurs de l'économie.",
       "watch_video": "Regarder la vidéo",
       "visit_school_website": "Visiter le site de l'école",
       "cards": {

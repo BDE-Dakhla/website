@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
+import { useTheme } from 'next-themes'
 import { trackEvent } from '@/components/common/analytics-tracker'
 import {
   Accordion,
@@ -34,6 +35,7 @@ import {
 import {
   Sheet,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -77,10 +79,10 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
     menu = [
       { title: 'Accueil', url: '/', description: 'Page', icon: Home },
       {
-        title: 'Équipe',
-        url: '/team',
-        description: 'Flux équipe',
-        icon: Users,
+        title: 'Clubs',
+        url: '/clubs',
+        description: 'Les clubs wolla',
+        icon: University,
       },
       {
         title: 'Actualités',
@@ -114,10 +116,10 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
         ],
       },
       {
-        title: 'Clubs',
-        url: '/clubs',
-        description: 'Les clubs wolla',
-        icon: University,
+        title: 'Équipe',
+        url: '/team',
+        description: 'Flux équipe',
+        icon: Users,
       },
       {
         title: 'Nos partenaires',
@@ -128,8 +130,11 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
     ],
   } = props
 
+
+  const { theme } = useTheme()
+
   return (
-    <header className='container mx-auto p-8'>
+    <header className='container mx-auto p-4 px-8 sm:p-8'>
       <nav className='hidden items-center justify-between lg:flex'>
         <div className='flex items-center gap-6'>
           <Link className='flex items-center gap-2' href='/'>
@@ -138,7 +143,7 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
           <div className='flex items-center'>
             <NavigationMenu>
               <NavigationMenuList className='gap-x-2'>
-                {menu.map((item) => renderMenuItem(item, isActive))}
+                {menu.map((item) => renderMenuItem(item, isActive, theme))}
               </NavigationMenuList>
             </NavigationMenu>
           </div>
@@ -188,7 +193,7 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
               <Menu className='size-4' />
             </Button>
           </SheetTrigger>
-          <SheetContent className='overflow-y-auto'>
+          <SheetContent>
             <SheetHeader>
               <SheetTitle>
                 <Link className='flex items-center gap-2' href='/'>
@@ -196,33 +201,35 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
                 </Link>
               </SheetTitle>
             </SheetHeader>
-            <div className='my-6 flex flex-col gap-6'>
-              <Accordion
-                className='flex w-full flex-col gap-4'
-                collapsible
-                type='single'>
+            <div className='grid flex-1 auto-rows-min gap-6 px-4'>
+              <Accordion className='space-y-4 py-4' collapsible type='single'>
                 {menu.map((item) => renderMobileMenuItem(item, isActive))}
               </Accordion>
-              <div className='grid grid-cols-2 justify-start border-t py-4'>
-                {props.mobileExtraLinks?.map((link) => (
-                  <Link
-                    className='inline-flex h-10 items-center gap-2 whitespace-nowrap rounded-md px-4 py-2 font-medium text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-accent-foreground'
-                    href={link.url}
-                    key={link.name}>
-                    {link.name}
-                  </Link>
-                ))}
-              </div>
-              <Button asChild size='sm'>
+            </div>
+            <SheetFooter className='flex-col gap-y-3'>
+              <Button
+                asChild
+                className='!px-4 bg-gradient-to-t from-green-700/60 to-green-400/60 text-white shadow-[inset_0px_1px_0px_0px_rgba(255,255,255,0.3)] hover:bg-gradient'>
                 <Link
                   className='flex items-center gap-x-2'
                   href='/syllabus'
-                  onClick={() => trackEvent('syllabus-button-header-mobile')}>
+                  onClick={() => trackEvent('syllabus-button-header')}>
                   <GraduationCap />
                   {t('common.syllabus')}
                 </Link>
               </Button>
-            </div>
+              {hasPermission(
+                session?.user.permissions,
+                'HAS_ACCESS_TO_DASHBOARD',
+              ) && (
+                <RainbowButton asChild variant='outline'>
+                  <Link href='/dashboard'>
+                    <LayoutDashboard />
+                    Tableau de bord
+                  </Link>
+                </RainbowButton>
+              )}
+            </SheetFooter>
           </SheetContent>
         </Sheet>
       </div>
@@ -240,7 +247,7 @@ const MenuItemContent = ({ item }: { item: MenuItem }) => (
   <>
     {item.icon && <item.icon />}
     <div>
-      <div className='font-semibold text-sm'>{item.title}</div>
+      <div className='text-sm'>{item.title}</div>
       {item.description && (
         <p className='text-muted-foreground text-sm leading-snug'>
           {item.description}
@@ -253,7 +260,9 @@ const MenuItemContent = ({ item }: { item: MenuItem }) => (
 const renderMenuItem = (
   item: MenuItem,
   isActive: (href: string) => boolean,
+  theme: string | undefined
 ) => {
+
   if (item.items) {
     const groupActive = isGroupActive(item, isActive)
     const featuredItems = item.items.filter((i) => i.featured)
@@ -302,14 +311,14 @@ const renderMenuItem = (
                         style={
                           featuredItem.image
                             ? {
-                                backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)), url(${featuredItem.image})`,
+                                backgroundImage: `linear-gradient(to top, rgba(${theme === 'light' ? '255, 255, 255' : '0, 0, 0'}, 0.7), rgba(${theme === 'dark' ? '255, 255, 255' : '0, 0, 0'}, 0.3)), url(${featuredItem.image})`,
                               }
                             : undefined
                         }>
                         {featuredItem.icon && (
                           <featuredItem.icon className='size-6' />
                         )}
-                        <div className='mt-4 mb-2 font-semibold text-lg'>
+                        <div className='mt-4 mb-2 text-lg'>
                           {featuredItem.title}
                         </div>
                         {featuredItem.description && (
@@ -362,7 +371,7 @@ const renderMenuItem = (
     <Link
       aria-current={active ? 'page' : undefined}
       className={cn(
-        'flex w-max items-center justify-center rounded-md px-4 py-2 font-medium text-sm transition-colors hover:bg-muted hover:text-accent-foreground',
+        'flex w-max items-center justify-center rounded-md px-4 py-2 text-sm transition-colors hover:bg-muted hover:text-accent-foreground',
         active ? 'bg-muted text-accent-foreground' : 'text-muted-foreground',
       )}
       href={item.url}
@@ -385,11 +394,13 @@ const renderMobileMenuItem = (
       <AccordionItem className='border-b-0' key={item.title} value={item.title}>
         <AccordionTrigger
           className={cn(
-            'py-0 font-semibold hover:no-underline',
+            'py-0 hover:no-underline',
             groupActive && 'text-accent-foreground',
           )}>
-          {item.icon && <item.icon />}
-          {item.title}
+          <span className='flex items-center gap-x-4'>
+            {item.icon && <item.icon />}
+            {item.title}
+          </span>
         </AccordionTrigger>
         <AccordionContent className='mt-2'>
           {item.items.map((subItem) => {
@@ -417,7 +428,10 @@ const renderMobileMenuItem = (
   return (
     <Link
       aria-current={active ? 'page' : undefined}
-      className={cn('font-semibold', active && 'text-accent-foreground')}
+      className={cn(
+        'flex items-center gap-x-4',
+        active && 'text-accent-foreground',
+      )}
       href={item.url}
       key={item.title}>
       {item.icon && <item.icon />}

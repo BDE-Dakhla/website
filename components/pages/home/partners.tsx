@@ -22,12 +22,10 @@ export function Partners() {
   return (
     <section aria-label='partners' className='mt-28 mb-8 overflow-hidden'>
       <div className='container mx-auto'>
-        <div className='flex flex-col text-center text-3xl text-white'>
-          <span className='text-black dark:text-white'>
-            Trusted by experts.
-          </span>
-          <span className='text-black dark:text-white'>Used by leaders.</span>
-        </div>
+        <p className='mb-12 text-center text-3xl text-black dark:text-white'>
+          Trusted by experts. <br />
+          Used by leaders
+        </p>
         <Marquee>
           <MarqueeFade side='left' />
           <MarqueeFade side='right' />

@@ -154,9 +154,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
         if (!cdm) {
           return (
             <div className='text-sm'>
-              <span className='text-muted-foreground'>
-                Non renseigné
-              </span>
+              <span className='text-muted-foreground'>Non renseigné</span>
             </div>
           )
         }
@@ -181,9 +179,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
         if (!phoneNumber) {
           return (
             <div className='text-sm'>
-              <span className='text-muted-foreground'>
-                Non renseigné
-              </span>
+              <span className='text-muted-foreground'>Non renseigné</span>
             </div>
           )
         }
@@ -199,11 +195,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
       accessorKey: 'status',
       meta: { className: 'w-30' },
       header: ({ column }) => (
-        <DataTableColumnHeader
-          column={column}
-          icon={Activity}
-          title='Status'
-        />
+        <DataTableColumnHeader column={column} icon={Activity} title='Status' />
       ),
       cell: ({ row }) => {
         const status = row.original.status || 'active' // Default to active if no status
@@ -240,9 +232,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
 
         if (!permissions || typeof permissions !== 'object') {
           return (
-            <div className='text-muted-foreground text-sm'>
-              Non renseigné
-            </div>
+            <div className='text-muted-foreground text-sm'>Non renseigné</div>
           )
         }
 
@@ -253,9 +243,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
 
         if (activePermissions.length === 0) {
           return (
-            <div className='text-muted-foreground text-sm'>
-              Non renseigné
-            </div>
+            <div className='text-muted-foreground text-sm'>Non renseigné</div>
           )
         }
 
@@ -341,9 +329,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
         if (!value) {
           return (
             <div className='text-sm'>
-              <span className='text-muted-foreground'>
-                Non renseigné
-              </span>
+              <span className='text-muted-foreground'>Non renseigné</span>
             </div>
           )
         }

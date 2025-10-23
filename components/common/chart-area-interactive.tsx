@@ -1,10 +1,13 @@
 'use client'
 
+import type {
+  MetricsSeriesPoint,
+  MetricsTotals,
+} from '@/app/api/analytics/types'
 import { FilterIcon, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 import useSWR from 'swr'
-import type { MetricsTotals, MetricsSeriesPoint } from '@/app/api/analytics/types'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -137,11 +140,9 @@ export function ChartAreaInteractive({
     previous: MetricsTotals
     deltas: MetricsTotals
     series: MetricsSeriesPoint[]
-  }>(
-    `/api/analytics/metrics?range=${range}&filters=${filtersParam}`,
-    fetcher,
-    { refreshInterval: 60_000 },
-  )
+  }>(`/api/analytics/metrics?range=${range}&filters=${filtersParam}`, fetcher, {
+    refreshInterval: 60_000,
+  })
 
   const series = useMemo(
     () =>

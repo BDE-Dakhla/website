@@ -2,9 +2,9 @@
 
 import type { Sponsor } from '@/types/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useTranslations } from 'next-intl'
 import { z } from 'zod'
 import { SponsorLogoUpload } from '@/components/sponsors/sponsor-logo-upload'
 import { Button as StaticButton } from '@/components/ui/button'
@@ -251,7 +251,7 @@ export function SponsorForm({ sponsor, onSubmit, onCancel }: SponsorFormProps) {
             {t('common.actions.cancel')}
           </StaticButton>
           <Button disabled={isSubmitting} loading={isSubmitting} type='submit'>
-            {sponsor ? "Modifier un sponsor": "Ajouter un sponsor"}
+            {sponsor ? 'Modifier un sponsor' : 'Ajouter un sponsor'}
           </Button>
         </div>
       </form>

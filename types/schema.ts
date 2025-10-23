@@ -14,6 +14,7 @@ interface AppDatabase {
   campaigns: Campaigns
   campaignRecipients: CampaignRecipients
   sponsors: SponsorTable
+  clubs: Clubs
   analytics_visitors: AnalyticsVisitor
   analytics_sessions: AnalyticsSession
   analytics_events: AnalyticsEvent
@@ -123,6 +124,16 @@ interface SponsorTable {
   approved_by: string | null // uuid FK to \"User\".id, nullable
 }
 
+interface Clubs {
+  id: Generated<string>
+  name: string
+  description: string
+  category: string
+  hasInternationalGroup: ColumnType<boolean, boolean | undefined, boolean>
+  memberCount: ColumnType<number, number | undefined, number>
+  createdAt: ColumnType<Date, Date | undefined, never>
+}
+
 // Analytics tables
 interface AnalyticsVisitor {
   id: Generated<string>
@@ -172,6 +183,10 @@ interface SystemSettings {
 export type Sponsor = Selectable<SponsorTable>
 export type NewSponsor = Insertable<SponsorTable>
 export type SponsorUpdate = Updateable<SponsorTable>
+
+export type Club = Selectable<Clubs>
+export type NewClub = Insertable<Clubs>
+export type ClubUpdate = Updateable<Clubs>
 
 export type MaintenanceModeSettings = {
   enabled: boolean

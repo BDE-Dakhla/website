@@ -1,8 +1,11 @@
 'use client'
 
+import type {
+  MetricsSeriesPoint,
+  MetricsTotals,
+} from '@/app/api/analytics/types'
 import { TrendingDown, TrendingUp } from 'lucide-react'
 import useSWR from 'swr'
-import type { MetricsTotals, MetricsSeriesPoint } from '@/app/api/analytics/types'
 import { Badge } from '@/components/ui/badge'
 import {
   Card,

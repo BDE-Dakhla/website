@@ -49,7 +49,9 @@ export function SponsorFormDialog({
             {sponsor ? t('form.edit.title') : t('form.add.title')}
           </DialogTitle>
           <DialogDescription>
-            {sponsor ? "Éditer les informations du sponsor" : "Ajouter un nouveau sponsor"}
+            {sponsor
+              ? 'Éditer les informations du sponsor'
+              : 'Ajouter un nouveau sponsor'}
           </DialogDescription>
         </DialogHeader>
         <SponsorForm
@@ -90,9 +92,7 @@ export function DeleteSponsorDialog({
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{t('delete.title')}</AlertDialogTitle>
-          <AlertDialogDescription>
-            Supprimer le parrain
-          </AlertDialogDescription>
+          <AlertDialogDescription>Supprimer le parrain</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel disabled={loading}>

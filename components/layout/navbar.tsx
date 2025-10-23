@@ -130,7 +130,6 @@ export const NavBar = (props: NavBarProps): React.ReactElement => {
     ],
   } = props
 
-
   const { theme } = useTheme()
 
   return (
@@ -260,9 +259,8 @@ const MenuItemContent = ({ item }: { item: MenuItem }) => (
 const renderMenuItem = (
   item: MenuItem,
   isActive: (href: string) => boolean,
-  theme: string | undefined
+  theme: string | undefined,
 ) => {
-
   if (item.items) {
     const groupActive = isGroupActive(item, isActive)
     const featuredItems = item.items.filter((i) => i.featured)

@@ -260,7 +260,7 @@ const categories = [
         ],
       },
       {
-        name: 'Hamza RAMZI',
+        name: 'Hamza AIT OUAZIZ',
         styles: { backgroundPositionY: '20%', backgroundSize: '190%' },
         poste: 'Infographiste',
         description: "Assure l'identité visuelle et la créativité graphique",
@@ -360,7 +360,7 @@ const categories = [
     description: "Aider les étudiants à grandir, apprendre et s'épanouir",
     members: [
       {
-        name: 'Nasser Allah MAHBOUBY',
+        name: 'Naser Allah MAHBOUBY',
         poste: 'Responsable Formation',
         icon: BookPlus,
         styles: { backgroundPosition: '62.5% 35%', backgroundSize: '200%' },

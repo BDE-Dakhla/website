@@ -1,5 +1,6 @@
 export type FilterField = 'url' | 'referrer' | 'browser' | 'os' | 'device'
 export type FilterOp = 'is' | 'is_not' | 'contains' | 'not_contains'
+export type Kind = 'browsers' | 'os' | 'devices'
 
 export interface Filter {
   field: FilterField

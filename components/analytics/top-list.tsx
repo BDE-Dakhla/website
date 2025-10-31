@@ -1,5 +1,7 @@
 'use client'
 
+import type { Kind } from '@/lib/analytics/types'
+import type { TimeRange } from '@/lib/analytics/utils'
 import useSWR from 'swr'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -7,25 +9,13 @@ import { browserIconUrl, deviceIconUrl, osIconUrl } from '@/lib/brand-icons'
 import { fetcher } from '@/lib/utils'
 import Image from '../layout/image'
 
-type Kind = 'browsers' | 'os' | 'devices'
-export type Range =
-  | '3h'
-  | '6h'
-  | '12h'
-  | '24h'
-  | '7d'
-  | '30d'
-  | '90d'
-  | '6mo'
-  | '1y'
-
 export function AnalyticsTopList({
   kind,
   range,
   title,
 }: {
   kind: Kind
-  range: Range
+  range: TimeRange
   title: string
 }) {
   const { data } = useSWR<{

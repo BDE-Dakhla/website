@@ -1,5 +1,5 @@
+import type { Kysely } from 'kysely'
 import type { Database } from '@/types/schema'
-import { type Kysely } from 'kysely'
 
 export async function seed(db: Kysely<Database>): Promise<void> {
   await db

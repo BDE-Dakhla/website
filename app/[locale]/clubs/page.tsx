@@ -202,7 +202,7 @@ export default function Page() {
                 <Card key={i}>
                   <CardHeader>
                     <Skeleton className='h-6 w-3/4' />
-                    <Skeleton className='h-4 w-full mt-2' />
+                    <Skeleton className='mt-2 h-4 w-full' />
                   </CardHeader>
                   <CardFooter className='flex justify-between'>
                     <Skeleton className='h-5 w-16' />

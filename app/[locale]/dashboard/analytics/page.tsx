@@ -1,15 +1,16 @@
 'use client'
 
+import type { TimeRange } from '@/lib/analytics/utils'
 import { useState } from 'react'
 import { AnalyticsOverview } from '@/components/analytics/analytics-overview'
 import { VisitorsByCountry } from '@/components/analytics/countries-map'
 import { CurrentVisitorsBadge } from '@/components/analytics/current-visitors'
 import { AnalyticsEvents } from '@/components/analytics/events-metrics'
-import { AnalyticsTopList, type Range } from '@/components/analytics/top-list'
+import { AnalyticsTopList } from '@/components/analytics/top-list'
 import { ChartAreaInteractive } from '@/components/common/chart-area-interactive'
 
 export default function Page() {
-  const [range, setRange] = useState<Range>('24h')
+  const [range, setRange] = useState<TimeRange>('24h')
 
   return (
     <div className='flex flex-col gap-4 py-4 md:gap-6 md:py-6'>

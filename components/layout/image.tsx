@@ -9,6 +9,7 @@ type NextImageProps = React.ComponentProps<typeof NextImage>
 
 interface ImageProps extends NextImageProps {
   withLens?: boolean
+  blurred?: boolean
 }
 
 const BaseImage = forwardRef<HTMLImageElement, NextImageProps>(
@@ -33,7 +34,29 @@ function LensWrapper({ children }: { children: React.ReactNode }) {
   )
 }
 
-export default function Image({ withLens = false, ...props }: ImageProps) {
+export default function Image({
+  withLens = false,
+  blurred = false,
+  ...props
+}: ImageProps) {
   const img = <BaseImage {...props} />
+
+  if (blurred) {
+    return (
+      <div className='relative'>
+        <BaseImage
+          {...props}
+          className={cn(
+            'absolute inset-0 select-none blur-md',
+            props.className,
+          )}
+        />
+        <div className='relative'>
+          {withLens ? <LensWrapper>{img}</LensWrapper> : img}
+        </div>
+      </div>
+    )
+  }
+
   return withLens ? <LensWrapper>{img}</LensWrapper> : img
 }

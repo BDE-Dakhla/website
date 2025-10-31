@@ -2,7 +2,7 @@ export const SPONSOR_LOGO_CONSTRAINTS = {
   maxSize: 5 * 1024 * 1024, // 5MB
   allowedTypes: ['image/svg+xml'],
   allowedExtensions: ['.svg'],
-} as const
+}
 
 export interface FileValidationError {
   type: 'size' | 'format' | 'extension'

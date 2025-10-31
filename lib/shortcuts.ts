@@ -37,8 +37,8 @@ export function useShortcuts(
   useEffect(() => {
     if (!target) return
     const handler = createKeybindingsHandler(keymap, { event: eventType })
-    target.addEventListener(eventType, handler)
-    return () => target.removeEventListener(eventType, handler)
+    target.addEventListener(eventType, handler as EventListener)
+    return () => target.removeEventListener(eventType, handler as EventListener)
   }, [keymap, target, eventType])
 }
 

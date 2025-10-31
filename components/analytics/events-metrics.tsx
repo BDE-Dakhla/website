@@ -1,6 +1,6 @@
 'use client'
 
-import type { Range } from './top-list'
+import type { TimeRange } from '@/lib/analytics/utils'
 import { useMemo } from 'react'
 import {
   Bar,
@@ -41,9 +41,9 @@ const palette = [
   'oklch(70% 0.15 340)',
 ]
 
-export function AnalyticsEvents({ range }: { range: Range }) {
+export function AnalyticsEvents({ range }: { range: TimeRange }) {
   // Clamp to <= 12h
-  const effectiveRange: Range =
+  const effectiveRange: TimeRange =
     range === '24h' ||
     range === '7d' ||
     range === '30d' ||

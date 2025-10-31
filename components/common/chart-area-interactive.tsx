@@ -3,6 +3,7 @@
 import type {
   MetricsSeriesPoint,
   MetricsTotals,
+  TimeRange,
 } from '@/app/api/analytics/types'
 import { FilterIcon, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
@@ -57,8 +58,6 @@ import { fetcher } from '@/lib/utils'
 
 export const description = 'An interactive area chart'
 
-type Range = '3h' | '6h' | '12h' | '24h' | '7d' | '30d' | '90d' | '6mo' | '1y'
-
 const chartConfig = {
   views: {
     label: 'Views',
@@ -71,8 +70,8 @@ const chartConfig = {
 } satisfies ChartConfig
 
 interface Props {
-  range?: Range
-  onRangeChange?: (r: Range) => void
+  range?: TimeRange
+  onRangeChange?: (r: TimeRange) => void
 }
 
 export function ChartAreaInteractive({
@@ -80,7 +79,7 @@ export function ChartAreaInteractive({
   onRangeChange,
 }: Props) {
   const isMobile = useIsMobile()
-  const [timeRange, setTimeRange] = useState<Range>('24h')
+  const [timeRange, setTimeRange] = useState<TimeRange>('24h')
 
   useEffect(() => {
     if (!controlledRange && isMobile) {
@@ -167,7 +166,7 @@ export function ChartAreaInteractive({
 
   function handleRangeChange(v: string) {
     if (!v) return
-    const r = v as Range
+    const r = v as TimeRange
     if (!controlledRange) setTimeRange(r)
     onRangeChange?.(r)
   }
@@ -181,7 +180,7 @@ export function ChartAreaInteractive({
         <CardDescription>
           <span>
             {(() => {
-              const labels: Record<Range, string> = {
+              const labels: Record<TimeRange, string> = {
                 '3h': 'Last 3 hours',
                 '6h': 'Last 6 hours',
                 '12h': 'Last 12 hours',

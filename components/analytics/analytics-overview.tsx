@@ -3,6 +3,7 @@
 import type {
   MetricsSeriesPoint,
   MetricsTotals,
+  TimeRange,
 } from '@/app/api/analytics/types'
 import { TrendingDown, TrendingUp } from 'lucide-react'
 import useSWR from 'swr'
@@ -17,13 +18,11 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { fetcher } from '@/lib/utils'
 
-type Range = '3h' | '6h' | '12h' | '24h' | '7d' | '30d' | '90d' | '6mo' | '1y'
-
 interface MetricsResponse {
-  range: Range
+  end: string
+  range: TimeRange
   unit: string
   start: string
-  end: string
   totals: MetricsTotals
   previous: MetricsTotals
   deltas: MetricsTotals
@@ -37,7 +36,7 @@ function formatDuration(s: number) {
   return `${m}m ${String(rem).padStart(2, '0')}s`
 }
 
-function StatSkeleton() {
+const StatSkeleton = () => {
   return (
     <Card className='@container/card'>
       <CardHeader>
@@ -51,7 +50,7 @@ function StatSkeleton() {
   )
 }
 
-export function AnalyticsOverview({ range }: { range: Range }) {
+export function AnalyticsOverview({ range }: { range: TimeRange }) {
   const { data } = useSWR<MetricsResponse>(
     `/api/analytics/metrics?range=${range}`,
     fetcher,

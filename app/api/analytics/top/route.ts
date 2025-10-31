@@ -1,11 +1,9 @@
-import type { VisitorData } from '@/lib/analytics/types'
+import type { Kind, VisitorData } from '@/lib/analytics/types'
 import { sql } from 'kysely'
 import { type NextRequest, NextResponse } from 'next/server'
 import { parseUserAgent } from '@/lib/analytics/ua'
 import { resolveWindow } from '@/lib/analytics/utils'
 import { getDb } from '@/lib/db'
-
-type Kind = 'browsers' | 'os' | 'devices'
 
 export async function GET(req: NextRequest) {
   const db = getDb()

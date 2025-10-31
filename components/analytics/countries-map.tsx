@@ -1,5 +1,6 @@
 'use client'
 
+import type { TimeRange } from '@/lib/analytics/utils'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   ComposableMap,
@@ -11,19 +12,6 @@ import useSWR from 'swr'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { fetcher } from '@/lib/utils'
-
-const GEO_URL = '/geo/countries-110m.json'
-
-export type Range =
-  | '3h'
-  | '6h'
-  | '12h'
-  | '24h'
-  | '7d'
-  | '30d'
-  | '90d'
-  | '6mo'
-  | '1y'
 
 type ApiCountryItem = {
   code: string
@@ -42,7 +30,7 @@ function colorFor(value: number, max: number) {
   return `hsl(${h} ${s}% ${l}%)`
 }
 
-export function VisitorsByCountry({ range }: { range: Range }) {
+export function VisitorsByCountry({ range }: { range: TimeRange }) {
   const { data } = useSWR<{ items: ApiCountryItem[] }>(
     `/api/analytics/countries?range=${range}`,
     fetcher,
@@ -167,7 +155,8 @@ export function VisitorsByCountry({ range }: { range: Range }) {
                   style={{ width: '100%', height: '100%' }}
                   width={size.w}>
                   <ZoomableGroup maxZoom={8} minZoom={1}>
-                    <Geographies geography={GEO_URL}>
+                    {/* TODO: change this and fetch config file from file storage */}
+                    <Geographies geography='/geo/countries-110m.json'>
                       {({ geographies }) =>
                         geographies.map((geo) => {
                           const props: Record<string, unknown> =

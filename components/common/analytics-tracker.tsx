@@ -3,7 +3,7 @@
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 
-const HEARTBEAT_EVERY = 15_000 // 15s
+const HEARTBEAT_EVERY = 15_000
 
 interface NavigatorUAData extends Navigator {
   userAgentData?: {
@@ -40,7 +40,10 @@ async function getUaCh() {
   return uaChCache
 }
 
-export async function trackEvent(name: string, extras?: Record<string, any>) {
+export async function trackEvent(
+  name: string,
+  extras?: Record<string, unknown>,
+) {
   try {
     const ua = await getUaCh()
     await fetch('/api/analytics/collect', {
@@ -63,7 +66,7 @@ export async function trackEvent(name: string, extras?: Record<string, any>) {
   } catch {}
 }
 
-async function sendEvent(payload: any) {
+async function sendEvent<T>(payload: T) {
   try {
     const ua = await getUaCh()
     await fetch('/api/analytics/collect', {
@@ -115,6 +118,7 @@ export function AnalyticsTracker() {
         sendEvent({ type: 'heartbeat', path, title: document?.title, locale })
       }
     }
+
     document.addEventListener('visibilitychange', onVisibility)
 
     return () => {
@@ -123,12 +127,5 @@ export function AnalyticsTracker() {
     }
   }, [pathname, searchParams])
 
-  // Optionally expose a global helper for triggering events manually in dev
-  // @ts-expect-error
-  if (typeof window !== 'undefined' && !window.baTrack) {
-    // @ts-expect-error
-    window.baTrack = (name: string, extras?: Record<string, any>) =>
-      trackEvent(name, extras)
-  }
   return null
 }

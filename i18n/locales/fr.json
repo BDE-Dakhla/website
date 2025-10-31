@@ -141,10 +141,6 @@
         "title": "Supprimer le parrain",
         "button": "Supprimer le parrain"
       }
-    },
-    "users": {
-      "deletedUsers": "Supprimé {count} {count, plural, one {utilisateur} other {utilisateurs}}",
-      "deleteSelectedUsers": "Supprimer les utilisateurs sélectionnés"
     }
   },
 

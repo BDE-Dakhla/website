@@ -144,10 +144,6 @@
         "button": "Delete Sponsor",
         "description": "Are you sure you want to delete \"{name}\"? This action cannot be undone and will permanently remove the sponsor from your database."
       }
-    },
-    "users": {
-      "deletedUsers": "Deleted {count} {count, plural, one {user} other {users}}",
-      "deleteSelectedUsers": "Delete selected users"
     }
   },
 

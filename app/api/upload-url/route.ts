@@ -1,9 +1,19 @@
 import { auth } from '@/auth'
 import { SPONSOR_LOGO_CONSTRAINTS } from '@/lib/file-validation'
-import { getUploadUrl } from '@/lib/storage'
+import { getUploadUrl, isS3Configured } from '@/lib/storage'
 
 export async function POST(req: Request) {
   try {
+    // Check if S3 is configured before proceeding
+    if (!isS3Configured()) {
+      return Response.json(
+        {
+          error: 'File upload is not available. S3 storage is not configured.',
+        },
+        { status: 503 },
+      )
+    }
+
     const { key, contentType, uploadType, fileSize } = await req.json()
 
     // Basic validation

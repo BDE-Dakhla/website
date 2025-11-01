@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/performance/noImgElement: we don't care about performance */
+
 import { headers } from 'next/headers'
 import { ImageResponse } from 'next/og'
 

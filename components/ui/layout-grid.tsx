@@ -4,6 +4,7 @@ import { X } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
+import Image from '../layout/image'
 
 export interface Card {
   id: number
@@ -53,11 +54,12 @@ export const LayoutGrid = ({ cards, className }: Props) => {
             layoutId={`card-${card.id}`}
             onClick={() => setSelected(card)}
             type='button'>
-            <motion.img
+            <Image
               alt={card.alt ?? 'thumbnail'}
               className='absolute inset-0 h-full w-full object-cover object-center'
               height={500}
               layoutId={`image-${card.id}-image`}
+              motion
               src={card.thumbnail}
               width={500}
             />
@@ -89,10 +91,11 @@ export const LayoutGrid = ({ cards, className }: Props) => {
             <div
               className='absolute inset-0 flex items-center justify-center p-4'
               onClick={() => setSelected(null)}>
-              <motion.img
+              <Image
                 alt={selected.alt ?? 'selected image'}
                 className='max-h-[100vh] max-w-[100vw] rounded-md object-contain shadow-2xl'
                 layoutId={`image-${selected.id}-image`}
+                motion
                 onClick={(e) => e.stopPropagation()}
                 src={selected.thumbnail}
                 transition={{ type: 'spring', stiffness: 180, damping: 20 }}

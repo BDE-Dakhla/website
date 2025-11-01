@@ -84,10 +84,13 @@ export async function POST(req: NextRequest) {
         .where('id', '=', r.rid)
         .execute()
       sent++
-    } catch (err: any) {
+    } catch (err: unknown) {
       await db
         .updateTable('campaignRecipients')
-        .set({ status: 'failed', last_error: String(err?.message || err) })
+        .set({
+          status: 'failed',
+          last_error: String((err as { message?: string })?.message || err),
+        })
         .where('id', '=', r.rid)
         .execute()
       failed++

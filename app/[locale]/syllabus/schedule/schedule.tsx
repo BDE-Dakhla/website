@@ -76,7 +76,10 @@ export interface Room {
 
 type RoomByEventId = Record<string, string>
 
-const RoomIconMap: Record<RoomLabel, React.ComponentType<any>> = {
+const RoomIconMap: Record<
+  RoomLabel,
+  React.ComponentType<{ className?: string }>
+> = {
   Amphithéâtre: Landmark,
   Classe: School,
   'Salle des marchés': TrendingUp,

@@ -34,7 +34,7 @@ export async function POST(request: Request) {
       )
     }
 
-    const { username, email, phoneNumber, role, password, permissions } =
+    const { username, email, role, password, permissions } =
       validationResult.data
 
     const db = getDb()

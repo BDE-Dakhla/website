@@ -62,7 +62,10 @@ export function AnalyticsEvents({ range }: { range: TimeRange }) {
   const items = data?.items ?? []
 
   const { seriesData, eventNames } = useMemo(() => {
-    const byBucket: Record<string, any> = {}
+    const byBucket: Record<
+      string,
+      { ts: Date; label: string; [k: string]: number | Date | string }
+    > = {}
     const names = new Set<string>()
     for (const r of data?.series ?? []) {
       const ts = new Date(r.bucket)

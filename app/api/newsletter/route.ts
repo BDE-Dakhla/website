@@ -32,8 +32,8 @@ export async function POST(req: NextRequest) {
         unsubscribed_at: null,
       })
       .execute()
-  } catch (e: any) {
-    if (e?.code === '23505') {
+  } catch (e: unknown) {
+    if ((e as { code?: string })?.code === '23505') {
       const existing = await db
         .selectFrom('subscribers')
         .selectAll()

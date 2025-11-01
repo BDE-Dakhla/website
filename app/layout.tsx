@@ -12,6 +12,8 @@ const poppins = Poppins({
   variable: '--font-poppins',
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
+  display: 'swap', // Improves loading performance and prevents layout shift
+  fallback: ['system-ui', 'sans-serif'], // Better fallback fonts
 })
 
 export const viewport: Viewport = {

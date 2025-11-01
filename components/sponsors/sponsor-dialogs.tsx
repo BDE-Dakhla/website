@@ -67,7 +67,7 @@ export function SponsorFormDialog({
 interface DeleteSponsorDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  sponsor?: Sponsor
+  _sponsor?: Sponsor
   onConfirm: () => Promise<void>
   loading?: boolean
 }
@@ -75,7 +75,7 @@ interface DeleteSponsorDialogProps {
 export function DeleteSponsorDialog({
   open,
   onOpenChange,
-  sponsor,
+  _sponsor,
   onConfirm,
   loading = false,
 }: DeleteSponsorDialogProps) {

@@ -1,20 +1,21 @@
+import type { PermissionMap, PermissionValue } from '@/types/schema'
 import { describe, expect, it } from 'vitest'
 import { getAllPermissions, hasPermission } from '@/lib/permission'
 
 describe('Permission Utilities', () => {
   describe('hasPermission', () => {
     it('should return true when permission is set to 1', () => {
-      const perms = { MANAGE_SPONSORS: 1 }
+      const perms: PermissionMap = { MANAGE_SPONSORS: 1 as PermissionValue }
       expect(hasPermission(perms, 'MANAGE_SPONSORS')).toBe(true)
     })
 
     it('should return false when permission is set to 0', () => {
-      const perms = { MANAGE_SPONSORS: 0 }
+      const perms: PermissionMap = { MANAGE_SPONSORS: 0 as PermissionValue }
       expect(hasPermission(perms, 'MANAGE_SPONSORS')).toBe(false)
     })
 
     it('should return false when permission does not exist', () => {
-      const perms = { MANAGE_SPONSORS: 1 }
+      const perms: PermissionMap = { MANAGE_SPONSORS: 1 as PermissionValue }
       expect(hasPermission(perms, 'MANAGE_USERS')).toBe(false)
     })
 
@@ -27,10 +28,10 @@ describe('Permission Utilities', () => {
     })
 
     it('should handle multiple permissions correctly', () => {
-      const perms = {
-        MANAGE_SPONSORS: 1,
-        MANAGE_USERS: 0,
-        MANAGE_NEWSLETTER: 1,
+      const perms: PermissionMap = {
+        MANAGE_SPONSORS: 1 as PermissionValue,
+        MANAGE_USERS: 0 as PermissionValue,
+        MANAGE_NEWSLETTER: 1 as PermissionValue,
       }
 
       expect(hasPermission(perms, 'MANAGE_SPONSORS')).toBe(true)

@@ -11,6 +11,11 @@ export default defineConfig({
     baseURL: process.env.BASE_URL || 'http://localhost:3000',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
+    // Add more realistic user agent for testing
+    userAgent:
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    // Add viewport for consistent testing
+    viewport: { width: 1920, height: 1080 },
   },
 
   projects: [
@@ -18,22 +23,18 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
     },
-
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
-
     {
       name: 'Mobile Chrome',
       use: { ...devices['Pixel 5'] },
     },
-
     {
       name: 'Mobile Safari',
       use: { ...devices['iPhone 12'] },
@@ -46,4 +47,8 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
   },
+
+  // Global test configuration
+  globalSetup: './tests/e2e/global-setup.ts',
+  globalTeardown: './tests/e2e/global-teardown.ts',
 })

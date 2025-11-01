@@ -1,16 +1,47 @@
+import type { NextRequest } from 'next/server'
 import type { PermissionMap, Role } from '@/types/schema'
 
 export function createMockRequest(
   url: string,
   options: RequestInit = {},
-): Request {
-  return new Request(url, {
+): NextRequest {
+  const request = new Request(url, {
     ...options,
     headers: {
       'Content-Type': 'application/json',
       ...options.headers,
     },
+  }) as NextRequest
+
+  // Add Next.js specific properties
+  Object.defineProperty(request, 'cookies', {
+    value: {
+      get: () => ({ get: () => null }),
+      getAll: () => [],
+      has: () => false,
+    },
+    writable: false,
   })
+
+  Object.defineProperty(request, 'nextUrl', {
+    value: {
+      pathname: new URL(url).pathname,
+      searchParams: new URL(url).searchParams,
+    },
+    writable: false,
+  })
+
+  Object.defineProperty(request, 'page', {
+    value: { params: {} },
+    writable: false,
+  })
+
+  Object.defineProperty(request, 'ua', {
+    value: { get: () => null },
+    writable: false,
+  })
+
+  return request
 }
 
 export function createMockUser(overrides?: {

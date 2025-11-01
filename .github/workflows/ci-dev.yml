@@ -16,65 +16,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
-
-      - name: Install dependencies
-        run: bun install
-
-      - name: Run unit tests
-        run: bun run test
-
-      - name: Upload coverage reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-unit
-          path: coverage/
-
-  e2e-tests:
-    name: E2E Tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
-
-      - name: Install dependencies
-        run: bun install
-
-      - name: Install Playwright browsers
-        run: bunx playwright install --with-deps
-
-      - name: Run E2E tests
-        run: bun run test:e2e
-
-      - name: Upload Playwright report
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
-
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
     services:
       postgres:
         image: postgres:15
         env:
           POSTGRES_PASSWORD: test
           POSTGRES_DB: test
+          POSTGRES_USER: postgres
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -89,6 +37,149 @@ jobs:
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Run database migrations
+        run: bun run migrate
+        env:
+          DATABASE_URL: "postgresql://postgres:test@localhost:5432/test"
+
+      - name: Run unit tests
+        run: bun run test
+        env:
+          DATABASE_URL: "postgresql://postgres:test@localhost:5432/test"
+          NODE_ENV: "test"
+          AUTH_NEXT_SECRET: "test-secret"
+          SMTP_HOST: "localhost"
+          SMTP_PORT: "587"
+          SMTP_SECURE: "false"
+          SMTP_USER: "test@test.com"
+          SMTP_PASS: "test-password"
+          SMTP_FROM_EMAIL: "noreply@test.com"
+          SMTP_FROM_NAME: "Test App"
+          NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+          AWS_REGION: "us-east-1"
+          AWS_ACCESS_KEY_ID: "test-key"
+          AWS_SECRET_ACCESS_KEY: "test-secret"
+          AWS_S3_BUCKET: "test-bucket"
+          APP_HMAC_SECRET: "test-hmac-secret-for-tokens"
+          CRON_SECRET: "test-cron-secret"
+          SEND_BATCH_SIZE: "100"
+          NEXT_PUBLIC_DEFAULT_LANG: "fr"
+
+      - name: Upload coverage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-unit
+          path: coverage/
+
+  e2e-tests:
+    needs: unit-tests
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: test
+          POSTGRES_USER: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Run database migrations
+        run: bun run migrate
+        env:
+          DATABASE_URL: "postgresql://postgres:test@localhost:5432/test"
+
+      - name: Install Playwright browsers and deps
+        run: |
+          bunx playwright install --with-deps
+          sudo apt-get update
+          sudo apt-get install -y libxml2-dev libwebp-dev libffi-dev
+
+      - name: Wait for server to be ready
+        run: |
+          bun run dev &
+          echo "Starting dev server..."
+          npx wait-on http://localhost:3000 --timeout 120000 --interval 1000
+        env:
+          DATABASE_URL: "postgresql://postgres:test@localhost:5432/test"
+          NODE_ENV: "test"
+          AUTH_NEXTAUTH_SECRET: "test-secret"
+          NEXT_PUBLIC_DEFAULT_LANG: "fr"
+
+      - name: Run E2E tests
+        run: bun run test:e2e
+        env:
+          DATABASE_URL: "postgresql://postgres:test@localhost:5432/test"
+          NODE_ENV: "test"
+          BASE_URL: "http://localhost:3000"
+          AUTH_NEXT_SECRET: "test-secret"
+          NEXT_PUBLIC_DEFAULT_LANG: "fr"
+          CI: "true"
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+  build:
+    needs: unit-tests
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: test
+          POSTGRES_USER: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
 
       - name: Install dependencies
         run: bun install
@@ -103,6 +194,23 @@ jobs:
         env:
           DATABASE_URL: "postgresql://postgres:test@localhost:5432/test"
           NODE_ENV: "test"
+          AUTH_NEXT_SECRET: "test-secret"
+          SMTP_HOST: "localhost"
+          SMTP_PORT: "587"
+          SMTP_SECURE: "false"
+          SMTP_USER: "test@test.com"
+          SMTP_PASS: "test-password"
+          SMTP_FROM_EMAIL: "noreply@test.com"
+          SMTP_FROM_NAME: "Test App"
+          NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+          AWS_REGION: "us-east-1"
+          AWS_ACCESS_KEY_ID: "test-key"
+          AWS_SECRET_ACCESS_KEY: "test-secret"
+          AWS_S3_BUCKET: "test-bucket"
+          APP_HMAC_SECRET: "test-hmac-secret-for-tokens"
+          CRON_SECRET: "test-cron-secret"
+          SEND_BATCH_SIZE: "100"
+          NEXT_PUBLIC_DEFAULT_LANG: "fr"
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -121,9 +229,14 @@ jobs:
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
 
       - name: Install dependencies
         run: bun install
 
       - name: Run linter (Biome)
         run: bunx biome check .
+
+  unit-tests:
+    needs: lint

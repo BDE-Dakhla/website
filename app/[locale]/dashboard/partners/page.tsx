@@ -341,6 +341,7 @@ export default function SponsorsPage() {
       />
 
       <DeleteSponsorDialog
+        _sponsor={deletingSponsor}
         loading={isDeleting}
         onConfirm={handleDeleteSponsor}
         onOpenChange={(open) => {
@@ -350,7 +351,6 @@ export default function SponsorsPage() {
           }
         }}
         open={deleteDialogOpen}
-        sponsor={deletingSponsor}
       />
 
       {/* Logo Preview Dialog */}

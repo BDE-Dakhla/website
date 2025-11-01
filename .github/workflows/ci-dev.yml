@@ -12,6 +12,7 @@ concurrency:
 
 jobs:
   unit-tests:
+    needs: lint
     name: Unit Tests
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -217,26 +218,3 @@ jobs:
         with:
           name: build
           path: .next/
-
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
-      - name: Install dependencies
-        run: bun install
-
-      - name: Run linter (Biome)
-        run: bunx biome check .
-
-  unit-tests:
-    needs: lint

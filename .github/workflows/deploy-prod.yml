@@ -13,6 +13,19 @@ jobs:
     name: Run All Tests
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
 
     steps:
       - name: Checkout code
@@ -24,17 +37,31 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Run database migrations
+        run: bun run migrate
+        env:
+          DATABASE_URL: "postgresql://postgres:test@localhost:5432/test"
+
       - name: Run unit tests
         run: bun run test
+        env:
+          DATABASE_URL: "postgresql://postgres:test@localhost:5432/test"
+          NODE_ENV: "test"
 
       - name: Install Playwright browsers
         run: bunx playwright install --with-deps
 
       - name: Run E2E tests
         run: bun run test:e2e
+        env:
+          DATABASE_URL: "postgresql://postgres:test@localhost:5432/test"
+          NODE_ENV: "test"
 
       - name: Build application
         run: bun run build
+        env:
+          DATABASE_URL: "postgresql://postgres:test@localhost:5432/test"
+          NODE_ENV: "test"
 
       - name: Run linter (Biome)
         run: bunx biome check .

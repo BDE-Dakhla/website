@@ -69,6 +69,19 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
 
     steps:
       - name: Checkout code
@@ -80,8 +93,16 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Run database migrations
+        run: bun run migrate
+        env:
+          DATABASE_URL: "postgresql://postgres:test@localhost:5432/test"
+
       - name: Build application
         run: bun run build
+        env:
+          DATABASE_URL: "postgresql://postgres:test@localhost:5432/test"
+          NODE_ENV: "test"
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4

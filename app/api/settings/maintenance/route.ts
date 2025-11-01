@@ -5,6 +5,8 @@ import { auth } from '@/auth'
 import { getDb } from '@/lib/db/instance'
 import { hasPermission } from '@/lib/permission'
 
+export const runtime = 'edge'
+
 const maintenanceToggleSchema = z.object({
   enabled: z.boolean(),
 })

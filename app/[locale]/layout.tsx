@@ -18,7 +18,20 @@ export default async function Layout({
   const messages = (await import(`../../i18n/locales/${locale}.json`)).default
 
   // Check maintenance mode (will be skipped for maintenance page via its own layout)
-  const isMaintenanceMode = await checkMaintenanceMode()
+  let isMaintenanceMode = false
+  try {
+    const maintenanceCheckPromise = checkMaintenanceMode()
+    const timeoutPromise = new Promise<boolean>((resolve) => {
+      setTimeout(() => resolve(false), 3000) // 3 second timeout
+    })
+    isMaintenanceMode = await Promise.race([
+      maintenanceCheckPromise,
+      timeoutPromise,
+    ])
+  } catch (error) {
+    console.warn('Maintenance mode check failed:', error)
+    isMaintenanceMode = false
+  }
   if (isMaintenanceMode) {
     const session = await auth()
     const isSystemAdmin =

@@ -1,11 +1,12 @@
+import type { ImgHTMLAttributes } from 'react'
 import Image from './image'
 
-type NextImageProps = Omit<
-  React.ComponentProps<typeof Image>,
+type LogoProps = Omit<
+  ImgHTMLAttributes<HTMLImageElement>,
   'alt' | 'src' | 'height' | 'width'
 >
 
-export function Logo(props: NextImageProps) {
+export function Logo(props: LogoProps) {
   return (
     <Image
       alt='Logo'

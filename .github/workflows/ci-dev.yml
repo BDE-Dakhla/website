@@ -26,7 +26,7 @@ jobs:
           bun-version: latest
 
       - name: Install dependencies
-        run: bun install
+        run: bun install --frozen-lockfile
 
       - name: Run linter (Biome)
         run: bunx biome check .
@@ -62,15 +62,15 @@ jobs:
           bun-version: latest
 
       - name: Install dependencies
-        run: bun install
+        run: bun install --frozen-lockfile
 
       - name: Run database migrations
         run: bun run migrate
         env:
           DATABASE_URL: "postgresql://postgres:test@localhost:5432/test"
 
-      - name: Run unit tests
-        run: bun run test
+      - name: Run unit tests with coverage
+        run: bun run test:coverage
         env:
           DATABASE_URL: "postgresql://postgres:test@localhost:5432/test"
           NODE_ENV: "test"
@@ -130,7 +130,7 @@ jobs:
           bun-version: latest
 
       - name: Install dependencies
-        run: bun install
+        run: bun install --frozen-lockfile
 
       - name: Run database migrations
         run: bun run migrate
@@ -203,7 +203,7 @@ jobs:
           bun-version: latest
 
       - name: Install dependencies
-        run: bun install
+        run: bun install --frozen-lockfile
 
       - name: Run database migrations
         run: bun run migrate

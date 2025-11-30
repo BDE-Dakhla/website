@@ -143,24 +143,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libxml2-dev libwebp-dev libffi-dev
 
-      - name: Wait for server to be ready
-        run: |
-          bun run dev &
-          echo "Starting dev server..."
-          npx wait-on http://localhost:3000 --timeout 120000 --interval 1000
-        env:
-          DATABASE_URL: "postgresql://postgres:test@localhost:5432/test"
-          NODE_ENV: "test"
-          AUTH_NEXTAUTH_SECRET: "test-secret"
-          NEXT_PUBLIC_DEFAULT_LANG: "fr"
-
       - name: Run E2E tests
         run: bun run test:e2e
         env:
           DATABASE_URL: "postgresql://postgres:test@localhost:5432/test"
           NODE_ENV: "test"
           BASE_URL: "http://localhost:3000"
-          AUTH_NEXT_SECRET: "test-secret"
+          AUTH_NEXTAUTH_SECRET: "test-secret"
           NEXT_PUBLIC_DEFAULT_LANG: "fr"
           CI: "true"
 

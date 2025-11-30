@@ -18,7 +18,7 @@ async function globalSetup() {
         console.log('✅ Development server is ready')
         return
       }
-    } catch (error) {
+    } catch {
       console.log('⏳ Waiting for development server...')
     }
 

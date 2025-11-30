@@ -196,9 +196,9 @@ test.describe('Dashboard Functionality', () => {
       await navigateToSection(page, 'Statistiques')
 
       // Check for loading skeletons
-      const skeletonCount = await page
+      /* const skeletonCount = await page
         .locator('[data-testid="skeleton"], .animate-pulse')
-        .count()
+        .count() */
 
       // During initial load, there might be skeleton components
       // They should eventually be replaced with actual content
@@ -345,7 +345,7 @@ test.describe('Dashboard Functionality', () => {
       // Look for current visitors badge that might update in real-time
       const visitorsBadge = page.locator('[data-testid="current-visitors"]')
       if (await visitorsBadge.isVisible()) {
-        const initialText = await visitorsBadge.textContent()
+        /* const initialText = await visitorsBadge.textContent() */
 
         // Wait for potential updates (if implemented)
         await page.waitForTimeout(5000)

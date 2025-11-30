@@ -24,11 +24,11 @@ function getS3Client(): S3Client | null {
 
   return new S3Client({
     region: 'us-east-1',
-    endpoint: S3_ENDPOINT!,
+    endpoint: S3_ENDPOINT as string,
     forcePathStyle: true,
     credentials: {
-      accessKeyId: S3_ACCESS_KEY!,
-      secretAccessKey: S3_SECRET_KEY!,
+      accessKeyId: S3_ACCESS_KEY as string,
+      secretAccessKey: S3_SECRET_KEY as string,
     },
   })
 }
@@ -44,11 +44,11 @@ async function ensureBucketExists(): Promise<void> {
   }
 
   try {
-    await s3Client.send(new HeadBucketCommand({ Bucket: S3_BUCKET! }))
+    await s3Client.send(new HeadBucketCommand({ Bucket: S3_BUCKET }))
     bucketInitialized = true
   } catch {
     try {
-      await s3Client.send(new CreateBucketCommand({ Bucket: S3_BUCKET! }))
+      await s3Client.send(new CreateBucketCommand({ Bucket: S3_BUCKET }))
       console.log(`Bucket "${S3_BUCKET}" created successfully`)
       bucketInitialized = true
     } catch (createError) {
@@ -72,7 +72,7 @@ export async function getUploadUrl(
   await ensureBucketExists()
 
   const cmd = new PutObjectCommand({
-    Bucket: S3_BUCKET!,
+    Bucket: S3_BUCKET,
     Key: key,
     ContentType: contentType,
   })

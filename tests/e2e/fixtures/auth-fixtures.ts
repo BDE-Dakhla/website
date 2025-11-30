@@ -43,7 +43,7 @@ export interface AppFixtures {
 }
 
 export const test = base.extend<AppFixtures>({
-  testUser: async ({}, use) => {
+  testUser: async (_, use) => {
     // Provide a valid test user
     await use(TEST_USERS.VALID_USER)
   },

@@ -30,7 +30,7 @@ describe('GET /api/sponsors', () => {
     mockDb = createMockDb()
 
     mockDb.selectFrom = vi.fn().mockReturnValue(mockQuery)
-    vi.mocked(getDb).mockReturnValue(mockDb as any)
+    vi.mocked(getDb).mockReturnValue(mockDb)
   })
 
   it('should return only approved sponsors for public users', async () => {
@@ -116,7 +116,7 @@ describe('POST /api/sponsors', () => {
     mockDb.selectFrom = vi.fn().mockReturnValue(mockQuery)
     mockDb.insertInto = vi.fn().mockReturnValue(mockQuery)
 
-    vi.mocked(getDb).mockReturnValue(mockDb as any)
+    vi.mocked(getDb).mockReturnValue(mockDb)
   })
 
   it('should create sponsor when user has MANAGE_SPONSORS permission', async () => {

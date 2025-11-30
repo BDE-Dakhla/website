@@ -44,7 +44,7 @@ describe('POST /api/newsletter', () => {
     mockDb.selectFrom = vi.fn().mockReturnValue(mockQuery)
     mockDb.updateTable = vi.fn().mockReturnValue(mockQuery)
 
-    vi.mocked(getDb).mockReturnValue(mockDb as any)
+    vi.mocked(getDb).mockReturnValue(mockDb)
   })
 
   it('should successfully subscribe a new user', async () => {
@@ -108,7 +108,7 @@ describe('POST /api/newsletter', () => {
     const email = 'existing@example.com'
 
     // Mock duplicate error
-    const duplicateError: any = new Error('Duplicate key')
+    const duplicateError = new Error('Duplicate key')
     duplicateError.code = '23505'
     mockQuery.execute.mockRejectedValueOnce(duplicateError)
 
@@ -135,7 +135,7 @@ describe('POST /api/newsletter', () => {
     const email = 'unsubscribed@example.com'
 
     // Mock duplicate error
-    const duplicateError: any = new Error('Duplicate key')
+    const duplicateError = new Error('Duplicate key')
     duplicateError.code = '23505'
     mockQuery.execute
       .mockRejectedValueOnce(duplicateError) // insert fails
@@ -169,7 +169,7 @@ describe('POST /api/newsletter', () => {
     const email = 'bounced@example.com'
 
     // Mock duplicate error
-    const duplicateError: any = new Error('Duplicate key')
+    const duplicateError = new Error('Duplicate key')
     duplicateError.code = '23505'
     mockQuery.execute.mockRejectedValueOnce(duplicateError)
 

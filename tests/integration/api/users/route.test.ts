@@ -36,7 +36,7 @@ describe('POST /api/users', () => {
     mockDb.insertInto = vi.fn().mockReturnValue(mockQuery)
     mockDb.selectFrom = vi.fn().mockReturnValue(mockQuery)
 
-    vi.mocked(getDb).mockReturnValue(mockDb as any)
+    vi.mocked(getDb).mockReturnValue(mockDb)
   })
 
   it('should create user successfully when authenticated', async () => {

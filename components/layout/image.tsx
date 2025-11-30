@@ -51,7 +51,7 @@ export default function Image<Motion extends boolean = false>({
 }: ImageProps<Motion>) {
   // When motion is true, create and render the motion component
   if (motion) {
-    const MotionImage = motionize(BaseImage)
+    const MotionImage = motionize.create(BaseImage)
     // @ts-expect-error
     return <MotionImage {...props} />
   }

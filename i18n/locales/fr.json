@@ -225,5 +225,126 @@
       "copied": "Copié",
       "copyToClipboard": "Copier dans le presse-papiers"
     }
+  },
+
+  "clubs": {
+    "page": {
+      "filters": {
+        "areaOfInterest": {
+          "label": "Centre d'intérêt",
+          "all": "Tous"
+        },
+        "internationalGroup": {
+          "label": "Groupe international",
+          "all": "Tous",
+          "yes": "Oui",
+          "no": "Non"
+        },
+        "sort": {
+          "label": "Trier par",
+          "newest": "Du plus récent au plus ancien",
+          "oldest": "Du plus ancien au plus récent",
+          "membersDesc": "Du plus grand nombre de membres au plus petit",
+          "membersAsc": "Du plus petit nombre de membres au plus grand"
+        }
+      },
+      "categories": {
+        "sports": "Sports",
+        "culture": "Culture",
+        "academique": "Académique",
+        "international": "International",
+        "autre": "Autre"
+      },
+      "clubsFound": "{count} clubs trouvés",
+      "loading": "Chargement des clubs...",
+      "members": "membres",
+      "createdOn": "Créé le",
+      "error": "Erreur lors du chargement des clubs",
+      "infoCard": {
+        "title": "Vous ne retrouvez pas un club qui vient d'être créé ?",
+        "description": "Suivez notre guide pour que ce club s'affiche sur cette page !",
+        "button": "En savoir plus"
+      }
+    }
+  },
+
+  "auth": {
+    "errors": {
+      "Configuration": {
+        "title": "Erreur de configuration",
+        "message": "Un problème de configuration a été détecté. Veuillez réessayer dans quelques instants.",
+        "type": "error"
+      },
+      "AccessDenied": {
+        "title": "Accès refusé",
+        "message": "Votre compte n'est pas autorisé à accéder à cette application. Utilisez votre email @edu.uiz.ac.ma",
+        "type": "error"
+      },
+      "Verification": {
+        "title": "Erreur de vérification",
+        "message": "Le lien de vérification a expiré ou n'est pas valide.",
+        "type": "error"
+      },
+      "Default": {
+        "title": "Erreur d'authentification",
+        "message": "Une erreur inattendue s'est produite. Veuillez réessayer.",
+        "type": "error"
+      },
+      "CredentialsSignin": {
+        "title": "Identifiants incorrects",
+        "message": "Code Massar ou mot de passe invalide. Vérifiez vos informations.",
+        "type": "error"
+      },
+      "OAuthSignin": {
+        "title": "Erreur OAuth",
+        "message": "Impossible de se connecter avec Google. Vérifiez votre connexion internet.",
+        "type": "error"
+      },
+      "OAuthCallback": {
+        "title": "Erreur de connexion Google",
+        "message": "La connexion avec Google a échoué. Cela peut être dû à un problème de réseau.",
+        "type": "error"
+      },
+      "OAuthCreateAccount": {
+        "title": "Erreur de création de compte",
+        "message": "Impossible de créer votre compte. Contactez le support technique.",
+        "type": "error"
+      },
+      "EmailCreateAccount": {
+        "title": "Erreur de création de compte",
+        "message": "Impossible de créer votre compte avec cette adresse email.",
+        "type": "error"
+      },
+      "Callback": {
+        "title": "Erreur de connexion",
+        "message": "Une erreur s'est produite lors de la connexion. Vérifiez votre connexion internet et réessayez.",
+        "type": "error"
+      },
+      "OAuthAccountNotLinked": {
+        "title": "Compte non associé",
+        "message": "Ce compte Google n'est pas associé à votre compte étudiant.",
+        "type": "error"
+      },
+      "EmailSignin": {
+        "title": "Erreur d'envoi d'email",
+        "message": "Impossible d'envoyer l'email de connexion.",
+        "type": "error"
+      },
+      "SessionRequired": {
+        "title": "Connexion requise",
+        "message": "Vous devez être connecté pour accéder à cette page.",
+        "type": "warning"
+      },
+      "NetworkError": {
+        "title": "Erreur de réseau",
+        "message": "Problème de connexion internet. Vérifiez votre réseau et réessayez.",
+        "type": "error"
+      },
+      "TimeoutError": {
+        "title": "Délai d'attente dépassé",
+        "message": "La connexion a pris trop de temps. Réessayez dans quelques instants.",
+        "type": "error"
+      }
+    }
   }
 }

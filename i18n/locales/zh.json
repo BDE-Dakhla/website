@@ -164,5 +164,126 @@
       "copied": "已复制",
       "copyToClipboard": "复制到剪贴板"
     }
+  },
+
+  "clubs": {
+    "page": {
+      "filters": {
+        "areaOfInterest": {
+          "label": "兴趣领域",
+          "all": "全部"
+        },
+        "internationalGroup": {
+          "label": "国际小组",
+          "all": "全部",
+          "yes": "是",
+          "no": "否"
+        },
+        "sort": {
+          "label": "排序方式",
+          "newest": "从最新到最旧",
+          "oldest": "从最旧到最新",
+          "membersDesc": "从最多到最少成员",
+          "membersAsc": "从最少到最多成员"
+        }
+      },
+      "categories": {
+        "sports": "体育",
+        "culture": "文化",
+        "academique": "学术",
+        "international": "国际",
+        "autre": "其他"
+      },
+      "clubsFound": "找到 {count} 个俱乐部",
+      "loading": "正在加载俱乐部...",
+      "members": "成员",
+      "createdOn": "创建于",
+      "error": "加载俱乐部时出错",
+      "infoCard": {
+        "title": "找不到刚创建的俱乐部？",
+        "description": "按照我们的指南在此页面上显示此俱乐部！",
+        "button": "了解更多"
+      }
+    }
+  },
+
+  "auth": {
+    "errors": {
+      "Configuration": {
+        "title": "配置错误",
+        "message": "检测到配置问题。请稍后再试。",
+        "type": "error"
+      },
+      "AccessDenied": {
+        "title": "拒绝访问",
+        "message": "您的帐户未被授权访问此应用程序。请使用您的电子邮件 @edu.uiz.ac.ma",
+        "type": "error"
+      },
+      "Verification": {
+        "title": "验证错误",
+        "message": "验证链接已过期或无效。",
+        "type": "error"
+      },
+      "Default": {
+        "title": "验证错误",
+        "message": "出现意外错误。请重试。",
+        "type": "error"
+      },
+      "CredentialsSignin": {
+        "title": "凭据不正确",
+        "message": "Massar 代码或密码无效。请检查您的详细信息。",
+        "type": "error"
+      },
+      "OAuthSignin": {
+        "title": "OAuth 错误",
+        "message": "无法连接 Google。检查您的网络连接。",
+        "type": "error"
+      },
+      "OAuthCallback": {
+        "title": "谷歌连接错误",
+        "message": "与 Google 的连接失败。这可能是由于网络问题。",
+        "type": "error"
+      },
+      "OAuthCreateAccount": {
+        "title": "帐户创建错误",
+        "message": "无法创建账户。请联系技术支持。",
+        "type": "error"
+      },
+      "EmailCreateAccount": {
+        "title": "帐户创建错误",
+        "message": "使用此电子邮件地址无法创建账户。",
+        "type": "error"
+      },
+      "Callback": {
+        "title": "连接错误",
+        "message": "连接过程中出现错误。请检查网络连接并重试。",
+        "type": "error"
+      },
+      "OAuthAccountNotLinked": {
+        "title": "非关联账户",
+        "message": "此 Google 帐户与您的学生帐户无关。",
+        "type": "error"
+      },
+      "EmailSignin": {
+        "title": "发送电子邮件出错",
+        "message": "无法发送登录电子邮件。",
+        "type": "error"
+      },
+      "SessionRequired": {
+        "title": "需要登录",
+        "message": "您必须登录后才能访问此页面。",
+        "type": "warning"
+      },
+      "NetworkError": {
+        "title": "网络错误",
+        "message": "网络连接问题。请检查网络并重试。",
+        "type": "error"
+      },
+      "TimeoutError": {
+        "title": "超过等待期",
+        "message": "连接时间过长。请稍后再试。",
+        "type": "error"
+      }
+    }
   }
 }

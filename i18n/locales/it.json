@@ -164,5 +164,126 @@
       "copied": "Copiato",
       "copyToClipboard": "Copia negli appunti"
     }
+  },
+
+  "clubs": {
+    "page": {
+      "filters": {
+        "areaOfInterest": {
+          "label": "Area di interesse",
+          "all": "Tutti"
+        },
+        "internationalGroup": {
+          "label": "Gruppo internazionale",
+          "all": "Tutti",
+          "yes": "Sì",
+          "no": "No"
+        },
+        "sort": {
+          "label": "Ordina per",
+          "newest": "Dal più recente al più vecchio",
+          "oldest": "Dal più vecchio al più recente",
+          "membersDesc": "Dai più ai meno membri",
+          "membersAsc": "Dai meno ai più membri"
+        }
+      },
+      "categories": {
+        "sports": "Sport",
+        "culture": "Cultura",
+        "academique": "Accademico",
+        "international": "Internazionale",
+        "autre": "Altro"
+      },
+      "clubsFound": "{count} club trovati",
+      "loading": "Caricamento club...",
+      "members": "membri",
+      "createdOn": "Creato il",
+      "error": "Errore nel caricamento dei club",
+      "infoCard": {
+        "title": "Non trovi un club appena creato?",
+        "description": "Segui la nostra guida per visualizzare questo club in questa pagina!",
+        "button": "Scopri di più"
+      }
+    }
+  },
+
+  "auth": {
+    "errors": {
+      "Configuration": {
+        "title": "Errore di configurazione",
+        "message": "È stato rilevato un problema di configurazione. Riprovare tra qualche istante.",
+        "type": "error"
+      },
+      "AccessDenied": {
+        "title": "Accesso negato",
+        "message": "Il vostro account non è autorizzato ad accedere a questa applicazione. Utilizza la tua email @edu.uiz.ac.ma",
+        "type": "error"
+      },
+      "Verification": {
+        "title": "Errore di verifica",
+        "message": "Il link di verifica è scaduto o non è valido.",
+        "type": "error"
+      },
+      "Default": {
+        "title": "Errore di autenticazione",
+        "message": "Si è verificato un errore imprevisto. Si prega di riprovare.",
+        "type": "error"
+      },
+      "CredentialsSignin": {
+        "title": "Credenziali errate",
+        "message": "Codice Massar o password non validi. Si prega di controllare i dati.",
+        "type": "error"
+      },
+      "OAuthSignin": {
+        "title": "Errore OAuth",
+        "message": "Impossibile connettersi con Google. Controllare la connessione a Internet.",
+        "type": "error"
+      },
+      "OAuthCallback": {
+        "title": "Errore di connessione di Google",
+        "message": "La connessione con Google non è riuscita. Ciò potrebbe essere dovuto a un problema di rete.",
+        "type": "error"
+      },
+      "OAuthCreateAccount": {
+        "title": "Errore di creazione dell'account",
+        "message": "Impossibile creare l'account. Contattare l'assistenza tecnica.",
+        "type": "error"
+      },
+      "EmailCreateAccount": {
+        "title": "Errore di creazione dell'account",
+        "message": "Impossibile creare l'account con questo indirizzo e-mail.",
+        "type": "error"
+      },
+      "Callback": {
+        "title": "Errore di connessione",
+        "message": "Si è verificato un errore durante la connessione. Controllare la connessione a Internet e riprovare.",
+        "type": "error"
+      },
+      "OAuthAccountNotLinked": {
+        "title": "Conto non associato",
+        "message": "Questo account Google non è associato al vostro account studente.",
+        "type": "error"
+      },
+      "EmailSignin": {
+        "title": "Errore nell'invio dell'e-mail",
+        "message": "Impossibile inviare l'e-mail di accesso.",
+        "type": "error"
+      },
+      "SessionRequired": {
+        "title": "Accesso richiesto",
+        "message": "Per accedere a questa pagina è necessario aver effettuato il login.",
+        "type": "warning"
+      },
+      "NetworkError": {
+        "title": "Errore di rete",
+        "message": "Problema di connessione a Internet. Controllare la rete e riprovare.",
+        "type": "error"
+      },
+      "TimeoutError": {
+        "title": "Periodo di attesa superato",
+        "message": "La connessione ha richiesto troppo tempo. Riprovare tra qualche istante.",
+        "type": "error"
+      }
+    }
   }
 }

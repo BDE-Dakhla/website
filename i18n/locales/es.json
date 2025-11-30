@@ -164,5 +164,126 @@
       "copied": "Copiado",
       "copyToClipboard": "Copiar al portapapeles"
     }
+  },
+
+  "clubs": {
+    "page": {
+      "filters": {
+        "areaOfInterest": {
+          "label": "Área de interés",
+          "all": "Todos"
+        },
+        "internationalGroup": {
+          "label": "Grupo internacional",
+          "all": "Todos",
+          "yes": "Sí",
+          "no": "No"
+        },
+        "sort": {
+          "label": "Ordenar por",
+          "newest": "Del más reciente al más antiguo",
+          "oldest": "Del más antiguo al más reciente",
+          "membersDesc": "De más a menos miembros",
+          "membersAsc": "De menos a más miembros"
+        }
+      },
+      "categories": {
+        "sports": "Deportes",
+        "culture": "Cultura",
+        "academique": "Académico",
+        "international": "Internacional",
+        "autre": "Otro"
+      },
+      "clubsFound": "{count} clubes encontrados",
+      "loading": "Cargando clubes...",
+      "members": "miembros",
+      "createdOn": "Creado el",
+      "error": "Error al cargar los clubes",
+      "infoCard": {
+        "title": "¿No encuentras un club que acaba de ser creado?",
+        "description": "¡Sigue nuestra guía para que este club aparezca en esta página!",
+        "button": "Saber más"
+      }
+    }
+  },
+
+  "auth": {
+    "errors": {
+      "Configuration": {
+        "title": "Error de configuración",
+        "message": "Se ha detectado un problema de configuración. Por favor, inténtelo de nuevo en unos momentos.",
+        "type": "error"
+      },
+      "AccessDenied": {
+        "title": "Acceso denegado",
+        "message": "Tu cuenta no está autorizada para acceder a esta aplicación. Utilice su correo electrónico @edu.uiz.ac.ma",
+        "type": "error"
+      },
+      "Verification": {
+        "title": "Error de verificación",
+        "message": "El enlace de verificación ha caducado o no es válido.",
+        "type": "error"
+      },
+      "Default": {
+        "title": "Error de autenticación",
+        "message": "Se ha producido un error inesperado. Por favor, inténtelo de nuevo.",
+        "type": "error"
+      },
+      "CredentialsSignin": {
+        "title": "Credenciales incorrectas",
+        "message": "Código Massar o contraseña inválidos. Por favor, compruebe sus datos.",
+        "type": "error"
+      },
+      "OAuthSignin": {
+        "title": "Error OAuth",
+        "message": "No se puede conectar con Google. Comprueba tu conexión a Internet.",
+        "type": "error"
+      },
+      "OAuthCallback": {
+        "title": "Error de conexión de Google",
+        "message": "La conexión con Google ha fallado. Esto puede deberse a un problema de red.",
+        "type": "error"
+      },
+      "OAuthCreateAccount": {
+        "title": "Error de creación de cuenta",
+        "message": "No ha podido crear su cuenta. Póngase en contacto con el servicio de asistencia técnica.",
+        "type": "error"
+      },
+      "EmailCreateAccount": {
+        "title": "Error de creación de cuenta",
+        "message": "Imposible crear su cuenta con esta dirección de correo electrónico.",
+        "type": "error"
+      },
+      "Callback": {
+        "title": "Error de conexión",
+        "message": "Se ha producido un error durante la conexión. Compruebe su conexión a Internet e inténtelo de nuevo.",
+        "type": "error"
+      },
+      "OAuthAccountNotLinked": {
+        "title": "Cuenta no asociada",
+        "message": "Esta cuenta de Google no está asociada a tu cuenta de estudiante.",
+        "type": "error"
+      },
+      "EmailSignin": {
+        "title": "Error al enviar correo electrónico",
+        "message": "No se puede enviar correo electrónico de inicio de sesión.",
+        "type": "error"
+      },
+      "SessionRequired": {
+        "title": "Inicio de sesión requerido",
+        "message": "Debe iniciar sesión para acceder a esta página.",
+        "type": "warning"
+      },
+      "NetworkError": {
+        "title": "Error de red",
+        "message": "Problema de conexión a Internet. Comprueba tu red e inténtalo de nuevo.",
+        "type": "error"
+      },
+      "TimeoutError": {
+        "title": "Período de espera superado",
+        "message": "La conexión ha tardado demasiado. Por favor, inténtelo de nuevo en unos momentos.",
+        "type": "error"
+      }
+    }
   }
 }

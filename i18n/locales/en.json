@@ -228,5 +228,126 @@
       "copied": "Copied",
       "copyToClipboard": "Copy to clipboard"
     }
+  },
+
+  "clubs": {
+    "page": {
+      "filters": {
+        "areaOfInterest": {
+          "label": "Area of Interest",
+          "all": "All"
+        },
+        "internationalGroup": {
+          "label": "International Group",
+          "all": "All",
+          "yes": "Yes",
+          "no": "No"
+        },
+        "sort": {
+          "label": "Sort by",
+          "newest": "Newest to Oldest",
+          "oldest": "Oldest to Newest",
+          "membersDesc": "Most to Least Members",
+          "membersAsc": "Least to Most Members"
+        }
+      },
+      "categories": {
+        "sports": "Sports",
+        "culture": "Culture",
+        "academique": "Academic",
+        "international": "International",
+        "autre": "Other"
+      },
+      "clubsFound": "{count} clubs found",
+      "loading": "Loading clubs...",
+      "members": "members",
+      "createdOn": "Created on",
+      "error": "Error loading clubs",
+      "infoCard": {
+        "title": "Can't find a club that was just created?",
+        "description": "Follow our guide to get this club displayed on this page!",
+        "button": "Learn more"
+      }
+    }
+  },
+
+  "auth": {
+    "errors": {
+      "Configuration": {
+        "title": "Configuration error",
+        "message": "A configuration problem has been detected. Please try again in a few moments.",
+        "type": "error"
+      },
+      "AccessDenied": {
+        "title": "Access denied",
+        "message": "Your account is not authorized to access this application. Use your email @edu.uiz.ac.ma",
+        "type": "error"
+      },
+      "Verification": {
+        "title": "Verification error",
+        "message": "The verification link has expired or is invalid.",
+        "type": "error"
+      },
+      "Default": {
+        "title": "Authentication error",
+        "message": "An unexpected error has occurred. Please try again.",
+        "type": "error"
+      },
+      "CredentialsSignin": {
+        "title": "Incorrect credentials",
+        "message": "Invalid Massar code or password. Please check your information.",
+        "type": "error"
+      },
+      "OAuthSignin": {
+        "title": "OAuth error",
+        "message": "Unable to connect with Google. Check your internet connection.",
+        "type": "error"
+      },
+      "OAuthCallback": {
+        "title": "Google connection error",
+        "message": "The connection with Google has failed. This may be due to a network problem.",
+        "type": "error"
+      },
+      "OAuthCreateAccount": {
+        "title": "Account creation error",
+        "message": "Unable to create your account. Please contact technical support.",
+        "type": "error"
+      },
+      "EmailCreateAccount": {
+        "title": "Account creation error",
+        "message": "Impossible to create your account with this email address.",
+        "type": "error"
+      },
+      "Callback": {
+        "title": "Connection error",
+        "message": "An error has occurred during connection. Check your internet connection and try again.",
+        "type": "error"
+      },
+      "OAuthAccountNotLinked": {
+        "title": "Non-associated account",
+        "message": "This Google Account is not associated with your student account.",
+        "type": "error"
+      },
+      "EmailSignin": {
+        "title": "Email sending error",
+        "message": "Unable to send login email.",
+        "type": "error"
+      },
+      "SessionRequired": {
+        "title": "Login required",
+        "message": "You must be logged in to access this page.",
+        "type": "warning"
+      },
+      "NetworkError": {
+        "title": "Network error",
+        "message": "Internet connection problem. Check your network and try again.",
+        "type": "error"
+      },
+      "TimeoutError": {
+        "title": "Timeout exceeded",
+        "message": "The connection took too long. Please try again in a few moments.",
+        "type": "error"
+      }
+    }
   }
 }

@@ -1,6 +1,7 @@
 'use client'
 
-import { ChevronDown, ExternalLink, Globe, Users, X } from 'lucide-react'
+import { ExternalLink, Globe, Users, X } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import useSWR from 'swr'
 import {
@@ -20,6 +21,13 @@ import {
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Link } from '@/i18n/routing'
 import Bulb from './icon'
@@ -28,7 +36,7 @@ interface Club {
   id: string
   name: string
   description: string
-  category: 'sports' | 'culture' | 'academique' | 'international' | 'autre'
+  category: string
   hasInternationalGroup: boolean
   memberCount: number
   createdAt: string
@@ -51,19 +59,13 @@ const transformClub = (club: ApiClub): Club => ({
   createdAt: new Date(club.createdAt).toISOString().split('T')[0], // Format as YYYY-MM-DD
 })
 
-const getCategoryLabel = (category: Club['category']) => {
-  const labels = {
-    sports: 'Sports',
-    culture: 'Culture',
-    academique: 'Académique',
-    international: 'International',
-    autre: 'Autre',
-  }
-  return labels[category]
-}
-
 export default function Page() {
   const [selectedClub, setSelectedClub] = useState<Club | null>(null)
+  const [selectedInterest, setSelectedInterest] = useState<string>('all')
+  const [selectedInternationalGroup, setSelectedInternationalGroup] =
+    useState<string>('all')
+  const [sortBy, setSortBy] = useState<string>('newest')
+  const t = useTranslations()
   const {
     data: clubs,
     error,
@@ -71,9 +73,54 @@ export default function Page() {
   } = useSWR<ApiClub[]>('/api/clubs', fetcher)
 
   const transformedClubs = clubs?.map(transformClub) || []
-  const sortedClubs = [...transformedClubs].sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  const sortedClubs = [...transformedClubs].sort((a, b) => {
+    switch (sortBy) {
+      case 'oldest':
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      case 'newest':
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      case 'members-asc':
+        return a.memberCount - b.memberCount
+      case 'members-desc':
+        return b.memberCount - a.memberCount
+      default:
+        return 0
+    }
+  })
+
+  const filteredClubs = sortedClubs.filter((club) => {
+    const matchesInterest =
+      selectedInterest === 'all' || club.category === selectedInterest
+    const matchesInternational =
+      selectedInternationalGroup === 'all' ||
+      (selectedInternationalGroup === 'yes' && club.hasInternationalGroup) ||
+      (selectedInternationalGroup === 'no' && !club.hasInternationalGroup)
+    return matchesInterest && matchesInternational
+  })
+
+  const categories = Array.from(
+    new Set(transformedClubs.map((c) => c.category)),
   )
+  const interestData = [
+    { type: 'all', size: transformedClubs.length },
+    ...categories.map((cat) => ({
+      type: cat,
+      size: transformedClubs.filter((c) => c.category === cat).length,
+    })),
+  ]
+
+  const sortOptions = [
+    { value: 'newest', label: t('clubs.page.filters.sort.newest') },
+    { value: 'oldest', label: t('clubs.page.filters.sort.oldest') },
+    { value: 'members-desc', label: t('clubs.page.filters.sort.membersDesc') },
+    { value: 'members-asc', label: t('clubs.page.filters.sort.membersAsc') },
+  ]
+
+  const internationalGroupOptions = [
+    { value: 'all', label: t('clubs.page.filters.internationalGroup.all') },
+    { value: 'yes', label: t('clubs.page.filters.internationalGroup.yes') },
+    { value: 'no', label: t('clubs.page.filters.internationalGroup.no') },
+  ]
 
   return (
     <main
@@ -81,20 +128,19 @@ export default function Page() {
       <section aria-label='filters'>
         <Card className='mb-4'>
           <CardHeader>
-            <CardTitle className='flex'>
+            <CardTitle className='flex leading-6'>
               <Bulb className='mr-2 min-w-max' />
-              Vous ne retrouvez pas un club ou qu'il vient d'être créé ?
+              {t('clubs.page.infoCard.title')}
             </CardTitle>
-            <CardDescription>
-              Suivez notre guide pour que ce club s&apos;affiche sur cette page
-              !
+            <CardDescription className='mt-2'>
+              {t('clubs.page.infoCard.description')}
             </CardDescription>
           </CardHeader>
           <CardFooter>
             <Button asChild className='w-full border'>
               <Link href='/'>
                 <ExternalLink />
-                En savoir plus
+                {t('clubs.page.infoCard.button')}
               </Link>
             </Button>
           </CardFooter>
@@ -104,79 +150,61 @@ export default function Page() {
           defaultValue={['area-of-interest', 'international-group']}
           type='multiple'>
           <AccordionItem value='area-of-interest'>
-            <AccordionTrigger>Centre d&apos;intérêt</AccordionTrigger>
+            <AccordionTrigger>
+              {t('clubs.page.filters.areaOfInterest.label')}
+            </AccordionTrigger>
             <AccordionContent>
-              <RadioGroup defaultValue='tous'>
-                <div className='flex items-center gap-3'>
-                  <RadioGroupItem id='tous' value='tous' />
-                  <Label htmlFor='tous'>Tous</Label>
-                  <Badge className='ml-auto' variant='secondary'>
-                    {sortedClubs.length}
-                  </Badge>
-                </div>
-                <div className='flex items-center gap-3'>
-                  <RadioGroupItem id='sports' value='sports' />
-                  <Label htmlFor='sports'>Sports</Label>
-                  <Badge className='ml-auto' variant='secondary'>
-                    {sortedClubs.filter((c) => c.category === 'sports').length}
-                  </Badge>
-                </div>
-                <div className='flex items-center gap-3'>
-                  <RadioGroupItem id='culture' value='culture' />
-                  <Label htmlFor='culture'>Culture</Label>
-                  <Badge className='ml-auto' variant='secondary'>
-                    {sortedClubs.filter((c) => c.category === 'culture').length}
-                  </Badge>
-                </div>
-                <div className='flex items-center gap-3'>
-                  <RadioGroupItem id='academique' value='academique' />
-                  <Label htmlFor='academique'>Académique</Label>
-                  <Badge className='ml-auto' variant='secondary'>
-                    {
-                      sortedClubs.filter((c) => c.category === 'academique')
-                        .length
-                    }
-                  </Badge>
-                </div>
-                <div className='flex items-center gap-3'>
-                  <RadioGroupItem id='international' value='international' />
-                  <Label htmlFor='international'>International</Label>
-                  <Badge className='ml-auto' variant='secondary'>
-                    {
-                      sortedClubs.filter((c) => c.category === 'international')
-                        .length
-                    }
-                  </Badge>
-                </div>
-                <div className='flex items-center gap-3'>
-                  <RadioGroupItem id='autre' value='autre' />
-                  <Label htmlFor='autre'>Autre</Label>
-                  <Badge className='ml-auto' variant='secondary'>
-                    {sortedClubs.filter((c) => c.category === 'autre').length}
-                  </Badge>
-                </div>
+              <RadioGroup
+                defaultValue='all'
+                onValueChange={setSelectedInterest}
+                value={selectedInterest}>
+                {interestData.map(({ type, size }) => (
+                  <div className='flex items-center gap-3' key={type}>
+                    <RadioGroupItem id={type} value={type} />
+                    <Label htmlFor={type}>
+                      {type === 'all'
+                        ? t('clubs.page.filters.areaOfInterest.all')
+                        : t(`clubs.page.categories.${type}`)}
+                    </Label>
+                    <Badge className='ml-auto' variant='secondary'>
+                      {size}
+                    </Badge>
+                  </div>
+                ))}
               </RadioGroup>
             </AccordionContent>
           </AccordionItem>
 
           <AccordionItem value='international-group'>
-            <AccordionTrigger>Groupe international</AccordionTrigger>
+            <AccordionTrigger>
+              {t('clubs.page.filters.internationalGroup.label')}
+            </AccordionTrigger>
             <AccordionContent>
-              <RadioGroup defaultValue='yes'>
-                <div className='flex items-center gap-3'>
-                  <RadioGroupItem id='yes' value='yes' />
-                  <Label htmlFor='yes'>Oui</Label>
-                  <Badge className='ml-auto' variant='secondary'>
-                    {sortedClubs.filter((c) => c.hasInternationalGroup).length}
-                  </Badge>
-                </div>
-                <div className='flex items-center gap-3'>
-                  <RadioGroupItem id='no' value='no' />
-                  <Label htmlFor='no'>Non</Label>
-                  <Badge className='ml-auto' variant='secondary'>
-                    {sortedClubs.filter((c) => !c.hasInternationalGroup).length}
-                  </Badge>
-                </div>
+              <RadioGroup
+                defaultValue='all'
+                onValueChange={setSelectedInternationalGroup}
+                value={selectedInternationalGroup}>
+                {internationalGroupOptions.map(({ value, label }) => {
+                  const count =
+                    value === 'all'
+                      ? transformedClubs.length
+                      : value === 'yes'
+                        ? transformedClubs.filter(
+                            (c) => c.hasInternationalGroup,
+                          ).length
+                        : transformedClubs.filter(
+                            (c) => !c.hasInternationalGroup,
+                          ).length
+                  return (
+                    <div className='flex items-center gap-3' key={value}>
+                      <RadioGroupItem id={value} value={value} />
+                      <Label htmlFor={value}>{label}</Label>
+                      <Badge className='ml-auto' variant='secondary'>
+                        {count}
+                      </Badge>
+                    </div>
+                  )
+                })}
               </RadioGroup>
             </AccordionContent>
           </AccordionItem>
@@ -187,15 +215,26 @@ export default function Page() {
         <div className='flex items-center justify-between'>
           <p>
             {isLoading
-              ? 'Chargement des clubs...'
-              : `${sortedClubs.length} clubs trouvés`}
+              ? t('clubs.page.loading')
+              : t('clubs.page.clubsFound', { count: filteredClubs.length })}
           </p>
-          <div>
-            Trier par: recent
-            <ChevronDown />
-          </div>
+          <Select
+            defaultValue='newest'
+            onValueChange={setSortBy}
+            value={sortBy}>
+            <SelectTrigger>
+              <SelectValue placeholder={t('clubs.page.filters.sort.label')} />
+            </SelectTrigger>
+            <SelectContent>
+              {sortOptions.map(({ value, label }) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
-        {error && <p>Error loading clubs</p>}
+        {error && <p>{t('clubs.page.error')}</p>}
         <div className='mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {isLoading
             ? Array.from({ length: 8 }).map((_, i) => (
@@ -210,7 +249,7 @@ export default function Page() {
                   </CardFooter>
                 </Card>
               ))
-            : sortedClubs.map((club) => (
+            : filteredClubs.map((club) => (
                 <Card
                   className='cursor-pointer transition-shadow hover:shadow-md'
                   key={club.id}
@@ -228,7 +267,7 @@ export default function Page() {
                   </CardHeader>
                   <CardFooter className='flex items-center justify-between'>
                     <Badge variant='outline'>
-                      {getCategoryLabel(club.category)}
+                      {t(`clubs.page.categories.${club.category}`)}
                     </Badge>
                     <div className='flex items-center gap-1 text-muted-foreground text-sm'>
                       <Users className='h-4 w-4' />
@@ -265,21 +304,23 @@ export default function Page() {
             <CardFooter className='flex flex-col items-start gap-4'>
               <div className='flex items-center gap-2'>
                 <Badge variant='outline'>
-                  {getCategoryLabel(selectedClub.category)}
+                  {t(`clubs.page.categories.${selectedClub.category}`)}
                 </Badge>
                 <div className='flex items-center gap-1 text-muted-foreground text-sm'>
                   <Users className='h-4 w-4' />
-                  {selectedClub.memberCount} membres
+                  {selectedClub.memberCount} {t('clubs.page.members')}
                 </div>
               </div>
               <div className='text-muted-foreground text-sm'>
                 <div>
-                  Groupe international:{' '}
-                  {selectedClub.hasInternationalGroup ? 'Oui' : 'Non'}
+                  {`${t('clubs.page.filters.internationalGroup.label')}: ${
+                    selectedClub.hasInternationalGroup
+                      ? t('clubs.page.filters.internationalGroup.yes')
+                      : t('clubs.page.filters.internationalGroup.no')
+                  }`}
                 </div>
                 <div>
-                  Créé le{' '}
-                  {new Date(selectedClub.createdAt).toLocaleDateString('fr-FR')}
+                  {`${t('clubs.page.createdOn')} ${new Date(selectedClub.createdAt).toLocaleDateString()}`}
                 </div>
               </div>
             </CardFooter>

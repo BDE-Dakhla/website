@@ -155,5 +155,126 @@
       "copied": "Copied",
       "copyToClipboard": "Copy to clipboard"
     }
+  },
+
+  "clubs": {
+    "page": {
+      "filters": {
+        "areaOfInterest": {
+          "label": "Area of Interest",
+          "all": "All"
+        },
+        "internationalGroup": {
+          "label": "International Group",
+          "all": "All",
+          "yes": "Yes",
+          "no": "No"
+        },
+        "sort": {
+          "label": "Sort by",
+          "newest": "Newest to Oldest",
+          "oldest": "Oldest to Newest",
+          "membersDesc": "Most to Least Members",
+          "membersAsc": "Least to Most Members"
+        }
+      },
+      "categories": {
+        "sports": "Sports",
+        "culture": "Culture",
+        "academique": "Academic",
+        "international": "International",
+        "autre": "Other"
+      },
+      "clubsFound": "{count} clubs found",
+      "loading": "Loading clubs...",
+      "members": "members",
+      "createdOn": "Created on",
+      "error": "Error loading clubs",
+      "infoCard": {
+        "title": "Can't find a club that was just created?",
+        "description": "Follow our guide to get this club displayed on this page!",
+        "button": "Learn more"
+      }
+    }
+  },
+
+  "auth": {
+    "errors": {
+      "Configuration": {
+        "title": "خطأ في التكوين",
+        "message": "تم اكتشاف مشكلة في التكوين. يرجى المحاولة مرة أخرى بعد لحظات قليلة.",
+        "type": "error"
+      },
+      "AccessDenied": {
+        "title": "تم رفض الدخول",
+        "message": "حسابك غير مصرح به للوصول إلى هذا التطبيق. استخدم بريدك الإلكتروني @edu.uiz.ac.ma",
+        "type": "error"
+      },
+      "Verification": {
+        "title": "خطأ في التحقق",
+        "message": "انتهت صلاحية رابط التحقق أو غير صالح.",
+        "type": "error"
+      },
+      "Default": {
+        "title": "خطأ في المصادقة",
+        "message": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.",
+        "type": "error"
+      },
+      "CredentialsSignin": {
+        "title": "بيانات اعتماد غير صحيحة",
+        "message": "رمز مسار أو كلمة المرور غير صالحة. يرجى التحقق من التفاصيل الخاصة بك.",
+        "type": "error"
+      },
+      "OAuthSignin": {
+        "title": "خطأ OAuth",
+        "message": "لا يمكن الاتصال بـ Google. تحقق من اتصالك بالإنترنت.",
+        "type": "error"
+      },
+      "OAuthCallback": {
+        "title": "خطأ في اتصال Google",
+        "message": "لقد فشل الاتصال بـ Google. قد يكون هذا بسبب مشكلة في الشبكة.",
+        "type": "error"
+      },
+      "OAuthCreateAccount": {
+        "title": "خطأ في إنشاء الحساب",
+        "message": "غير قادر على إنشاء حسابك. اتصل بالدعم الفني.",
+        "type": "error"
+      },
+      "EmailCreateAccount": {
+        "title": "خطأ في إنشاء الحساب",
+        "message": "من المستحيل إنشاء حسابك باستخدام عنوان البريد الإلكتروني هذا.",
+        "type": "error"
+      },
+      "Callback": {
+        "title": "خطأ في الاتصال",
+        "message": "حدث خطأ أثناء الاتصال. تحقق من اتصالك بالإنترنت وحاول مرة أخرى.",
+        "type": "error"
+      },
+      "OAuthAccountNotLinked": {
+        "title": "الحساب غير المرتبط",
+        "message": "لا يرتبط حساب Google هذا بحساب الطالب الخاص بك.",
+        "type": "error"
+      },
+      "EmailSignin": {
+        "title": "خطأ في إرسال البريد الإلكتروني",
+        "message": "غير قادر على إرسال بريد إلكتروني لتسجيل الدخول.",
+        "type": "error"
+      },
+      "SessionRequired": {
+        "title": "تسجيل الدخول مطلوب",
+        "message": "يجب عليك تسجيل الدخول للوصول إلى هذه الصفحة.",
+        "type": "warning"
+      },
+      "NetworkError": {
+        "title": "خطأ في الشبكة",
+        "message": "مشكلة في الاتصال بالإنترنت. تحقق من شبكتك وحاول مرة أخرى.",
+        "type": "error"
+      },
+      "TimeoutError": {
+        "title": "تجاوز فترة الانتظار",
+        "message": "استغرق الاتصال وقتاً طويلاً. يرجى المحاولة مرة أخرى بعد لحظات قليلة.",
+        "type": "error"
+      }
+    }
   }
 }

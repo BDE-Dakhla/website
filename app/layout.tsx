@@ -44,7 +44,7 @@ export default async function RootLayout({
       <body
         className={`${poppins.variable} antialiased`}
         suppressHydrationWarning>
-        <NextTopLoader showSpinner={false} />
+        <NextTopLoader color="#f59e0b" showSpinner={false} />
         <Providers>{children}</Providers>
         <Toaster />
       </body>

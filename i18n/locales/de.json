@@ -180,5 +180,126 @@
       "copied": "Kopiert",
       "copyToClipboard": "In die Zwischenablage kopieren"
     }
+  },
+
+  "clubs": {
+    "page": {
+      "filters": {
+        "areaOfInterest": {
+          "label": "Interessengebiet",
+          "all": "Alle"
+        },
+        "internationalGroup": {
+          "label": "Internationale Gruppe",
+          "all": "Alle",
+          "yes": "Ja",
+          "no": "Nein"
+        },
+        "sort": {
+          "label": "Sortieren nach",
+          "newest": "Vom Neuesten zum Ältesten",
+          "oldest": "Vom Ältesten zum Neuesten",
+          "membersDesc": "Von den meisten zu den wenigsten Mitgliedern",
+          "membersAsc": "Von den wenigsten zu den meisten Mitgliedern"
+        }
+      },
+      "categories": {
+        "sports": "Sport",
+        "culture": "Kultur",
+        "academique": "Akademisch",
+        "international": "International",
+        "autre": "Sonstiges"
+      },
+      "clubsFound": "{count} Clubs gefunden",
+      "loading": "Clubs werden geladen...",
+      "members": "Mitglieder",
+      "createdOn": "Erstellt am",
+      "error": "Fehler beim Laden der Clubs",
+      "infoCard": {
+        "title": "Finden Sie keinen Club, der gerade erstellt wurde?",
+        "description": "Folgen Sie unserem Leitfaden, damit dieser Club auf dieser Seite angezeigt wird!",
+        "button": "Mehr erfahren"
+      }
+    }
+  },
+
+  "auth": {
+    "errors": {
+      "Configuration": {
+        "title": "Konfigurationsfehler",
+        "message": "Es wurde ein Problem mit der Konfiguration festgestellt. Bitte versuchen Sie es in Kürze erneut.",
+        "type": "error"
+      },
+      "AccessDenied": {
+        "title": "Zugriff verweigert",
+        "message": "Ihr Konto ist nicht berechtigt, auf diese Anwendung zuzugreifen. Verwenden Sie Ihre E-Mail-Adresse @edu.uiz.ac.ma",
+        "type": "error"
+      },
+      "Verification": {
+        "title": "Fehler bei der Überprüfung",
+        "message": "Der Verifizierungslink ist abgelaufen oder ungültig.",
+        "type": "error"
+      },
+      "Default": {
+        "title": "Fehler bei der Authentifizierung",
+        "message": "Es ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+        "type": "error"
+      },
+      "CredentialsSignin": {
+        "title": "Falsche Anmeldedaten",
+        "message": "Massar-Code oder ungültiges Passwort. Überprüfen Sie Ihre Angaben.",
+        "type": "error"
+      },
+      "OAuthSignin": {
+        "title": "OAuth-Fehler",
+        "message": "Es ist nicht möglich, sich mit Google zu verbinden. Überprüfen Sie Ihre Internetverbindung.",
+        "type": "error"
+      },
+      "OAuthCallback": {
+        "title": "Fehler bei der Google-Anmeldung",
+        "message": "Die Anmeldung bei Google ist fehlgeschlagen. Dies kann auf ein Netzwerkproblem zurückzuführen sein.",
+        "type": "error"
+      },
+      "OAuthCreateAccount": {
+        "title": "Fehler beim Erstellen eines Kontos",
+        "message": "Ihr Konto kann nicht erstellt werden. Wenden Sie sich an den technischen Support.",
+        "type": "error"
+      },
+      "EmailCreateAccount": {
+        "title": "Fehler beim Erstellen eines Kontos",
+        "message": "Es ist nicht möglich, Ihr Konto mit dieser E-Mail-Adresse einzurichten.",
+        "type": "error"
+      },
+      "Callback": {
+        "title": "Verbindungsfehler",
+        "message": "Bei der Verbindung ist ein Fehler aufgetreten. Überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
+        "type": "error"
+      },
+      "OAuthAccountNotLinked": {
+        "title": "Nicht assoziiertes Konto",
+        "message": "Dieses Google-Konto ist nicht mit Ihrem Schülerkonto verknüpft.",
+        "type": "error"
+      },
+      "EmailSignin": {
+        "title": "Fehler beim Senden einer E-Mail",
+        "message": "Die Anmelde-E-Mail konnte nicht gesendet werden.",
+        "type": "error"
+      },
+      "SessionRequired": {
+        "title": "Anmeldung erforderlich",
+        "message": "Sie müssen angemeldet sein, um auf diese Seite zugreifen zu können.",
+        "type": "warning"
+      },
+      "NetworkError": {
+        "title": "Netzwerkfehler",
+        "message": "Problem mit der Internetverbindung. Überprüfen Sie Ihr Netzwerk und versuchen Sie es erneut.",
+        "type": "error"
+      },
+      "TimeoutError": {
+        "title": "Wartezeit überschritten",
+        "message": "Die Verbindung hat zu lange gedauert. Versuchen Sie es in Kürze noch einmal.",
+        "type": "error"
+      }
+    }
   }
 }

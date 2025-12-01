@@ -3,6 +3,15 @@ import { createMockDb, createMockKyselyQuery } from '@/tests/__mocks__/kysely'
 import { mockSubscribers } from '@/tests/fixtures/subscribers'
 import { createMockRequest, extractJsonFromResponse } from '@/tests/helpers'
 
+class DuplicateError extends Error {
+  public code: string
+  constructor(message: string) {
+    super()
+    this.message = message
+    this.code = '23505'
+  }
+}
+
 // Mock dependencies
 vi.mock('@/lib/db/instance', () => ({
   getDb: vi.fn(),
@@ -108,8 +117,7 @@ describe('POST /api/newsletter', () => {
     const email = 'existing@example.com'
 
     // Mock duplicate error
-    const duplicateError = new Error('Duplicate key')
-    duplicateError.code = '23505'
+    const duplicateError = new DuplicateError('Duplicate key')
     mockQuery.execute.mockRejectedValueOnce(duplicateError)
 
     // Mock finding existing active subscriber
@@ -135,10 +143,8 @@ describe('POST /api/newsletter', () => {
     const email = 'unsubscribed@example.com'
 
     // Mock duplicate error
-    const duplicateError = new Error('Duplicate key')
-    duplicateError.code = '23505'
     mockQuery.execute
-      .mockRejectedValueOnce(duplicateError) // insert fails
+      .mockRejectedValueOnce(new DuplicateError('Duplicate key')) // insert fails
       .mockResolvedValueOnce(undefined) // update succeeds
 
     // Mock finding existing unsubscribed subscriber
@@ -168,10 +174,7 @@ describe('POST /api/newsletter', () => {
   it('should reject bounced email addresses', async () => {
     const email = 'bounced@example.com'
 
-    // Mock duplicate error
-    const duplicateError = new Error('Duplicate key')
-    duplicateError.code = '23505'
-    mockQuery.execute.mockRejectedValueOnce(duplicateError)
+    mockQuery.execute.mockRejectedValueOnce(new DuplicateError('Duplicate key'))
 
     // Mock finding existing bounced subscriber
     mockQuery.executeTakeFirst.mockResolvedValueOnce(mockSubscribers.bounced)

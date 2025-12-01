@@ -1,9 +1,7 @@
 import { vi } from 'vitest'
 
 export function mockSendSmtpMail() {
-  return vi.fn().mockResolvedValue({
-    messageId: 'test-message-id@localhost',
-  })
+  return vi.fn().mockResolvedValue({ messageId: 'test-message-id@localhost' })
 }
 
 export function createMockSmtpSocket() {

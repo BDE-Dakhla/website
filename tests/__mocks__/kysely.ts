@@ -1,3 +1,5 @@
+import type { Codegen, KyselyAuth } from '@auth/kysely-adapter'
+import type { Database } from '@/types/schema'
 import { vi } from 'vitest'
 
 export function createMockKyselyQuery() {
@@ -34,7 +36,7 @@ export function createMockDb() {
     insertInto: mockQuery.insertInto,
     updateTable: mockQuery.updateTable,
     deleteFrom: mockQuery.deleteFrom,
-  }
+  } as unknown as KyselyAuth<Database, Codegen>
 }
 
 export function mockGetDb() {

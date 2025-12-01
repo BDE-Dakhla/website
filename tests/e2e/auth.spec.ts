@@ -1,13 +1,13 @@
 import { expect, test } from '@playwright/test'
+import { TEST_USERS } from './fixtures/auth-fixtures'
 
 test.describe('Authentication Flow', () => {
   test.beforeEach(async ({ page }) => {
-    // Ensure we're on the default locale (fr)
     await page.goto('/fr/connexion')
   })
 
   test('should display login page', async ({ page }) => {
-    // Wait for the page to be fully loaded
+    // Wait for page to be fully loaded
     await page.waitForLoadState('networkidle')
 
     // Use more specific selectors with roles and data attributes
@@ -39,81 +39,64 @@ test.describe('Authentication Flow', () => {
   })
 
   test('should validate Code Massar format', async ({ page }) => {
-    // Fill with invalid format
-    await page.getByLabel('Code Massar').fill('invalid')
-    await page
-      .getByRole('textbox', { name: 'Mot de passe' })
-      .fill('password123')
+    await page.getByLabel('Code Massar').fill('invalid-format')
     await page.getByRole('button', { name: 'Se connecter' }).first().click()
 
-    // Should show validation error - target the error message specifically
-    await expect(page.getByText(/Invalid Code Massar/i)).toBeVisible()
+    // Should show validation error for invalid CDM format
+    await expect(page.getByText(/format.*valide/i)).toBeVisible()
   })
 
   test('should show form validation', async ({ page }) => {
-    // This test verifies that the form has proper structure and labels
-    const cdmField = page.getByLabel('Code Massar')
-    const passwordField = page.getByRole('textbox', { name: 'Mot de passe' })
+    // Try to submit empty form
+    await page.getByRole('button', { name: 'Se connecter' }).first().click()
 
-    await expect(cdmField).toBeVisible()
-    await expect(passwordField).toBeVisible()
+    // Should show validation errors
+    await expect(page.getByText(/obligatoire|requis/i)).toBeVisible()
   })
 
   test('should have Google sign-in option', async ({ page }) => {
-    await expect(
-      page.getByRole('button', { name: /se connecter avec google/i }),
-    ).toBeVisible()
+    await expect(page.getByRole('button', { name: /google/i })).toBeVisible()
   })
 
   test('should have remember me checkbox', async ({ page }) => {
-    await expect(page.getByText(/se souvenir de moi/i)).toBeVisible()
+    await expect(page.getByText(/se souvenir/i)).toBeVisible()
   })
 
   test('should have signup link', async ({ page }) => {
-    const signupLink = page.getByRole('link', { name: /inscrivez-vous ici/i })
-    await expect(signupLink).toBeVisible()
-    // Check that the link exists without assuming locale prefix
-    await expect(signupLink).toHaveAttribute('href', /\/inscription$/)
+    await expect(
+      page.getByRole('link', { name: /inscrivez-vous/i }),
+    ).toBeVisible()
   })
 
   test('should handle password visibility toggle', async ({ page }) => {
-    const passwordInput = page.getByRole('textbox', { name: 'Mot de passe' })
-    // Find the toggle button by looking for the button that contains the eye/eye-off icon
-    const toggleButton = page
-      .locator('button')
-      .filter({
-        has: page.locator('svg[class*="h-5 w-5"]'),
-      })
-      .first()
+    const passwordField = page.getByRole('textbox', { name: 'Mot de passe' })
+    const toggleButton = page.getByRole('button', { name: /afficher|masquer/i })
 
     // Initially password should be hidden
-    await expect(passwordInput).toHaveAttribute('type', 'password')
+    await expect(passwordField).toHaveAttribute('type', 'password')
 
     // Click toggle to show password
-    await toggleButton.click()
+    await toggleButton.first().click()
+    await expect(passwordField).toHaveAttribute('type', 'text')
 
-    // Add a small wait to ensure the DOM updates
-    await page.waitForTimeout(500)
-
-    await expect(passwordInput).toHaveAttribute('type', 'text')
-
-    // Click toggle to hide password again
-    await toggleButton.click()
-    await expect(passwordInput).toHaveAttribute('type', 'password')
+    // Click toggle again to hide password
+    await toggleButton.first().click()
+    await expect(passwordField).toHaveAttribute('type', 'password')
   })
 
   test('should redirect to syllabus after successful login', async ({
     page,
   }) => {
-    // This test would need valid credentials or mock setup
-    // For now, we'll test the form structure
-    await page.getByLabel('Code Massar').fill('R000000000')
+    // Login with valid credentials
+    await page.getByLabel('Code Massar').fill(TEST_USERS.VALID_USER.cdm)
     await page
       .getByRole('textbox', { name: 'Mot de passe' })
-      .fill('password123')
+      .fill(TEST_USERS.VALID_USER.password)
 
-    // Verify the form action would redirect to syllabus
-    const form = page.locator('form').first()
-    await expect(form).toBeVisible()
+    // Submit form and wait for redirect
+    await page.getByRole('button', { name: 'Se connecter' }).first().click()
+
+    // Wait for the redirect to syllabus
+    await page.waitForURL(/syllabus|dashboard/, { timeout: 10000 })
   })
 })

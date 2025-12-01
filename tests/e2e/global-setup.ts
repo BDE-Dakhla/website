@@ -5,7 +5,7 @@ async function globalSetup() {
 
   // Wait for the development server to be ready
   const startTime = Date.now()
-  const maxWaitTime = 120000 // 2 minutes
+  const maxWaitTime = 180000 // 3 minutes
   const checkInterval = 1000 // 1 second
 
   while (Date.now() - startTime < maxWaitTime) {

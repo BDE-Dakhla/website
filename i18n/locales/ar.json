@@ -4,13 +4,12 @@
     "emailAddress": "عنوان البريد الإلكتروني",
     "students": "الطلاب",
     "subscribe": "اشتراك",
-    "syllabus": "منطقة الطلاب",
-    "organizationName": "أبولو 9.0"
+    "syllabus": "منطقة الطلاب"
   },
   "footer": {
     "aboutUs": "عن الشركة",
-    "bdeTitle": "{organizationName} - مكتب الداخلة ENCG للطلاب",
-    "bdeDescription": "مركز المهام التابع لمجموعة ENCG الداخلة، {organizationName} يدفع المشاريع والمهن من خلال مركز متكامل للفرص، من الفكرة إلى التأثير.",
+    "bdeTitle": "BDE - مكتب الداخلة ENCG للطلاب",
+    "bdeDescription": "مركز المهام التابع لمجموعة ENCG الداخلة، BDE يدفع المشاريع والمهن من خلال مركز متكامل للفرص، من الفكرة إلى التأثير.",
     "team": "فريق العمل",
     "partners": "الشركاء",
     "privacy": "الخصوصية",

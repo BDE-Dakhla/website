@@ -4,13 +4,12 @@
     "emailAddress": "Indirizzo e-mail",
     "students": "Studenti",
     "subscribe": "Abbonati",
-    "syllabus": "Area studenti",
-    "organizationName": "Apollo 9.0"
+    "syllabus": "Area studenti"
   },
   "footer": {
     "aboutUs": "Informazioni su di noi",
-    "bdeTitle": "{organizationName} - Ufficio studenti ENCG di Dakhla",
-    "bdeDescription": "Il centro di missione dell'ENCG di Dakhla, {organizationName} promuove progetti e carriere attraverso uno sportello unico di opportunità, dall'idea all'impatto.",
+    "bdeTitle": "{BDE} - Ufficio studenti ENCG di Dakhla",
+    "bdeDescription": "Il centro di missione dell'ENCG di Dakhla, {BDE} promuove progetti e carriere attraverso uno sportello unico di opportunità, dall'idea all'impatto.",
     "team": "Team",
     "partners": "I partner",
     "privacy": "Privacy",

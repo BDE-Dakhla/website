@@ -190,7 +190,7 @@ const categories = [
   {
     name: 'communication',
     description:
-      'Faire briller Apollo 9.0 et toucher efficacement la communauté étudiante',
+      'Faire briller le BDE et toucher efficacement la communauté étudiante',
     members: [
       {
         name: 'Walid Korchi',
@@ -422,7 +422,7 @@ export default function Page() {
       className='@container/main mx-auto max-w-[1440px] space-y-10'>
       {categories.map((category) => (
         <ul key={category.name}>
-          <div className='my-14 grid select-none place-items-center rounded-lg border border-black bg-gradient-to-t from-[#e6e6e6] via-[#f7f7f7] to-white py-5 font-semibold text-xl uppercase tracking-widest shadow-[0_6px_0_0_rgb(0,0,0)] transition-all hover:translate-y-1.5 hover:shadow-none dark:border-white dark:from-[#3d3d3d] dark:via-[#000] dark:to-black dark:shadow-[0_6px_0_0_rgb(255,255,255)] dark:hover:shadow-none'>
+          <div className='my-14 grid select-none place-items-center rounded-lg border border-black bg-linear-to-t from-[#e6e6e6] via-[#f7f7f7] to-white py-5 font-semibold text-xl uppercase tracking-widest shadow-[0_6px_0_0_rgb(0,0,0)] transition-all hover:translate-y-1.5 hover:shadow-none dark:border-white dark:from-[#3d3d3d] dark:via-black dark:to-black dark:shadow-[0_6px_0_0_rgb(255,255,255)] dark:hover:shadow-none'>
             {t(`categories.${category.name}`)}
           </div>
           <ul className='flex flex-wrap justify-center gap-x-20 gap-y-12'>

@@ -6,7 +6,7 @@ import type {
   Selectable,
   Updateable,
 } from 'kysely'
-import z from 'zod'
+import { type infer as Infer, literal, union } from 'zod'
 
 interface AppDatabase {
   subscribers: Subscribers
@@ -29,15 +29,15 @@ interface UserExtra {
   password: string | null
 }
 
-export const userRoleSchema = z.union([
-  z.literal('developer'),
-  z.literal('teacher'),
-  z.literal('student'),
-  z.literal('contributor'),
-  z.literal('administrator'),
+export const userRoleSchema = union([
+  literal('developer'),
+  literal('teacher'),
+  literal('student'),
+  literal('contributor'),
+  literal('administrator'),
 ])
 
-export type Role = z.infer<typeof userRoleSchema>
+export type Role = Infer<typeof userRoleSchema>
 
 export type PermissionValue = 0 | 1
 export type PermissionMap = Record<string, PermissionValue>

@@ -5,12 +5,12 @@
     "students": "学生",
     "subscribe": "订阅",
     "syllabus": "学生区",
-    "organizationName": "阿波罗 9.0"
+    "BDE": "阿波罗 9.0"
   },
   "footer": {
     "aboutUs": "关于我们",
-    "bdeTitle": "{organizationName} - Dakhla ENCG 学生办公室",
-    "bdeDescription": "{organizationName} 是达赫拉国立高等师范学院的任务中心，通过一站式服务，提供从创意到影响的各种机会，推动项目和职业发展。",
+    "bdeTitle": "{BDE} - Dakhla ENCG 学生办公室",
+    "bdeDescription": "{BDE} 是达赫拉国立高等师范学院的任务中心，通过一站式服务，提供从创意到影响的各种机会，推动项目和职业发展。",
     "team": "团队",
     "partners": "合作伙伴",
     "privacy": "隐私",

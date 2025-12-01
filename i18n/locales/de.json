@@ -5,7 +5,6 @@
     "students": "Studierende",
     "subscribe": "Abonnieren",
     "syllabus": "Bereich für Studierende",
-    "organizationName": "Apollo 9.0",
     "actions": {
       "cancel": "Abbrechen",
       "delete": "Löschen",
@@ -17,8 +16,8 @@
   },
   "footer": {
     "aboutUs": "Über uns",
-    "bdeTitle": "{organizationName} - Büro der Studenten der ENCG in Dakhla.",
-    "bdeDescription": "Als Missionszentrum der ENCG Dakhla treibt {organizationName} Projekte und Karrieren über eine einzige Anlaufstelle für Möglichkeiten von der Idee bis zur Wirkung voran.",
+    "bdeTitle": "BDE - Büro der Studenten der ENCG in Dakhla.",
+    "bdeDescription": "Als Missionszentrum der ENCG Dakhla treibt BDE Projekte und Karrieren über eine einzige Anlaufstelle für Möglichkeiten von der Idee bis zur Wirkung voran.",
     "team": "Team",
     "partners": "Partner",
     "privacy": "Datenschutz",

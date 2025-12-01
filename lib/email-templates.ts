@@ -15,7 +15,7 @@ export function generateWelcomeEmail({
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bienvenue à la newsletter BDE Apollo 9.0</title>
+  <title>Bienvenue à la newsletter BDE de l'ENCG Dakhla</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
   <table role="presentation" style="width: 100%; border-collapse: collapse;">
@@ -37,7 +37,7 @@ export function generateWelcomeEmail({
               </h2>
               
               <p style="margin: 0 0 16px; color: #4a5568; font-size: 16px; line-height: 1.6;">
-                Merci de vous être inscrit à la newsletter <strong>Apollo 9.0</strong>, le Bureau des Étudiants de l'ENCG Dakhla ! 🎉
+                Merci de vous être inscrit à la newsletter <strong>BDE</strong>, le Bureau des Étudiants de l'ENCG Dakhla ! 🎉
               </p>
               
               <p style="margin: 0 0 16px; color: #4a5568; font-size: 16px; line-height: 1.6;">
@@ -73,7 +73,7 @@ export function generateWelcomeEmail({
           <tr>
             <td style="padding: 30px 40px; background-color: #f7fafc; border-radius: 0 0 8px 8px;">
               <p style="margin: 0 0 12px; color: #718096; font-size: 14px; line-height: 1.5; text-align: center;">
-                <strong>Apollo 9.0 — Bureau Des Étudiants de l'ENCG Dakhla</strong><br>
+                <strong>Bureau Des Étudiants</strong><br>
                 Centre de mission de l'ENCG Dakhla
               </p>
               
@@ -92,9 +92,9 @@ export function generateWelcomeEmail({
   `.trim()
 
   const text = `
-Bienvenue à la newsletter Apollo 9.0 !
+Bienvenue à la newsletter BDE !
 
-Merci de vous être inscrit à la newsletter Apollo 9.0, le Bureau des Étudiants de l'ENCG Dakhla !
+Merci de vous être inscrit à la newsletter BDE, le Bureau des Étudiants de l'ENCG Dakhla !
 
 Vous recevrez désormais toutes les actualités, événements et opportunités directement dans votre boîte mail :
 
@@ -110,7 +110,7 @@ Restez connecté pour ne rien manquer de la vie étudiante à l'ENCG Dakhla !
 Visitez notre site : ${APP_BASE_URL()}
 
 ---
-Apollo 9.0 — Bureau Des Étudiants de l'ENCG Dakhla
+Bureau Des Étudiants
 Centre de mission de l'ENCG Dakhla
 
 Vous recevez cet email car vous vous êtes inscrit à notre newsletter.

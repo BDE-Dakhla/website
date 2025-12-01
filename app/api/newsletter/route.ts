@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
         email: SMTP_FROM_EMAIL(),
       },
       to: lower,
-      subject: '🚀 Bienvenue à la newsletter Apollo 9.0 !',
+      subject: '🚀 Bienvenue à la newsletter du Bureau Des Étudiants !',
       html,
       text,
     })

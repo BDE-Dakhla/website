@@ -5,7 +5,6 @@
     "students": "Étudiants",
     "subscribe": "S'abonner",
     "syllabus": "Espace étudiant",
-    "organizationName": "Apollo 9.0",
     "actions": {
       "cancel": "Annuler",
       "delete": "Supprimer",
@@ -19,7 +18,7 @@
   "footer": {
     "aboutUs": "À propos de nous",
     "bdeTitle": "Apolo 9.0 — Bureau Des Étudiants de l'ENCG de Dakhla",
-    "bdeDescription": "Centre de mission de l'ENCG Dakhla, Apollo 9 propulse projets et carrières via un guichet unique d'opportunités, de l'idée à l'impact.",
+    "bdeDescription": "Centre de mission de l'ENCG Dakhla, le BDE propulse projets et carrières via un guichet unique d'opportunités, de l'idée à l'impact.",
     "team": "Équipe",
     "partners": "Partenaires",
     "privacy": "Confidentialité",

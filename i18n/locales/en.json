@@ -5,7 +5,6 @@
     "students": "Students",
     "subscribe": "Subscribe",
     "syllabus": "Student Portal",
-    "organizationName": "Apollo 9.0",
     "actions": {
       "cancel": "Cancel",
       "delete": "Delete",
@@ -17,8 +16,8 @@
   },
   "footer": {
     "aboutUs": "About us",
-    "bdeTitle": "{organizationName} — Student Office of ENCG Dakhla",
-    "bdeDescription": "ENCG Dakhla's mission center, {organizationName} propels projects and careers through a one-stop shop of opportunities, from idea to impact.",
+    "bdeTitle": "BDE — Student Office of ENCG Dakhla",
+    "bdeDescription": "ENCG Dakhla's mission center, BDE propels projects and careers through a one-stop shop of opportunities, from idea to impact.",
     "team": "Team",
     "partners": "Partners",
     "privacy": "Privacy",

@@ -5,12 +5,12 @@
     "students": "ⵉⵏⵍⵎⴰⴷⵏ",
     "subscribe": "ⵉⵍⵜⵔⴰⵙ",
     "syllabus": "ⵜⴰⵎⵏⴰⵡⵜ ⵏ ⵉⵏⵍⵎⴰⴷⵏ",
-    "organizationName": "ⴰⴱⵓⵍⵓ 9.0"
+    "BDE": "ⴰⴱⵓⵍⵓ 9.0"
   },
   "footer": {
     "aboutUs": "ⵅⴼ ⵏⵖ",
-    "bdeTitle": "{organizationName} — ⵍⴱⵉⵔⵓ ⵏ ⵉⵏⵍⵎⴰⴷⵏ ⵏ ENCG ⵏ ⴷⴰⵅⵍⴰ",
-    "bdeDescription": "ⴰⵎⵎⴰⵙ ⵏ ⵜⵡⵓⵔⵉ ⵏ ENCG ⴷⴰⵅⵍⴰ, {organizationName} ⴰⵔ ⵉⵙⵙⵓⴷⴷⵓ ⵉⵙⵏⴼⴰⵔⵏ ⴷ ⵜⵡⵓⵔⵉⵡⵉⵏ ⵙ ⵢⴰⵏ ⵡⴰⵎⵎⴰⵙ ⵏ ⵜⵔⵓⴱⴱⴰ, ⵙⴳ ⵜⵡⵏⴳⵉⵎⵜ ⴰⵔ ⵓⵙⵎⵔⵙ",
+    "bdeTitle": "{BDE} — ⵍⴱⵉⵔⵓ ⵏ ⵉⵏⵍⵎⴰⴷⵏ ⵏ ENCG ⵏ ⴷⴰⵅⵍⴰ",
+    "bdeDescription": "ⴰⵎⵎⴰⵙ ⵏ ⵜⵡⵓⵔⵉ ⵏ ENCG ⴷⴰⵅⵍⴰ, {BDE} ⴰⵔ ⵉⵙⵙⵓⴷⴷⵓ ⵉⵙⵏⴼⴰⵔⵏ ⴷ ⵜⵡⵓⵔⵉⵡⵉⵏ ⵙ ⵢⴰⵏ ⵡⴰⵎⵎⴰⵙ ⵏ ⵜⵔⵓⴱⴱⴰ, ⵙⴳ ⵜⵡⵏⴳⵉⵎⵜ ⴰⵔ ⵓⵙⵎⵔⵙ",
     "team": "ⵜⴰⵔⴰⴱⴱⵓⵜ",
     "partners": "ⵉⵎⴷⵓⴽⴰⵍ",
     "privacy": "ⵜⵓⴷⵔⵜ ⵜⵓⵙⵍⵉⴳⵜ",

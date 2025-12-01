@@ -4,13 +4,12 @@
     "emailAddress": "Адреса електронної пошти",
     "students": "Студенти",
     "subscribe": "Підписатися",
-    "syllabus": "Студентська зона",
-    "organizationName": "Apollo 9.0"
+    "syllabus": "Студентська зона"
   },
   "footer": {
     "aboutUs": "Про нас",
-    "bdeTitle": "{organizationName} - Студентський офіс Dakhla ENCG",
-    "bdeDescription": "Центр місії ENCG в Дахлі, {organizationName} сприяє реалізації проектів та кар'єрі через універсальний магазин можливостей, від ідеї до впливу.",
+    "bdeTitle": "{BDE} - Студентський офіс Dakhla ENCG",
+    "bdeDescription": "Центр місії ENCG в Дахлі, {BDE} сприяє реалізації проектів та кар'єрі через універсальний магазин можливостей, від ідеї до впливу.",
     "team": "Команда",
     "partners": "Партнери",
     "privacy": "Конфіденційність",

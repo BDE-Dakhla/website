@@ -15,6 +15,7 @@ import {
   Send,
   Settings,
   TicketsIcon,
+  Users,
   UsersRound,
 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
@@ -68,6 +69,11 @@ const data = {
 
   // Content & Resources
   navContent: [
+    {
+      title: 'Clubs',
+      url: '/dashboard/clubs',
+      icon: Users,
+    },
     {
       title: 'Documents',
       url: '/dashboard/files',

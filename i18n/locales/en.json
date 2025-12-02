@@ -291,6 +291,24 @@
             ]
           }
         ]
+      },
+      "dashboard": {
+        "form": {
+          "add": {
+            "title": "Add New Club",
+            "description": "Create a new student club with all necessary information."
+          },
+          "edit": {
+            "title": "Edit Club",
+            "description": "Update club information and settings."
+          }
+        },
+        "delete": {
+          "title": "Delete Club",
+          "description": "Are you sure you want to delete \"{name}\"? This action cannot be undone.",
+          "confirm": "Delete Club",
+          "cancel": "Cancel"
+        }
       }
     }
   },

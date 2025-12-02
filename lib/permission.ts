@@ -78,6 +78,13 @@ const APP_PERMISSIONS = {
     category: 'User Management',
   },
 
+  MANAGE_CLUBS: {
+    key: 'MANAGE_CLUBS',
+    name: 'Manage Clubs',
+    description: 'Create, edit, and manage student clubs',
+    category: 'Content',
+  },
+
   SYSTEM_ADMIN: {
     key: 'SYSTEM_ADMIN',
     name: 'System Administrator',
@@ -99,7 +106,11 @@ export const PERMISSION_CATEGORIES = {
     APP_PERMISSIONS.MANAGE_USERS,
     APP_PERMISSIONS.MANAGE_CONTACTS,
   ],
-  Content: [APP_PERMISSIONS.CAN_READ_DOCS, APP_PERMISSIONS.MANAGE_FILES],
+  Content: [
+    APP_PERMISSIONS.CAN_READ_DOCS,
+    APP_PERMISSIONS.MANAGE_FILES,
+    APP_PERMISSIONS.MANAGE_CLUBS,
+  ],
   Partnerships: [APP_PERMISSIONS.MANAGE_SPONSORS],
   Communications: [
     APP_PERMISSIONS.MANAGE_NEWSLETTER,

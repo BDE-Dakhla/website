@@ -4,6 +4,12 @@ export const SPONSOR_LOGO_CONSTRAINTS = {
   allowedExtensions: ['.svg'],
 }
 
+export const CLUB_IMAGE_CONSTRAINTS = {
+  maxSize: 5 * 1024 * 1024, // 5MB
+  allowedTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
+  allowedExtensions: ['.jpg', '.jpeg', '.png', '.webp'],
+}
+
 export interface FileValidationError {
   type: 'size' | 'format' | 'extension'
   message: string
@@ -42,6 +48,39 @@ export function validateSponsorLogo(file: File): FileValidationError[] {
   return errors
 }
 
+export function validateClubImage(file: File): FileValidationError[] {
+  const errors: FileValidationError[] = []
+
+  // Check file size
+  if (file.size > CLUB_IMAGE_CONSTRAINTS.maxSize) {
+    errors.push({
+      type: 'size',
+      message: `File size must be less than ${Math.round(CLUB_IMAGE_CONSTRAINTS.maxSize / 1024 / 1024)}MB`,
+    })
+  }
+
+  // Check MIME type
+  if (!CLUB_IMAGE_CONSTRAINTS.allowedTypes.includes(file.type)) {
+    errors.push({
+      type: 'format',
+      message: 'Only JPEG, PNG, and WebP images are allowed for club images',
+    })
+  }
+
+  // Check file extension
+  const extension = file.name
+    .toLowerCase()
+    .substring(file.name.lastIndexOf('.'))
+  if (!CLUB_IMAGE_CONSTRAINTS.allowedExtensions.includes(extension)) {
+    errors.push({
+      type: 'extension',
+      message: 'File must have a .jpg, .jpeg, .png, or .webp extension',
+    })
+  }
+
+  return errors
+}
+
 export function generateSponsorLogoKey(originalFilename: string): string {
   // Remove special characters and spaces, keep only alphanumeric and hyphens
   const cleanName = originalFilename
@@ -55,6 +94,24 @@ export function generateSponsorLogoKey(originalFilename: string): string {
   // Add timestamp to ensure uniqueness
   const timestamp = Date.now()
   return `sponsors/${cleanName}-${timestamp}.svg`
+}
+
+export function generateClubImageKey(originalFilename: string): string {
+  // Remove special characters and spaces, keep only alphanumeric and hyphens
+  const cleanName = originalFilename
+    .replace(/\.[^/.]+$/, '') // Remove extension
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim()
+
+  // Add timestamp to ensure uniqueness
+  const timestamp = Date.now()
+  const extension = originalFilename
+    .toLowerCase()
+    .substring(originalFilename.lastIndexOf('.'))
+  return `clubs/${cleanName}-${timestamp}${extension}`
 }
 
 export function formatFileSize(bytes: number): string {

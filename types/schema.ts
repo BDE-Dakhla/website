@@ -134,6 +134,7 @@ interface Clubs {
   hasInternationalGroup: ColumnType<boolean, boolean | undefined, boolean>
   memberCount: ColumnType<number, number | undefined, number>
   createdAt: ColumnType<Date, Date | undefined, never>
+  imageUrl: string | null
 }
 
 // Analytics tables

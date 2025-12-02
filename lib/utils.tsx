@@ -88,6 +88,13 @@ export function getLogoUrl(logoUrl: string): string {
   return `${endpoint}/${bucket}/sponsors/${logoUrl}.svg`
 }
 
+export function getClubImageUrl(imageUrl: string): string {
+  const endpoint =
+    process.env.NEXT_PUBLIC_S3_ENDPOINT || 'http://127.0.0.1:9000'
+  const bucket = process.env.NEXT_PUBLIC_S3_BUCKET || 'assets'
+  return `${endpoint}/${bucket}/clubs/${imageUrl}`
+}
+
 export async function fetcher<T>(url: string): Promise<T> {
   return fetch(url, { cache: 'no-store' }).then((r) => r.json())
 }

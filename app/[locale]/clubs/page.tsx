@@ -5,6 +5,7 @@ import { CheckCircle, ExternalLink, Globe, Users, X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import useSWR from 'swr'
+import Image from '@/components/layout/image'
 import {
   Accordion,
   AccordionContent,
@@ -37,7 +38,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
-import { cn } from '@/lib/utils'
+import { cn, getClubImageUrl } from '@/lib/utils'
 import Bulb from './icon'
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
@@ -276,6 +277,9 @@ export default function Page() {
             ? Array.from({ length: 8 }).map((_, i) => (
                 <Card key={i}>
                   <CardHeader>
+                    <div className='mb-3 flex justify-center'>
+                      <Skeleton className='h-16 w-16 rounded-lg' />
+                    </div>
                     <Skeleton className='h-6 w-3/4' />
                     <Skeleton className='mt-2 h-4 w-full' />
                   </CardHeader>
@@ -291,6 +295,17 @@ export default function Page() {
                   key={club.id}
                   onClick={() => setSelectedClub(club)}>
                   <CardHeader>
+                    {club.imageUrl && (
+                      <div className='mb-3 flex justify-center'>
+                        <Image
+                          alt={`${club.name} thumbnail`}
+                          className='h-16 w-16 rounded-lg object-cover'
+                          height={64}
+                          src={getClubImageUrl(club.imageUrl)}
+                          width={64}
+                        />
+                      </div>
+                    )}
                     <div className='flex items-start justify-between'>
                       <CardTitle className='text-lg'>{club.name}</CardTitle>
                       {club.hasInternationalGroup && (

@@ -1,5 +1,6 @@
 'use client'
 
+import type { VisitorData } from '@/lib/analytics/types'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 
@@ -7,17 +8,17 @@ const HEARTBEAT_EVERY = 15_000
 
 interface NavigatorUAData extends Navigator {
   userAgentData?: {
-    brands?: { brand: string; version?: string }[]
+    brands?: VisitorData['ua_brands']
     platform?: string
     mobile?: boolean
     getHighEntropyValues?: (hints: string[]) => Promise<{
-      fullVersionList?: { brand: string; version?: string }[]
+      fullVersionList?: VisitorData['ua_brands']
     }>
   }
 }
 
 let uaChCache: {
-  brands?: { brand: string; version?: string }[]
+  brands?: VisitorData['ua_brands']
   platform?: string
   mobile?: boolean
 } | null = null

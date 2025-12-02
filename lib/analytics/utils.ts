@@ -1,25 +1,6 @@
-/**
- * Analytics utility functions shared across analytics API routes
- */
+/** Analytics utility functions shared across analytics API routes */
 
-export type TimeRange =
-  | '3h'
-  | '6h'
-  | '12h'
-  | '24h'
-  | '7d'
-  | '30d'
-  | '90d'
-  | '6mo'
-  | '1y'
-
-export type TimeUnit = 'hour' | 'day'
-
-export interface TimeWindow {
-  start: Date
-  end: Date
-  unit?: TimeUnit
-}
+import type { TimeUnit, TimeWindow } from './types'
 
 /**
  * Resolves a time range string to start/end dates and time unit
@@ -111,15 +92,4 @@ export function assertNumber(value: unknown, fallback = 0): number {
 export function assertString(value: unknown): string {
   if (typeof value === 'string') return value
   return ''
-}
-
-/**
- * Validates if a string is a valid time range
- * @param value - Value to check
- * @returns True if value is a valid TimeRange
- */
-export function isValidTimeRange(value: string): value is TimeRange {
-  return ['3h', '6h', '12h', '24h', '7d', '30d', '90d', '6mo', '1y'].includes(
-    value,
-  )
 }

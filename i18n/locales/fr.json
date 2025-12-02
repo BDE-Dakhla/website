@@ -263,6 +263,31 @@
         "title": "Vous ne retrouvez pas un club qui vient d'être créé ?",
         "description": "Suivez notre guide pour que ce club s'affiche sur cette page !",
         "button": "En savoir plus"
+      },
+      "faq": {
+        "items": [
+          {
+            "question": "Comment puis-je m'inscrire à un club ?",
+            "answer": "Pour rejoindre un club, clique sur la fiche du club pour voir les détails et les coordonnées. Prends contact avec le président du club ou suis la procédure d'adhésion."
+          },
+          {
+            "question": "Quels sont les avantages d'adhérer à un club ?",
+            "answer": "Rejoindre un club te permet de rencontrer des étudiants partageant les mêmes idées, de développer des compétences, de créer un réseau et de participer à des événements et des activités qui t'intéressent."
+          },
+          {
+            "question": "Puis-je faire partie de plusieurs clubs ?",
+            "answer": "Oui tout à fait, tu peux t'inscrire à plusieurs clubs tant que tu peux t'engager dans leurs activités et leurs exigences."
+          },
+          {
+            "question": "Et si je veux créer un nouveau club ?",
+            "answer": [
+              "Si tu as une idée pour un nouveau club, contacte le bureau des élèves (BDE) pour discuter de ta proposition et des conditions de création d'un nouveau club. Il te sera demandé au préalable d'apporter les documents suivants :",
+              "**Fiche descriptive du club :** La documentation doit comporter les sections relatives à la conception du logo du club, présentation du club et ces missions/objcetifs",
+              "**Membres de l'équipage :** Tableau figurant le nom complet, intitulé du poste occupé, son adresse email et son numéro de téléphone pour chaque membre de l'équipe qui constitue le club",
+              "**Programme prévisionnel :** Liste énumérative par ordre chronologique des événements à organiser au cours de l'année universitaire"
+            ]
+          }
+        ]
       }
     }
   },

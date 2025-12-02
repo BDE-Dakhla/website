@@ -4,25 +4,21 @@ import { parseUserAgent } from '@/lib/analytics/ua'
 import { getDb } from '@/lib/db'
 import {
   assertString,
+  type FilterField,
+  isValidFilterField,
   type PathRow,
   type ReferrerRow,
   resolveWindow,
   type VisitorRow,
 } from '../types'
 
-type OptionsKind = 'url' | 'referrer' | 'browser' | 'os' | 'device'
-
-function isValidKind(value: string): value is OptionsKind {
-  return ['url', 'referrer', 'browser', 'os', 'device'].includes(value)
-}
-
 export async function GET(req: NextRequest) {
-  const db = getDb()
   const { searchParams } = new URL(req.url)
   const kindParam = searchParams.get('kind') || 'url'
-  const kind: OptionsKind = isValidKind(kindParam) ? kindParam : 'url'
+  const kind: FilterField = isValidFilterField(kindParam) ? kindParam : 'url'
   const range = searchParams.get('range') || '24h'
   const { start, end } = resolveWindow(range)
+  const db = getDb()
 
   if (kind === 'url') {
     const rows = await sql<PathRow>`
@@ -30,12 +26,13 @@ export async function GET(req: NextRequest) {
       from analytics_events
       where type = 'pageview' and happened_at >= ${start} and happened_at < ${end}
       order by value asc
-    `.execute(db)
+    `.execute(getDb())
     const items = rows.rows
       .map((r) => assertString(r.value))
       .filter((v) => v.length > 0)
     return NextResponse.json({ kind, items })
   }
+
   if (kind === 'referrer') {
     const rows = await sql<ReferrerRow>`
       select distinct referrer as value
@@ -59,9 +56,7 @@ export async function GET(req: NextRequest) {
 
   const set = new Set<string>()
   for (const r of rows.rows) {
-    const uaBrands = Array.isArray(r.ua_brands)
-      ? (r.ua_brands as { brand: string; version?: string }[])
-      : undefined
+    const uaBrands = Array.isArray(r.ua_brands) ? r.ua_brands : undefined
     const ua = parseUserAgent(r.user_agent, {
       ua_brands: uaBrands,
       ua_platform: r.ua_platform ?? undefined,

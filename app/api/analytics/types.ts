@@ -1,7 +1,10 @@
 /**
  * Re-export shared analytics types and utilities from lib
  */
-import type { VisitorData as LibVisitorData } from '@/lib/analytics/types'
+import type {
+  VisitorData as LibVisitorData,
+  VisitorData,
+} from '@/lib/analytics/types'
 
 export type {
   Filter,
@@ -9,7 +12,6 @@ export type {
   FilterOp,
   VisitorData,
 } from '@/lib/analytics/types'
-export type { TimeRange, TimeUnit, TimeWindow } from '@/lib/analytics/utils'
 export {
   isValidFilterField,
   isValidFilterOp,
@@ -77,7 +79,7 @@ export interface CollectRequestBody {
   referrer?: string
   locale?: string
   ua_ch?: {
-    brands?: { brand: string; version?: string }[]
+    brands?: VisitorData['ua_brands']
     platform?: string
     mobile?: boolean
   }

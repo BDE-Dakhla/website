@@ -266,6 +266,31 @@
         "title": "Can't find a club that was just created?",
         "description": "Follow our guide to get this club displayed on this page!",
         "button": "Learn more"
+      },
+      "faq": {
+        "items": [
+          {
+            "question": "How do I join a club?",
+            "answer": "To join a club, click on the club card to view details and contact information. Reach out to the club president or follow their joining process."
+          },
+          {
+            "question": "What are the benefits of joining a club?",
+            "answer": "Joining a club allows you to meet like-minded students, develop skills, network, and participate in events and activities that interest you."
+          },
+          {
+            "question": "Can I be part of multiple clubs?",
+            "answer": "Yes absolutely, you can join multiple clubs as long as you can commit to their activities and requirements."
+          },
+          {
+            "question": "What if I want to create a new club?",
+            "answer": [
+              "If you have an idea for a new club, contact the students office (BDE) to discuss your proposal and the requirements for starting a new club. You will be beforehand asked to bring the followin documents :",
+              "**Fiche descriptive du club :** La documentation doit comporter les sections relatives à la conception du logo du club, présentation du club et ces missions/objcetifs",
+              "**Membres de l'équipage :** Tableau figurant le nom complet, intitulé du poste occupé, son adresse email et son numéro de téléphone pour chaque membre de l'équipe qui constitue le club",
+              "**Programme prévisionnel :** Liste énumérative par ordre chronologique des événements à organiser au cours de l'année universitaire"
+            ]
+          }
+        ]
       }
     }
   },

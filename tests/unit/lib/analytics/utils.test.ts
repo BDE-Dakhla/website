@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { isValidTimeRange } from '@/lib/analytics/types'
 import {
   assertNumber,
   assertString,
-  isValidTimeRange,
   previousWindow,
   resolveWindow,
 } from '@/lib/analytics/utils'

@@ -1,6 +1,7 @@
 'use client'
 
-import { ExternalLink, Globe, Users, X } from 'lucide-react'
+import type { Club } from '@/types/schema'
+import { CheckCircle, ExternalLink, Globe, Users, X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import useSWR from 'swr'
@@ -19,6 +20,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import {
@@ -29,51 +37,47 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Link } from '@/i18n/routing'
+import { cn } from '@/lib/utils'
 import Bulb from './icon'
-
-interface Club {
-  id: string
-  name: string
-  description: string
-  category: string
-  hasInternationalGroup: boolean
-  memberCount: number
-  createdAt: string
-}
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
-interface ApiClub {
-  id: string
-  name: string
-  description: string
-  category: Club['category']
-  hasInternationalGroup: boolean
-  memberCount: number
-  createdAt: string
+function FormatText({ text, className }: { text: string; className?: string }) {
+  const parts = text.split(/\*\*(.*?)\*\*/g)
+  return (
+    <>
+      {parts.map((part, index) =>
+        index % 2 === 1 ? (
+          <span
+            className={cn(className, 'text-nowrap font-semibold')}
+            key={index}>
+            {part}
+          </span>
+        ) : (
+          part
+        ),
+      )}
+    </>
+  )
 }
-
-const transformClub = (club: ApiClub): Club => ({
-  ...club,
-  createdAt: new Date(club.createdAt).toISOString().split('T')[0], // Format as YYYY-MM-DD
-})
 
 export default function Page() {
   const [selectedClub, setSelectedClub] = useState<Club | null>(null)
   const [selectedInterest, setSelectedInterest] = useState<string>('all')
   const [selectedInternationalGroup, setSelectedInternationalGroup] =
-    useState<string>('all')
-  const [sortBy, setSortBy] = useState<string>('newest')
-  const t = useTranslations()
+    useState<(typeof internationalGroupOptions)[number]['value']>('all')
+  const [sortBy, setSortBy] =
+    useState<(typeof sortOptions)[number]['value']>('newest')
+  const [isFaqOpen, setIsFaqOpen] = useState(false)
+
   const {
-    data: clubs,
+    data: clubs = [],
     error,
     isLoading,
-  } = useSWR<ApiClub[]>('/api/clubs', fetcher)
+  } = useSWR<Club[]>('/api/clubs', fetcher)
+  const t = useTranslations()
 
-  const transformedClubs = clubs?.map(transformClub) || []
-  const sortedClubs = [...transformedClubs].sort((a, b) => {
+  const sortedClubs = [...clubs].sort((a, b) => {
     switch (sortBy) {
       case 'oldest':
         return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
@@ -98,14 +102,12 @@ export default function Page() {
     return matchesInterest && matchesInternational
   })
 
-  const categories = Array.from(
-    new Set(transformedClubs.map((c) => c.category)),
-  )
+  const categories = Array.from(new Set(clubs.map((c) => c.category)))
   const interestData = [
-    { type: 'all', size: transformedClubs.length },
+    { type: 'all', size: clubs.length },
     ...categories.map((cat) => ({
       type: cat,
-      size: transformedClubs.filter((c) => c.category === cat).length,
+      size: clubs.filter((c) => c.category === cat).length,
     })),
   ]
 
@@ -122,6 +124,11 @@ export default function Page() {
     { value: 'no', label: t('clubs.page.filters.internationalGroup.no') },
   ]
 
+  const faqItems = t.raw('clubs.page.faq.items') as Array<{
+    question: string
+    answer: string | string[]
+  }>
+
   return (
     <main
       className={`@container/main mx-auto grid max-w-[1440px] transition-all duration-300 ${selectedClub ? 'grid-cols-[320px_1fr_320px]' : 'grid-cols-[320px_1fr_0px]'} space-y-10`}>
@@ -137,12 +144,45 @@ export default function Page() {
             </CardDescription>
           </CardHeader>
           <CardFooter>
-            <Button asChild className='w-full border'>
-              <Link href='/'>
-                <ExternalLink />
-                {t('clubs.page.infoCard.button')}
-              </Link>
-            </Button>
+            <Dialog onOpenChange={setIsFaqOpen} open={isFaqOpen}>
+              <DialogTrigger asChild>
+                <Button className='w-full border'>
+                  <ExternalLink />
+                  {t('clubs.page.infoCard.button')}
+                </Button>
+              </DialogTrigger>
+              <DialogContent className='max-w-2xl'>
+                <DialogHeader>
+                  <DialogTitle>FAQ - Clubs</DialogTitle>
+                </DialogHeader>
+                <Accordion collapsible type='single'>
+                  {faqItems.map((item, index) => (
+                    <AccordionItem key={index} value={`item-${index}`}>
+                      <AccordionTrigger>{item.question}</AccordionTrigger>
+                      <AccordionContent>
+                        {Array.isArray(item.answer) ? (
+                          <>
+                            <FormatText text={item.answer[0]} />
+                            <ul className='mt-2 space-y-2'>
+                              {item.answer.slice(1).map((item, index) => (
+                                <li
+                                  className='flex items-start gap-2'
+                                  key={index}>
+                                  <CheckCircle className='mt-0.5 h-4 w-4 shrink-0 text-green-600' />
+                                  <FormatText text={item} />
+                                </li>
+                              ))}
+                            </ul>
+                          </>
+                        ) : (
+                          <FormatText text={item.answer} />
+                        )}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </DialogContent>
+            </Dialog>
           </CardFooter>
         </Card>
 
@@ -187,14 +227,10 @@ export default function Page() {
                 {internationalGroupOptions.map(({ value, label }) => {
                   const count =
                     value === 'all'
-                      ? transformedClubs.length
+                      ? clubs.length
                       : value === 'yes'
-                        ? transformedClubs.filter(
-                            (c) => c.hasInternationalGroup,
-                          ).length
-                        : transformedClubs.filter(
-                            (c) => !c.hasInternationalGroup,
-                          ).length
+                        ? clubs.filter((c) => c.hasInternationalGroup).length
+                        : clubs.filter((c) => !c.hasInternationalGroup).length
                   return (
                     <div className='flex items-center gap-3' key={value}>
                       <RadioGroupItem id={value} value={value} />

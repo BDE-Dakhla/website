@@ -1,6 +1,8 @@
 'use client'
 
 import type {
+  FilterField,
+  FilterOp,
   MetricsSeriesPoint,
   MetricsTotals,
   TimeRange,
@@ -90,11 +92,7 @@ export function ChartAreaInteractive({
   const range = controlledRange ?? timeRange
 
   const [filters, setFilters] = useState<
-    {
-      field: 'url' | 'referrer' | 'browser' | 'os' | 'device'
-      op: 'is' | 'is_not' | 'contains' | 'not_contains'
-      value: string
-    }[]
+    Array<{ field: FilterField; op: FilterOp; value: string }>
   >([])
 
   const urlOpts = useSWR<{ kind: string; items: string[] }>(
@@ -119,8 +117,8 @@ export function ChartAreaInteractive({
   )
 
   const [draft, setDraft] = useState<{
-    [K in 'url' | 'referrer' | 'browser' | 'os' | 'device']?: {
-      op: 'is' | 'is_not' | 'contains' | 'not_contains'
+    [K in FilterField]?: {
+      op: FilterOp
       value?: string
     }
   }>({})

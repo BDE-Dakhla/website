@@ -6,6 +6,7 @@ import type {
   Selectable,
   Updateable,
 } from 'kysely'
+import type { EventType } from '@/app/api/analytics/types'
 import { type infer as Infer, literal, union } from 'zod'
 
 interface AppDatabase {
@@ -124,6 +125,7 @@ interface SponsorTable {
   approved_by: string | null // uuid FK to \"User\".id, nullable
 }
 
+/** Club schema table */
 interface Clubs {
   id: Generated<string>
   name: string
@@ -167,7 +169,7 @@ interface AnalyticsEvent {
   id: Generated<string>
   session_id: string
   happened_at: ColumnType<Date, Date | undefined, never>
-  type: 'pageview' | 'heartbeat' | 'event'
+  type: EventType
   path: string
   title: string | null
   event_name: string | null

@@ -202,6 +202,31 @@
         "title": "¿No encuentras un club que acaba de ser creado?",
         "description": "¡Sigue nuestra guía para que este club aparezca en esta página!",
         "button": "Saber más"
+      },
+      "faq": {
+        "items": [
+          {
+            "question": "¿Cómo me uno a un club?",
+            "answer": "Para unirte a un club, haz clic en la tarjeta del club para ver los detalles y la información de contacto. Ponte en contacto con el presidente del club o sigue su proceso de afiliación."
+          },
+          {
+            "question": "¿Cuáles son las ventajas de afiliarse a un club?",
+            "answer": "Unirte a un club te permite conocer a estudiantes con ideas afines, desarrollar habilidades, establecer contactos y participar en eventos y actividades que te interesen."
+          },
+          {
+            "question": "¿Puedo formar parte de varios clubes?",
+            "answer": "Sí, por supuesto, puedes unirte a varios clubes siempre que puedas comprometerte con sus actividades y requisitos."
+          },
+          {
+            "question": "¿Qué pasa si quiero crear un club nuevo?",
+            "answer": [
+              "Si tienes una idea para un nuevo club, ponte en contacto con la oficina de estudiantes (BDE) para hablar de tu propuesta y de los requisitos para crear un nuevo club. Se te pedirá de antemano que aportes los siguientes documentos :",
+              "**La documentación debe incluir secciones sobre el diseño del logotipo del club, la presentación del club y sus misiones/objetivos.",
+              "**Miembros del equipo:** Tabla con el nombre completo, cargo, dirección de correo electrónico y número de teléfono de cada miembro del equipo que compone el club.",
+              "**Programa provisional:** Lista por orden cronológico de los actos que se organizarán durante el curso académico"
+            ]
+          }
+        ]
       }
     }
   },

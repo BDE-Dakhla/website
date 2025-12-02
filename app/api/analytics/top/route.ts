@@ -6,7 +6,6 @@ import { resolveWindow } from '@/lib/analytics/utils'
 import { getDb } from '@/lib/db'
 
 export async function GET(req: NextRequest) {
-  const db = getDb()
   const { searchParams } = new URL(req.url)
   const range = searchParams.get('range') ?? '90d'
   const kind = (searchParams.get('kind') ?? 'browsers') as Kind
@@ -23,7 +22,7 @@ export async function GET(req: NextRequest) {
     from analytics_sessions s
     join analytics_visitors v on v.id = s.visitor_id
     where s.started_at >= ${start} and s.started_at < ${end}
-  `.execute(db)
+  `.execute(getDb())
 
   const total = rows.rows.length
   const counts = new Map<string, number>()

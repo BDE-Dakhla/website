@@ -202,6 +202,31 @@
         "title": "Non trovi un club appena creato?",
         "description": "Segui la nostra guida per visualizzare questo club in questa pagina!",
         "button": "Scopri di più"
+      },
+      "faq": {
+        "items": [
+          {
+            "question": "Come faccio a iscrivermi a un club?",
+            "answer": "Per iscriverti a un club, clicca sulla scheda del club per visualizzare i dettagli e le informazioni di contatto. Contatta il presidente del club o segui la procedura di adesione."
+          },
+          {
+            "question": "Quali sono i vantaggi di iscriversi a un club?",
+            "answer": "Iscriversi a un club ti permette di incontrare studenti che la pensano come te, di sviluppare competenze, di fare rete e di partecipare a eventi e attività che ti interessano."
+          },
+          {
+            "question": "Posso far parte di più club?",
+            "answer": "Sì, assolutamente, puoi iscriverti a più club a patto che tu possa impegnarti nelle loro attività e nei loro requisiti."
+          },
+          {
+            "question": "E se volessi creare un nuovo club?",
+            "answer": [
+              "Se hai un'idea per un nuovo club, contatta l'ufficio studenti (BDE) per discutere la tua proposta e i requisiti per la creazione di un nuovo club. Ti verrà chiesto di portare i seguenti documenti:",
+              "**La documentazione deve includere sezioni sul design del logo del club, sulla presentazione del club e sulle sue missioni/obiettivi.",
+              "**Membri della squadra:** Tabella che riporta il nome completo, la qualifica professionale, l'indirizzo e-mail e il numero di telefono di ogni membro della squadra che compone il club.",
+              "**Programma provvisorio:** Elenco in ordine cronologico degli eventi da organizzare durante l'anno accademico."
+            ]
+          }
+        ]
       }
     }
   },

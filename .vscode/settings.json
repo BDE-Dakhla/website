@@ -15,5 +15,6 @@
     ".source": true,
     ".next": true,
     "next-env.d.ts": true
-  }
+  },
+  "i18n-ally.localesPaths": ["i18n", "i18n/locales"]
 }

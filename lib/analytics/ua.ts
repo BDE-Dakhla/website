@@ -1,4 +1,8 @@
-export type UAInfo = {
+/** User Agent utility functions shared across analytics API routes */
+
+import type { VisitorData } from './types'
+
+export interface UAInfo {
   browser: string
   os: string
   device: 'Desktop' | 'Mobile' | 'Tablet'
@@ -6,9 +10,9 @@ export type UAInfo = {
 
 export function parseSecChUaBrands(
   header: string | null | undefined,
-): { brand: string; version?: string }[] {
+): VisitorData['ua_brands'] {
   if (!header) return []
-  const out: { brand: string; version?: string }[] = []
+  const out: VisitorData['ua_brands'] = []
   const re = /"([^"]+)"\s*;\s*v="([^"]+)"/g
   let m = re.exec(header)
   while (m !== null) {
@@ -42,7 +46,7 @@ function pickBrand(brands: { brand: string }[]): string | null {
 export function parseUserAgent(
   uaRaw: string | null | undefined,
   opts?: {
-    ua_brands?: { brand: string; version?: string }[] | null
+    ua_brands?: VisitorData['ua_brands'] | null
     ua_platform?: string | null
     ua_mobile?: boolean | null
   },
@@ -111,9 +115,7 @@ export function detectFromVisitor(input: {
   ua_platform?: string | null
   ua_mobile?: boolean | null
 }): UAInfo {
-  const brands = Array.isArray(input.ua_brands)
-    ? (input.ua_brands as { brand: string; version?: string }[])
-    : []
+  const brands = Array.isArray(input.ua_brands) ? input.ua_brands : []
   return parseUserAgent(input.user_agent, {
     ua_brands: brands,
     ua_platform: input.ua_platform,

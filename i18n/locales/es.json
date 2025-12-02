@@ -4,7 +4,15 @@
     "emailAddress": "Correo electrónico",
     "students": "Estudiantes",
     "subscribe": "Suscribirse",
-    "syllabus": "Área de estudiantes"
+    "syllabus": "Área de estudiantes",
+    "actions": {
+      "add": "Añadir",
+      "cancel": "Cancelar",
+      "confirm": "Confirme",
+      "delete": "Borrar",
+      "edit": "Editar",
+      "save": "Guardar"
+    }
   },
   "footer": {
     "aboutUs": "Quiénes somos",
@@ -77,20 +85,66 @@
       "CAN_ADMIN": "Administración",
       "CAN_MANAGE_CONTENT": "Gestión de contenidos",
       "CAN_VIEW_ANALYTICS": "Ver análisis",
-      "CAN_MANAGE_SETTINGS": "Configuración del sistema"
+      "CAN_MANAGE_SETTINGS": "Configuración del sistema",
+      "MANAGE_ANNOUNCEMENTS": "Gestionar anuncios",
+      "MANAGE_NEWSLETTER": "Gestionar el boletín",
+      "MANAGE_SPONSORS": "Gestionar patrocinadores"
     },
     "sponsors": {
       "form": {
         "edit": {
-          "title": "Editar Patrocinador"
+          "title": "Editar Patrocinador",
+          "button": "Actualización Patrocinador",
+          "description": "Actualice la información del patrocinador a continuación."
         },
         "add": {
-          "title": "Añadir nuevo patrocinador"
+          "title": "Añadir nuevo patrocinador",
+          "button": "Crear patrocinador",
+          "description": "Rellene los datos para crear un nuevo patrocinador."
         }
       },
       "delete": {
         "title": "Borrar patrocinador",
-        "button": "Borrar patrocinador"
+        "button": "Borrar patrocinador",
+        "description": "¿Está seguro de que desea eliminar \"{nombre}\"? Esta acción no se puede deshacer y eliminará permanentemente al patrocinador de su base de datos."
+      }
+    },
+    "settings": {
+      "maintenance": {
+        "alert": {
+          "activeDescription": "El sitio se encuentra actualmente en modo de mantenimiento. Sólo los administradores del sistema pueden acceder al sitio.",
+          "activeTitle": "El modo de mantenimiento está activo",
+          "inactiveDescription": "Actualmente, el sitio es accesible a todos los usuarios.",
+          "inactiveTitle": "Sitio operativo"
+        },
+        "cardDescription": "Activar o desactivar el modo de mantenimiento para todo el sitio.",
+        "cardTitle": "Control del modo de mantenimiento",
+        "dialog": {
+          "cancel": "Cancelar",
+          "confirm": "Confirme",
+          "confirming": "Procesando...",
+          "disableDescription": "Esto restaurará el acceso normal al sitio para todos los usuarios.",
+          "disableTitle": "¿Desactivar el modo de mantenimiento?",
+          "enableDescription": "Esto impedirá inmediatamente el acceso al sitio a todos los usuarios que no sean administradores. Serán redirigidos a una página de mantenimiento.",
+          "enableTitle": "¿Activar el modo de mantenimiento?"
+        },
+        "error": {
+          "fetchDescription": "No se ha podido cargar el estado actual del modo de mantenimiento. Por favor, actualice la página.",
+          "fetchTitle": "Estado de carga de error",
+          "updateDescription": "No se ha podido actualizar el modo de mantenimiento. Por favor, inténtelo de nuevo.",
+          "updateTitle": "Error de actualización"
+        },
+        "pageDescription": "Controla el modo de mantenimiento de todo el sitio para realizar actualizaciones y mantenimiento del sistema.",
+        "pageTitle": "Modo de mantenimiento",
+        "success": {
+          "disabledDescription": "Se ha desactivado el modo de mantenimiento. El sitio es ahora accesible a todos los usuarios.",
+          "enabledDescription": "Se ha activado el modo de mantenimiento. Los usuarios que no sean administradores verán ahora la página de mantenimiento.",
+          "title": "Éxito"
+        },
+        "toggleDescription": "Cuando está activada, sólo los administradores del sistema pueden acceder al sitio.",
+        "toggleLabel": "Activar el modo de mantenimiento",
+        "warningDescription": "Al activar el modo de mantenimiento, todos los usuarios que no sean administradores serán redirigidos inmediatamente a la página de mantenimiento.",
+        "warningTitle": "Importante"
       }
     }
   },
@@ -131,7 +185,6 @@
       }
     }
   },
-
   "team": {
     "categories": {
       "formation": "División de Formación y Desarrollo",
@@ -140,7 +193,6 @@
       "pilotage": "División de Dirección y Estrategia"
     }
   },
-
   "contact": {
     "title": "Contáctenos",
     "description": "Póngase en contacto con el equipo de soporte en Asme.",
@@ -164,7 +216,6 @@
       "copyToClipboard": "Copiar al portapapeles"
     }
   },
-
   "clubs": {
     "page": {
       "filters": {
@@ -227,10 +278,27 @@
             ]
           }
         ]
+      },
+      "dashboard": {
+        "delete": {
+          "cancel": "Cancelar",
+          "confirm": "Borrar Club",
+          "description": "¿Estás seguro de que quieres borrar \"{nombre}\"? Esta acción no se puede deshacer.",
+          "title": "Borrar Club"
+        },
+        "form": {
+          "add": {
+            "description": "Crea un nuevo club de estudiantes con toda la información necesaria.",
+            "title": "Añadir nuevo club"
+          },
+          "edit": {
+            "description": "Actualiza la información y los ajustes del club.",
+            "title": "Editar Club"
+          }
+        }
       }
     }
   },
-
   "auth": {
     "errors": {
       "Configuration": {
@@ -309,5 +377,15 @@
         "type": "error"
       }
     }
+  },
+  "maintenance": {
+    "badge": "Modo de mantenimiento",
+    "description": "Nuestro sitio está actualmente en mantenimiento",
+    "heading": "Volveremos pronto.",
+    "imageAlt": "Ilustración de mantenimiento",
+    "info": "Mantenimiento en curso",
+    "message": "Estamos realizando tareas de mantenimiento programadas para mejorar tu experiencia. Volveremos a estar en línea en breve.",
+    "thankYou": "Gracias por su paciencia y comprensión.",
+    "title": "Mantenimiento en curso"
   }
 }

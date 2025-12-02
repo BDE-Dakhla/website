@@ -4,7 +4,15 @@
     "emailAddress": "عنوان البريد الإلكتروني",
     "students": "الطلاب",
     "subscribe": "اشتراك",
-    "syllabus": "منطقة الطلاب"
+    "syllabus": "منطقة الطلاب",
+    "actions": {
+      "add": "إضافة",
+      "cancel": "إلغاء",
+      "confirm": "تأكيد",
+      "delete": "حذف",
+      "edit": "تحرير",
+      "save": "الحفظ"
+    }
   },
   "footer": {
     "aboutUs": "عن الشركة",
@@ -77,7 +85,10 @@
       "CAN_ADMIN": "الإدارة",
       "CAN_MANAGE_CONTENT": "إدارة المحتوى",
       "CAN_VIEW_ANALYTICS": "عرض التحليلات",
-      "CAN_MANAGE_SETTINGS": "إعدادات النظام"
+      "CAN_MANAGE_SETTINGS": "إعدادات النظام",
+      "MANAGE_ANNOUNCEMENTS": "إدارة الإعلانات",
+      "MANAGE_NEWSLETTER": "إدارة النشرة الإخبارية",
+      "MANAGE_SPONSORS": "إدارة الرعاة"
     },
     "settings": {
       "maintenance": {
@@ -120,19 +131,23 @@
     "sponsors": {
       "form": {
         "edit": {
-          "title": "تحرير الراعي"
+          "title": "تحرير الراعي",
+          "button": "تحديث الراعي",
+          "description": "قم بتحديث معلومات الراعي أدناه."
         },
         "add": {
-          "title": "إضافة راع جديد"
+          "title": "إضافة راع جديد",
+          "button": "إنشاء راعٍ",
+          "description": "املأ التفاصيل لإنشاء راعٍ جديد."
         }
       },
       "delete": {
         "title": "حذف الراعي",
-        "button": "حذف الراعي"
+        "button": "حذف الراعي",
+        "description": "هل أنت متأكد من أنك تريد حذف \"{الاسم}\"? لا يمكن التراجع عن هذا الإجراء وسيؤدي إلى إزالة الراعي بشكل دائم من قاعدة البيانات الخاصة بك."
       }
     }
   },
-
   "maintenance": {
     "title": "الصيانة جارية",
     "description": "موقعنا قيد الصيانة حالياً",
@@ -180,7 +195,6 @@
       }
     }
   },
-
   "team": {
     "categories": {
       "formation": "قسم التدريب والتطوير",
@@ -189,7 +203,6 @@
       "pilotage": "قسم التوجيه والاستراتيجية"
     }
   },
-
   "contact": {
     "title": "اتصل بنا",
     "description": "اتصل بفريق الدعم في Asme.",
@@ -213,7 +226,6 @@
       "copyToClipboard": "انسخ إلى الحافظة"
     }
   },
-
   "clubs": {
     "page": {
       "filters": {
@@ -276,10 +288,27 @@
             ]
           }
         ]
+      },
+      "dashboard": {
+        "delete": {
+          "cancel": "إلغاء",
+          "confirm": "حذف النادي",
+          "description": "هل أنت متأكد من أنك تريد حذف \"{الاسم}\"? لا يمكن التراجع عن هذا الإجراء.",
+          "title": "حذف النادي"
+        },
+        "form": {
+          "add": {
+            "description": "قم بإنشاء نادٍ طلابي جديد مع جميع المعلومات اللازمة.",
+            "title": "إضافة نادي جديد"
+          },
+          "edit": {
+            "description": "تحديث معلومات النادي وإعداداته.",
+            "title": "نادي التحرير"
+          }
+        }
       }
     }
   },
-
   "auth": {
     "errors": {
       "Configuration": {

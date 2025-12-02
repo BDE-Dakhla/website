@@ -5,7 +5,15 @@
     "students": "学生",
     "subscribe": "订阅",
     "syllabus": "学生区",
-    "BDE": "阿波罗 9.0"
+    "BDE": "阿波罗 9.0",
+    "actions": {
+      "add": "添加",
+      "cancel": "取消",
+      "confirm": "确认",
+      "delete": "删除",
+      "edit": "编辑",
+      "save": "节省"
+    }
   },
   "footer": {
     "aboutUs": "关于我们",
@@ -78,20 +86,66 @@
       "CAN_ADMIN": "行政管理",
       "CAN_MANAGE_CONTENT": "内容管理",
       "CAN_VIEW_ANALYTICS": "查看分析",
-      "CAN_MANAGE_SETTINGS": "系统设置"
+      "CAN_MANAGE_SETTINGS": "系统设置",
+      "MANAGE_ANNOUNCEMENTS": "管理公告",
+      "MANAGE_NEWSLETTER": "管理通讯",
+      "MANAGE_SPONSORS": "管理赞助商"
     },
     "sponsors": {
       "form": {
         "edit": {
-          "title": "编辑赞助商"
+          "title": "编辑赞助商",
+          "button": "更新赞助商",
+          "description": "更新以下赞助商信息。"
         },
         "add": {
-          "title": "添加新赞助商"
+          "title": "添加新赞助商",
+          "button": "创建赞助商",
+          "description": "填写详细信息，创建新的赞助商。"
         }
       },
       "delete": {
         "title": "删除赞助商",
-        "button": "删除赞助商"
+        "button": "删除赞助商",
+        "description": "您确定要删除\"{name}\"吗？此操作无法撤销，并将从您的数据库中永久删除该赞助商。"
+      }
+    },
+    "settings": {
+      "maintenance": {
+        "alert": {
+          "activeDescription": "网站目前处于维护模式。只有系统管理员才能访问该网站。",
+          "activeTitle": "维护模式已激活",
+          "inactiveDescription": "目前，所有用户均可访问该网站。",
+          "inactiveTitle": "网站已投入运行"
+        },
+        "cardDescription": "启用或禁用整个站点的维护模式。",
+        "cardTitle": "维护模式控制",
+        "dialog": {
+          "cancel": "取消",
+          "confirm": "确认",
+          "confirming": "处理...",
+          "disableDescription": "这将恢复所有用户对网站的正常访问。",
+          "disableTitle": "禁用维护模式？",
+          "enableDescription": "这将立即阻止所有非管理员用户访问网站。他们将被重定向到维护页面。",
+          "enableTitle": "启用维护模式？"
+        },
+        "error": {
+          "fetchDescription": "无法加载当前维护模式状态。请刷新页面。",
+          "fetchTitle": "错误加载状态",
+          "updateDescription": "无法更新维护模式。请重试。",
+          "updateTitle": "更新错误"
+        },
+        "pageDescription": "控制整个站点的维护模式，以执行更新和系统维护。",
+        "pageTitle": "维护模式",
+        "success": {
+          "disabledDescription": "维护模式已禁用。现在所有用户均可访问该网站。",
+          "enabledDescription": "已启用维护模式。非管理员用户现在可以看到维护页面。",
+          "title": "成功"
+        },
+        "toggleDescription": "启用后，只有系统管理员才能访问该网站。",
+        "toggleLabel": "启用维护模式",
+        "warningDescription": "启用维护模式后，所有非管理员用户将立即重定向到维护页面。",
+        "warningTitle": "重要"
       }
     }
   },
@@ -132,7 +186,6 @@
       }
     }
   },
-
   "team": {
     "categories": {
       "formation": "培训与发展部",
@@ -141,7 +194,6 @@
       "pilotage": "指导与战略处"
     }
   },
-
   "contact": {
     "title": "联系我们",
     "description": "联系Asme的支持团队。",
@@ -165,7 +217,6 @@
       "copyToClipboard": "复制到剪贴板"
     }
   },
-
   "clubs": {
     "page": {
       "filters": {
@@ -228,10 +279,27 @@
             ]
           }
         ]
+      },
+      "dashboard": {
+        "delete": {
+          "cancel": "取消",
+          "confirm": "删除俱乐部",
+          "description": "您确定要删除\"{name}\"吗？此操作无法撤销。",
+          "title": "删除俱乐部"
+        },
+        "form": {
+          "add": {
+            "description": "创建一个新的学生社团，并提供所有必要信息。",
+            "title": "添加新俱乐部"
+          },
+          "edit": {
+            "description": "更新分会信息和设置。",
+            "title": "编辑俱乐部"
+          }
+        }
       }
     }
   },
-
   "auth": {
     "errors": {
       "Configuration": {
@@ -310,5 +378,15 @@
         "type": "error"
       }
     }
+  },
+  "maintenance": {
+    "badge": "维护模式",
+    "description": "我们的网站目前正在维护中",
+    "heading": "我们很快就回来！",
+    "imageAlt": "维护说明",
+    "info": "维护中",
+    "message": "我们目前正在进行定期维护，以改善您的体验。我们很快就会重新上线。",
+    "thankYou": "感谢您的耐心和理解。",
+    "title": "维护中"
   }
 }

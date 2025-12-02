@@ -4,7 +4,15 @@
     "emailAddress": "Indirizzo e-mail",
     "students": "Studenti",
     "subscribe": "Abbonati",
-    "syllabus": "Area studenti"
+    "syllabus": "Area studenti",
+    "actions": {
+      "add": "Aggiungi",
+      "cancel": "Annullamento",
+      "confirm": "Confermare",
+      "delete": "Cancellare",
+      "edit": "Modifica",
+      "save": "Risparmiare"
+    }
   },
   "footer": {
     "aboutUs": "Informazioni su di noi",
@@ -77,20 +85,66 @@
       "CAN_ADMIN": "Amministrazione",
       "CAN_MANAGE_CONTENT": "Gestione dei contenuti",
       "CAN_VIEW_ANALYTICS": "Vedi analisi",
-      "CAN_MANAGE_SETTINGS": "Impostazioni di sistema"
+      "CAN_MANAGE_SETTINGS": "Impostazioni di sistema",
+      "MANAGE_ANNOUNCEMENTS": "Gestione degli annunci",
+      "MANAGE_NEWSLETTER": "Gestione della newsletter",
+      "MANAGE_SPONSORS": "Gestire gli sponsor"
     },
     "sponsors": {
       "form": {
         "edit": {
-          "title": "Modifica Sponsor"
+          "title": "Modifica Sponsor",
+          "button": "Aggiornamento Sponsor",
+          "description": "Aggiornare le informazioni sullo sponsor di seguito."
         },
         "add": {
-          "title": "Aggiungi un nuovo sponsor"
+          "title": "Aggiungi un nuovo sponsor",
+          "button": "Creare uno sponsor",
+          "description": "Compilare i dettagli per creare un nuovo sponsor."
         }
       },
       "delete": {
         "title": "Elimina lo sponsor",
-        "button": "Elimina lo sponsor"
+        "button": "Elimina lo sponsor",
+        "description": "Siete sicuri di voler eliminare \"{nome}\"? Questa azione non può essere annullata e rimuoverà definitivamente lo sponsor dal database."
+      }
+    },
+    "settings": {
+      "maintenance": {
+        "alert": {
+          "activeDescription": "Il sito è attualmente in modalità di manutenzione. Solo gli amministratori del sistema possono accedere al sito.",
+          "activeTitle": "La modalità di manutenzione è attiva",
+          "inactiveDescription": "Il sito è attualmente accessibile a tutti gli utenti.",
+          "inactiveTitle": "Il sito è operativo"
+        },
+        "cardDescription": "Abilita o disabilita la modalità di manutenzione per l'intero sito.",
+        "cardTitle": "Controllo della modalità di manutenzione",
+        "dialog": {
+          "cancel": "Annullamento",
+          "confirm": "Confermare",
+          "confirming": "Elaborazione...",
+          "disableDescription": "In questo modo si ripristina il normale accesso al sito per tutti gli utenti.",
+          "disableTitle": "Disattivare la modalità di manutenzione?",
+          "enableDescription": "Questo impedirà immediatamente a tutti gli utenti non amministratori di accedere al sito. Verranno reindirizzati a una pagina di manutenzione.",
+          "enableTitle": "Abilitare la modalità di manutenzione?"
+        },
+        "error": {
+          "fetchDescription": "Impossibile caricare lo stato attuale della modalità di manutenzione. Aggiornare la pagina.",
+          "fetchTitle": "Errore nello stato di caricamento",
+          "updateDescription": "Impossibile aggiornare la modalità di manutenzione. Riprovare.",
+          "updateTitle": "Errore nell'aggiornamento"
+        },
+        "pageDescription": "Controllare la modalità di manutenzione dell'intero sito per eseguire gli aggiornamenti e la manutenzione del sistema.",
+        "pageTitle": "Modalità di manutenzione",
+        "success": {
+          "disabledDescription": "La modalità di manutenzione è stata disattivata. Il sito è ora accessibile a tutti gli utenti.",
+          "enabledDescription": "È stata attivata la modalità di manutenzione. Gli utenti non amministratori vedranno ora la pagina di manutenzione.",
+          "title": "Il successo"
+        },
+        "toggleDescription": "Se abilitato, solo gli amministratori di sistema possono accedere al sito.",
+        "toggleLabel": "Abilita la modalità di manutenzione",
+        "warningDescription": "L'attivazione della modalità di manutenzione reindirizza immediatamente tutti gli utenti non amministratori alla pagina di manutenzione.",
+        "warningTitle": "Importante"
       }
     }
   },
@@ -131,7 +185,6 @@
       }
     }
   },
-
   "team": {
     "categories": {
       "formation": "Divisione Formazione e Sviluppo",
@@ -140,7 +193,6 @@
       "pilotage": "Divisione Direzione e Strategia"
     }
   },
-
   "contact": {
     "title": "Contattaci",
     "description": "Contatta il team di supporto di Asme.",
@@ -164,7 +216,6 @@
       "copyToClipboard": "Copia negli appunti"
     }
   },
-
   "clubs": {
     "page": {
       "filters": {
@@ -227,10 +278,27 @@
             ]
           }
         ]
+      },
+      "dashboard": {
+        "delete": {
+          "cancel": "Annullamento",
+          "confirm": "Elimina Club",
+          "description": "Siete sicuri di voler eliminare \"{nome}\"? Questa azione non può essere annullata.",
+          "title": "Elimina Club"
+        },
+        "form": {
+          "add": {
+            "description": "Creare un nuovo club studentesco con tutte le informazioni necessarie.",
+            "title": "Aggiungi nuovo club"
+          },
+          "edit": {
+            "description": "Aggiornare le informazioni e le impostazioni del club.",
+            "title": "Modifica Club"
+          }
+        }
       }
     }
   },
-
   "auth": {
     "errors": {
       "Configuration": {
@@ -309,5 +377,15 @@
         "type": "error"
       }
     }
+  },
+  "maintenance": {
+    "badge": "Modalità di manutenzione",
+    "description": "Il nostro sito è attualmente in fase di manutenzione",
+    "heading": "Torneremo presto!",
+    "imageAlt": "Illustrazione della manutenzione",
+    "info": "Manutenzione in corso",
+    "message": "Stiamo eseguendo una manutenzione programmata per migliorare la vostra esperienza. Torneremo online a breve.",
+    "thankYou": "Grazie per la vostra pazienza e comprensione.",
+    "title": "Manutenzione in corso"
   }
 }

@@ -9,8 +9,8 @@
       "cancel": "Abbrechen",
       "delete": "Löschen",
       "edit": "bearbeiten",
-      "save": "Speichern",
-      "confirm": "Bestätigen",
+      "save": "Speichern Sie",
+      "confirm": "Bestätigen Sie",
       "add": "hinzufügen"
     }
   },
@@ -95,7 +95,7 @@
         "edit": {
           "title": "Sponsor bearbeiten",
           "button": "Sponsor aktualisieren",
-          "description": "Aktualisieren Sie die Sponsoreninformationen unten."
+          "description": "Aktualisieren Sie die unten stehenden Sponsoreninformationen."
         },
         "add": {
           "title": "Neuen Sponsor hinzufügen",
@@ -106,7 +106,45 @@
       "delete": {
         "title": "Sponsor löschen",
         "button": "Sponsor löschen",
-        "description": "Sind Sie sicher, dass Sie \"{name}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden und entfernt den Sponsor dauerhaft aus Ihrer Datenbank."
+        "description": "Sind Sie sicher, dass Sie \"{Name}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden und entfernt den Sponsor dauerhaft aus Ihrer Datenbank."
+      }
+    },
+    "settings": {
+      "maintenance": {
+        "alert": {
+          "activeDescription": "Die Website befindet sich derzeit im Wartungsmodus. Nur Systemadministratoren können auf die Website zugreifen.",
+          "activeTitle": "Wartungsmodus ist aktiv",
+          "inactiveDescription": "Die Website ist derzeit für alle Nutzer zugänglich.",
+          "inactiveTitle": "Standort ist betriebsbereit"
+        },
+        "cardDescription": "Aktivieren oder deaktivieren Sie den Wartungsmodus für die gesamte Website.",
+        "cardTitle": "Wartungsmodus-Steuerung",
+        "dialog": {
+          "cancel": "Abbrechen",
+          "confirm": "Bestätigen Sie",
+          "confirming": "Verarbeitung...",
+          "disableDescription": "Dadurch wird der normale Zugang zur Website für alle Benutzer wiederhergestellt.",
+          "disableTitle": "Wartungsmodus deaktivieren?",
+          "enableDescription": "Dadurch wird allen Benutzern, die keine Administratoren sind, der Zugriff auf die Website verwehrt. Sie werden dann auf eine Wartungsseite umgeleitet.",
+          "enableTitle": "Wartungsmodus aktivieren?"
+        },
+        "error": {
+          "fetchDescription": "Der aktuelle Status des Wartungsmodus konnte nicht geladen werden. Bitte aktualisieren Sie die Seite.",
+          "fetchTitle": "Fehler beim Laden des Status",
+          "updateDescription": "Der Wartungsmodus konnte nicht aktualisiert werden. Bitte versuchen Sie es erneut.",
+          "updateTitle": "Fehler beim Aktualisieren"
+        },
+        "pageDescription": "Steuerung des standortweiten Wartungsmodus zur Durchführung von Updates und Systemwartung.",
+        "pageTitle": "Wartungsmodus",
+        "success": {
+          "disabledDescription": "Der Wartungsmodus wurde deaktiviert. Die Website ist nun für alle Benutzer zugänglich.",
+          "enabledDescription": "Der Wartungsmodus wurde aktiviert. Benutzer, die keine Administratoren sind, sehen nun die Wartungsseite.",
+          "title": "Erfolg"
+        },
+        "toggleDescription": "Wenn diese Option aktiviert ist, können nur Systemadministratoren auf die Website zugreifen.",
+        "toggleLabel": "Wartungsmodus aktivieren",
+        "warningDescription": "Wenn Sie den Wartungsmodus aktivieren, werden alle Nicht-Administratoren sofort auf die Wartungsseite umgeleitet.",
+        "warningTitle": "Wichtig"
       }
     }
   },
@@ -147,7 +185,6 @@
       }
     }
   },
-
   "team": {
     "categories": {
       "formation": "Bereich Bildung & Entwicklung",
@@ -156,7 +193,6 @@
       "pilotage": "Bereich Steuerung & Strategie"
     }
   },
-
   "contact": {
     "title": "Kontaktieren Sie uns",
     "description": "Wende dich an unser nettes Support-Team im Studentenbüro der ENCG Dakhla.",
@@ -180,7 +216,6 @@
       "copyToClipboard": "In die Zwischenablage kopieren"
     }
   },
-
   "clubs": {
     "page": {
       "filters": {
@@ -243,10 +278,27 @@
             ]
           }
         ]
+      },
+      "dashboard": {
+        "delete": {
+          "cancel": "Abbrechen",
+          "confirm": "Club löschen",
+          "description": "Sind Sie sicher, dass Sie \"{Name}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+          "title": "Club löschen"
+        },
+        "form": {
+          "add": {
+            "description": "Erstellen Sie einen neuen Schülerclub mit allen erforderlichen Informationen.",
+            "title": "Neuen Club hinzufügen"
+          },
+          "edit": {
+            "description": "Aktualisieren Sie die Clubinformationen und -einstellungen.",
+            "title": "Club bearbeiten"
+          }
+        }
       }
     }
   },
-
   "auth": {
     "errors": {
       "Configuration": {
@@ -325,5 +377,15 @@
         "type": "error"
       }
     }
+  },
+  "maintenance": {
+    "badge": "Wartungsmodus",
+    "description": "Unsere Website wird derzeit gewartet",
+    "heading": "Wir sind bald wieder da!",
+    "imageAlt": "Wartung Illustration",
+    "info": "Instandhaltung in Arbeit",
+    "message": "Wir führen derzeit planmäßige Wartungsarbeiten durch, um Ihre Erfahrung zu verbessern. Wir werden in Kürze wieder online sein.",
+    "thankYou": "Ich danke Ihnen für Ihre Geduld und Ihr Verständnis.",
+    "title": "Instandhaltung in Arbeit"
   }
 }

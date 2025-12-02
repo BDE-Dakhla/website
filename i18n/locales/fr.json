@@ -14,10 +14,9 @@
       "add": "Ajouter"
     }
   },
-
   "footer": {
     "aboutUs": "À propos de nous",
-    "bdeTitle": "Apolo 9.0 — Bureau Des Étudiants de l'ENCG de Dakhla",
+    "bdeTitle": "BDE — Bureau Des Étudiants de l'ENCG de Dakhla",
     "bdeDescription": "Centre de mission de l'ENCG Dakhla, le BDE propulse projets et carrières via un guichet unique d'opportunités, de l'idée à l'impact.",
     "team": "Équipe",
     "partners": "Partenaires",
@@ -46,13 +45,15 @@
       }
     },
     "homepage": "Page d'accueil",
-    "tos": { "short": "CGU", "long": "Conditions générales d'utilisation" },
+    "tos": {
+      "short": "CGU",
+      "long": "Conditions générales d'utilisation"
+    },
     "copyright": {
       "short": "Droits d'auteurs",
       "long": "Tous droits sont réservés"
     }
   },
-
   "dashboard": {
     "users": {
       "table": {
@@ -130,19 +131,23 @@
     "sponsors": {
       "form": {
         "edit": {
-          "title": "Editer le sponsor"
+          "title": "Editer le sponsor",
+          "button": "Mettre à jour le parrain",
+          "description": "Mettez à jour les informations sur le sponsor ci-dessous."
         },
         "add": {
-          "title": "Ajouter un nouveau sponsor"
+          "title": "Ajouter un nouveau sponsor",
+          "button": "Créer un parrain",
+          "description": "Complétez les détails pour créer un nouveau parrain."
         }
       },
       "delete": {
         "title": "Supprimer le parrain",
-        "button": "Supprimer le parrain"
+        "button": "Supprimer le parrain",
+        "description": "Êtes-vous sûr de vouloir supprimer \"{nom}\"? Cette action ne peut être annulée et supprimera définitivement le parrain de votre base de données."
       }
     }
   },
-
   "maintenance": {
     "title": "Maintenance en Cours",
     "description": "Notre site est actuellement en maintenance",
@@ -153,14 +158,12 @@
     "info": "Maintenance en cours",
     "thankYou": "Merci pour votre patience et votre compréhension."
   },
-
   "validation": {
     "phone": {
       "invalid": "Le numéro de téléphone doit être un numéro marocain valide (+212 6XX XXX XXX, +212 7XX XXX XXX, ou +212 5XX XXX XXX)",
       "required": "Le numéro de téléphone est requis"
     }
   },
-
   "home": {
     "school-section": {
       "title": "Découvrez notre précieuse école",
@@ -192,7 +195,6 @@
       }
     }
   },
-
   "team": {
     "categories": {
       "formation": "Pôle Formation & Développement",
@@ -201,7 +203,6 @@
       "pilotage": "Pôle Pilotage & Stratégie"
     }
   },
-
   "contact": {
     "title": "Nous serions ravis d'entrer en contact avec vous !",
     "description": "Contactez notre équipe de support directement au Bureau Des Étudiants à l'ENCG Dakhla.",
@@ -225,7 +226,6 @@
       "copyToClipboard": "Copier dans le presse-papiers"
     }
   },
-
   "clubs": {
     "page": {
       "filters": {
@@ -288,10 +288,27 @@
             ]
           }
         ]
+      },
+      "dashboard": {
+        "delete": {
+          "cancel": "Annuler",
+          "confirm": "Supprimer le club",
+          "description": "Êtes-vous sûr de vouloir supprimer \"{nom}\"? Cette action ne peut être annulée.",
+          "title": "Supprimer le club"
+        },
+        "form": {
+          "add": {
+            "description": "Créez un nouveau club étudiant avec toutes les informations nécessaires.",
+            "title": "Ajouter un nouveau club"
+          },
+          "edit": {
+            "description": "Mettre à jour les informations et les paramètres du club.",
+            "title": "Modifier le club"
+          }
+        }
       }
     }
   },
-
   "auth": {
     "errors": {
       "Configuration": {

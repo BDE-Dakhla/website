@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { auth } from '@/auth'
 import { getDb } from '@/lib/db/instance'
@@ -26,8 +26,8 @@ const updateClubSchema = z.object({
 })
 
 export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } },
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await auth()
@@ -38,6 +38,8 @@ export async function PUT(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
     }
 
+    const { id } = await context.params
+
     const body = await request.json()
     const validatedData = updateClubSchema.parse(body)
 
@@ -45,7 +47,7 @@ export async function PUT(
     const club = await db
       .updateTable('clubs')
       .set(validatedData)
-      .where('id', '=', params.id)
+      .where('id', '=', id)
       .returningAll()
       .executeTakeFirst()
 
@@ -72,8 +74,8 @@ export async function PUT(
 }
 
 export async function DELETE(
-  _request: Request,
-  { params }: { params: { id: string } },
+  _request: NextRequest,
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await auth()
@@ -84,10 +86,12 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
     }
 
+    const { id } = await context.params
+
     const db = getDb()
     const club = await db
       .deleteFrom('clubs')
-      .where('id', '=', params.id)
+      .where('id', '=', id)
       .returningAll()
       .executeTakeFirst()
 

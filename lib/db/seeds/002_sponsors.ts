@@ -1,13 +1,11 @@
 import type { Kysely } from 'kysely'
-import type { Database } from '../../../types/schema'
-
-const ADMIN_EMAIL = process.env.SEED_ADMIN_EMAIL ?? 'admin@example.com'
+import type { Database, NewSponsor } from '../../../types/schema'
 
 export async function seed(db: Kysely<Database>) {
   const admin = await db
     .selectFrom('User')
     .select(['id'])
-    .where('email', '=', ADMIN_EMAIL)
+    .where('email', '=', process.env.SEED_ADMIN_EMAIL as string)
     .executeTakeFirst()
 
   const approvedBy = admin?.id ?? null
@@ -15,20 +13,22 @@ export async function seed(db: Kysely<Database>) {
 
   const sponsors = [
     {
-      name: 'Acme Inc.',
-      slug: 'acme',
-      logo_url: 'https://placehold.co/240x100?text=ACME',
-      website_url: 'https://acme.example',
-      description: 'Leading provider of widgets.',
+      name: 'Cih Bank',
+      slug: 'cihbank',
+      logo_url:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQP5k2lsEMLapvNEOM_gVk3H-wpJNo2jPyUZw&s',
+      website_url: 'https://www.cihbank.ma/',
+      description: 'Bande des jeunes débutants',
       is_featured: true,
       priority: 10,
     },
     {
-      name: 'Globex',
-      slug: 'globex',
-      logo_url: 'https://placehold.co/240x100?text=Globex',
-      website_url: 'https://globex.example',
-      description: 'Global solutions for modern teams.',
+      name: 'Société Générale',
+      slug: 'sg',
+      logo_url:
+        'https://www.societegenerale.com/sites/default/files/styles/rte_affichage_defaut_desktop/public/image/2023-04/logo-societe-generale.png?itok=9tsodGw3',
+      website_url: 'https://www.societegenerale.com/',
+      description: "Banque des séniors qui sont flingés d'argent",
       is_featured: false,
       priority: 50,
     },
@@ -41,7 +41,7 @@ export async function seed(db: Kysely<Database>) {
       is_featured: true,
       priority: 20,
     },
-  ] as const
+  ] satisfies NewSponsor[]
 
   for (const s of sponsors) {
     await db

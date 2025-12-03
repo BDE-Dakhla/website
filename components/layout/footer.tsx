@@ -173,7 +173,7 @@ export function Footer() {
   }
 
   return (
-    <footer className='container mx-auto mt-8 px-8'>
+    <footer className='footer_decoration container mx-auto mt-16 px-8'>
       <div className='flex flex-col items-start justify-between gap-10 border-primary/20 border-b py-10 text-[15px] text-slate-500 md:flex-row dark:border-primary/15 dark:text-slate-300'>
         <div>
           <Logo className='max-[500px]:mx-auto' />

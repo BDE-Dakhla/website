@@ -1,6 +1,6 @@
 'use client'
 
-import type { TimeRange } from '@/lib/analytics/utils'
+import type { TimeRange } from '@/lib/analytics/types'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   ComposableMap,
@@ -155,8 +155,7 @@ export function VisitorsByCountry({ range }: { range: TimeRange }) {
                   style={{ width: '100%', height: '100%' }}
                   width={size.w}>
                   <ZoomableGroup maxZoom={8} minZoom={1}>
-                    {/* TODO: change this and fetch config file from file storage */}
-                    <Geographies geography='/geo/countries-110m.json'>
+                    <Geographies geography='/geo/countries.json'>
                       {({ geographies }) =>
                         geographies.map((geo) => {
                           const props: Record<string, unknown> =

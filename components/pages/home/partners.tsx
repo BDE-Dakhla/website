@@ -8,7 +8,6 @@ import {
   MarqueeItem,
 } from '@/components/ui/marquee'
 import { Skeleton } from '@/components/ui/skeleton'
-import { SparklesCore } from '@/components/ui/sparkles'
 import { cn, getLogoUrl } from '@/lib/utils'
 
 export function Partners() {
@@ -26,7 +25,7 @@ export function Partners() {
           Trusted by experts. <br />
           Used by leaders
         </p>
-        <Marquee>
+        <Marquee className='mx-auto max-w-[calc(100%-300px)]'>
           <MarqueeFade side='left' />
           <MarqueeFade side='right' />
           <MarqueeContent>
@@ -54,17 +53,12 @@ export function Partners() {
       <div
         className={cn(
           '-mt-32 after:-left-1/2 relative h-96 w-screen overflow-hidden',
-          '[mask-image:radial-gradient(50%_50%,white,transparent)]',
+          'mask-[radial-gradient(50%_50%,white,transparent)]',
           'before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_bottom_center,#69B755,transparent_70%)]',
           'before:opacity-40 after:absolute after:top-1/2 after:aspect-[1/0.7] after:w-[200%] after:rounded-[100%]',
           'after:border-[#69B75575] after:border-t after:bg-gray-200 dark:after:bg-zinc-900',
-        )}>
-        <SparklesCore
-          background='#69B755'
-          className='absolute inset-x-0 bottom-0 h-full w-full [mask-image:radial-gradient(50%_50%,white,transparent_85%)]'
-          particleDensity={300}
-        />
-      </div>
+        )}
+      />
     </section>
   )
 }

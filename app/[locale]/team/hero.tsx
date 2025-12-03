@@ -4,7 +4,7 @@ export default function TeamHero() {
   return (
     <section
       aria-label='hero'
-      className='@container/main mx-auto flex max-w-[1440px] items-center justify-between space-y-10 px-6'>
+      className='@container/main mx-auto flex max-w-[1440px] items-center justify-between space-y-10'>
       <div className='space-y-8'>
         <h1 className='max-w-3xl bg-linear-to-l from-black to-[#656565] bg-clip-text font-bold text-4xl text-transparent md:text-6xl dark:from-white dark:to-[#979797]'>
           Découvrez l'équipe derrière le Bureau Des Étudiants

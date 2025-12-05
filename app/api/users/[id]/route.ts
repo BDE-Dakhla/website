@@ -8,7 +8,7 @@ import { userRoleSchema } from '@/types/schema'
 
 const updateUserSchema = z.object({
   username: z.string().min(1, 'Username is required.'),
-  email: z.string().email('Invalid email address.'),
+  email: z.email('Invalid email address.'),
   phoneNumber: z.string().min(1, 'Phone number is required.'),
   role: userRoleSchema,
   password: z.string().optional(),

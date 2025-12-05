@@ -391,5 +391,16 @@
         "type": "error"
       }
     }
+  },
+
+  "api": {
+    "s3NotConfigured": "File upload is not available. S3 storage is not configured.",
+    "missingRequiredFields": "Missing required fields",
+    "unauthorized": "Unauthorized",
+    "invalidFileType": "Invalid file type. Only SVG files are allowed for sponsor logos.",
+    "fileSizeTooLarge": "File size too large. Maximum size is {maxSize}MB.",
+    "invalidKey": "Invalid key for sponsor logo",
+    "unsupportedType": "Unsupported type",
+    "internalServerError": "Internal server error"
   }
 }

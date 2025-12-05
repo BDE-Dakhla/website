@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server'
+import { getTranslations } from 'next-intl/server'
 import { getDb } from '@/lib/db'
 import {
   APP_BASE_URL,
@@ -13,8 +14,10 @@ export const runtime = 'nodejs'
 
 export async function POST(req: NextRequest) {
   const auth = req.headers.get('x-cron-secret')
+  const t = await getTranslations({ locale: req.nextUrl.locale })
+
   if (auth !== CRON_SECRET())
-    return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+    return NextResponse.json({ error: t('unauthorized') }, { status: 401 })
 
   const db = getDb()
   const now = new Date()

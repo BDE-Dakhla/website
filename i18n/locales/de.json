@@ -387,5 +387,15 @@
     "message": "Wir führen derzeit planmäßige Wartungsarbeiten durch, um Ihre Erfahrung zu verbessern. Wir werden in Kürze wieder online sein.",
     "thankYou": "Ich danke Ihnen für Ihre Geduld und Ihr Verständnis.",
     "title": "Instandhaltung in Arbeit"
+  },
+  "api": {
+    "s3NotConfigured": "Der Datei-Upload ist nicht verfügbar. S3-Speicher ist nicht konfiguriert.",
+    "missingRequiredFields": "Fehlende Pflichtfelder",
+    "unauthorized": "Nicht autorisiert",
+    "invalidFileType": "Ungültiger Dateityp. Für Sponsorenlogos sind nur SVG-Dateien zulässig.",
+    "fileSizeTooLarge": "Dateigröße zu groß. Die maximale Größe beträgt {maxSize}MB.",
+    "invalidKey": "Ungültiger Schlüssel für Sponsorenlogo",
+    "unsupportedType": "Nicht unterstützter Typ",
+    "internalServerError": "Interner Serverfehler"
   }
 }

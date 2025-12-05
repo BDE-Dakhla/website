@@ -387,5 +387,15 @@
     "message": "Estamos realizando tareas de mantenimiento programadas para mejorar tu experiencia. Volveremos a estar en línea en breve.",
     "thankYou": "Gracias por su paciencia y comprensión.",
     "title": "Mantenimiento en curso"
+  },
+  "api": {
+    "s3NotConfigured": "La carga de archivos no está disponible. El almacenamiento S3 no está configurado.",
+    "missingRequiredFields": "Faltan campos obligatorios",
+    "unauthorized": "No autorizado",
+    "invalidFileType": "Tipo de archivo no válido. Sólo se permiten archivos SVG para logotipos de patrocinadores.",
+    "fileSizeTooLarge": "Tamaño de archivo demasiado grande. El tamaño máximo es {maxSize}MB.",
+    "invalidKey": "Clave no válida para el logotipo del patrocinador.",
+    "unsupportedType": "Tipo no soportado",
+    "internalServerError": "Error interno del servidor"
   }
 }

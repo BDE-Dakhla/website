@@ -388,5 +388,15 @@
       "formation": "قسم التدريب والتطوير",
       "pilotage": "قسم التوجيه والاستراتيجية"
     }
+  },
+  "api": {
+    "s3NotConfigured": "تحميل الملفات غير متوفر. لم يتم تكوين وحدة تخزين S3.",
+    "missingRequiredFields": "الحقول المطلوبة مفقودة",
+    "unauthorized": "غير مصرح به",
+    "invalidFileType": "نوع الملف غير صالح. يُسمح فقط بملفات SVG لشعارات الرعاة.",
+    "fileSizeTooLarge": "حجم الملف كبير جداً. الحجم الأقصى هو {maxSize} ميغابايت.",
+    "invalidKey": "مفتاح غير صالح لشعار الراعي",
+    "unsupportedType": "نوع غير مدعوم",
+    "internalServerError": "خطأ داخلي في الخادم"
   }
 }

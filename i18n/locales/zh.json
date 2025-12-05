@@ -388,5 +388,15 @@
     "message": "我们目前正在进行定期维护，以改善您的体验。我们很快就会重新上线。",
     "thankYou": "感谢您的耐心和理解。",
     "title": "维护中"
+  },
+  "api": {
+    "s3NotConfigured": "文件上传不可用。未配置 S3 存储。",
+    "missingRequiredFields": "缺少必填字段",
+    "unauthorized": "未经授权",
+    "invalidFileType": "文件类型无效。赞助商徽标只允许使用 SVG 文件。",
+    "fileSizeTooLarge": "文件大小过大。最大文件大小为 {maxSize}MB。",
+    "invalidKey": "赞助商徽标密钥无效",
+    "unsupportedType": "不支持的类型",
+    "internalServerError": "服务器内部错误"
   }
 }

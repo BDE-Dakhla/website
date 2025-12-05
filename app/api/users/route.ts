@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto'
 import { hash } from 'bcryptjs'
-import { NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
+import { getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { auth } from '@/auth'
 import { getDb } from '@/lib/db/instance'
@@ -8,7 +9,7 @@ import { userRoleSchema } from '@/types/schema'
 
 const createUserSchema = z.object({
   username: z.string().min(1, 'Username is required.'),
-  email: z.string().email('Invalid email address.'),
+  email: z.email('Invalid email address.'),
   phoneNumber: z.string().min(1, 'Phone number is required.'),
   role: userRoleSchema,
   password: z.string().min(8, 'Password must be at least 8 characters.'),
@@ -17,14 +18,16 @@ const createUserSchema = z.object({
     .optional(),
 })
 
-export async function POST(request: Request) {
+export async function POST(req: NextRequest) {
   try {
     const session = await auth()
+    const t = await getTranslations({ locale: req.nextUrl.locale })
+
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: t('unauthorized') }, { status: 401 })
     }
 
-    const body = await request.json()
+    const body = await req.json()
     const validationResult = createUserSchema.safeParse(body)
 
     if (!validationResult.success) {
@@ -38,8 +41,6 @@ export async function POST(request: Request) {
       validationResult.data
 
     const db = getDb()
-
-    // Check if user already exists
     const existingUser = await db
       .selectFrom('User')
       .select(['id'])
@@ -53,13 +54,9 @@ export async function POST(request: Request) {
       )
     }
 
-    // Hash password
     const hashedPassword = await hash(password, 10)
-
     const now = new Date()
     const userId = randomUUID()
-
-    // Create user
     const newUser = await db
       .insertInto('User')
       .values({
@@ -88,14 +85,7 @@ export async function POST(request: Request) {
 
     // Remove password from response
     const { password: _password, ...safeUser } = newUser
-
-    return NextResponse.json(
-      {
-        success: true,
-        user: safeUser,
-      },
-      { status: 201 },
-    )
+    return NextResponse.json({ success: true, user: safeUser }, { status: 201 })
   } catch (error) {
     console.error('Error creating user:', error)
     return NextResponse.json(

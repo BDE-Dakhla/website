@@ -1,6 +1,6 @@
 'use client'
 
-import type { TimeRange } from '@/lib/analytics/utils'
+import type { TimeRange } from '@/lib/analytics/types'
 import { useMemo } from 'react'
 import {
   Bar,

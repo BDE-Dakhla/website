@@ -1,6 +1,6 @@
 'use client'
 
-import type { TimeRange } from '@/lib/analytics/utils'
+import type { TimeRange } from '@/lib/analytics/types'
 import { useState } from 'react'
 import { AnalyticsOverview } from '@/components/analytics/analytics-overview'
 import { VisitorsByCountry } from '@/components/analytics/countries-map'

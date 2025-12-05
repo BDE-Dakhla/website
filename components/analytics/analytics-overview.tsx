@@ -3,8 +3,8 @@
 import type {
   MetricsSeriesPoint,
   MetricsTotals,
-  TimeRange,
 } from '@/app/api/analytics/types'
+import type { TimeRange } from '@/lib/analytics/types'
 import { TrendingDown, TrendingUp } from 'lucide-react'
 import useSWR from 'swr'
 import { Badge } from '@/components/ui/badge'
@@ -114,7 +114,7 @@ export function AnalyticsOverview({ range }: { range: TimeRange }) {
   }
 
   return (
-    <div className='grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs sm:grid-cols-2 md:grid-cols-3 lg:px-6 xl:grid-cols-5 dark:*:data-[slot=card]:bg-card'>
+    <div className='grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs sm:grid-cols-2 md:grid-cols-3 lg:px-6 xl:grid-cols-5 dark:*:data-[slot=card]:bg-card'>
       <Stat
         delta={deltas.views || 0}
         label='Views'

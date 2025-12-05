@@ -1,7 +1,6 @@
 'use client'
 
-import type { Kind } from '@/lib/analytics/types'
-import type { TimeRange } from '@/lib/analytics/utils'
+import type { Kind, TimeRange } from '@/lib/analytics/types'
 import useSWR from 'swr'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'

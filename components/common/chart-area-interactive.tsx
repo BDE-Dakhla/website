@@ -5,8 +5,8 @@ import type {
   FilterOp,
   MetricsSeriesPoint,
   MetricsTotals,
-  TimeRange,
 } from '@/app/api/analytics/types'
+import type { TimeRange } from '@/lib/analytics/types'
 import { FilterIcon, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'

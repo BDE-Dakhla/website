@@ -41,20 +41,18 @@ export function useUsersColumns(): ColumnDef<User>[] {
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() && 'indeterminate')
           }
-          className='translate-y-[2px]'
+          className='translate-y-0.5'
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         />
       ),
       meta: {
-        className: cn(
-          'sticky md:table-cell w-10 start-0 z-10 rounded-tl-[inherit]',
-        ),
+        className: cn('sticky md:table-cell w-10 start-0 rounded-tl-[inherit]'),
       },
       cell: ({ row }) => (
         <Checkbox.Native
           aria-label='Select row'
           checked={row.getIsSelected()}
-          className='translate-y-[2px]'
+          className='translate-y-0.5'
           onCheckedChange={(value) => row.toggleSelected(!!value)}
         />
       ),

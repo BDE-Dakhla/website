@@ -114,12 +114,15 @@ const fireConfettiTopCenter = () => {
   }, 150)
 }
 
-export function Footer() {
-  const locale = useLocale()
+const Newsletter = () => {
   const t = useTranslations()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [subscriptionStatus, setSubscriptionStatus] =
     useState<SubscriptionStatus>('success')
+
+  const handleDialogClose = () => {
+    setDialogOpen(false)
+  }
 
   const schema = useMemo(
     () =>
@@ -168,9 +171,74 @@ export function Footer() {
     }
   }
 
-  const handleDialogClose = () => {
-    setDialogOpen(false)
-  }
+  return (
+    <div className='max-w-80'>
+      <Title as='h5'>{t('footer.newsletter.title')} !</Title>
+      <SubscriptionDialog
+        onClose={handleDialogClose}
+        open={dialogOpen}
+        status={subscriptionStatus}
+      />
+
+      <div className='space-y-2'>
+        <Paragraph>{t('footer.newsletter.description')}</Paragraph>
+        <Form {...form}>
+          <form
+            className='relative flex items-end gap-2 pt-4 text-sm'
+            onSubmit={form.handleSubmit(subscribeToNewsletteer)}>
+            <FormField
+              control={form.control}
+              name='email'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('common.emailAddress')}</FormLabel>
+                  <FormControl>
+                    <Input placeholder={t('common.email')} {...field} />
+                  </FormControl>
+                  <FormMessage className='-bottom-7 absolute max-w-md select-none' />
+                </FormItem>
+              )}
+            />
+            <Button disabled={form.formState.isSubmitting} type='submit'>
+              {form.formState.isSubmitting ? (
+                <>
+                  <svg
+                    aria-label='icon loading'
+                    className='mr-2 h-4 w-4 animate-spin'
+                    fill='none'
+                    role='img'
+                    viewBox='0 0 24 24'
+                    xmlns='http://www.w3.org/2000/svg'>
+                    <circle
+                      className='opacity-25'
+                      cx='12'
+                      cy='12'
+                      r='10'
+                      stroke='currentColor'
+                      strokeWidth='4'
+                    />
+                    <path
+                      className='opacity-75'
+                      d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                      fill='currentColor'
+                    />
+                  </svg>
+                  {t('common.subscribe')}
+                </>
+              ) : (
+                t('common.subscribe')
+              )}
+            </Button>
+          </form>
+        </Form>
+      </div>
+    </div>
+  )
+}
+
+export const Footer = () => {
+  const locale = useLocale()
+  const t = useTranslations()
 
   return (
     <footer className='footer_decoration container mx-auto mt-16 px-8'>
@@ -186,6 +254,7 @@ export function Footer() {
             <ThemeSwitcher />
           </div>
         </div>
+
         <div className='flex w-full flex-wrap justify-between gap-6 md:w-1/2'>
           {categories(t).map((cat) => (
             <div key={cat.title}>
@@ -204,61 +273,8 @@ export function Footer() {
               </ul>
             </div>
           ))}
-          <div className='max-w-80'>
-            <Title as='h5'>{t('footer.newsletter.title')} !</Title>
-            <div className='space-y-2'>
-              <Paragraph>{t('footer.newsletter.description')}</Paragraph>
-              <Form {...form}>
-                <form
-                  className='relative flex items-end gap-2 pt-4 text-sm'
-                  onSubmit={form.handleSubmit(subscribeToNewsletteer)}>
-                  <FormField
-                    control={form.control}
-                    name='email'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t('common.emailAddress')}</FormLabel>
-                        <FormControl>
-                          <Input placeholder={t('common.email')} {...field} />
-                        </FormControl>
-                        <FormMessage className='-bottom-7 absolute max-w-md select-none' />
-                      </FormItem>
-                    )}
-                  />
-                  <Button disabled={form.formState.isSubmitting} type='submit'>
-                    {form.formState.isSubmitting ? (
-                      <>
-                        <svg
-                          aria-label='icon loading'
-                          className='mr-2 h-4 w-4 animate-spin'
-                          fill='none'
-                          role='img'
-                          viewBox='0 0 24 24'
-                          xmlns='http://www.w3.org/2000/svg'>
-                          <circle
-                            className='opacity-25'
-                            cx='12'
-                            cy='12'
-                            r='10'
-                            stroke='currentColor'
-                            strokeWidth='4'
-                          />
-                          <path
-                            className='opacity-75'
-                            d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
-                            fill='currentColor'
-                          />
-                        </svg>
-                        {t('common.subscribe')}
-                      </>
-                    ) : (
-                      t('common.subscribe')
-                    )}
-                  </Button>
-                </form>
-              </Form>
-            </div>
-          </div>
+
+          <Newsletter />
         </div>
       </div>
 
@@ -286,12 +302,6 @@ export function Footer() {
           )}
         </div>
       </div>
-
-      <SubscriptionDialog
-        onClose={handleDialogClose}
-        open={dialogOpen}
-        status={subscriptionStatus}
-      />
     </footer>
   )
 }

@@ -1,29 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { auth } from '@/auth'
+import { clubSchema } from '@/components/schema'
 import { getDb } from '@/lib/db/instance'
 import { hasPermission } from '@/lib/permission'
-
-const updateClubSchema = z.object({
-  name: z
-    .string()
-    .min(1, 'Name is required')
-    .max(255, 'Name must be less than 255 characters')
-    .optional(),
-  description: z
-    .string()
-    .min(1, 'Description is required')
-    .max(1000, 'Description must be less than 1000 characters')
-    .optional(),
-  category: z
-    .string()
-    .min(1, 'Category is required')
-    .max(100, 'Category must be less than 100 characters')
-    .optional(),
-  hasInternationalGroup: z.boolean().optional(),
-  memberCount: z.number().int().min(0).optional(),
-  imageUrl: z.string().nullable().optional(),
-})
 
 export async function PUT(
   request: NextRequest,
@@ -41,7 +21,7 @@ export async function PUT(
     const { id } = await context.params
 
     const body = await request.json()
-    const validatedData = updateClubSchema.parse(body)
+    const validatedData = clubSchema.parse(body)
 
     const db = getDb()
     const club = await db

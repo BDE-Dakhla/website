@@ -28,7 +28,6 @@
     "newsletter": {
       "title": "Soyez notifier où que vous soyez",
       "description": "Restez notifier à la seconde prêt des activités universitaires et parascolaires, directement dans votre boîte mail.",
-      "invalidEmail": "L'email doit avoir un format valide",
       "success": {
         "title": "Inscription réussie !",
         "description": "Vous recevrez désormais toutes les actualités et notifications du BDE directement dans votre boîte mail.",
@@ -36,7 +35,7 @@
       },
       "alreadySubscribed": {
         "title": "Déjà inscrit !",
-        "description": "Cette adresse email est déjà inscrite à notre newsletter. Vous recevez déjà nos actualités.",
+        "description": "Cette adresse email est déjà inscrite à notre newsletter, vous recevez déjà nos actualités.",
         "close": "Compris"
       },
       "error": {
@@ -81,15 +80,11 @@
     "permissions": {
       "HAS_ACCESS_TO_DASHBOARD": "Accès tableau de bord",
       "CAN_READ_DOCS": "Lecture documents",
-      "CAN_WRITE_DOCS": "Écriture documents",
-      "CAN_MANAGE_USERS": "Gestion utilisateurs",
-      "CAN_ADMIN": "Administration",
-      "CAN_MANAGE_CONTENT": "Gestion contenu",
-      "CAN_VIEW_ANALYTICS": "Voir analyses",
-      "CAN_MANAGE_SETTINGS": "Paramètres système",
       "MANAGE_SPONSORS": "Gérer les partenaires",
       "MANAGE_ANNOUNCEMENTS": "Gérer les annonces",
-      "MANAGE_NEWSLETTER": "Gérer la newsletter"
+      "MANAGE_NEWSLETTER": "Gérer la newsletter",
+      "MANAGE_USERS": "uwu",
+      "MANAGE_ANALYTICS": "uwu2"
     },
     "settings": {
       "maintenance": {
@@ -163,6 +158,14 @@
     "phone": {
       "invalid": "Le numéro de téléphone doit être un numéro marocain valide (+212 6XX XXX XXX, +212 7XX XXX XXX, ou +212 5XX XXX XXX)",
       "required": "Le numéro de téléphone est requis"
+    },
+    "username": {
+      "required": "Le nom d'utilisateur est requis",
+      "invalid": "Username must be at least 8 characters long"
+    },
+    "email": {
+      "required": "L'adresse email est requise",
+      "invalid": "L'email doit avoir un format valide"
     }
   },
   "home": {

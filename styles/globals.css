@@ -687,8 +687,8 @@ html {
 .footer_decoration {
   position: relative;
   &::before {
+    background: url('/footer_bg.png') no-repeat 25% 75%;
     @apply content-[''] absolute inset-0 h-full w-full pointer-events-none;
-    background: url("/footer_bg.png") no-repeat 25% 75%;
   }
 }
 

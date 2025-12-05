@@ -2,21 +2,9 @@ import { randomUUID } from 'node:crypto'
 import { hash } from 'bcryptjs'
 import { type NextRequest, NextResponse } from 'next/server'
 import { getTranslations } from 'next-intl/server'
-import { z } from 'zod'
 import { auth } from '@/auth'
+import { publicUserSchema } from '@/components/schema'
 import { getDb } from '@/lib/db/instance'
-import { userRoleSchema } from '@/types/schema'
-
-const createUserSchema = z.object({
-  username: z.string().min(1, 'Username is required.'),
-  email: z.email('Invalid email address.'),
-  phoneNumber: z.string().min(1, 'Phone number is required.'),
-  role: userRoleSchema,
-  password: z.string().min(8, 'Password must be at least 8 characters.'),
-  permissions: z
-    .record(z.string(), z.union([z.literal(0), z.literal(1)]))
-    .optional(),
-})
 
 export async function POST(req: NextRequest) {
   try {
@@ -28,7 +16,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json()
-    const validationResult = createUserSchema.safeParse(body)
+    const validationResult = publicUserSchema(t).safeParse(body)
 
     if (!validationResult.success) {
       return NextResponse.json(

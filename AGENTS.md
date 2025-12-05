@@ -10,9 +10,9 @@
 ### Linting & Formatting
 
 - Uses Biome for linting and formatting (configured in `biome.json`)
-- `bunx biome check .` - Check linting and formatting
-- `bunx biome check --write .` - Auto-fix linting issues
-- `bunx biome format .` - Format code
+- `bun run lint` - Check linting and formatting
+- `bun run lint:fix` - Auto-fix linting issues
+- `bun run lint:format` - Format code
 
 ### Testing
 

@@ -1,36 +1,25 @@
 import type { PermissionMap, Role } from '@/types/schema'
 import { hash } from 'bcryptjs'
 import { NextResponse } from 'next/server'
-import { z } from 'zod'
+import { getTranslations } from 'next-intl/server'
 import { auth } from '@/auth'
+import { publicUserSchema } from '@/components/schema'
 import { getDb } from '@/lib/db/instance'
-import { userRoleSchema } from '@/types/schema'
-
-const updateUserSchema = z.object({
-  username: z.string().min(1, 'Username is required.'),
-  email: z.email('Invalid email address.'),
-  phoneNumber: z.string().min(1, 'Phone number is required.'),
-  role: userRoleSchema,
-  password: z.string().optional(),
-  permissions: z
-    .record(z.string(), z.union([z.literal(0), z.literal(1)]))
-    .optional(),
-})
 
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    // Check authentication
     const session = await auth()
+    const t = await getTranslations()
+
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: t('unauthorized') }, { status: 401 })
     }
 
-    // Parse and validate request body
     const body = await request.json()
-    const validationResult = updateUserSchema.safeParse(body)
+    const validationResult = publicUserSchema(t).safeParse(body)
 
     if (!validationResult.success) {
       return NextResponse.json(

@@ -135,6 +135,7 @@ interface Clubs {
   memberCount: ColumnType<number, number | undefined, number>
   createdAt: ColumnType<Date, Date | undefined, never>
   imageUrl: string | null
+  dominant_color: string | null
 }
 
 // Analytics tables

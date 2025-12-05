@@ -1,3 +1,4 @@
+import type { Translator } from '@/components/schema'
 import { z } from 'zod'
 
 /**
@@ -14,10 +15,16 @@ const cleanUp = (phone: string | undefined): boolean => {
   else return moroccanPhoneRegex.test(phone.replace(/[\s\-().]/g, ''))
 }
 
-export const phoneNumberSchema = z.string().optional().refine(cleanUp, {
-  message:
-    'Le numéro de téléphone doit être un numéro marocain valide (+212 6XX XXX XXX, +212 7XX XXX XXX, ou +212 5XX XXX XXX)',
-})
+export const phoneNumberSchema = (t: Translator) =>
+  z
+    .string()
+    .optional()
+    .refine(cleanUp, {
+      error: (value) =>
+        value.input === undefined
+          ? t('validation.phone.required')
+          : t('validation.phone.invalid'),
+    })
 
 /**
  * Format a Moroccan phone number to international format
@@ -34,27 +41,4 @@ export function formatMoroccanPhone(phone: string): string | null {
 
   const nationalNumber = match[1]
   return `+212 ${nationalNumber.substring(0, 1)} ${nationalNumber.substring(1, 3)} ${nationalNumber.substring(3, 6)} ${nationalNumber.substring(6)}`
-}
-
-/**
- * Validate and format a phone number input
- * @param phone - Raw phone number input
- * @returns Object with validation result and formatted number
- */
-export function validateAndFormatPhone(phone: string): {
-  isValid: boolean
-  formatted: string | null
-  error?: string
-} {
-  try {
-    phoneNumberSchema.parse(phone)
-    const formatted = formatMoroccanPhone(phone)
-    return { isValid: true, formatted }
-  } catch (error) {
-    return {
-      isValid: false,
-      formatted: null,
-      error: error instanceof Error ? error.message : 'Invalid phone number',
-    }
-  }
 }

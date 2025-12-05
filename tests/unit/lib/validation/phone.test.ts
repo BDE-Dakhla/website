@@ -1,9 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import {
-  formatMoroccanPhone,
-  phoneNumberSchema,
-  validateAndFormatPhone,
-} from '@/lib/validation/phone'
+import { formatMoroccanPhone, phoneNumberSchema } from '@/lib/validation/phone'
 
 describe('Phone Validation', () => {
   describe('phoneNumberSchema', () => {
@@ -67,46 +63,6 @@ describe('Phone Validation', () => {
 
     it('should format fixed line numbers', () => {
       expect(formatMoroccanPhone('0512345678')).toBe('+212 5 12 345 678')
-    })
-  })
-
-  describe('validateAndFormatPhone', () => {
-    it('should return valid result for correct numbers', () => {
-      const result = validateAndFormatPhone('0612345678')
-
-      expect(result.isValid).toBe(true)
-      expect(result.formatted).toBe('+212 6 12 345 678')
-      expect(result.error).toBeUndefined()
-    })
-
-    it('should return invalid result for incorrect numbers', () => {
-      const result = validateAndFormatPhone('123')
-
-      expect(result.isValid).toBe(false)
-      expect(result.formatted).toBeNull()
-      expect(result.error).toBeDefined()
-    })
-
-    it('should handle empty strings', () => {
-      const result = validateAndFormatPhone('')
-
-      expect(result.isValid).toBe(true)
-      expect(result.formatted).toBeNull()
-    })
-
-    it('should validate and format all number types', () => {
-      const mobile1 = validateAndFormatPhone('+212612345678')
-      const mobile2 = validateAndFormatPhone('0712345678')
-      const fixed = validateAndFormatPhone('+212512345678')
-
-      expect(mobile1.isValid).toBe(true)
-      expect(mobile1.formatted).toBe('+212 6 12 345 678')
-
-      expect(mobile2.isValid).toBe(true)
-      expect(mobile2.formatted).toBe('+212 7 12 345 678')
-
-      expect(fixed.isValid).toBe(true)
-      expect(fixed.formatted).toBe('+212 5 12 345 678')
     })
   })
 })

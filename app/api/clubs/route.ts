@@ -1,26 +1,10 @@
 import { NextResponse } from 'next/server'
+import { Vibrant } from 'node-vibrant/node'
 import { z } from 'zod'
 import { auth } from '@/auth'
+import { clubSchema } from '@/components/schema'
 import { getDb } from '@/lib/db/instance'
 import { hasPermission } from '@/lib/permission'
-
-const clubSchema = z.object({
-  name: z
-    .string()
-    .min(1, 'Name is required')
-    .max(255, 'Name must be less than 255 characters'),
-  description: z
-    .string()
-    .min(1, 'Description is required')
-    .max(1000, 'Description must be less than 1000 characters'),
-  category: z
-    .string()
-    .min(1, 'Category is required')
-    .max(100, 'Category must be less than 100 characters'),
-  hasInternationalGroup: z.boolean().default(false),
-  memberCount: z.number().int().min(0).default(0),
-  imageUrl: z.string().nullable().optional(),
-})
 
 export async function GET() {
   try {
@@ -54,6 +38,18 @@ export async function POST(request: Request) {
     const body = await request.json()
     const validatedData = clubSchema.parse(body)
 
+    let dominantColor: string | null = validatedData.dominant_color || null
+
+    if (validatedData.imageUrl && !dominantColor) {
+      try {
+        const palette = await Vibrant.from(validatedData.imageUrl).getPalette()
+        dominantColor = palette.Vibrant?.hex || palette.Muted?.hex || null
+      } catch (error) {
+        console.error('Error extracting dominant color:', error)
+        dominantColor = null
+      }
+    }
+
     const db = getDb()
     const club = await db
       .insertInto('clubs')
@@ -64,6 +60,7 @@ export async function POST(request: Request) {
         hasInternationalGroup: validatedData.hasInternationalGroup,
         memberCount: validatedData.memberCount,
         imageUrl: validatedData.imageUrl || null,
+        dominant_color: dominantColor,
       })
       .returningAll()
       .executeTakeFirst()

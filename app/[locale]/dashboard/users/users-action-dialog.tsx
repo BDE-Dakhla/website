@@ -1,16 +1,22 @@
 'use client'
 
-import type { User } from '@/components/schema'
 import type { PermissionMap } from '@/types/schema'
 import type { DialogContext } from './confirm-dialog'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { roles } from '@/components/common/data'
 import { PermissionManager } from '@/components/dashboard/permission-manager'
+import {
+  emailSchema,
+  passwordSchema,
+  type User,
+  userFullNameSchema,
+} from '@/components/schema'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -30,72 +36,9 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { phoneNumberSchema } from '@/lib/validation/phone'
 import { PasswordInput } from './password-input'
 import { SelectDropdown } from './select-dropdown'
-
-const formSchema = z
-  .object({
-    username: z.string().min(1, 'Username is required.'),
-    phoneNumber: z.string().min(1, 'Phone number is required.'),
-    email: z.email({
-      error: (iss) => (iss.input === '' ? 'Email is required.' : undefined),
-    }),
-    password: z.string().transform((pwd) => pwd.trim()),
-    role: z.string().min(1, 'Role is required.'),
-    confirmPassword: z.string().transform((pwd) => pwd.trim()),
-    isEdit: z.boolean(),
-  })
-  .refine(
-    (data) => {
-      if (data.isEdit && !data.password) return true
-      return data.password.length > 0
-    },
-    {
-      message: 'Password is required.',
-      path: ['password'],
-    },
-  )
-  .refine(
-    ({ isEdit, password }) => {
-      if (isEdit && !password) return true
-      return password.length >= 8
-    },
-    {
-      message: 'Password must be at least 8 characters long.',
-      path: ['password'],
-    },
-  )
-  .refine(
-    ({ isEdit, password }) => {
-      if (isEdit && !password) return true
-      return /[a-z]/.test(password)
-    },
-    {
-      message: 'Password must contain at least one lowercase letter.',
-      path: ['password'],
-    },
-  )
-  .refine(
-    ({ isEdit, password }) => {
-      if (isEdit && !password) return true
-      return /\d/.test(password)
-    },
-    {
-      message: 'Password must contain at least one number.',
-      path: ['password'],
-    },
-  )
-  .refine(
-    ({ isEdit, password, confirmPassword }) => {
-      if (isEdit && !password) return true
-      return password === confirmPassword
-    },
-    {
-      message: "Passwords don't match.",
-      path: ['confirmPassword'],
-    },
-  )
-type UserForm = z.infer<typeof formSchema>
 
 export interface UserActionDialogProps extends DialogContext {
   currentRow?: User
@@ -107,11 +50,75 @@ export function UsersActionDialog({
   onOpenChange,
 }: UserActionDialogProps) {
   const router = useRouter()
+  const t = useTranslations()
   const isEdit = !!currentRow
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [permissions, setPermissions] = useState<PermissionMap>(
     currentRow?.permissions || {},
   )
+
+  const formSchema = z
+    .object({
+      username: userFullNameSchema(t),
+      phoneNumber: phoneNumberSchema(t),
+      email: emailSchema(t),
+      password: passwordSchema(t),
+      role: z.string().min(1, 'Role is required.'),
+      confirmPassword: passwordSchema(t),
+      isEdit: z.boolean(),
+    })
+    .refine(
+      (data) => {
+        if (data.isEdit && !data.password) return true
+        return data.password.length > 0
+      },
+      {
+        message: 'Password is required.',
+        path: ['password'],
+      },
+    )
+    .refine(
+      ({ isEdit, password }) => {
+        if (isEdit && !password) return true
+        return password.length >= 8
+      },
+      {
+        message: 'Password must be at least 8 characters long.',
+        path: ['password'],
+      },
+    )
+    .refine(
+      ({ isEdit, password }) => {
+        if (isEdit && !password) return true
+        return /[a-z]/.test(password)
+      },
+      {
+        message: 'Password must contain at least one lowercase letter.',
+        path: ['password'],
+      },
+    )
+    .refine(
+      ({ isEdit, password }) => {
+        if (isEdit && !password) return true
+        return /\d/.test(password)
+      },
+      {
+        message: 'Password must contain at least one number.',
+        path: ['password'],
+      },
+    )
+    .refine(
+      ({ isEdit, password, confirmPassword }) => {
+        if (isEdit && !password) return true
+        return password === confirmPassword
+      },
+      {
+        message: "Passwords don't match.",
+        path: ['confirmPassword'],
+      },
+    )
+
+  type UserForm = z.infer<typeof formSchema>
 
   const form = useForm<UserForm>({
     resolver: zodResolver(formSchema),
@@ -137,9 +144,9 @@ export function UsersActionDialog({
   })
 
   const onSubmit = async (values: UserForm) => {
-    try {
-      setIsSubmitting(true)
+    setIsSubmitting(true)
 
+    try {
       const userData = {
         username: values.username,
         email: values.email,
@@ -194,9 +201,7 @@ export function UsersActionDialog({
   }
 
   const isPasswordTouched = !!form.formState.dirtyFields.password
-
   const formValues = form.watch()
-
   const hasChanges = useMemo(() => {
     if (!isEdit || !currentRow) return true
 
@@ -208,15 +213,20 @@ export function UsersActionDialog({
 
     const hasPasswordChange = formValues.password.trim().length > 0
 
+    const originalPermissions = currentRow.permissions || {}
     const hasPermissionChanges =
-      JSON.stringify(permissions) !==
-      JSON.stringify(currentRow.permissions || {})
+      Object.keys(permissions).some(
+        (key) => permissions[key] !== (originalPermissions[key] ?? 0),
+      ) ||
+      Object.keys(originalPermissions).some(
+        (key) => (permissions[key] ?? 0) !== originalPermissions[key],
+      )
 
     return hasBasicChanges || hasPasswordChange || hasPermissionChanges
   }, [isEdit, currentRow, formValues, permissions])
 
   const isSaveDisabled =
-    isSubmitting || !form.formState.isValid || (isEdit && !hasChanges)
+    isSubmitting || (isEdit && !hasChanges) || !form.formState.isValid
 
   return (
     <Dialog
@@ -301,7 +311,7 @@ export function UsersActionDialog({
                         <FormControl>
                           <Input
                             className='col-span-4'
-                            placeholder='+212 6 12 34 56 78'
+                            placeholder='+212 612-345678'
                             {...field}
                           />
                         </FormControl>
@@ -404,7 +414,7 @@ export function UsersActionDialog({
           </Button>
           <Button
             disabled={isSaveDisabled}
-            onClick={() => form.handleSubmit(onSubmit)()}>
+            onClick={form.handleSubmit(onSubmit)}>
             {isSubmitting
               ? 'En cours...'
               : isEdit

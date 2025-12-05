@@ -114,6 +114,12 @@ export function useTableUrlState(
 
   const onPaginationChange: OnChangeFn<PaginationState> = (updater) => {
     const next = typeof updater === 'function' ? updater(pagination) : updater
+    if (
+      next.pageIndex === pagination.pageIndex &&
+      next.pageSize === pagination.pageSize
+    ) {
+      return
+    }
     const nextPage = next.pageIndex + 1
     const nextPageSize = next.pageSize
     navigate({

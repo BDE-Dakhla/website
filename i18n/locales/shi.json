@@ -76,6 +76,11 @@
           "permissions": "ⴰⵡⴷ ⵢⴰⵏ",
           "signupDate": "ⵓⵔ ⵉⵜⵜⵓⵙⴽⴰⵔ"
         }
+      },
+      "school-principal-editorial": {
+        "long_text": "À l'ENCG Dakhla, nous reconnaissons notre rôle dans le développement de l'économie, de la société et de l'environnement. En sensibilisant et en façonnant les attitudes de notre communauté, nous travaillons tous à un avenir durable. Le grand projet intégré « ECO-ETABLISSEMENT » que nous avons réalisé témoigne de nos actions et ambitions : aujourd'hui 90% de la consommation énergétique du campus provient de l'énergie solaire et éolienne. Notre esprit se reflète dans l'attention portée à l'entreprenariat, en formant des dirigeant(e)s, en menant des recherches et en promouvant un esprit d'avant-garde chez nos étudiant(e)s.",
+        "short_text": "En tant que directeur, je suis déterminé à rendre notre engagement de plus en plus visible et tangible pour le monde extérieur.",
+        "author_role": "Directeur de l'ENCG Dakhla"
       }
     },
     "permissions": {
